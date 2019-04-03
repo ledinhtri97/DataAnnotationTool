@@ -10,9 +10,9 @@
     {% if user.is_superuser %}
       <p>Hello, admin.</p>
       <p>Here is admin page <a href="{%url 'admin:index'%}" style="display: none;">link</a></p>
-      <a href="/datadmin/admin/datamanagement/" style="font-size:30px;">Data Management</a>
-      <a href="/datadmin/admin/auth/user/" style="font-size:30px;">User Management</a>
-      <a href="/datadmin/admin/workspacemanagement/" style="font-size:30px;">Workspace Management</a>
+      <a href="/gvlab-dat/datadmin/admin/datamanagement/" style="font-size:30px;">Data Management</a>
+      <a href="/gvlab-dat/datadmin/admin/auth/user/" style="font-size:30px;">User Management</a>
+      <a href="/gvlab-dat/datadmin/admin/workspacemanagement/" style="font-size:30px;">Workspace Management</a>
       <a href="#" style="font-size:30px;">Model Management</a>
       <a href="#" style="font-size:30px;">Settings</a>
       <a href="{% url 'logout' %}" style="font-size:30px;">logout</a>

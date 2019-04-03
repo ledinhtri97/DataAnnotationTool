@@ -1,7 +1,7 @@
 import {createItemToBoundingBoxes, configRectangle} from '../controller/labelControl';
 
 const requestPersonAPI = function(meta_id, canvas){
-	fetch("/workspace/persondet/"+meta_id, {metaid: meta_id})
+	fetch("/gvlab-dat/workspace/persondet/"+meta_id, {metaid: meta_id})
 	.then(response => {
 		if(response.status !== 200){
 			return "Something went wrong"
