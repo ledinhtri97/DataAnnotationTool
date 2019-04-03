@@ -19,7 +19,6 @@ downloads/
 htmlcov/
 node_modules/
 cypress/
-**/templates/static/
 
 
 storage_data/

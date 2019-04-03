@@ -1,0 +1,41 @@
+.c-login-form, c-cont-form{
+   align-items: center;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+
+.c-cont-form {
+   width: 350px;
+   padding: 80px 60px;
+   background: #18141D;
+   box-shadow: 0 30px 45px rgba(0, 0, 0, 0.35),
+       0 25px 27px rgba(0, 0, 0, 0.22);
+}
+
+/* Set a style for all buttons */
+.c-login-form button {
+   background-color: #4CAF50;
+   color: white;
+   padding: 14px 20px;
+   margin: 8px 0;
+   border: none;
+   cursor: pointer;
+   width: 100%;
+}
+
+.c-login-form button:hover {
+   opacity: 0.8;
+}
+
+.c-login-form form {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-end;
+}
+
+.c-login-form input{
+   padding: 5px;
+   font-size: 1em;
+}
+
