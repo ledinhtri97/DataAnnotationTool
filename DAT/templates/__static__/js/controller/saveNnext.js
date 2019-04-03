@@ -23,7 +23,7 @@ const requestSaveAndNext = function(metaid, canvas){
 	}
 	// console.log(myData)
 
-	fetch("/workspace/saveNnext/"+metaid+"/", {
+	fetch("/gvlab-dat/workspace/saveNnext/"+metaid+"/", {
 		method: "POST",
 		credentials: "same-origin",
 		headers: {

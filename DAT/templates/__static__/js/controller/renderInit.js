@@ -50,7 +50,7 @@ const renderBBS = function(canvas, label, xmin, ymin, xmax, ymax){
 }
 
 const outWorkSpace = function(metaid, url){
-	fetch("/workspace/outworkspace/"+metaid, {metaid: metaid})
+	fetch("/gvlab-dat/workspace/outworkspace/"+metaid, {metaid: metaid})
 	.then(response => {
 		if(response.status !== 200){
 			return "Out Workspace Failed";

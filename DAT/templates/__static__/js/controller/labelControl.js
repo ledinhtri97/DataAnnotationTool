@@ -260,7 +260,7 @@ class ElementITEM extends React.Component{
 		React.createElement("input", {
 			type: "button",
 			style: {
-				backgroundImage: "url(/static/images/delete.png)",
+				backgroundImage: "url(/gvlab-dat/static/images/delete.png)",
 				backgroundPosition: 'center',
 				backgroundSize: 'cover',
 				backgroundRepeat: 'no-repeat'
