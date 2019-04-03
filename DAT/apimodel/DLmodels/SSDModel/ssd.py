@@ -7,7 +7,7 @@ from .data import voc, coco
 import os
 
 
-if torch.cuda.is_available():
+if (torch.cuda.is_available() and settings.FLAG_CUDA):
     torch.set_default_tensor_type('torch.cuda.FloatTensor')
 
 
