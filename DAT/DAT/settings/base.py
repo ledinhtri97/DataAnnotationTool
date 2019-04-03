@@ -93,7 +93,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/gvlab-dat/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'templates/static')
 
@@ -117,13 +117,13 @@ UPLOAD_DIR = 'upload_data/'
 
 STORAGE_DIR = 'storage_data/'
 
-STORAGE_URL = '/dataset/'
+STORAGE_URL = '/gvlab-dat/dataset/'
 
 STORAGE_ROOT = os.path.join(BASE_DIR, 'storage_data')
 
 OUTPUT_DIR = 'groundtruth/'
 
-OUTPUT_URL = '/export-groundtruth/'
+OUTPUT_URL = '/gvlab-dat/export-groundtruth/'
 
 OUTPUT_ROOT = os.path.join(BASE_DIR, 'groundtruth')
 
