@@ -30,7 +30,7 @@ def facedetAPI(path_image):
   x = torch.from_numpy(frame_t).permute(2, 0, 1)
   x = Variable(x.unsqueeze(0))
 
-  if torch.cuda.is_available():
+  if(torch.cuda.is_available() and settings.FLAG_CUDA):
     x = x.cuda()
   y = eval(x)
   detections = y.data
@@ -39,7 +39,7 @@ def facedetAPI(path_image):
     j = 0 # We initialize the loop variable j that will correspond to the occurrences of the class.
     while detections[0, i, j, 0] >= 0.4: # We take into account all the occurrences j of the class i that have a matching score larger than 0.6.
       # print(detections[0, i, j, 0])
-      if torch.cuda.is_available():
+      if (torch.cuda.is_available() and settings.FLAG_CUDA):
         pt = (detections[0, i, j, 1:] * scale).cpu().numpy()
         # pt = (detections[0, i, j, 1:] * scale).numpy()   
       else:
