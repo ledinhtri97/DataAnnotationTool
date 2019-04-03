@@ -35,6 +35,8 @@ def persondetAPI(path_image):
   frame_t = transform_p(frame)[0]
   x = torch.from_numpy(frame_t).permute(2, 0, 1)
   x = Variable(x.unsqueeze(0))
+  if torch.cuda.is_available():
+    x = x.cuda()
   y = eval_p(x)
   detections = y.data
   scale = torch.Tensor([width, height, width, height])
@@ -46,7 +48,8 @@ def persondetAPI(path_image):
       
       if labelmap[i - 1] == 'person':
         if torch.cuda.is_available():
-          pt = (detections[0, i, j, 1:] * scale).cpu().numpy()    
+          # pt = (detections[0, i, j, 1:] * scale).cpu().numpy()
+          pt = (detections[0, i, j, 1:] * scale).numpy()   
         else:
           pt = (detections[0, i, j, 1:] * scale).numpy()
       
