@@ -29,7 +29,12 @@ def facedetAPI(path_image):
   frame_t = transform(frame)[0]
   x = torch.from_numpy(frame_t).permute(2, 0, 1)
   x = Variable(x.unsqueeze(0))
+<<<<<<< HEAD
   print(type(x))
+=======
+  if torch.cuda.is_available():
+    x = x.cuda()
+>>>>>>> 6f523e6293321884f3ee9385ec59a18f0b31a492
   y = eval(x)
   detections = y.data
   scale = torch.Tensor([width, height, width, height])
@@ -38,7 +43,8 @@ def facedetAPI(path_image):
     while detections[0, i, j, 0] >= 0.4: # We take into account all the occurrences j of the class i that have a matching score larger than 0.6.
       # print(detections[0, i, j, 0])
       if torch.cuda.is_available():
-        pt = (detections[0, i, j, 1:] * scale).cpu().numpy()
+        # pt = (detections[0, i, j, 1:] * scale).cpu().numpy()
+        pt = (detections[0, i, j, 1:] * scale).numpy()   
       else:
         pt = (detections[0, i, j, 1:] * scale).numpy() # We get the coordinates of the points at the upper left and the lower right of the detector rectangle.
 
