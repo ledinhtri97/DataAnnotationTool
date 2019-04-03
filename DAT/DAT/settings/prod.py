@@ -9,11 +9,11 @@ WSGI_APPLICATION = 'DAT.wsgi.prod.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db_name',
-        'USER': 'db_user',
-        'PASSWORD': 'db_password',
+        'NAME': 'dat_gvlab',
+        'USER': 'gvlab',
+        'PASSWORD': 'gvlab@2019',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
 
