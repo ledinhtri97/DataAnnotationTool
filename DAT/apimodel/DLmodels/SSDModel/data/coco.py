@@ -7,8 +7,9 @@ import torch.utils.data as data
 import torchvision.transforms as transforms
 import cv2
 import numpy as np
+from django.conf import settings
 
-COCO_ROOT = osp.join('./')
+COCO_ROOT = osp.join(settings.BASE_DIR, 'apimodel/DLmodels/SSDModel/data')
 IMAGES = 'images'
 ANNOTATIONS = 'annotations'
 COCO_API = 'PythonAPI'
