@@ -44,8 +44,7 @@ def persondetAPI(path_image):
     j = 0 # We initialize the loop variable j that will correspond to the occurrences of the class.
     while detections[0, i, j, 0] >= 0.4: # We take into account all the occurrences j of the class i that have a matching score larger than 0.6.
       # print(detections[0, i, j, 0])
-      pt = (detections[0, i, j, 1:] * scale).numpy() # We get the coordinates of the points at the upper left and the lower right of the detector rectangle.
-      
+     
       if labelmap[i - 1] == 'person':
         if torch.cuda.is_available():
           pt = (detections[0, i, j, 1:] * scale).cpu().numpy()
