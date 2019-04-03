@@ -29,12 +29,9 @@ def facedetAPI(path_image):
   frame_t = transform(frame)[0]
   x = torch.from_numpy(frame_t).permute(2, 0, 1)
   x = Variable(x.unsqueeze(0))
-<<<<<<< HEAD
-  print(type(x))
-=======
+
   if torch.cuda.is_available():
     x = x.cuda()
->>>>>>> 6f523e6293321884f3ee9385ec59a18f0b31a492
   y = eval(x)
   detections = y.data
   scale = torch.Tensor([width, height, width, height])
