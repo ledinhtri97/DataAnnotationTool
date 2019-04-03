@@ -26,3 +26,5 @@ urlpatterns = [
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.STORAGE_URL, document_root=settings.STORAGE_ROOT) + \
     static(settings.OUTPUT_URL, document_root=settings.OUTPUT_ROOT)
+
+urlpatterns = [path('gvlab-dat/', include(urlpatterns))]
