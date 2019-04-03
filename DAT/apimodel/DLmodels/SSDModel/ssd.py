@@ -38,6 +38,9 @@ class SSD(nn.Module):
 
         # SSD network
         self.vgg = nn.ModuleList(base)
+        if torch.cuda.is_available():
+            self.vgg().cuda()
+            
         # Layer learns to scale the l2 normalized features from conv4_3
         self.L2Norm = L2Norm(512, 20)
         self.extras = nn.ModuleList(extras)
