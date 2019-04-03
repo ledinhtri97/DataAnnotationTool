@@ -5,7 +5,7 @@ from torch.autograd import Variable
 from .layers import *
 from .data import voc, coco
 import os
-
+from django.conf import settings
 
 if (torch.cuda.is_available() and settings.FLAG_CUDA):
     torch.set_default_tensor_type('torch.cuda.FloatTensor')
