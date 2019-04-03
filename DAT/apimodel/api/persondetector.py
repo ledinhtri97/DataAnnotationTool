@@ -7,7 +7,7 @@ import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 import numpy as np
 import cv2
-if torch.cuda.is_available():
+if (torch.cuda.is_available() and settings.FLAG_CUDA):
     torch.set_default_tensor_type('torch.cuda.FloatTensor')
 
 from apimodel.DLmodels.SSDModel.ssd import build_ssd
