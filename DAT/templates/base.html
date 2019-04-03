@@ -1,0 +1,34 @@
+<!-- templates/base.html-->
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>{% block title %}{% endblock %}</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   {% block loadhead %}
+   {% endblock %}
+   {% block urluser %}
+   {% endblock urluser %}
+</head>
+<body>
+   <div class="containers">
+      <div class="home">
+         <div class="c-nameapp">
+            <p id="i-homepage" onclick="homeredirect">Data Annotation Tool</p>
+            <script>
+               document.getElementById( "i-homepage" ).addEventListener( 'click', function () {
+                  window.location.href = "{%url 'home'%}"
+               } );
+            </script>
+         </div>
+      </div>
+      <div class="content">
+         {%block content%}
+         {%endblock%}
+      </div>
+   </div>
+</body>
+{%load static%}
+{%block loadjs%}
+{%endblock%}
+</html>

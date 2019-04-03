@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>{% block title %}{% endblock %}</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   {% block loadhead %}
+   {% endblock loadhead%}
+   {% block urluser %}
+   {% endblock urluser %}
+</head>
+<body>
+   <div class="container">
+      <div class="navbar">
+         <p>Hello, {{user.username}}!</p>
+         <button id="gooutmain_workspace" type="submit" formaction="{% url 'workspace' %}" >| Workspace |</button>
+         <button id="gooutmain_logout" type="submit" formaction="{% url 'logout' %}" >| Logout |</button>
+         {%if id%}
+            <p>|| id image - <p id="metaid">{{id}}</p></p>
+         {%endif%}
+      </div>
+      <div class="workspace">
+         {%block content%}
+         {%endblock%}
+      </div>
+   </div>
+</body>
+
+{%block loadjs%} 
+{% endblock loadjs %}
+</html>

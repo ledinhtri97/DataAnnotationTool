@@ -1,0 +1,48 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% block title %}Data Annotation Tool{% endblock %}
+{% block loadhead%}
+{%load static%}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/style.css' %}">
+{% endblock %}
+{% block content %}
+  {% if user.is_authenticated %}
+    {% if user.is_superuser %}
+      <p>Hello, admin.</p>
+      <p>Here is admin page <a href="{%url 'admin:index'%}" style="display: none;">link</a></p>
+      <a href="/datadmin/admin/datamanagement/" style="font-size:30px;">Data Management</a>
+      <a href="/datadmin/admin/auth/user/" style="font-size:30px;">User Management</a>
+      <a href="/datadmin/admin/workspacemanagement/" style="font-size:30px;">Workspace Management</a>
+      <a href="#" style="font-size:30px;">Model Management</a>
+      <a href="#" style="font-size:30px;">Settings</a>
+      <a href="{% url 'logout' %}" style="font-size:30px;">logout</a>
+    {% else %}
+      {% block urluser %}
+        {% if user.id is not None and user.is_superuser is False %}
+          <meta http-equiv = "refresh" content = "0; url = {%url 'workspace' %}" />
+        {%endif%}
+      {% endblock urluser %}
+    {% endif %}
+  {% else %}
+    <div class="c-login">
+      <div class="c-userlogin" id="i-userlogin">
+        <script>
+          document.getElementById( "i-userlogin" ).addEventListener( 'click', function () {
+            window.location.href = "{%url 'ulogin' %}"
+          });
+        </script>
+        <p>Login with User</p>
+      </div>
+      
+      <div class="c-adminlogin" id="i-adminlogin">
+        <script>
+          document.getElementById( "i-adminlogin" ).addEventListener( 'click', function () {
+            window.location.href = "{%url 'alogin' %}"
+          });
+        </script>
+        <p>Login with Admin</p>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+

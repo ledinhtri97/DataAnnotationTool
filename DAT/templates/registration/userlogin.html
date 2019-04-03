@@ -1,0 +1,28 @@
+<!-- templates/registration/userlogin.html -->
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{%block loadhead%}
+{%load static%}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/login.css' %}">
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/style.css' %}">
+{%endblock%}
+
+{%block content%}
+<div class="c-login-form">
+   <div class="c-cont-form">
+      <h2>Login with User</h2>
+      <div class="c-grid">
+         <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">Login</button>
+         </form>
+      </div>
+{% if request.session.invalid %}
+Username/password is <span style="color:rgb(236, 36, 36)">invalid</span>. Please login again!
+         {%else%}
+{{request.session.invalid}}
+      {% endif %}
+   </div>
+</div>
+{%endblock%}
