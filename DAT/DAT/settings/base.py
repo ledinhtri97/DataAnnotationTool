@@ -22,7 +22,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '0y-&317-nci0rqo+fe&9^7m$fsrmy@vx#q!ar-grrj=!d-qx(3'
 
-ALLOWED_HOSTS = ['10.1.7.204', '10.1.7.207', 'localhost', '127.0.0.1', 'hpcc.hcmut.edu.vn', '172.28.10.144']
+ALLOWED_HOSTS = ['221.133.13.124',
+    '10.1.7.204', '10.1.7.207', 'localhost', '127.0.0.1', 'hpcc.hcmut.edu.vn', '172.28.10.144']
 
 # Application definition
 
