@@ -13,12 +13,14 @@ if (torch.cuda.is_available() and settings.FLAG_CUDA):
 from apimodel.DLmodels.SSDModel.ssd import build_ssd
 from apimodel.DLmodels.SSDModel.data import BaseTransform
 
-net = build_ssd('test', 300, 2)
-net.load_weights(os.path.join(settings.BASE_DIR, settings.MODELS_DIR, 'ssd300_WIDERFACE_115000.pth'))
-transform = BaseTransform(net.size, (104 / 256.0, 117 / 256.0, 123 / 256.0))
-eval = net.eval()
-
 def facedetAPI(path_image):
+
+  #check if used API
+  net = build_ssd('test', 300, 2)
+  net.load_weights(os.path.join(settings.BASE_DIR, settings.MODELS_DIR, 'ssd300_WIDERFACE_115000.pth'))
+  transform = BaseTransform(net.size, (104 / 256.0, 117 / 256.0, 123 / 256.0))
+  eval = net.eval()
+
   frame = cv2.imread(path_image)
   rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
   

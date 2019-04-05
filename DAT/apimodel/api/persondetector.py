@@ -13,11 +13,6 @@ if (torch.cuda.is_available() and settings.FLAG_CUDA):
 from apimodel.DLmodels.SSDModel.ssd import build_ssd
 from apimodel.DLmodels.SSDModel.data import BaseTransform
 
-net_p = build_ssd('test', 300, 21)
-net_p.load_weights(os.path.join(settings.BASE_DIR, settings.MODELS_DIR, 'ssd300_mAP_77.43_v2.pth'))
-transform_p = BaseTransform(net_p.size, (104 / 256.0, 117 / 256.0, 123 / 256.0))
-eval_p = net_p.eval()
-
 labelmap = ['aeroplane', 'bicycle', 'bird', 'boat',
     'bottle', 'bus', 'car', 'cat', 'chair',
     'cow', 'diningtable', 'dog', 'horse',
@@ -25,6 +20,13 @@ labelmap = ['aeroplane', 'bicycle', 'bird', 'boat',
     'sheep', 'sofa', 'train', 'tvmonitor']
 
 def persondetAPI(path_image):
+  
+  #check if used API
+  net_p = build_ssd('test', 300, 21)
+  net_p.load_weights(os.path.join(settings.BASE_DIR, settings.MODELS_DIR, 'ssd300_mAP_77.43_v2.pth'))
+  transform_p = BaseTransform(net_p.size, (104 / 256.0, 117 / 256.0, 123 / 256.0))
+  eval_p = net_p.eval()
+
   frame = cv2.imread(path_image)
   rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
   
