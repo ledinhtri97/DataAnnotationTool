@@ -12,12 +12,17 @@ class InputDataModel(models.Model):
              allowed_extensions=TYPE_DATA_VALIDATION)]
    )
 
+   groundtruth = models.FileField(upload_to=settings.UPLOAD_DIR,
+         validators=[FileExtensionValidator(
+             allowed_extensions=TYPE_DATA_VALIDATION)]
+   )
+
    history = HistoricalRecords()
 
    owner = models.ForeignKey('auth.User', 
       on_delete=models.CASCADE, blank=True, null=True)
 
-   description = models.CharField(max_length=100, default="None")
+   description = models.CharField(max_length=1000, default="None")
 
    def __str__(self):
       return self.zipfile.name.split('/')[-1]
