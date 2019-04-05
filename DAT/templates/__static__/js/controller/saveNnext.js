@@ -47,7 +47,7 @@ const requestSaveAndNext = function(metaid, canvas){
 
 		canvas.clear();
 
-		var url = "/dataset/"+metadata.full_path+"/"+metadata.name;
+		var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name;
 		initMaintask(canvas, url, metadata.boxes_position);
 
 	}).catch(function(ex) {
