@@ -19,7 +19,7 @@ downloads/
 htmlcov/
 node_modules/
 cypress/
-
+*/static/js/maintask.js
 
 storage_data/
 upload_data/
