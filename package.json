@@ -5,8 +5,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development ./DAT/templates/__static__/js/maintask.js --output ./DAT/templates/static/js/maintask.js",
-    "build": "webpack --mode production ./DAT/templates/__static__/js/maintask.js --output ./DAT/templates/static/js/maintask.js",
+    "dev": "webpack --mode development ./DAT/templates/__static__/js/maintask.js --output ./DAT/templates/static/js/main.js",
+    "build": "webpack --mode production ./DAT/templates/__static__/js/maintask.js --output ./DAT/templates/static/js/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -19,7 +19,6 @@ downloads/
 htmlcov/
 node_modules/
 cypress/
-*/static/js/maintask.js
 
 storage_data/
 upload_data/
@@ -31,3 +30,4 @@ upload_data/
 *.mp4
 *.avi
 *.png
+main.js
