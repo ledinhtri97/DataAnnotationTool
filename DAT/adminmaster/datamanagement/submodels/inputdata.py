@@ -7,12 +7,14 @@ class InputDataModel(models.Model):
 
    TYPE_DATA_VALIDATION = ['zip', 'rar', 'mp4', 'avi', 'gif']
 
+   id = models.AutoField(primary_key=True)
+
    zipfile = models.FileField(upload_to=settings.UPLOAD_DIR,
          validators=[FileExtensionValidator(
              allowed_extensions=TYPE_DATA_VALIDATION)]
    )
 
-   groundtruth = models.FileField(upload_to=settings.UPLOAD_DIR,
+   groundtruth = models.FileField(upload_to=settings.OUTPUT_DIR, blank=True, null=True,
          validators=[FileExtensionValidator(
              allowed_extensions=TYPE_DATA_VALIDATION)], blank=True, null=True
    )

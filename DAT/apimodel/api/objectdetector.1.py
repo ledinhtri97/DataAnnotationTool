@@ -13,30 +13,30 @@ if (torch.cuda.is_available() and settings.FLAG_CUDA):
 from apimodel.DLmodels.SSDModel.ssd import build_ssd
 from apimodel.DLmodels.SSDModel.data import BaseTransform
 
-labelmap = ['aeroplane', 'bicycle', 'bird', 'boat',
-    'bottle', 'bus', 'car', 'cat', 'chair',
-    'cow', 'diningtable', 'dog', 'horse',
-    'motorbike', 'person', 'pottedplant',
-    'sheep', 'sofa', 'train', 'tvmonitor']
+# labelmap = ['aeroplane', 'bicycle', 'bird', 'boat',
+#     'bottle', 'bus', 'car', 'cat', 'chair',
+#     'cow', 'diningtable', 'dog', 'horse',
+#     'motorbike', 'person', 'pottedplant',
+#     'sheep', 'sofa', 'train', 'tvmonitor']
 
-def persondetAPI(path_image, label='person'):
+def objectdetAPI(path_image, label):
   
   #check if used API
-  # if ('face' == label):
-  #   labelmap = ['face']
+  if ('face' == label):
+    labelmap = ['face']
 
-  #   net = build_ssd('test', 300, 2)
-  #   net.load_weights(os.path.join(settings.BASE_DIR, settings.MODELS_DIR, 'ssd300_WIDERFACE_115000.pth'))
+    net = build_ssd('test', 300, 2)
+    net.load_weights(os.path.join(settings.BASE_DIR, settings.MODELS_DIR, 'ssd300_WIDERFACE_115000.pth'))
     
-  # else:
-  #   labelmap = ['aeroplane', 'bicycle', 'bird', 'boat',
-  #     'bottle', 'bus', 'car', 'cat', 'chair',
-  #     'cow', 'diningtable', 'dog', 'horse',
-  #     'motorbike', 'person', 'pottedplant',
-  #     'sheep', 'sofa', 'train', 'tvmonitor']
-  label = 'person'
-  net = build_ssd('test', 300, 21)
-  net.load_weights(os.path.join(settings.BASE_DIR, settings.MODELS_DIR, 'ssd300_mAP_77.43_v2.pth'))
+  else:
+    labelmap = ['aeroplane', 'bicycle', 'bird', 'boat',
+      'bottle', 'bus', 'car', 'cat', 'chair',
+      'cow', 'diningtable', 'dog', 'horse',
+      'motorbike', 'person', 'pottedplant',
+      'sheep', 'sofa', 'train', 'tvmonitor']
+
+    net_p = build_ssd('test', 300, 21)
+    net_p.load_weights(os.path.join(settings.BASE_DIR, settings.MODELS_DIR, 'ssd300_mAP_77.43_v2.pth'))
   
   transform = BaseTransform(net.size, (104 / 256.0, 117 / 256.0, 123 / 256.0))
   eval = net.eval()
@@ -45,7 +45,7 @@ def persondetAPI(path_image, label='person'):
   rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
   
   start = time.time()
-  jsonObjectdet = {'faces': []}
+  jsonObjectdet = {'resAPI': []}
 
   height, width = frame.shape[:2]
   frame_t = transform(frame)[0]
@@ -67,7 +67,7 @@ def persondetAPI(path_image, label='person'):
         else:
           pt = (detections[0, i, j, 1:] * scale).numpy()
       
-        jsonObjectdet['faces'].append({
+        jsonObjectdet['resAPI'].append({
           'xmin': int(pt[0])/width,
           'ymin': int(pt[1])/height,
           'xmax': int(pt[2])/width,

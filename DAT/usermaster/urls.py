@@ -7,6 +7,7 @@ from usermaster.subviews import apiview, nextview, saveNnextview, outwsview
 urlpatterns = [
     path('', WorkspaceView.as_view(), name='workspace'),
     path('ws-<int:id>/', MainTaskView.as_view(), name='maintask'),
+    # path('objdet/', apiview.o_index, name='objdet'),
     path('facedet/<int:metaid>/', apiview.f_index, name='facedet'),
     path('persondet/<int:metaid>/', apiview.p_index, name='persondet'),
     path('next/<int:metaid>/', nextview.index, name='next'),

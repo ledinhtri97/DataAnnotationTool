@@ -7,7 +7,8 @@ import {requestPersonAPI} from "./api/personRequest";
 import {requestNextMetaData} from "./controller/next";
 import {requestSaveAndNext} from  "./controller/saveNnext"
 import {initMaintask, outWorkSpace} from "./controller/renderInit"
-import {DrawReactangle} from "./drawer/rectangle.js"
+import {DrawReactangle} from "./drawer/rectangle"
+import {DrawQuadrilateral} from "./drawer/quadrilateral"
 import {PopupControllers, AllCheckBoxEdit, AllCheckBoxHidden} from "./controller/labelControl";
 
 var Direction = {
@@ -55,20 +56,25 @@ canvas.on({
 	},
 	'mouse:over': function(e){
 		var obj = e.target;
+
 		if (obj){
-			obj.set('fill', 'rgba(0,255,0,0.2)');
-			var iitem = canvas.getObjects().indexOf(obj);
-			var current_element = document.getElementById("itembb_"+iitem);
-			var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
-			obj.selectable = icheckbox.checked;
-			popupControllers.popup(obj, iitem);
+			if (obj.type != "circle"){
+				obj.set('fill', 'rgba(0,255,0,0.2)');
+				var iitem = canvas.getObjects().indexOf(obj);
+				var current_element = document.getElementById("itembb_"+iitem);
+				var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
+				obj.selectable = icheckbox.checked;
+				popupControllers.popup(obj, iitem);
+			}
 		}
 		canvas.renderAll();
 	},
 	'mouse:out': function(e){
 		try {
-			e.target.set('fill', 'transparent');
-			canvas.renderAll();
+			if (e.target.type != "circle"){
+				e.target.set('fill', 'transparent');
+				canvas.renderAll();	
+			}
 		}
 		catch(error) {
 			
@@ -109,6 +115,7 @@ canvas.on({
 	},
 	'object:moving': function(e){
 		document.getElementById("groupcontrol").style["display"] = "none";
+
 	},
 });
 
@@ -254,24 +261,27 @@ const metaid = document.getElementById("metaid");
 
 //=======================API===========================//
 //
-const btnFace = document.getElementById("facedet");
 
-if (btnFace){
-	btnFace.addEventListener('click', function(){
-		document.getElementById("groupcontrol").style["display"] = "none";
-		requestFaceAPI(metaid.textContent, canvas);
-	});
-}
+// const btnFace = document.getElementById("facedet");
+
+// if (btnFace){
+// 	btnFace.addEventListener('click', function(){
+// 		document.getElementById("groupcontrol").style["display"] = "none";
+// 		requestFaceAPI(metaid.textContent, canvas);
+// 	});
+// }
 
 
-const btnPerson = document.getElementById("persondet");
+// const btnPerson = document.getElementById("persondet");
 
-if (btnPerson){
-	btnPerson.addEventListener('click', function(){
-		document.getElementById("groupcontrol").style["display"] = "none";
-		requestPersonAPI(metaid.textContent, canvas);
-	});
-}
+// if (btnPerson){
+// 	btnPerson.addEventListener('click', function(){
+// 		document.getElementById("groupcontrol").style["display"] = "none";
+// 		requestPersonAPI(metaid.textContent, canvas);
+// 	});
+// }
+
+
 
 //=====================CONTROLER=======================//
 //
@@ -305,8 +315,16 @@ Array.from(labelSelector.children).forEach(function(elem) {
 	});
 });
 
+const drawQuad = new DrawQuadrilateral(canvas, "tag");
+var quad = document.getElementById("quad");
+quad.addEventListener('click', function(o){
+	drawQuad.startDraw();
+});
+
 btnEnd.addEventListener('click', function(o){
 	drawTool.endDraw();
+
+	drawQuad.endDraw();
 });
 
 var tabletask = document.getElementById("tabletask");
