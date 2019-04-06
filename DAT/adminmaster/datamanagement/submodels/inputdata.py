@@ -14,7 +14,7 @@ class InputDataModel(models.Model):
 
    groundtruth = models.FileField(upload_to=settings.UPLOAD_DIR,
          validators=[FileExtensionValidator(
-             allowed_extensions=TYPE_DATA_VALIDATION)]
+             allowed_extensions=TYPE_DATA_VALIDATION)], blank=True, null=True
    )
 
    history = HistoricalRecords()
