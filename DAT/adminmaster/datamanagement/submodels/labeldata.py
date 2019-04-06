@@ -64,6 +64,8 @@ class LabelDataModel(models.Model):
      )
 
 #    tag_label = models.CharField(max_length=100)
+     id = models.AutoField(primary_key=True)
+     
      tag_label = models.CharField(
           max_length=10,
           choices=LABEL_MAP_CHOICES,
