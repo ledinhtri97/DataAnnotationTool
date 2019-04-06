@@ -155,7 +155,8 @@ class OutputDataAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(DataSetModel, DataSetAdmin)
-admin.site.register(InputDataModel, InputDataAdmin)
+# admin.site.register(InputDataModel, InputDataAdmin)
+admin.site.register(InputDataModel)
 admin.site.register(LabelDataModel)
 admin.site.register(MetaDataModel)
 admin.site.register(OutputDataModel, OutputDataAdmin)

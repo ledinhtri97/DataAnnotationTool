@@ -1,27 +1,84 @@
 from django.db import models
 from simple_history.models import HistoricalRecords
 
+
 class LabelDataModel(models.Model):
 
-   RECT = 'rect'
-   QUAD = 'quad'
+     RECT = 'rect'
+     QUAD = 'quad'
+     POLY = 'poly'
 
-   TYPE_LABEL_CHOICES = (
+     TYPE_LABEL_CHOICES = (
         (RECT, 'Rectangle'),
         (QUAD, 'Quadrilateral'),
-   )
+        (POLY, 'POLYGON'),
+     )
 
-   tag_label = models.CharField(max_length=100)
+     FACE = 'face'
+     PERSON = 'person'
+     AEROPLANE = 'aeroplane'
+     BICYCLE = 'bicycle'
+     BIRD = 'bird'
+     BOAT = 'boat'
+     BOTTLE = 'bottle'
+     BUS = 'bus'
+     CAR = 'car'
+     CAT = 'cat'
+     CHAIR = 'chair'
+     COW = 'cow'
+     DININGTABLE = 'diningtable'
+     DOG = 'dog'
+     HORSE = 'horse'
+     MOTORBIKE = 'motorbike'
+     POTTEDPLANT = 'pottedplant'
+     SHEEP = 'sheep'
+     SOFA = 'sofa'
+     TRAIN = 'train'
+     TVMONITOR = 'tvmonitor'
+     TEXT = 'text'
 
-   type_label = models.CharField(
-        max_length=10,
-        choices=TYPE_LABEL_CHOICES,
-        default=RECT,
-   )
 
-   description = models.CharField(max_length=1000, blank=True, null=True)
+     LABEL_MAP_CHOICES = (
+          (FACE, 'face'),
+          (PERSON, 'person'),
+          (AEROPLANE, 'aeroplane'),
+          (BICYCLE, 'bicycle'),
+          (BIRD, 'bird'),
+          (BOAT, 'boat'),
+          (BOTTLE, 'bottle'),
+          (BUS, 'bus'),
+          (CAR, 'car'),
+          (CAT, 'cat'),
+          (CHAIR, 'chair'),
+          (COW, 'cow'),
+          (DININGTABLE, 'diningtable'),
+          (DOG, 'dog'),
+          (HORSE, 'horse'),
+          (MOTORBIKE, 'motorbike'),
+          (POTTEDPLANT, 'pottedplant'),
+          (SHEEP, 'sheep'),
+          (SOFA, 'sofa'),
+          (TRAIN, 'train'),
+          (TVMONITOR, 'tvmonitor'),
+          (TEXT, 'text'),
+     )
 
-   history = HistoricalRecords()
+#    tag_label = models.CharField(max_length=100)
+     tag_label = models.CharField(
+          max_length=10,
+          choices=LABEL_MAP_CHOICES,
+          default=FACE,
+     )
 
-   def __str__(self):
-      return self.tag_label
+     type_label = models.CharField(
+          max_length=20,
+          choices=TYPE_LABEL_CHOICES,
+          default=RECT,
+     )
+
+     description = models.CharField(max_length=1000, blank=True, null=True)
+
+     history = HistoricalRecords()
+
+     def __str__(self):
+          return self.tag_label+" - "+self.type_label
