@@ -114,15 +114,11 @@ class LabelControl{
 		const lbc = this;
 		lbc.canvas = __canvas__;
 		lbc.obj = __obj__;
-
-		lbc.getIndex = function(){
-			return lbc.canvas.getObjects().indexOf(lbc.obj);
-		}
 	}
 
 	//__canvas__, iitem
 	__overITEM__(){
-		var iitem = this.getIndex();
+		var iitem = this.canvas.getObjects().indexOf(this.obj);
 		var current_element = document.getElementById("itembb_"+iitem);
 		var icheckbox = current_element.firstElementChild.children[1].firstElementChild;
 
@@ -131,13 +127,13 @@ class LabelControl{
 			// __canvas__.item(iitem).strokeWidth=3;
 		}
 		
-		this.canvas.item(iitem).setColor('rgba(0,255,0,0.2)');
+		this.obj.setColor('rgba(0,255,0,0.2)');
 		this.canvas.renderAll();
 
 	}
 
 	__outITEM__(){
-		var iitem = this.getIndex();
+		var iitem = this.canvas.getObjects().indexOf(this.obj);
 		var __canvas__ = this.canvas;
 
 		var current_element = document.getElementById("itembb_"+iitem);
@@ -148,13 +144,13 @@ class LabelControl{
 			// __canvas__.item(iitem).strokeWidth=0;
 		}
 		
-		__canvas__.item(iitem).setColor('transparent');
+		this.obj.setColor('transparent');
 		__canvas__.renderAll();
 	}
 
 	__hiddenITEM__(){
-		var iitem = this.getIndex();
-		var __canvas__ = this.canvas;
+		var iitem = this.canvas.getObjects().indexOf(this.obj);
+		// var __canvas__ = this.canvas;
 
 		var current_element = document.getElementById("itembb_"+iitem);
 		var icheckbox = current_element.firstElementChild.children[1].firstElementChild;
@@ -172,18 +168,21 @@ class LabelControl{
 		else{
 			icheckbox_edit.disabled = false;
 			bbs_hidden.removeChild(current_element);
-			bbs_available.appendChild(current_element);
+			createItemToBoundingBoxes(
+				this.canvas,
+				current_element.firstElementChild.firstElementChild.textContent,
+				iitem);
 		}
-		__canvas__.item(iitem).setColor('transparent');
-		__canvas__.item(iitem).visible = !icheckbox.checked;
+		this.obj.setColor('transparent');
+		this.obj.visible = !icheckbox.checked;
 
 		icheckbox_edit.checked = false;
-		var wrapper = shallow(<ElementITEM canvas={__canvas__} objshape={__canvas__.item(iitem)}/>);
+		var wrapper = shallow(<ElementITEM canvas={this.canvas} objshape={this.obj}/>);
 		wrapper.find(
 			'input[type="checkbox"]'
 			).at(1).simulate('change',{ target: { checked: icheckbox_edit.checked } });
 
-		__canvas__.renderAll();
+		this.canvas.renderAll();
 		
 		// drawTool.endDraw();
 	}
@@ -191,7 +190,7 @@ class LabelControl{
 	
 
 	__eventedITEM__(){
-		var iitem = this.getIndex();
+		var iitem = this.canvas.getObjects().indexOf(this.obj);
 		var __canvas__ = this.canvas;
 		var lbc = this;
 
@@ -199,12 +198,12 @@ class LabelControl{
 		var label = current_element.firstElementChild.firstElementChild.textContent;
 		var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
 
-		__canvas__.item(iitem).selectable = icheckbox.checked;
+		this.obj.selectable = icheckbox.checked;
 		__canvas__.discardActiveObject();
 		
 
-		if (__canvas__.item(iitem).type == 'polygon'){
-			__canvas__.item(iitem).selectable = false;
+		if (this.obj.type == 'polygon'){
+			this.obj.selectable = false;
 			if(icheckbox.checked){
 				// var gr = []
 				lbc.obj.points.forEach(function(point, index) {
@@ -281,7 +280,10 @@ class LabelControl{
 			else{
 				__canvas__.getObjects().forEach(function(obj){
 					if(obj.type=='circle'){
-						__canvas__.remove(obj);
+						var spl = obj.name.split('_');
+						if(iitem == spl[1]){
+							__canvas__.remove(obj);
+						}
 					}
 				});
 			}
@@ -293,15 +295,15 @@ class LabelControl{
 	}
 
 	__deleteITEM__(){
-		var iitem = this.getIndex();
+		var iitem = this.canvas.getObjects().indexOf(this.obj);
 		var __canvas__ = this.canvas;
 
 		var map_obj = {};
-		var circles = [];
+		var f_circles = [];
 
 		__canvas__.getObjects().forEach(function(obj, index){
 			if(obj.type=='circle'){
-				circles.push(obj);
+				f_circles.push(obj);
 				__canvas__.remove(obj);
 			}
 			else{
@@ -320,20 +322,19 @@ class LabelControl{
 			var xxx = document.getElementById("itembb_"+i);
 			var renewiitem = __canvas__.getObjects().indexOf(map_obj[i]);
 			xxx.id = "itembb_"+renewiitem;
-			for(var c of circles){
-				var spl = parseInt(c.name.split('_'));
-				var __iitem__ = spl[1];
-				if(__iitem__ == iitem){
-					c.name = 'delete';
-				}
-				else if (__iitem__ == i){
+
+			var s_circles = [];
+
+			for(var c of f_circles){
+				var spl = c.name.split('_');
+				if (spl[1] == i){
 					c.name = spl[0]+'_'+renewiitem;
+					s_circles.push(c);	
 				}
 			}
-		}
 
-		for(var c of circles){
-			if (c.name != 'delete'){
+			for(var c of s_circles){
+				f_circles.splice(f_circles.indexOf(c), 1)
 				__canvas__.add(c);
 			}
 		}
@@ -431,12 +432,23 @@ const createItemToBoundingBoxes = function (canvas, namelabel, __iitem__=-1){
 			bbs_available.insertBefore(new_element, bbs_available.firstElementChild);
 		}
 		else{
-			var beforeChild = document.getElementById("itembb_"+(__iitem__-1));
-			bbs_available.insertBefore(new_element, beforeChild.nextSibling);
-
+			if (bbs_available.childElementCount){
+				for (var i = __iitem__-1; i >=0 ; i--){
+					var beforeChild = document.getElementById("itembb_"+(i));
+					if (beforeChild){
+						bbs_available.insertBefore(new_element, beforeChild.nextSibling);
+						break;
+					}	
+				}			
+			}
+			else{
+				bbs_available.appendChild(new_element);
+			}
 		}
 		try {
-			bbs_available.removeChild(new_element.nextSibling);
+			if(new_element.nextSibling && new_element.nextSibling.id == new_element.id){
+				bbs_available.removeChild(new_element.nextSibling);
+			}
 		} catch(e) {
 			console.log(e);
 		}

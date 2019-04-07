@@ -8,8 +8,25 @@ import {requestNextMetaData} from "./controller/next";
 import {requestSaveAndNext} from  "./controller/saveNnext"
 import {initMaintask, outWorkSpace} from "./controller/renderInit"
 import {DrawReactangle} from "./drawer/rectangle"
-import {DrawQuadrilateral} from "./drawer/quadrilateral"
+import {DrawPolygon} from "./drawer/polygon"
 import {PopupControllers, AllCheckBoxEdit, AllCheckBoxHidden} from "./controller/labelControl";
+
+var formSubmitting = false;
+var setFormSubmitting = function() { formSubmitting = true; };
+
+window.onload = function() {
+    window.addEventListener("beforeunload", function (e) {
+        // if (formSubmitting) {
+        //     return undefined;
+        // }
+
+        var confirmationMessage = 'Có vẻ như bạn đang chỉnh sửa một số thứ. '
+                                + 'Nếu bạn rời khỏi hay tải lại trang hiện tại trước khi lưu dữ liệu. Dữ liệu có thể sẽ mất';
+
+        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    });
+};
 
 var Direction = {
 	LEFT: 0,
@@ -43,16 +60,21 @@ groupcontrol.addEventListener('mouseout', function(e){
 });
 
 const popupControllers = new PopupControllers(canvas);
-
 canvas.on({
 	'object:scaling': function(e) {
 		document.getElementById("groupcontrol").style["display"] = "none";
-		var obj = e.target;
-		if(obj.KeepStrokeWidth){
-			var newStrokeWidth = obj.KeepStrokeWidth / ((obj.scaleX + obj.scaleY) / 2);
-			obj.set('strokeWidth',newStrokeWidth);
-			canvas.renderAll();
-		}
+		var obj = e.target,
+			width = obj.width,
+			height = obj.height,
+			scaleX = obj.scaleX,
+			scaleY = obj.scaleY;
+		obj.set({
+			width : width * scaleX,
+			height : height * scaleY,
+			scaleX: 1,
+			scaleY: 1
+		}); 
+		
 	},
 	'mouse:over': function(e){
 		var obj = e.target;
@@ -63,8 +85,16 @@ canvas.on({
 				var iitem = canvas.getObjects().indexOf(obj);
 				var current_element = document.getElementById("itembb_"+iitem);
 				var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
-				obj.selectable = icheckbox.checked;
-				popupControllers.popup(obj, iitem);
+				
+				//bug moving polygon without circle on edit
+				if(obj.type!='polygon'){
+					obj.selectable = icheckbox.checked;
+				}
+				else{
+					obj.selectable = false;
+				}
+				
+				popupControllers.popup(obj);
 			}
 		}
 		canvas.renderAll();
@@ -81,8 +111,10 @@ canvas.on({
 		}
 	},
 	'object:selected': function(e){
-		var iitem = canvas.getObjects().indexOf(e.target);
-		popupControllers.popup(e.target, iitem);
+		if(e.target.type != "circle"){
+			// var iitem = canvas.getObjects().indexOf(e.target);
+			popupControllers.popup(e.target);
+		}
 	},
 	'mouse:down': function(e){
 		if(!canvas.getActiveObject())
@@ -97,7 +129,6 @@ canvas.on({
 	'mouse:up': function(e){
 		//ZOOM PART
 		mouseDownPoint = null;
-
 	},
 	'mouse:move': function(e){
 		//ZOOM PART
@@ -110,12 +141,13 @@ canvas.on({
 		}
 	},
 	'object:modified': function(e){
-		var iitem = canvas.getObjects().indexOf(e.target);
-		popupControllers.popup(e.target, iitem);
+		if(e.target.type != "circle"){
+			// var iitem = canvas.getObjects().indexOf(e.target);
+			popupControllers.popup(e.target);
+		}
 	},
 	'object:moving': function(e){
 		document.getElementById("groupcontrol").style["display"] = "none";
-
 	},
 });
 
@@ -302,30 +334,48 @@ btnSaveandNext.addEventListener('click', function(){
 //=======================DRAWER=======================//
 //
 
-const drawTool = new DrawReactangle(canvas, "face");
+const drawRect = new DrawReactangle(canvas);
+const drawPoly = new DrawPolygon(canvas);
 var labelSelector = document.getElementById("labelSelect");
 var label = document.getElementById("label");
 var btnEnd = document.getElementById("end");
 
 Array.from(labelSelector.children).forEach(function(elem) {
 	elem.addEventListener('click', function(){
-		drawTool.endDraw();
-		label.textContent = elem.textContent;
-		drawTool.startDraw();
+		var spl = elem.textContent.split('-');
+		// var labelname = spl[0];
+		// var labeltype = spl[1];
+		label.textContent = spl[0];
+		if (spl[1] == 'rect'){
+			drawPoly.endDraw();
+			drawRect.endDraw();
+			drawRect.startDraw();	
+		}
+		else if (spl[1] == 'quad'){
+			drawRect.endDraw();
+			drawPoly.endDraw();
+			drawPoly.setisQuadrilateral(true);
+			drawPoly.startDraw();
+		}	
+		else if (spl[1] == 'poly'){
+			drawRect.endDraw();
+			drawPoly.endDraw();
+			drawPoly.setisQuadrilateral(false);
+			drawPoly.startDraw();
+		}
 	});
 });
 
-const drawQuad = new DrawQuadrilateral(canvas, "tag");
-var quad = document.getElementById("quad");
-quad.addEventListener('click', function(o){
-	drawQuad.startDraw();
-});
 
-btnEnd.addEventListener('click', function(o){
-	drawTool.endDraw();
+// var quad = document.getElementById("quad");
+// quad.addEventListener('click', function(o){
+// 	drawQuad.startDraw();
+// });
 
-	drawQuad.endDraw();
-});
+// btnEnd.addEventListener('click', function(o){
+// 	drawRect.endDraw();
+// 	drawQuad.endDraw();
+// });
 
 var tabletask = document.getElementById("tabletask");
 var selectPopup = document.getElementById("selectpopup");
@@ -341,9 +391,21 @@ tabletask.addEventListener('contextmenu', function(ev) {
 
 Array.from(labelselect.children).forEach(function(elem) {
 	elem.addEventListener('click', function(){
-		drawTool.endDraw();
-		label.textContent = elem.textContent;
-		drawTool.startDraw();
+		var spl = elem.textContent.split('-');
+		// var labelname = spl[0];
+		// var labeltype = spl[1];
+		label.textContent = spl[0];
+		if (spl[1] == 'rect'){
+			drawPoly.endDraw();
+			drawRect.endDraw();
+			drawRect.startDraw();	
+		}
+		else if (spl[1] == 'quad'){
+			drawRect.endDraw();
+			drawPoly.endDraw();
+			drawPoly.setisQuadrilateral(true);
+			drawPoly.startDraw();
+		}	
 	});
 });
 
@@ -388,4 +450,4 @@ lo.addEventListener('click', function(){
 	}
 });
 
-export {drawTool, canvas};
+export {drawRect, drawPoly, canvas};
