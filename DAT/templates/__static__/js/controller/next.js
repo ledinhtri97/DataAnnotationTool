@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import React, {Component} from "react";
 
 const requestNextMetaData = function(metaid, canvas){
-	fetch("/workspace/next/"+metaid+"/", {metaid: metaid})
+	fetch("/gvlab-dat/workspace/next/"+metaid+"/", {metaid: metaid})
 	.then(response => {
 		if(response.status !== 200){
 			return "Something went wrong";
