@@ -11,7 +11,7 @@ class LabelDataModel(models.Model):
      TYPE_LABEL_CHOICES = (
         (RECT, 'Rectangle'),
         (QUAD, 'Quadrilateral'),
-        (POLY, 'POLYGON'),
+        (POLY, 'Polygon'),
      )
 
      FACE = 'face'
@@ -63,9 +63,8 @@ class LabelDataModel(models.Model):
           (TEXT, 'text'),
      )
 
-#    tag_label = models.CharField(max_length=100)
      id = models.AutoField(primary_key=True)
-     
+
      tag_label = models.CharField(
           max_length=10,
           choices=LABEL_MAP_CHOICES,
@@ -83,4 +82,4 @@ class LabelDataModel(models.Model):
      history = HistoricalRecords()
 
      def __str__(self):
-          return self.tag_label+" - "+self.type_label
+          return self.tag_label+"-"+self.type_label

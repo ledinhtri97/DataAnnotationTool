@@ -25,7 +25,7 @@ def facedetAPI(path_image):
   rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
   
   start = time.time()
-  jsonFacedet = {'faces': []}
+  jsonFacedet = {'resAPI': []}
 
   height, width = frame.shape[:2]
   frame_t = transform(frame)[0]
@@ -47,7 +47,7 @@ def facedetAPI(path_image):
       else:
         pt = (detections[0, i, j, 1:] * scale).numpy() # We get the coordinates of the points at the upper left and the lower right of the detector rectangle.
 
-      jsonFacedet['faces'].append({
+      jsonFacedet['resAPI'].append({
         'xmin': int(pt[0])/width,
         'ymin': int(pt[1])/height,
         'xmax': int(pt[2])/width,

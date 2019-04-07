@@ -1,4 +1,5 @@
-import {createItemToBoundingBoxes, configRectangle} from '../controller/labelControl';
+import {createItemToBoundingBoxes} from '../controller/itemReact';
+import {configureRectangle} from '../drawer/rectangle';
 
 const requestPersonAPI = function(meta_id, canvas){
 	fetch("/gvlab-dat/workspace/persondet/"+meta_id, {metaid: meta_id})
@@ -9,7 +10,7 @@ const requestPersonAPI = function(meta_id, canvas){
 		return response.json();
 	})
 	.then(data => {
-		data['faces'].map(function(face, index){
+		data['resAPI'].map(function(face, index){
 			var width = canvas.width;
 			var height = canvas.height;
 

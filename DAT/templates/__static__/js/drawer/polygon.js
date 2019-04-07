@@ -1,8 +1,58 @@
-import {createItemToBoundingBoxes, AllCheckBoxEdit} from '../controller/labelControl';
+import {createItemToBoundingBoxes, AllCheckBoxEdit} from '../controller/itemReact';
 import {fabric} from "fabric";
 
 const MIN = 99;
 const MAX = 999999;
+
+const configureCircle = function(__x__, __y__, __name__){
+	var circle = new fabric.Circle({
+		radius: 7,
+		fill: 'yellow',
+		left: __x__,
+		top: __y__,
+		hasBorders: false,
+		hasControls: false,
+		originX:'center',
+		originY:'center',
+		name:__name__,
+	});
+	return circle;
+}
+
+const configureLine = function(__points__){
+	var line = new fabric.Line(__points__, {
+		strokeWidth: 2,
+		fill: '#999999',
+		stroke: '#999999',
+		class:'line',
+		originX:'center',
+		originY:'center',
+		selectable: false,
+		hasBorders: false,
+		hasControls: false,
+		evented: false
+	});
+
+	return line;
+}
+
+const configurePoly = function(__points__){
+	var polygon = new fabric.Polygon(__points__,{
+		hasControls: false,
+		originX: 'left',
+		originY: 'top',
+		hasBorder: false,
+		stroke: 'blue',
+		strokeWidth: 3,
+		fill:'transparent',
+		transparentCorners: true,
+		cornerSize: 10,
+		objectCaching: false,
+		selectable: false,
+	});
+
+	return polygon;
+}
 
 class DrawPolygon{
 	constructor(__canvas__) {
@@ -25,44 +75,21 @@ class DrawPolygon{
 			},
 			addPoint : function(o) {
 				var random = Math.floor(Math.random() * (MAX - MIN + 1)) + MIN;
-				var id = new Date().getTime() + random;
+				var name = new Date().getTime() + random;
 				
 				var pointer = drawer.canvas.getPointer(o.e);
 
-				var circle = new fabric.Circle({
-					radius: 7,
-					fill: '#ffffff',
-					stroke: '#333333',
-					strokeWidth: 0.5,
-					left: pointer.x,
-					top: pointer.y,
-					selectable: false,
-					hasBorders: false,
-					hasControls: false,
-					originX:'center',
-					originY:'center',
-					id:id
-				});
+				var circle = configureCircle(pointer.x, pointer.y, name);
 				if(drawer.pointArray.length == 0){
 					circle.set({
-						fill:'yellow'
+						fill:'#ffffff'
 					})
 				}
 
 				var points = [pointer.x, pointer.y, pointer.x, pointer.y];
 
-				var line = new fabric.Line(points, {
-					strokeWidth: 2,
-					fill: '#999999',
-					stroke: '#999999',
-					class:'line',
-					originX:'center',
-					originY:'center',
-					selectable: false,
-					hasBorders: false,
-					hasControls: false,
-					evented: false
-				});
+				var line = configureLine(points);
+
 				if(drawer.activeShape){
 					var pos = drawer.canvas.getPointer(o.e);
 					var points = drawer.activeShape.get("points");
@@ -70,7 +97,7 @@ class DrawPolygon{
 						x: pos.x,
 						y: pos.y
 					});
-					var polygon = new fabric.Polygon(points,{
+					var polygon = new fabric.Polygon(polyPoint,{
 						stroke:'#333333',
 						strokeWidth:1,
 						fill: '#cccccc',
@@ -80,6 +107,7 @@ class DrawPolygon{
 						hasControls: false,
 						evented: false
 					});
+
 					drawer.canvas.remove(drawer.activeShape);
 					drawer.canvas.add(polygon);
 					drawer.activeShape = polygon;
@@ -99,6 +127,7 @@ class DrawPolygon{
 						hasControls: false,
 						evented: false
 					});
+
 					drawer.activeShape = polygon;
 					drawer.canvas.add(polygon);
 				}
@@ -154,18 +183,8 @@ class DrawPolygon{
 				if (drawer.pointArray.length == 2){
 					var fp = drawer.pointArray[0];
 					var points = [fp.left, fp.top, fp.left, fp.top];
-					var line = new fabric.Line(points, {
-						strokeWidth: 2,
-						fill: '#999999',
-						stroke: '#999999',
-						class:'line',
-						originX:'center',
-						originY:'center',
-						selectable: false,
-						hasBorders: false,
-						hasControls: false,
-						evented: false
-					});
+					var line = configureLine(points);
+
 					drawer.finalLineActive = line;
 					drawer.lineArray.push(line);
 					drawer.canvas.add(line);
@@ -175,7 +194,7 @@ class DrawPolygon{
 					drawer.polygon.generatePolygon(drawer.pointArray);
 				}
 			}
-			else if (o.target && o.target.id == drawer.pointArray[0].id){
+			else if (o.target && o.target.name == drawer.pointArray[0].name){
 				if(!drawer.isQuadrilateral){
 					drawer.polygon.generatePolygon(drawer.pointArray);
 				}
@@ -230,5 +249,4 @@ class DrawPolygon{
 	}
 }
 
-
-export {DrawPolygon};
+export {configureCircle, configureLine, configurePoly, DrawPolygon};

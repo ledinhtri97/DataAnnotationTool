@@ -45,7 +45,7 @@ def persondetAPI(path_image, label='person'):
   rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
   
   start = time.time()
-  jsonObjectdet = {'faces': []}
+  jsonObjectdet = {'resAPI': []}
 
   height, width = frame.shape[:2]
   frame_t = transform(frame)[0]
@@ -67,7 +67,7 @@ def persondetAPI(path_image, label='person'):
         else:
           pt = (detections[0, i, j, 1:] * scale).numpy()
       
-        jsonObjectdet['faces'].append({
+        jsonObjectdet['resAPI'].append({
           'xmin': int(pt[0])/width,
           'ymin': int(pt[1])/height,
           'xmax': int(pt[2])/width,

@@ -14,12 +14,6 @@ class MainTaskView(generics.RetrieveUpdateAPIView):
   lookup_field = 'id'
   template_name = 'usermaster/maintask.html'
 
-  def handle_metadata_before_release(self, meta_data, user):
-    meta_data.is_onworking = 1
-    meta_data.viewed_by_user.add(user)
-    meta_data.save()
-
-
   #@Overwrite
   def get_queryset(self):
     dataset_id = self.request.parser_context['kwargs']['id']
@@ -33,7 +27,7 @@ class MainTaskView(generics.RetrieveUpdateAPIView):
     queryset = self.get_queryset()
     serializer = MainTaskMetaDataSerializer(queryset)
     newdict = {'labels': [
-        lb.tag_label for lb in 
+        str(lb) for lb in 
           DataSetModel.objects.filter(id=serializer.data['dataset']).first().labels.all()
       ]}
     newdict.update(serializer.data)

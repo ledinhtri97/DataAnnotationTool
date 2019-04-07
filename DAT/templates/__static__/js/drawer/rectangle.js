@@ -1,6 +1,7 @@
-import {createItemToBoundingBoxes, configRectangle, AllCheckBoxEdit} from '../controller/labelControl';
+import {createItemToBoundingBoxes, AllCheckBoxEdit} from '../controller/itemReact';
+import {fabric} from "fabric";
 
-class DrawReactangle{
+class DrawRectangle{
 	constructor(__canvas__) {
 
 		const drawer = this;
@@ -11,7 +12,7 @@ class DrawReactangle{
 			drawer.origX = pointer.x;
 			drawer.origY = pointer.y;
 			var pointer = drawer.canvas.getPointer(o.e);
-			drawer.rect = configRectangle(
+			drawer.rect = configureRectangle(
 				drawer.origX,
 				drawer.origY,
 				pointer.x-drawer.origX,
@@ -60,5 +61,33 @@ class DrawReactangle{
 	}
 }
 
+const configureRectangle = function (__left__, __top__, __width__, __height__){
+	var rect = new fabric.Rect({
+		left: __left__,
+		top: __top__,
+		width: __width__,
+		height: __height__,
 
-export {DrawReactangle};
+		originX: 'left',
+		originY: 'top',
+		hasBorder: true,
+		stroke: 'blue',
+		strokeWidth: 3,
+		fill:'transparent',
+		transparentCorners: true,
+		cornerSize: 10,
+		noScaleCache: false,
+		// selectable: false,
+		// evented: false,
+	});
+	
+	rect.setControlVisible('mtr', false);
+	rect.setControlVisible('ml', false);
+	rect.setControlVisible('mt', false);
+	rect.setControlVisible('mr', false);
+	rect.setControlVisible('mb', false);
+
+	return rect;
+}
+
+export {configureRectangle, DrawRectangle};

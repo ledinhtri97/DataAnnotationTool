@@ -1,15 +1,13 @@
-// import React from "react";
-// import ReactDOM from "react-dom";
 import {fabric} from 'fabric';
-// import {FaceRequest, Tableinfo} from "./api/FaceRequest";
 import {requestFaceAPI} from "./api/faceRequest";
 import {requestPersonAPI} from "./api/personRequest";
 import {requestNextMetaData} from "./controller/next";
 import {requestSaveAndNext} from  "./controller/saveNnext"
 import {initMaintask, outWorkSpace} from "./controller/renderInit"
-import {DrawReactangle} from "./drawer/rectangle"
+import {DrawRectangle} from "./drawer/rectangle"
 import {DrawPolygon} from "./drawer/polygon"
-import {PopupControllers, AllCheckBoxEdit, AllCheckBoxHidden} from "./controller/labelControl";
+import {AllCheckBoxEdit, AllCheckBoxHidden} from "./controller/itemReact";
+import {PopupControllers} from "./controller/popup";
 
 var formSubmitting = false;
 var setFormSubmitting = function() { formSubmitting = true; };
@@ -334,7 +332,7 @@ btnSaveandNext.addEventListener('click', function(){
 //=======================DRAWER=======================//
 //
 
-const drawRect = new DrawReactangle(canvas);
+const drawRect = new DrawRectangle(canvas);
 const drawPoly = new DrawPolygon(canvas);
 var labelSelector = document.getElementById("labelSelect");
 var label = document.getElementById("label");

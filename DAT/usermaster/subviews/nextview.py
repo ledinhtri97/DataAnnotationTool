@@ -12,12 +12,18 @@ def index(request, metaid):
   #reuser code get query metadata from querymeta
   dataset_id = current_meta_data.dataset.id
   user = request.user
-  queryset = querymeta.get_query_meta_general(dataset_id, user)
-  serializer = MainTaskMetaDataSerializer(queryset)
+  
   # print(serializer.data)
   #now when query data finish -> need to change current onworking status
   current_meta_data.is_onworking = 0
+  current_meta_data.onviewing_user='';
   current_meta_data.viewed_by_user.add(user)
-  current_meta_data.save(update_fields=['is_onworking'])
+  current_meta_data.save(update_fields=['is_onworking', 'onviewing_user'])
   
+  queryset = querymeta.get_query_meta_general(dataset_id, user)
+  serializer = MainTaskMetaDataSerializer(queryset)
+
+  print("1->",queryset.onviewing_user)
+  print("2->",current_meta_data.onviewing_user)
+
   return JsonResponse(serializer.data)

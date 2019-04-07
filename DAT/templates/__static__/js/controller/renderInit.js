@@ -1,5 +1,6 @@
 import {fabric} from 'fabric';
-import {createItemToBoundingBoxes, configRectangle} from './labelControl';
+import {createItemToBoundingBoxes} from './itemReact';
+import {configureRectangle} from '../drawer/rectangle';
 function image_convert(img){
 	var parent = document.getElementById("tabletask");
 
@@ -29,7 +30,6 @@ const initMaintask = function(canvas, url, bbs) {
 					}
 				});
 			} catch(e) {
-
 				console.log(e);
 			}
 		}
@@ -38,7 +38,7 @@ const initMaintask = function(canvas, url, bbs) {
 
 const renderBBS = function(canvas, label, xmin, ymin, xmax, ymax){
 	
-	var rect = configRectangle(
+	var rect = configureRectangle(
 		xmin*canvas.getWidth(), 
 		ymin*canvas.getHeight(), 
 		xmax*canvas.getWidth(),
