@@ -1,11 +1,10 @@
 import {createItemToBoundingBoxes, configRectangle, AllCheckBoxEdit} from '../controller/labelControl';
 
 class DrawReactangle{
-	constructor(__canvas__, __tag__) {
+	constructor(__canvas__) {
 
 		const drawer = this;
 		drawer.canvas = __canvas__;
-		drawer.tag = __tag__;
 		drawer.mouseDown = function(o){
 			drawer.isDown = true;
 			var pointer = drawer.canvas.getPointer(o.e);
