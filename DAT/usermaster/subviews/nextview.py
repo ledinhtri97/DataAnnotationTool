@@ -23,7 +23,4 @@ def index(request, metaid):
   queryset = querymeta.get_query_meta_general(dataset_id, user)
   serializer = MainTaskMetaDataSerializer(queryset)
 
-  print("1->",queryset.onviewing_user)
-  print("2->",current_meta_data.onviewing_user)
-
   return JsonResponse(serializer.data)
