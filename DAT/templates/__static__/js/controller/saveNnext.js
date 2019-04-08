@@ -2,24 +2,37 @@ import {initMaintask} from "./renderInit"
 import ReactDOM from "react-dom";
 import React, {Component} from "react";
 import Cookie from 'js-cookie';
+import {AllCheckBoxEdit} from "./itemReact";
 
 const requestSaveAndNext = function(metaid, canvas){
+
+	AllCheckBoxEdit(canvas, false);
 
 	var myData = ""
 
 	// var bbs_available = document.getElementById("bbs_available");
 
 	for(var i = 0; i < canvas.getObjects().length; i+=1){
-		var item_rect = canvas.item(i);
+		var item = canvas.item(i);
 		var item_html = document.getElementById("itembb_"+i);
 
-		myData += [
+		if (item.type = 'rect'){ 
+			myData += [
 			item_html.firstElementChild.firstElementChild.textContent,
-			item_rect.left / canvas.getWidth(),
-			item_rect.top / canvas.getHeight(),
-			item_rect.width / canvas.getWidth(),
-			item_rect.height / canvas.getHeight()
-		].join(',') + '\n';
+			item.left / canvas.getWidth(),
+			item.top / canvas.getHeight(),
+			item.width / canvas.getWidth(),
+			item.height / canvas.getHeight()
+			].join(',') + '\n';
+		}
+		else if(item.type = 'polygon'){
+			var bb = [item_html.firstElementChild.firstElementChild.textContent];
+			for (var p of item.points){
+				bb.push(p.x / canvas.getWidth());
+				bb.push(p.y / canvas.getHeight());
+			}
+			myData += bb.join(',') + '\n';
+		}
 	}
 	// console.log(myData)
 
@@ -47,7 +60,7 @@ const requestSaveAndNext = function(metaid, canvas){
 
 		canvas.clear();
 
-		var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name;
+		var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
 		initMaintask(canvas, url, metadata.boxes_position);
 
 	}).catch(function(ex) {

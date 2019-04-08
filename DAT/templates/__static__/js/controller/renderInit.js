@@ -1,6 +1,8 @@
 import {fabric} from 'fabric';
 import {createItemToBoundingBoxes} from './itemReact';
 import {configureRectangle} from '../drawer/rectangle';
+import {configurePoly} from '../drawer/polygon';
+
 function image_convert(img){
 	var parent = document.getElementById("tabletask");
 
@@ -25,8 +27,11 @@ const initMaintask = function(canvas, url, bbs) {
 			try {
 				bbs.split('\n').forEach(function(line){
 					var info = line.split(',');
-					if (info.length>1){
-						renderBBS(canvas,info[0],info[1],info[2],info[3],info[4]);	
+					if (info.length==5){
+						renderBBS_RECT(canvas, info);	
+					}
+					else if (info.length==9){
+						renderBBS_POLY(canvas, info);
 					}
 				});
 			} catch(e) {
@@ -36,17 +41,39 @@ const initMaintask = function(canvas, url, bbs) {
 	);
 };
 
-const renderBBS = function(canvas, label, xmin, ymin, xmax, ymax){
-	
+const renderBBS_RECT = function(canvas, bb){
 	var rect = configureRectangle(
-		xmin*canvas.getWidth(), 
-		ymin*canvas.getHeight(), 
-		xmax*canvas.getWidth(),
-		ymax*canvas.getHeight());
+		bb[1]*canvas.getWidth(), 
+		bb[2]*canvas.getHeight(), 
+		bb[3]*canvas.getWidth(),
+		bb[4]*canvas.getHeight());
 	canvas.add(rect);
 	canvas.renderAll();
+	createItemToBoundingBoxes(canvas, bb[0]);
+}
 
-	createItemToBoundingBoxes(canvas, label);
+const renderBBS_POLY = function(canvas, bb){
+	var polygon = configurePoly([
+		{
+			x: bb[1]*canvas.getWidth(),
+			y: bb[2]*canvas.getHeight()
+		},
+		{
+			x: bb[3]*canvas.getWidth(),
+			y: bb[4]*canvas.getHeight()
+		},
+		{
+			x: bb[5]*canvas.getWidth(),
+			y: bb[6]*canvas.getHeight()
+		},
+		{
+			x: bb[7]*canvas.getWidth(),
+			y: bb[8]*canvas.getHeight()
+		},
+	]);
+	canvas.add(polygon);
+	canvas.renderAll();
+	createItemToBoundingBoxes(canvas, bb[0]);
 }
 
 const outWorkSpace = function(metaid, url){
