@@ -15,6 +15,8 @@ class MetaDataModel(models.Model):
    
    boxes_position = models.TextField(verbose_name="Bounding boxes", blank=True, null=True)  # {(xmin, ymin, xmax, ymax),(..), ...}
    
+   extfile = models.CharField(max_length=100, default = 'jpg', verbose_name="Extend File image")
+
    is_annotated = models.BooleanField(default=False, verbose_name="Check data whether is annotated or not")
 
    is_onworking = models.BooleanField(default=False, verbose_name="File image is on busy or not")
@@ -27,10 +29,10 @@ class MetaDataModel(models.Model):
 
    def get_abs_origin(self):
       folder_path = '/'.join(self.full_path.split('/')[1:])
-      return os.path.join(folder_path, self.name)
+      return os.path.join(folder_path, self.name+'.'+self.extfile)
    
    def get_full_origin(self):
-      return os.path.join(settings.BASE_DIR, settings.STORAGE_DIR, self.full_path, self.name)
+      return os.path.join(settings.BASE_DIR, settings.STORAGE_DIR, self.full_path, self.name+'.'+self.extfile)
 
    def get_full_path__annotated_path(self):
       return 'fullpath/anno'
