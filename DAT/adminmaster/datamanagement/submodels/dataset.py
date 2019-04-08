@@ -23,10 +23,10 @@ class DataSetModel(models.Model):
    model_dl_plugin = None
 
    def get_dir_path(self):
-      return os.path.join(str(self.id))
+      return os.path.join(str(self.id)) #../id/..
 
    def get_full_path(self):
-      return os.path.join(settings.BASE_DIR, self.get_dir_path())
+      return os.path.join(settings.BASE_DIR, self.get_dir_path()) #/home/../id/..
 
    def __str__(self):
       return str(self.id) + "_" + self.name.replace(' ','_')
