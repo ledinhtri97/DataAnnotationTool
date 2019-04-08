@@ -28,6 +28,8 @@ class DataSetForm(forms.ModelForm):
       zipRarer.do_extract_all()
       """End of extract, Done!"""
 
+      
+
    def scanner_database(self, instance_dataset):
       """
          Scanfile was extracted and add to database relationship
@@ -41,9 +43,9 @@ class DataSetForm(forms.ModelForm):
       if old.count() != new.count():
          return True
       else:
-         names_of_new = [i.get_name() for i in new]
+         names_of_new = [i.get_zipname() for i in new]
          for i in old:
-            if (not i.get_name() in names_of_new):
+            if (not i.get_zipname() in names_of_new):
                return True
          return False
    
@@ -155,8 +157,7 @@ class OutputDataAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(DataSetModel, DataSetAdmin)
-# admin.site.register(InputDataModel, InputDataAdmin)
-admin.site.register(InputDataModel)
+admin.site.register(InputDataModel, InputDataAdmin)
 admin.site.register(LabelDataModel)
 admin.site.register(MetaDataModel)
 admin.site.register(OutputDataModel, OutputDataAdmin)
