@@ -64,7 +64,7 @@ const createItemToBoundingBoxes = function (canvas, namelabel, __iitem__=-1){
 			if (bbs_available.childElementCount){
 				for (var i = __iitem__-1; i >=0 ; i--){
 					var beforeChild = document.getElementById("itembb_"+(i));
-					if (beforeChild){
+					if (beforeChild && beforeChild.parentElement.id!="bbs_hidden"){
 						bbs_available.insertBefore(new_element, beforeChild.nextSibling);
 						break;
 					}	
