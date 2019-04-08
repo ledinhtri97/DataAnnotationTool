@@ -16,7 +16,7 @@ class InputDataModel(models.Model):
 
    groundtruth = models.FileField(upload_to=settings.OUTPUT_DIR, blank=True, null=True,
          validators=[FileExtensionValidator(
-             allowed_extensions=TYPE_DATA_VALIDATION)]
+             allowed_extensions=TYPE_DATA_VALIDATION[:2])]
    )
 
    history = HistoricalRecords()
@@ -29,6 +29,16 @@ class InputDataModel(models.Model):
    def __str__(self):
       return self.zipfile.name.split('/')[-1]
 
-   def get_name(self):
+   def get_zipname(self):
       return self.zipfile.name.split('/')[-1]
+   
+   def get_gtname(self):
+      # return (groundtruth)
+      print(self.groundtruth)
+      if (self.groundtruth):
+         print("have base groundtruth")
+         return self.groundtruth.name.split('/')[-1] 
+      else:
+         print("no base groundtruth")
+         return None
 
