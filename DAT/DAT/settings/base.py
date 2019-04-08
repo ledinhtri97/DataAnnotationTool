@@ -113,21 +113,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'templates/static')
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-UPLOAD_DIR = 'upload_data/'
+UPLOAD_DIR = '_DATABASE_/upload_data/'
 
-STORAGE_DIR = 'storage_data/'
+STORAGE_DIR = '_DATABASE_/storage_data/'
 
 STORAGE_URL = '/gvlab-dat/dataset/'
 
-STORAGE_ROOT = os.path.join(BASE_DIR, 'storage_data')
+STORAGE_ROOT = os.path.join(BASE_DIR, STORAGE_DIR)
 
-OUTPUT_DIR = 'groundtruth/'
+OUTPUT_DIR = '_DATABASE_/groundtruth/'
 
 OUTPUT_URL = '/gvlab-dat/export-groundtruth/'
 
-OUTPUT_ROOT = os.path.join(BASE_DIR, 'groundtruth')
+OUTPUT_ROOT = os.path.join(BASE_DIR, OUTPUT_DIR)
 
-MODELS_DIR = 'storage_models/'
+MODELS_DIR = '_DATABASE_/storage_models/'
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
