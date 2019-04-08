@@ -18,7 +18,7 @@ class ZipRarExtractor(object):
         # print(self.inputDataModels, "=======================")
         for input_file in self.inputDataModels.all():
             
-            file_zip = input_file.get_name()
+            file_zip = input_file.get_zipname()
             # print(file_zip)
             input = os.path.join(
                 settings.BASE_DIR,
@@ -34,6 +34,27 @@ class ZipRarExtractor(object):
             )
 
             self.extract_file(input, output)
+
+            file_gt = input_file.get_gtname()
+            if (file_gt):
+                input = os.path.join(
+                    settings.BASE_DIR,
+                    settings.OUTPUT_DIR,
+                    file_gt
+                )
+
+                output = os.path.join(
+                    settings.BASE_DIR,
+                    settings.OUTPUT_DIR,
+                    self.dir_path,
+                    file_gt.split('.')[0]
+                )
+
+                print(input)
+                print(output)
+                self.extract_file(input, output)
+
+
 
     def extract_file(self, input, output):
         '''

@@ -1,5 +1,6 @@
 from django.conf import settings
 import os
+import cv2
 
 class ScanMetaToDatabase(object):
 
@@ -12,55 +13,87 @@ class ScanMetaToDatabase(object):
       self.ACCEPTED_FILE = [
           'jpeg', 'jpg', 'png', 'JPG', 'PNG', 'tif'
       ]
+      self.ACCEPTED_GT = [
+         'txt', 'csv'
+      ]
       # self.scanFolders()
    
    def scan_all_into_database(self):
       folders_availiable = self.scan_folders()
-      self.lookfiles(folders_availiable)
+      for fa in folders_availiable:
+         self.lookfiles(fa['inputfile'], False)
+         self.lookfiles(fa['groundtruth'], True)
 
-   def lookfiles(self, full_path_folders):
-      for eachFolderRoot in full_path_folders:
-         # print(1, eachFolderRoot)
-         for xxxfile in os.listdir(
-            os.path.join(settings.STORAGE_DIR, eachFolderRoot)):
-            # print(2, xxxfile)
-            if self.check_valid_file(xxxfile):
-               # print(os.path.join(eachFolderRoot, xxxfile))
-               
-               """Do some shit stuff here"""
-               from adminmaster.datamanagement.submodels.metadata import MetaDataModel
-               
+   def lookfiles(self, full_path_folder, type_file):
+      # m = 100 if t == 0 else 5
+      store_folder = settings.OUTPUT_DIR if (type_file) else settings.STORAGE_DIR
+
+      for xxxfile in os.listdir(os.path.join(store_folder, full_path_folder)):
+         if self.check_valid_file(xxxfile, type_file):
+            """Do some shit stuff here"""
+            from adminmaster.datamanagement.submodels.metadata import MetaDataModel
+            
+            if (type_file):
+               print(xxxfile, type_file)
+               temp = MetaDataModel.objects.filter(
+                     dataset=self.dataSetModel,
+                     name=xxxfile.split('.')[0]
+               ).first()
+               try:
+                  print(temp, temp.get_full_origin())
+                  with open(os.path.join(settings.BASE_DIR, store_folder, full_path_folder, xxxfile), "r") as f:
+                     bbs = ""
+                     print(temp.get_full_origin())
+                     img =  cv2.imread(temp.get_full_origin())
+                     height, width = img.shape[:2]
+                     for line in f:
+                        bb = line.split('\n')[0].split(',')
+                        if(len(bb)==8):
+                           bbs += ','.join([
+                              'text',
+                              str(float(bb[0])/width),
+                              str(float(bb[1])/height),
+                              str(float(bb[2])/width),
+                              str(float(bb[3])/height),
+                              str(float(bb[4])/width),
+                              str(float(bb[5])/height),
+                              str(float(bb[6])/width),
+                              str(float(bb[7])/height),
+                           ])+'\n'
+                  print(bbs)
+                  temp.boxes_position = bbs
+                  temp.save(update_fields=['boxes_position'])
+
+               except Exception as e:
+                  print(e)
+
+            else:
                temp = MetaDataModel.objects.get_or_create(
-                   dataset=self.dataSetModel,
-                   name=xxxfile,
-                   full_path=eachFolderRoot
+                  dataset=self.dataSetModel,
+                  name=xxxfile.split('.')[0],
+                  extfile=xxxfile.split('.')[1],
+                  full_path=full_path_folder
                )
-               # print(temp)
-               """end job"""
-            elif (os.path.isdir(os.path.join(settings.STORAGE_DIR, eachFolderRoot, xxxfile))):
-               # print("Next Directory: ", os.path.join(eachFolderRoot, xxxfile))
-               self.lookfiles(
-                  [os.path.join(eachFolderRoot, xxxfile)]
-               )
+            """end job"""
+         elif (os.path.isdir(os.path.join(store_folder, full_path_folder, xxxfile))): 
+            self.lookfiles(os.path.join(full_path_folder, xxxfile), type_file)
 
-   def check_valid_file(self, xxxfile):
-      return xxxfile.split('.')[-1] in self.ACCEPTED_FILE
-
+   def check_valid_file(self, xxxfile, type_file):
+      ACCEPTED = self.ACCEPTED_GT if (type_file) else self.ACCEPTED_FILE
+      return xxxfile.split('.')[-1] in ACCEPTED
 
    def scan_folders(self):
-
       folders_availiable = []
-
-      for input_name in self.input_files:
-         dir_name = os.path.join(
-            self.dir_path,
-            str(input_name).split('.')[0]
-         )
+      for input_data in self.input_files:
+         dir_name = {
+            'inputfile': os.path.join(self.dir_path, input_data.get_zipname().split('.')[0]),
+            'groundtruth': os.path.join(self.dir_path, input_data.get_gtname().split('.')[0])
+         }
          #may be need to check vaild path for sure
-         # print(dir_name)
+
          folders_availiable.append(dir_name)
       
-
+      print(folders_availiable)
       return folders_availiable
 
    
