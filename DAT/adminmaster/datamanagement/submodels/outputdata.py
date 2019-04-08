@@ -46,7 +46,7 @@ class OutputDataModel(models.Model):
     download.admin_order_field = 'name'
 
     def get_save_file(self):
-        return os.path.join(self.file_path, str(self.data_set))
+        return os.path.join(self.file_path, self.data_set.get_dir_path(), str(self.data_set))
 
     def __str__(self):
         return self.name
