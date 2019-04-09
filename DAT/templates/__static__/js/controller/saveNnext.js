@@ -10,15 +10,13 @@ const requestSaveAndNext = function(metaid, canvas){
 
 	var myData = ""
 
-	// var bbs_available = document.getElementById("bbs_available");
-
 	for(var i = 0; i < canvas.getObjects().length; i+=1){
 		var item = canvas.item(i);
-		var item_html = document.getElementById("itembb_"+i);
-
+		// var item_html = document.getElementById("itembb_"+i);
 		if (item.type = 'rect'){ 
 			myData += [
-			item_html.firstElementChild.firstElementChild.textContent,
+			// item_html.firstElementChild.firstElementChild.textContent,
+			item.name,
 			item.left / canvas.getWidth(),
 			item.top / canvas.getHeight(),
 			item.width / canvas.getWidth(),
@@ -26,7 +24,8 @@ const requestSaveAndNext = function(metaid, canvas){
 			].join(',') + '\n';
 		}
 		else if(item.type = 'polygon'){
-			var bb = [item_html.firstElementChild.firstElementChild.textContent];
+			// var bb = [item_html.firstElementChild.firstElementChild.textContent];
+			var bb = [item.name];
 			for (var p of item.points){
 				bb.push(p.x / canvas.getWidth());
 				bb.push(p.y / canvas.getHeight());
