@@ -71,7 +71,7 @@ const renderBBS_POLY = function(canvas, bb){
 			x: bb[7]*canvas.getWidth(),
 			y: bb[8]*canvas.getHeight()
 		},
-	]);
+	], bb[0]);
 	canvas.add(polygon);
 	canvas.renderAll();
 	createItemToBoundingBoxes(canvas, bb[0]);

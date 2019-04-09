@@ -9,38 +9,7 @@ import {DrawPolygon} from "./drawer/polygon"
 import {AllCheckBoxEdit, AllCheckBoxHidden} from "./controller/itemReact";
 import {Color} from "./style/color"
 import {PopupControllers} from "./controller/popup";
-import {init_ecanvas} from "./event/ecanvas"
-
-var formSubmitting = false;
-var setFormSubmitting = function() { formSubmitting = true; };
-
-window.onload = function() {
-    window.addEventListener("beforeunload", function (e) {
-        // if (formSubmitting) {
-        //     return undefined;
-        // }
-
-        var confirmationMessage = 'Có vẻ như bạn đang chỉnh sửa một số thứ. '
-                                + 'Nếu bạn rời khỏi hay tải lại trang hiện tại trước khi lưu dữ liệu. Dữ liệu có thể sẽ mất';
-
-        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-    });
-};
-
-// var Direction = {
-// 	LEFT: 0,
-// 	UP: 1,
-// 	RIGHT: 2,
-// 	DOWN: 3
-// };
-
-// var zoomLevel = 0;
-// var zoomLevelMin = 0;
-// var zoomLevelMax = 3;
-
-// var shiftKeyDown = false;
-// var mouseDownPoint = null;
+import {init_event} from "./event/einit"
 
 const canvas = new fabric.Canvas('canvas', {
 	hoverCursor: 'pointer',
@@ -62,7 +31,7 @@ groupcontrol.addEventListener('mouseout', function(e){
 
 const popupControllers = new PopupControllers(canvas);
 
-init_ecanvas(canvas, popupControllers);
+init_event(canvas, popupControllers);
 
 initMaintask(
 	canvas, 
@@ -173,23 +142,25 @@ tabletask.addEventListener('contextmenu', function(ev) {
 	return false;
 }, false);
 
+const labelHandle = function(spl){
+	label.textContent = spl[0];
+	if (spl[1] == 'rect'){
+		drawPoly.endDraw();
+		drawRect.endDraw();
+		drawRect.startDraw();	
+	}
+	else if (spl[1] == 'quad'){
+		drawRect.endDraw();
+		drawPoly.endDraw();
+		drawPoly.setisQuadrilateral(true);
+		drawPoly.startDraw();
+	}
+}
+
 Array.from(labelselect.children).forEach(function(elem) {
+	var spl = elem.textContent.split('-');
 	elem.addEventListener('click', function(){
-		var spl = elem.textContent.split('-');
-		// var labelname = spl[0];
-		// var labeltype = spl[1];
-		label.textContent = spl[0];
-		if (spl[1] == 'rect'){
-			drawPoly.endDraw();
-			drawRect.endDraw();
-			drawRect.startDraw();	
-		}
-		else if (spl[1] == 'quad'){
-			drawRect.endDraw();
-			drawPoly.endDraw();
-			drawPoly.setisQuadrilateral(true);
-			drawPoly.startDraw();
-		}	
+		labelHandle(spl);
 	});
 });
 
@@ -234,4 +205,4 @@ lo.addEventListener('click', function(){
 	}
 });
 
-export {drawRect, drawPoly, canvas};
+export {labelHandle, drawRect, drawPoly, canvas};
