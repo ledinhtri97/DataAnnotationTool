@@ -22,7 +22,8 @@ class ScanMetaToDatabase(object):
       folders_availiable = self.scan_folders()
       for fa in folders_availiable:
          self.lookfiles(fa['inputfile'], False)
-         self.lookfiles(fa['groundtruth'], True)
+         if(fa['groundtruth']):
+            self.lookfiles(fa['groundtruth'], True)
 
    def lookfiles(self, full_path_folder, type_file):
       # m = 100 if t == 0 else 5
@@ -87,7 +88,9 @@ class ScanMetaToDatabase(object):
       for input_data in self.input_files:
          dir_name = {
             'inputfile': os.path.join(self.dir_path, input_data.get_zipname().split('.')[0]),
-            'groundtruth': os.path.join(self.dir_path, input_data.get_gtname().split('.')[0])
+            'groundtruth': os.path.join(
+                  self.dir_path, input_data.get_gtname().split('.')[0]
+               ) if (input_data.get_gtname()) else None
          }
          #may be need to check vaild path for sure
 
