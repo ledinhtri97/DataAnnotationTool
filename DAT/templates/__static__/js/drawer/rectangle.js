@@ -1,4 +1,5 @@
 import {createItemToBoundingBoxes, AllCheckBoxEdit} from '../controller/itemReact';
+import {Color} from "../style/color"
 import {fabric} from "fabric";
 
 class DrawRectangle{
@@ -16,7 +17,8 @@ class DrawRectangle{
 				drawer.origX,
 				drawer.origY,
 				pointer.x-drawer.origX,
-				pointer.y-drawer.origY
+				pointer.y-drawer.origY,
+				document.getElementById("label").textContent
 				);
 		}
 
@@ -41,6 +43,7 @@ class DrawRectangle{
 			drawer.isDown = false;
 
 			if (drawer.rect.width > 15 && drawer.rect.height > 15) {
+				drawer.rect.selectable = false;
 				drawer.canvas.add(drawer.rect);
 				createItemToBoundingBoxes(drawer.canvas, document.getElementById("label").textContent);
 			}
@@ -61,7 +64,7 @@ class DrawRectangle{
 	}
 }
 
-const configureRectangle = function (__left__, __top__, __width__, __height__){
+const configureRectangle = function (__left__, __top__, __width__, __height__, __name__=''){
 	var rect = new fabric.Rect({
 		left: __left__,
 		top: __top__,
@@ -71,12 +74,22 @@ const configureRectangle = function (__left__, __top__, __width__, __height__){
 		originX: 'left',
 		originY: 'top',
 		hasBorder: true,
-		stroke: 'blue',
+		stroke: Color.GREEN,
 		strokeWidth: 3,
 		fill:'transparent',
-		transparentCorners: true,
-		cornerSize: 10,
+		transparentCorners: false,
+		cornerStrokeColor: 5,
 		noScaleCache: false,
+		cornerStyle: 'circle',
+		cornerSize: 13,
+		cornerColor: Color.YELLOW,
+		lockSkewingX: true,
+		lockSkewingY: true,
+		flipX: false,
+		flipY: false,
+		lockScalingFlip: true,
+		name: __name__,
+		// lockUniScaling: false,
 		// selectable: false,
 		// evented: false,
 	});
