@@ -58,6 +58,7 @@ class PopupControllers{
 		var groupcontrol =  document.getElementById("groupcontrol");
 		var tabletask = document.getElementById("tabletask");
 		var cv_element = document.getElementById("canvas");
+		document.getElementById("labelpopup").textContent = this.objshape.name;
 		var left = (tabletask.clientWidth - cv_element.clientWidth) / 2;
 		var top = (tabletask.clientHeight - cv_element.clientHeight) / 2;
 		groupcontrol.style["left"] = (left + this.objshape.oCoords.tl.x) +"px";
