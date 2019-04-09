@@ -4,6 +4,7 @@ import {fabric} from "fabric";
 import {drawRect, drawPoly} from "../maintask";
 import {createItemToBoundingBoxes, ElementITEM} from "./itemReact";
 import {configureCircle, configurePoly} from "../drawer/polygon";
+import {Color} from "../style/color"
 import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
@@ -26,7 +27,7 @@ class LabelControl{
 			// __canvas__.item(iitem).strokeWidth=3;
 		}
 		
-		this.obj.setColor('rgba(0,255,0,0.2)');
+		this.obj.setColor(Color.Opacity_GREEN);
 		this.canvas.renderAll();
 
 	}
@@ -43,7 +44,7 @@ class LabelControl{
 			// __canvas__.item(iitem).strokeWidth=0;
 		}
 		
-		this.obj.setColor('transparent');
+		this.obj.setColor(Color.Transparent);
 		__canvas__.renderAll();
 	}
 
@@ -71,7 +72,7 @@ class LabelControl{
 				current_element.firstElementChild.firstElementChild.textContent,
 				iitem);
 		}
-		this.obj.setColor('transparent');
+		this.obj.setColor(Color.Transparent);
 		this.obj.visible = !icheckbox.checked;
 
 		icheckbox_edit.checked = false;
@@ -94,12 +95,22 @@ class LabelControl{
 		var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
 
 		this.obj.selectable = icheckbox.checked;
-		__canvas__.discardActiveObject();
-		
+		if (icheckbox.checked) {
+			if(this.obj.type == 'rect'){
+				this.obj.set('stroke', Color.RED);
+				__canvas__.setActiveObject(this.obj);
+			}
+		}
+		else{
+			this.obj.set('stroke', Color.GREEN);
+			__canvas__.discardActiveObject();
+		}		
 
 		if (this.obj.type == 'polygon'){
 			this.obj.selectable = false;
 			if(icheckbox.checked){
+
+				lbc.obj.set('stroke', Color.RED);
 
 				lbc.obj.points.forEach(function(point, index) {
 					var circle = configureCircle(point.x, point.y, index+"_"+iitem);
@@ -112,7 +123,8 @@ class LabelControl{
 						lbc.obj.points[__index__] = {x: p.getCenterPoint().x, y: p.getCenterPoint().y};
 
 						__canvas__.remove(lbc.obj);
-						lbc.obj = configurePoly(lbc.obj.points);
+						lbc.obj = configurePoly(lbc.obj.points, lbc.obj.name);
+						lbc.obj.set('stroke', Color.RED);
 
 						__canvas__.insertAt(lbc.obj, iitem);
 						// __canvas__.sendToBack(lbc.obj);
@@ -123,7 +135,7 @@ class LabelControl{
 
 						__canvas__.remove(lbc.obj);
 
-						lbc.obj = configurePoly(lbc.obj.points);
+						lbc.obj = configurePoly(lbc.obj.points, lbc.obj.name);
 
 						__canvas__.insertAt(lbc.obj, iitem);
 						__canvas__.renderAll();
@@ -140,6 +152,8 @@ class LabelControl{
 				});
 			}
 			else{
+
+				lbc.obj.set('stroke', Color.GREEN);
 				__canvas__.getObjects().forEach(function(obj){
 					if(obj.type=='circle'){
 						var spl = obj.name.split('_');
@@ -150,7 +164,7 @@ class LabelControl{
 				});
 			}
 		}
-
+		
 		__canvas__.renderAll();
 		drawRect.endDraw();
 		drawPoly.endDraw();
