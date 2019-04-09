@@ -214,3 +214,9 @@ flex-direction: column; */
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 
+#labelpopup {
+	background: #ffffff;
+	color: #000000;
+	padding: 0 5px;
+	font-size: 17px;
+}
