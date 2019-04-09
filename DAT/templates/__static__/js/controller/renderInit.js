@@ -46,7 +46,8 @@ const renderBBS_RECT = function(canvas, bb){
 		bb[1]*canvas.getWidth(), 
 		bb[2]*canvas.getHeight(), 
 		bb[3]*canvas.getWidth(),
-		bb[4]*canvas.getHeight());
+		bb[4]*canvas.getHeight(),
+		bb[0]);
 	canvas.add(rect);
 	canvas.renderAll();
 	createItemToBoundingBoxes(canvas, bb[0]);
