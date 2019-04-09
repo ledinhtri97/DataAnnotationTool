@@ -1,4 +1,5 @@
 import {createItemToBoundingBoxes, AllCheckBoxEdit} from '../controller/itemReact';
+import {Color} from "../style/color"
 import {fabric} from "fabric";
 
 const MIN = 99;
@@ -7,7 +8,7 @@ const MAX = 999999;
 const configureCircle = function(__x__, __y__, __name__){
 	var circle = new fabric.Circle({
 		radius: 7,
-		fill: 'yellow',
+		fill: Color.YELLOW,
 		left: __x__,
 		top: __y__,
 		hasBorders: false,
@@ -22,33 +23,34 @@ const configureCircle = function(__x__, __y__, __name__){
 const configureLine = function(__points__){
 	var line = new fabric.Line(__points__, {
 		strokeWidth: 2,
-		fill: '#999999',
-		stroke: '#999999',
+		fill: Color.GRAY,
+		stroke: Color.GRAY,
 		class:'line',
 		originX:'center',
 		originY:'center',
 		selectable: false,
 		hasBorders: false,
 		hasControls: false,
-		evented: false
+		evented: false,
 	});
 
 	return line;
 }
 
-const configurePoly = function(__points__){
+const configurePoly = function(__points__, __name__){
 	var polygon = new fabric.Polygon(__points__,{
 		hasControls: false,
 		originX: 'left',
 		originY: 'top',
-		hasBorder: false,
-		stroke: 'blue',
+		hasBorders: false,
+		stroke: Color.GREEN,
 		strokeWidth: 3,
 		fill:'transparent',
 		transparentCorners: true,
 		cornerSize: 10,
 		objectCaching: false,
 		selectable: false,
+		name:__name__,
 	});
 
 	return polygon;
@@ -80,9 +82,10 @@ class DrawPolygon{
 				var pointer = drawer.canvas.getPointer(o.e);
 
 				var circle = configureCircle(pointer.x, pointer.y, name);
+				circle.set({fill:Color.WHITE});
 				if(drawer.pointArray.length == 0){
 					circle.set({
-						fill:'#ffffff'
+						fill:Color.RED,
 					})
 				}
 
@@ -107,6 +110,10 @@ class DrawPolygon{
 						hasControls: false,
 						evented: false
 					});
+
+					// configurePoly(polyPoint);
+					// polygon.set('opacity', 0.1);
+					// polygon.set('fill', Color.GRAY);
 
 					drawer.canvas.remove(drawer.activeShape);
 					drawer.canvas.add(polygon);
@@ -154,17 +161,7 @@ class DrawPolygon{
 					drawer.canvas.remove(line);
 				});
 				drawer.canvas.remove(drawer.activeShape).remove(drawer.activeLine);
-				var polygon = new fabric.Polygon(points,{
-					hasControls: false,
-					originX: 'left',
-					originY: 'top',
-					hasBorder: true,
-					stroke: 'blue',
-					strokeWidth: 3,
-					fill:'transparent',
-					transparentCorners: true,
-					cornerSize: 10,
-				});
+				var polygon = configurePoly(points, document.getElementById("label").textContent)
 				drawer.canvas.add(polygon);
 
 				drawer.activeLine = null;
