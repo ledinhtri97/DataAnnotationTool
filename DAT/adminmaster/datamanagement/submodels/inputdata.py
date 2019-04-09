@@ -36,9 +36,9 @@ class InputDataModel(models.Model):
       # return (groundtruth)
       print(self.groundtruth)
       if (self.groundtruth):
-         print("have base groundtruth")
+         # print("have base groundtruth")
          return self.groundtruth.name.split('/')[-1] 
       else:
-         print("no base groundtruth")
+         # print("no base groundtruth")
          return None
 
