@@ -14,11 +14,12 @@ const requestPersonAPI = function(meta_id, canvas){
 			var width = canvas.width;
 			var height = canvas.height;
 
-			var bbface = configRectangle(
+			var bbface = configureRectangle(
 					width*face.xmin, 
 					height*face.ymin,
 					width*(face.xmax-face.xmin),
-					height*(face.ymax-face.ymin));
+					height*(face.ymax-face.ymin),
+					'person');
 			canvas.add(bbface);
 			canvas.renderAll();
 

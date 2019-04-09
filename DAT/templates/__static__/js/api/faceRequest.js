@@ -18,7 +18,9 @@ const requestFaceAPI = function(meta_id, canvas){
 					width*face.xmin, 
 					height*face.ymin,
 					width*(face.xmax-face.xmin),
-					height*(face.ymax-face.ymin));
+					height*(face.ymax-face.ymin),
+					'face'
+					);
 			canvas.add(bbface);
 			canvas.renderAll();
 
