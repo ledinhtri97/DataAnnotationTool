@@ -1,7 +1,8 @@
-import {labelHandle, drawRect, drawPoly} from "../maintask"
+import {drawRect, drawPoly} from "../maintask"
 import {Color} from '../style/color'
 import React from "react";
 import ReactDOM from "react-dom";
+import {drawStatus} from "../maintask";
 import {ElementITEM} from "../controller/itemReact";
 import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -27,6 +28,27 @@ var label = document.getElementById("label");
 
 var formSubmitting = false;
 var setFormSubmitting = function() { formSubmitting = true; };
+
+const labelHandle = function(spl, draw=true){
+	if(draw){
+		label.textContent = spl[0];
+		if (spl[1] == 'rect'){
+			drawPoly.endDraw();
+			drawRect.endDraw();
+			drawRect.startDraw();	
+		}
+		else if (spl[1] == 'quad'){
+			drawRect.endDraw();
+			drawPoly.endDraw();
+			drawPoly.setisQuadrilateral(true);
+			drawPoly.startDraw();
+		}
+	}
+	else{
+		drawPoly.endDraw();
+		drawRect.endDraw();
+	}
+}
 
 const init_event = function(__canvas__, popupControllers){
 
@@ -85,10 +107,16 @@ const init_event = function(__canvas__, popupControllers){
 				document.getElementById("groupcontrol").style["display"] = "none";
 			}
 		}
+		else if(key == 113) {
+			//quit draw -> q key
+			labelHandle('', false);
+			document.getElementById('label').textContent = "NO LABEL";
+		}
+		//draw-keyboard shortcut
 		Array.from(labelselect.children).forEach(function(elem, index) {
 			var spl = elem.textContent.split('-');
-			if(key == 49+index){
-				labelHandle(spl);
+			if((drawStatus.getIsDrawing() == false) && (key == 49+index)){
+				labelHandle(spl, true);
 			}
 		});
 	}
@@ -314,5 +342,5 @@ const init_event = function(__canvas__, popupControllers){
 	//
 }
 
-export {init_event};
+export {init_event, labelHandle};
 

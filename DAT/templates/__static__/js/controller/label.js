@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {fabric} from "fabric";
-import {drawRect, drawPoly} from "../maintask";
+import {drawRect, drawPoly, listPredict} from "../maintask";
 import {createItemToBoundingBoxes, ElementITEM} from "./itemReact";
 import {configureCircle, configurePoly} from "../drawer/polygon";
 import {Color} from "../style/color"
@@ -102,6 +102,13 @@ class LabelControl{
 			}
 		}
 		else{
+			var isPredictObj = listPredict.indexOf(this.obj);
+			if (isPredictObj >= 0) {
+				lbc.obj.set('stroke', Color.BLUE);
+			}
+			else{
+				lbc.obj.set('stroke', Color.GREEN);
+			}
 			this.obj.set('stroke', Color.GREEN);
 			__canvas__.discardActiveObject();
 		}		
@@ -152,8 +159,13 @@ class LabelControl{
 				});
 			}
 			else{
-
-				lbc.obj.set('stroke', Color.GREEN);
+				var isPredictObj = listPredict.indexOf(this.obj);
+				if (isPredictObj >= 0) {
+					lbc.obj.set('stroke', Color.BLUE);
+				}
+				else{
+					lbc.obj.set('stroke', Color.GREEN);
+				}
 				__canvas__.getObjects().forEach(function(obj){
 					if(obj.type=='circle'){
 						var spl = obj.name.split('_');
@@ -164,57 +176,69 @@ class LabelControl{
 				});
 			}
 		}
-		
+
 		__canvas__.renderAll();
 		drawRect.endDraw();
 		drawPoly.endDraw();
 	}
 
 	__deleteITEM__(){
+		
+
 		var iitem = this.canvas.getObjects().indexOf(this.obj);
-		var __canvas__ = this.canvas;
 
-		var map_obj = {};
-		var f_circles = [];
-
-		__canvas__.getObjects().forEach(function(obj, index){
-			if(obj.type=='circle'){
-				f_circles.push(obj);
-				__canvas__.remove(obj);
-			}
-			else{
-				if(index != iitem){
-					map_obj[index] = obj;
+		if (iitem  >= 0) {
+			var isPredictObj = listPredict.indexOf(this.obj);
+			if (isPredictObj >= 0) {
+				listPredict.splice(isPredictObj, 1);
+				if(listPredict.length==0){
+					document.getElementById("predictAPI").disabled = false;
 				}
 			}
-		});
+			var __canvas__ = this.canvas;
 
-		var current_element = document.getElementById("itembb_"+iitem);
-		__canvas__.remove(__canvas__.item(iitem))
-		__canvas__.renderAll();
-		current_element.parentElement.removeChild(current_element);
+			var map_obj = {};
+			var f_circles = [];
 
-		for(var i in map_obj){
-			var xxx = document.getElementById("itembb_"+i);
-			var renewiitem = __canvas__.getObjects().indexOf(map_obj[i]);
-			xxx.id = "itembb_"+renewiitem;
+			__canvas__.getObjects().forEach(function(obj, index){
+				if(obj.type=='circle'){
+					f_circles.push(obj);
+					__canvas__.remove(obj);
+				}
+				else{
+					if(index != iitem){
+						map_obj[index] = obj;
+					}
+				}
+			});
 
-			var s_circles = [];
+			var current_element = document.getElementById("itembb_"+iitem);
+			__canvas__.remove(__canvas__.item(iitem))
+			__canvas__.renderAll();
+			current_element.parentElement.removeChild(current_element);
 
-			for(var c of f_circles){
-				var spl = c.name.split('_');
-				if (spl[1] == i){
-					c.name = spl[0]+'_'+renewiitem;
-					s_circles.push(c);	
+			for(var i in map_obj){
+				var xxx = document.getElementById("itembb_"+i);
+				var renewiitem = __canvas__.getObjects().indexOf(map_obj[i]);
+				xxx.id = "itembb_"+renewiitem;
+
+				var s_circles = [];
+
+				for(var c of f_circles){
+					var spl = c.name.split('_');
+					if (spl[1] == i){
+						c.name = spl[0]+'_'+renewiitem;
+						s_circles.push(c);	
+					}
+				}
+
+				for(var c of s_circles){
+					f_circles.splice(f_circles.indexOf(c), 1)
+					__canvas__.add(c);
 				}
 			}
-
-			for(var c of s_circles){
-				f_circles.splice(f_circles.indexOf(c), 1)
-				__canvas__.add(c);
-			}
+			__canvas__.renderAll();
 		}
-		__canvas__.renderAll();
 	}
 }
 
