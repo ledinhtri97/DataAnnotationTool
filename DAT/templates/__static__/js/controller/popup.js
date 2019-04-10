@@ -62,7 +62,7 @@ class PopupControllers{
 		var left = (tabletask.clientWidth - cv_element.clientWidth) / 2;
 		var top = (tabletask.clientHeight - cv_element.clientHeight) / 2;
 		groupcontrol.style["left"] = (left + this.objshape.oCoords.tl.x) +"px";
-		groupcontrol.style["top"] = (top + this.objshape.oCoords.tl.y - 20)+"px";
+		groupcontrol.style["top"] = (top + this.objshape.oCoords.tl.y - 40)+"px";
 		groupcontrol.style["display"] = "";
 	}
 }
