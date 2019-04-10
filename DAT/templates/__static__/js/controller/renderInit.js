@@ -2,6 +2,7 @@ import {fabric} from 'fabric';
 import {createItemToBoundingBoxes} from './itemReact';
 import {configureRectangle} from '../drawer/rectangle';
 import {configurePoly} from '../drawer/polygon';
+import {Color} from "../style/color"
 
 function image_convert(img){
 	var parent = document.getElementById("tabletask");
@@ -13,7 +14,7 @@ function image_convert(img){
 	return [img.width*scale, img.height*scale]
 }
 
-const initMaintask = function(canvas, url, bbs) {
+const initMaintask = function(canvas, url, bbs='') {
 	fabric.Image.fromURL(
 		url,
 		function(img) {
@@ -24,19 +25,19 @@ const initMaintask = function(canvas, url, bbs) {
 			canvas.setHeight(wh[1]);
 			canvas.setBackgroundImage(img);
 			canvas.renderAll();
-			try {
-				bbs.split('\n').forEach(function(line){
-					var info = line.split(',');
-					if (info.length==5){
-						renderBBS_RECT(canvas, info);	
-					}
-					else if (info.length==9){
-						renderBBS_POLY(canvas, info);
-					}
-				});
-			} catch(e) {
-				console.log(e);
-			}
+			// try {
+			// 	bbs.split('\n').forEach(function(line){
+			// 		var info = line.split(',');
+			// 		if (info.length==5){
+			// 			renderBBS_RECT(canvas, info);	
+			// 		}
+			// 		else if (info.length==9){
+			// 			renderBBS_POLY(canvas, info);
+			// 		}
+			// 	});
+			// } catch(e) {
+			// 	console.log(e);
+			// }
 		}
 	);
 };
@@ -47,10 +48,11 @@ const renderBBS_RECT = function(canvas, bb){
 		bb[2]*canvas.getHeight(), 
 		bb[3]*canvas.getWidth(),
 		bb[4]*canvas.getHeight(),
-		bb[0]);
+		bb[0], Color.BLUE);
 	canvas.add(rect);
 	canvas.renderAll();
 	createItemToBoundingBoxes(canvas, bb[0]);
+	return rect;
 }
 
 const renderBBS_POLY = function(canvas, bb){
@@ -71,10 +73,11 @@ const renderBBS_POLY = function(canvas, bb){
 			x: bb[7]*canvas.getWidth(),
 			y: bb[8]*canvas.getHeight()
 		},
-	], bb[0]);
+	], bb[0], Color.BLUE);
 	canvas.add(polygon);
 	canvas.renderAll();
 	createItemToBoundingBoxes(canvas, bb[0]);
+	return polygon;
 }
 
 const outWorkSpace = function(metaid, url){
@@ -90,4 +93,4 @@ const outWorkSpace = function(metaid, url){
 	});
 }
 
-export {initMaintask, outWorkSpace}
+export {initMaintask, outWorkSpace, renderBBS_RECT, renderBBS_POLY}

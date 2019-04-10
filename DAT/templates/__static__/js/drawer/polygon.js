@@ -1,6 +1,7 @@
 import {createItemToBoundingBoxes, AllCheckBoxEdit} from '../controller/itemReact';
 import {Color} from "../style/color"
 import {fabric} from "fabric";
+import {drawStatus} from "../maintask";
 
 const MIN = 99;
 const MAX = 999999;
@@ -37,13 +38,13 @@ const configureLine = function(__points__){
 	return line;
 }
 
-const configurePoly = function(__points__, __name__){
+const configurePoly = function(__points__, __name__='', __color__=Color.GREEN){
 	var polygon = new fabric.Polygon(__points__,{
 		hasControls: false,
 		originX: 'left',
 		originY: 'top',
 		hasBorders: false,
-		stroke: Color.GREEN,
+		stroke: __color__,
 		strokeWidth: 3,
 		fill:'transparent',
 		transparentCorners: true,
@@ -71,6 +72,7 @@ class DrawPolygon{
 		drawer.polygon = {
 			drawPolygon : function() {
 				drawer.polygonMode = true;
+				drawStatus.setIsDrawing(true);
 				drawer.pointArray = new Array();
 				drawer.lineArray = new Array();
 				// drawer.activeLine;
@@ -149,7 +151,7 @@ class DrawPolygon{
 			},
 			generatePolygon : function(pointArray){
 				var points = new Array();
-
+				drawStatus.setIsDrawing(false);
 				pointArray.forEach(function(point, index){
 					points.push({
 						x:point.left,
@@ -176,6 +178,7 @@ class DrawPolygon{
 
 
 		drawer.mouseDown = function(o){
+
 			if(drawer.isQuadrilateral){
 				if (drawer.pointArray.length == 2){
 					var fp = drawer.pointArray[0];
@@ -229,6 +232,9 @@ class DrawPolygon{
 
 	startDraw(){
 		AllCheckBoxEdit(this.canvas, false);
+		
+		this.canvas.defaultCursor = 'pointer';
+
 		this.polygon.drawPolygon();
 		this.canvas.on('mouse:down', this.mouseDown);
 		this.canvas.on('mouse:move', this.mouseMove);
@@ -236,6 +242,9 @@ class DrawPolygon{
 	}
 
 	endDraw(){
+		
+		this.canvas.defaultCursor = 'default';
+
 		this.canvas.off('mouse:down', this.mouseDown);
 		this.canvas.off('mouse:move', this.mouseMove);
 		this.canvas.off('mouse:up', this.mouseUp);

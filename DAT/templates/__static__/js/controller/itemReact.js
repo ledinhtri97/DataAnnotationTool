@@ -116,4 +116,12 @@ const AllCheckBoxHidden = function(canvas, value){
 	});
 }
 
-export {AllCheckBoxEdit, AllCheckBoxHidden, ElementITEM, createItemToBoundingBoxes};
+const DeleteAll = function(__canvas__){
+	__canvas__.getObjects().forEach(function(elem){
+		var wrapper = shallow(<ElementITEM canvas={__canvas__} objshape={elem} />);
+		wrapper.find('input[type="button"]').simulate('click');
+		document.getElementById("groupcontrol").style["display"] = "none";
+	});
+}
+
+export {DeleteAll, AllCheckBoxEdit, AllCheckBoxHidden, ElementITEM, createItemToBoundingBoxes};

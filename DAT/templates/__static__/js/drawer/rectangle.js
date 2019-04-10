@@ -1,6 +1,7 @@
 import {createItemToBoundingBoxes, AllCheckBoxEdit} from '../controller/itemReact';
 import {Color} from "../style/color"
 import {fabric} from "fabric";
+import {drawStatus} from "../maintask";
 
 class DrawRectangle{
 	constructor(__canvas__) {
@@ -9,6 +10,7 @@ class DrawRectangle{
 		drawer.canvas = __canvas__;
 		drawer.mouseDown = function(o){
 			drawer.isDown = true;
+			drawStatus.setIsDrawing(true);
 			var pointer = drawer.canvas.getPointer(o.e);
 			drawer.origX = pointer.x;
 			drawer.origY = pointer.y;
@@ -41,8 +43,9 @@ class DrawRectangle{
 
 		drawer.mouseUp= function(o){
 			drawer.isDown = false;
+			drawStatus.setIsDrawing(false);
 
-			if (drawer.rect.width > 15 && drawer.rect.height > 15) {
+			if (drawer.rect.width > 10 && drawer.rect.height > 15) {
 				drawer.rect.selectable = false;
 				drawer.canvas.add(drawer.rect);
 				createItemToBoundingBoxes(drawer.canvas, document.getElementById("label").textContent);
@@ -52,19 +55,25 @@ class DrawRectangle{
 
 	startDraw(){
 		AllCheckBoxEdit(this.canvas, false);
+		
+		this.canvas.defaultCursor = 'crosshair';
+
 		this.canvas.on('mouse:down', this.mouseDown);
 		this.canvas.on('mouse:move', this.mouseMove);
 		this.canvas.on('mouse:up', this.mouseUp);
 	}
 
 	endDraw(){
+
+		this.canvas.defaultCursor = 'default';
+
 		this.canvas.off('mouse:down', this.mouseDown);
 		this.canvas.off('mouse:move', this.mouseMove);
 		this.canvas.off('mouse:up', this.mouseUp);
 	}
 }
 
-const configureRectangle = function (__left__, __top__, __width__, __height__, __name__=''){
+const configureRectangle = function (__left__, __top__, __width__, __height__, __name__='', __color__=Color.GREEN){
 	var rect = new fabric.Rect({
 		left: __left__,
 		top: __top__,
@@ -74,7 +83,7 @@ const configureRectangle = function (__left__, __top__, __width__, __height__, _
 		originX: 'left',
 		originY: 'top',
 		hasBorder: true,
-		stroke: Color.GREEN,
+		stroke: __color__,
 		strokeWidth: 3,
 		fill:'transparent',
 		transparentCorners: false,

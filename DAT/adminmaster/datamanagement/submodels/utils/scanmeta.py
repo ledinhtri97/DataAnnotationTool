@@ -61,7 +61,7 @@ class ScanMetaToDatabase(object):
                               str(float(bb[6])/width),
                               str(float(bb[7])/height),
                            ])+'\n'
-                  print(bbs)
+                  # print(bbs)
                   temp.boxes_position = bbs
                   temp.save(update_fields=['boxes_position'])
 

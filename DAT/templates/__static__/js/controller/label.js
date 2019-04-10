@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {fabric} from "fabric";
-import {drawRect, drawPoly} from "../maintask";
+import {drawRect, drawPoly, listPredict} from "../maintask";
 import {createItemToBoundingBoxes, ElementITEM} from "./itemReact";
 import {configureCircle, configurePoly} from "../drawer/polygon";
 import {Color} from "../style/color"
@@ -51,37 +51,39 @@ class LabelControl{
 	__hiddenITEM__(){
 		var iitem = this.canvas.getObjects().indexOf(this.obj);
 
-		var current_element = document.getElementById("itembb_"+iitem);
-		var icheckbox = current_element.firstElementChild.children[1].firstElementChild;
+		if(iitem>=0){
+			var current_element = document.getElementById("itembb_"+iitem);
+			var icheckbox = current_element.firstElementChild.children[1].firstElementChild;
 
-		var bbs_available = document.getElementById("bbs_available");
-		var bbs_hidden = document.getElementById("bbs_hidden");
+			var bbs_available = document.getElementById("bbs_available");
+			var bbs_hidden = document.getElementById("bbs_hidden");
 
-		var icheckbox_edit = current_element.firstElementChild.children[2].firstElementChild;
-		
-		if (icheckbox.checked){
-			icheckbox_edit.disabled = true;
-			bbs_available.removeChild(current_element);
-			bbs_hidden.appendChild(current_element);
+			var icheckbox_edit = current_element.firstElementChild.children[2].firstElementChild;
+			
+			if (icheckbox.checked){
+				icheckbox_edit.disabled = true;
+				bbs_available.removeChild(current_element);
+				bbs_hidden.appendChild(current_element);
+			}
+			else{
+				icheckbox_edit.disabled = false;
+				bbs_hidden.removeChild(current_element);
+				createItemToBoundingBoxes(
+					this.canvas,
+					current_element.firstElementChild.firstElementChild.textContent,
+					iitem);
+			}
+			this.obj.setColor(Color.Transparent);
+			this.obj.visible = !icheckbox.checked;
+
+			icheckbox_edit.checked = false;
+			var wrapper = shallow(<ElementITEM canvas={this.canvas} objshape={this.obj}/>);
+			wrapper.find(
+				'input[type="checkbox"]'
+				).at(1).simulate('change',{ target: { checked: icheckbox_edit.checked } });
+
+			this.canvas.renderAll();
 		}
-		else{
-			icheckbox_edit.disabled = false;
-			bbs_hidden.removeChild(current_element);
-			createItemToBoundingBoxes(
-				this.canvas,
-				current_element.firstElementChild.firstElementChild.textContent,
-				iitem);
-		}
-		this.obj.setColor(Color.Transparent);
-		this.obj.visible = !icheckbox.checked;
-
-		icheckbox_edit.checked = false;
-		var wrapper = shallow(<ElementITEM canvas={this.canvas} objshape={this.obj}/>);
-		wrapper.find(
-			'input[type="checkbox"]'
-			).at(1).simulate('change',{ target: { checked: icheckbox_edit.checked } });
-
-		this.canvas.renderAll();
 
 	}
 
@@ -102,6 +104,13 @@ class LabelControl{
 			}
 		}
 		else{
+			var isPredictObj = listPredict.indexOf(this.obj);
+			if (isPredictObj >= 0) {
+				lbc.obj.set('stroke', Color.BLUE);
+			}
+			else{
+				lbc.obj.set('stroke', Color.GREEN);
+			}
 			this.obj.set('stroke', Color.GREEN);
 			__canvas__.discardActiveObject();
 		}		
@@ -152,8 +161,13 @@ class LabelControl{
 				});
 			}
 			else{
-
-				lbc.obj.set('stroke', Color.GREEN);
+				var isPredictObj = listPredict.indexOf(this.obj);
+				if (isPredictObj >= 0) {
+					lbc.obj.set('stroke', Color.BLUE);
+				}
+				else{
+					lbc.obj.set('stroke', Color.GREEN);
+				}
 				__canvas__.getObjects().forEach(function(obj){
 					if(obj.type=='circle'){
 						var spl = obj.name.split('_');
@@ -164,57 +178,69 @@ class LabelControl{
 				});
 			}
 		}
-		
+
 		__canvas__.renderAll();
 		drawRect.endDraw();
 		drawPoly.endDraw();
 	}
 
 	__deleteITEM__(){
+		
+
 		var iitem = this.canvas.getObjects().indexOf(this.obj);
-		var __canvas__ = this.canvas;
 
-		var map_obj = {};
-		var f_circles = [];
-
-		__canvas__.getObjects().forEach(function(obj, index){
-			if(obj.type=='circle'){
-				f_circles.push(obj);
-				__canvas__.remove(obj);
-			}
-			else{
-				if(index != iitem){
-					map_obj[index] = obj;
+		if (iitem  >= 0) {
+			var isPredictObj = listPredict.indexOf(this.obj);
+			if (isPredictObj >= 0) {
+				listPredict.splice(isPredictObj, 1);
+				if(listPredict.length==0){
+					document.getElementById("predictAPI").disabled = false;
 				}
 			}
-		});
+			var __canvas__ = this.canvas;
 
-		var current_element = document.getElementById("itembb_"+iitem);
-		__canvas__.remove(__canvas__.item(iitem))
-		__canvas__.renderAll();
-		current_element.parentElement.removeChild(current_element);
+			var map_obj = {};
+			var f_circles = [];
 
-		for(var i in map_obj){
-			var xxx = document.getElementById("itembb_"+i);
-			var renewiitem = __canvas__.getObjects().indexOf(map_obj[i]);
-			xxx.id = "itembb_"+renewiitem;
+			__canvas__.getObjects().forEach(function(obj, index){
+				if(obj.type=='circle'){
+					f_circles.push(obj);
+					__canvas__.remove(obj);
+				}
+				else{
+					if(index != iitem){
+						map_obj[index] = obj;
+					}
+				}
+			});
 
-			var s_circles = [];
+			var current_element = document.getElementById("itembb_"+iitem);
+			__canvas__.remove(__canvas__.item(iitem))
+			__canvas__.renderAll();
+			current_element.parentElement.removeChild(current_element);
 
-			for(var c of f_circles){
-				var spl = c.name.split('_');
-				if (spl[1] == i){
-					c.name = spl[0]+'_'+renewiitem;
-					s_circles.push(c);	
+			for(var i in map_obj){
+				var xxx = document.getElementById("itembb_"+i);
+				var renewiitem = __canvas__.getObjects().indexOf(map_obj[i]);
+				xxx.id = "itembb_"+renewiitem;
+
+				var s_circles = [];
+
+				for(var c of f_circles){
+					var spl = c.name.split('_');
+					if (spl[1] == i){
+						c.name = spl[0]+'_'+renewiitem;
+						s_circles.push(c);	
+					}
+				}
+
+				for(var c of s_circles){
+					f_circles.splice(f_circles.indexOf(c), 1)
+					__canvas__.add(c);
 				}
 			}
-
-			for(var c of s_circles){
-				f_circles.splice(f_circles.indexOf(c), 1)
-				__canvas__.add(c);
-			}
+			__canvas__.renderAll();
 		}
-		__canvas__.renderAll();
 	}
 }
 

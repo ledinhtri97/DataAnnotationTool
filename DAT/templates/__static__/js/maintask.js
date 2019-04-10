@@ -3,13 +3,13 @@ import {requestFaceAPI} from "./api/faceRequest";
 import {requestPersonAPI} from "./api/personRequest";
 import {requestNextMetaData} from "./controller/next";
 import {requestSaveAndNext} from  "./controller/saveNnext"
-import {initMaintask, outWorkSpace} from "./controller/renderInit"
+import {initMaintask, outWorkSpace, renderBBS_RECT, renderBBS_POLY} from "./controller/renderInit"
 import {DrawRectangle} from "./drawer/rectangle"
 import {DrawPolygon} from "./drawer/polygon"
-import {AllCheckBoxEdit, AllCheckBoxHidden} from "./controller/itemReact";
+import {AllCheckBoxEdit, AllCheckBoxHidden, DeleteAll} from "./controller/itemReact";
 import {Color} from "./style/color"
 import {PopupControllers} from "./controller/popup";
-import {init_event} from "./event/einit"
+import {init_event, labelHandle} from "./event/einit"
 
 const canvas = new fabric.Canvas('canvas', {
 	hoverCursor: 'pointer',
@@ -35,8 +35,8 @@ init_event(canvas, popupControllers);
 
 initMaintask(
 	canvas, 
-	document.getElementById('imgurl').href, 
-	document.getElementById("bbsfirst").textContent
+	document.getElementById('imgurl').href,
+	// document.getElementById("bbsfirst").textContent
 	);
 
 //===================DEFAULT-INIT======================//
@@ -66,6 +66,31 @@ const metaid = document.getElementById("metaid");
 // 	});
 // }
 
+var btnPredict = document.getElementById("predictAPI");
+var listPredict = [];
+
+if (btnPredict){
+	btnPredict.addEventListener('click', function(){
+		var bbs = document.getElementById("bbsfirst").textContent
+		try {
+			if(listPredict.length == 0) {
+				btnPredict.disabled = true;
+				bbs.split('\n').forEach(function(line){
+					var info = line.split(',');
+					if (info.length==5){
+						listPredict.push(renderBBS_RECT(canvas, info));	
+					}
+					else if (info.length==9){
+						listPredict.push(renderBBS_POLY(canvas, info));
+					}
+				});
+			}
+
+		} catch(e) {
+			console.log(e);
+		}
+	});
+}
 
 
 //=====================CONTROLER=======================//
@@ -73,6 +98,9 @@ const metaid = document.getElementById("metaid");
 const btnNext = document.getElementById("next");
 
 btnNext.addEventListener('click', function(){
+	listPredict.splice(0,listPredict.length);
+	btnPredict.disabled = false;
+			
 	document.getElementById("groupcontrol").style["display"] = "none";
 	requestNextMetaData(metaid.textContent, canvas);
 });
@@ -80,6 +108,9 @@ btnNext.addEventListener('click', function(){
 const btnSaveandNext = document.getElementById("savennext");
 
 btnSaveandNext.addEventListener('click', function(){
+	listPredict.splice(0,listPredict.length);
+	btnPredict.disabled = false;
+	
 	document.getElementById("groupcontrol").style["display"] = "none";
 	requestSaveAndNext(metaid.textContent, canvas);
 })
@@ -87,6 +118,21 @@ btnSaveandNext.addEventListener('click', function(){
 //=======================DRAWER=======================//
 //
 
+class DrawStatus{
+	constructor(__isDrawing__){
+		this.isDrawing = __isDrawing__;
+	}
+
+	setIsDrawing(__isDrawing__){
+		this.isDrawing = __isDrawing__;
+	}
+
+	getIsDrawing(){
+		return this.isDrawing;
+	}
+}
+
+const drawStatus = new DrawStatus(false);
 const drawRect = new DrawRectangle(canvas);
 const drawPoly = new DrawPolygon(canvas);
 var labelSelector = document.getElementById("labelSelect");
@@ -96,8 +142,7 @@ var btnEnd = document.getElementById("end");
 Array.from(labelSelector.children).forEach(function(elem) {
 	elem.addEventListener('click', function(){
 		var spl = elem.textContent.split('-');
-		// var labelname = spl[0];
-		// var labeltype = spl[1];
+
 		label.textContent = spl[0];
 		if (spl[1] == 'rect'){
 			drawPoly.endDraw();
@@ -119,16 +164,11 @@ Array.from(labelSelector.children).forEach(function(elem) {
 	});
 });
 
-
-// var quad = document.getElementById("quad");
-// quad.addEventListener('click', function(o){
-// 	drawQuad.startDraw();
-// });
-
-// btnEnd.addEventListener('click', function(o){
-// 	drawRect.endDraw();
-// 	drawQuad.endDraw();
-// });
+btnEnd.addEventListener('click', function(o){
+	drawRect.endDraw();
+	drawPoly.endDraw();
+	label.textContent = "NO LABEL";
+});
 
 var tabletask = document.getElementById("tabletask");
 var selectPopup = document.getElementById("selectpopup");
@@ -142,25 +182,10 @@ tabletask.addEventListener('contextmenu', function(ev) {
 	return false;
 }, false);
 
-const labelHandle = function(spl){
-	label.textContent = spl[0];
-	if (spl[1] == 'rect'){
-		drawPoly.endDraw();
-		drawRect.endDraw();
-		drawRect.startDraw();	
-	}
-	else if (spl[1] == 'quad'){
-		drawRect.endDraw();
-		drawPoly.endDraw();
-		drawPoly.setisQuadrilateral(true);
-		drawPoly.startDraw();
-	}
-}
-
 Array.from(labelselect.children).forEach(function(elem) {
 	var spl = elem.textContent.split('-');
 	elem.addEventListener('click', function(){
-		labelHandle(spl);
+		labelHandle(spl,true);
 	});
 });
 
@@ -179,6 +204,14 @@ hiddenAll.addEventListener('change', function(){
 editAll.addEventListener('change', function(){
 	AllCheckBoxEdit(canvas, editAll.checked);
 });
+
+
+var deleteall = document.getElementById("deleteall");
+if (deleteall){
+	deleteall.addEventListener('click', function(){
+		DeleteAll(canvas);
+	});
+}
 
 //BONUS
 //
@@ -205,4 +238,4 @@ lo.addEventListener('click', function(){
 	}
 });
 
-export {labelHandle, drawRect, drawPoly, canvas};
+export {drawRect, drawPoly, drawStatus, listPredict, canvas};

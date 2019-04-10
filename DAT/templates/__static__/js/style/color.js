@@ -10,7 +10,6 @@ const Color = {
 	Opacity_GREEN: "rgba(0,255,0,0.2)",
 	
 	Transparent: "transparent",
-
 }
 
 export {Color}
