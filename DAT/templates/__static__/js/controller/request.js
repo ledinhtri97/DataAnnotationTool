@@ -4,7 +4,7 @@ import React, {Component} from "react";
 import Cookie from 'js-cookie';
 import {AllCheckBoxEdit} from "./itemReact";
 
-const requestSaveAndNext = function(metaid, canvas){
+const rqsavenext = function(metaid, canvas){
 
 	AllCheckBoxEdit(canvas, false);
 
@@ -35,7 +35,7 @@ const requestSaveAndNext = function(metaid, canvas){
 	}
 	// console.log(myData)
 
-	fetch("/gvlab-dat/workspace/saveNnext/"+metaid+"/", {
+	fetch("/gvlab-dat/workspace/savenext/"+metaid+"/", {
 		method: "POST",
 		credentials: "same-origin",
 		headers: {
@@ -52,19 +52,72 @@ const requestSaveAndNext = function(metaid, canvas){
 		document.getElementById("metaid").textContent = metadata.id;
 		var bbs_available = document.getElementById("bbs_available");
 		bbs_available.innerHTML = "";
-		// ReactDOM.render(React.createElement("div", null, ""), bbs_available);
+		
 		var bbs_hidden = document.getElementById("bbs_hidden");
 		bbs_hidden.innerHTML = "";
-		// ReactDOM.render(React.createElement("div", null, ""), bbs_hidden);
-
+		
 		canvas.clear();
 
 		var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
 		initMaintask(canvas, url, metadata.boxes_position);
+		document.getElementById("bbsfirst").textContent = metadata.boxes_position
 
 	}).catch(function(ex) {
 		console.log("parsing failed", ex);
 	});
 }
 
-export {requestSaveAndNext};
+
+const rqnext = function(metaid, canvas){
+	fetch("/gvlab-dat/workspace/next/"+metaid+"/", {metaid: metaid})
+	.then(response => {
+		if(response.status !== 200){
+			return "Something went wrong";
+		}
+		return response.json();
+	})
+	.then(metadata => {
+		document.getElementById("metaid").textContent = metadata.id;
+		var bbs_available = document.getElementById("bbs_available");
+		bbs_available.innerHTML = "";
+		var bbs_hidden = document.getElementById("bbs_hidden");
+		bbs_hidden.innerHTML = "";
+
+		canvas.clear();
+
+		var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
+		initMaintask(canvas, url, metadata.boxes_position);
+		document.getElementById("bbsfirst").textContent = metadata.boxes_position
+
+
+	});
+}
+
+
+const rqbadnext = function(metaid, canvas){
+	fetch("/gvlab-dat/workspace/badnext/"+metaid+"/", {metaid: metaid})
+	.then(response => {
+		if(response.status !== 200){
+			return "Something went wrong";
+		}
+		return response.json();
+	})
+	.then(metadata => {
+		document.getElementById("metaid").textContent = metadata.id;
+		var bbs_available = document.getElementById("bbs_available");
+		bbs_available.innerHTML = "";
+		var bbs_hidden = document.getElementById("bbs_hidden");
+		bbs_hidden.innerHTML = "";
+
+		canvas.clear();
+
+		var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
+		initMaintask(canvas, url, metadata.boxes_position);
+		document.getElementById("bbsfirst").textContent = metadata.boxes_position
+
+	});
+}
+
+
+
+export {rqsavenext, rqnext, rqbadnext};

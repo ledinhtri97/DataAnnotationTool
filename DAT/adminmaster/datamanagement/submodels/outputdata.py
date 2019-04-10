@@ -38,7 +38,8 @@ class OutputDataModel(models.Model):
     
     def download(self):
         file_name = self.type_groundtruth+".zip"
-        return format_html('<a href="/export-groundtruth/{}/{}">Download {}</a>',
+        return format_html('<a href="/gvlab-dat/export-groundtruth/{}/{}/{}">Download {}</a>',
+            str(self.data_set.id),
             str(self.data_set),
             file_name,
             self.type_groundtruth)
