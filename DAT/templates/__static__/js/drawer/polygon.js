@@ -38,6 +38,45 @@ const configureLine = function(__points__){
 	return line;
 }
 
+const configureRectangle = function (__left__, __top__, __width__, __height__, __name__='', __color__=Color.GREEN){
+	var rect = new fabric.Rect({
+		left: __left__,
+		top: __top__,
+		width: __width__,
+		height: __height__,
+
+		originX: 'left',
+		originY: 'top',
+		hasBorder: true,
+		stroke: __color__,
+		strokeWidth: 3,
+		fill:'transparent',
+		transparentCorners: false,
+		cornerStrokeColor: 5,
+		noScaleCache: false,
+		cornerStyle: 'circle',
+		cornerSize: 13,
+		cornerColor: Color.YELLOW,
+		lockSkewingX: true,
+		lockSkewingY: true,
+		flipX: false,
+		flipY: false,
+		lockScalingFlip: true,
+		name: __name__,
+		// lockUniScaling: false,
+		// selectable: false,
+		// evented: false,
+	});
+	
+	rect.setControlVisible('mtr', false);
+	rect.setControlVisible('ml', false);
+	rect.setControlVisible('mt', false);
+	rect.setControlVisible('mr', false);
+	rect.setControlVisible('mb', false);
+
+	return rect;
+}
+
 const configurePoly = function(__points__, __name__='', __color__=Color.GREEN){
 	var polygon = new fabric.Polygon(__points__,{
 		hasControls: false,
@@ -65,14 +104,14 @@ class DrawPolygon{
 		drawer.polygonMode = true;
 		drawer.pointArray = new Array();
 		drawer.lineArray = new Array();
+		drawer.rectangle;
 		drawer.activeLine;
 		drawer.activeShape = false;
-		drawer.isQuadrilateral = false;
+		drawer.typePoly = 'poly';
 
 		drawer.polygon = {
 			drawPolygon : function() {
 				drawer.polygonMode = true;
-				drawStatus.setIsDrawing(true);
 				drawer.pointArray = new Array();
 				drawer.lineArray = new Array();
 				// drawer.activeLine;
@@ -113,10 +152,6 @@ class DrawPolygon{
 						evented: false
 					});
 
-					// configurePoly(polyPoint);
-					// polygon.set('opacity', 0.1);
-					// polygon.set('fill', Color.GRAY);
-
 					drawer.canvas.remove(drawer.activeShape);
 					drawer.canvas.add(polygon);
 					drawer.activeShape = polygon;
@@ -151,7 +186,8 @@ class DrawPolygon{
 			},
 			generatePolygon : function(pointArray){
 				var points = new Array();
-				drawStatus.setIsDrawing(false);
+				var namelabel = document.getElementById("label").textContent;
+
 				pointArray.forEach(function(point, index){
 					points.push({
 						x:point.left,
@@ -162,24 +198,75 @@ class DrawPolygon{
 				drawer.lineArray.forEach(function(line){
 					drawer.canvas.remove(line);
 				});
-				drawer.canvas.remove(drawer.activeShape).remove(drawer.activeLine);
-				var polygon = configurePoly(points, document.getElementById("label").textContent)
-				drawer.canvas.add(polygon);
 
+				drawer.canvas.remove(drawer.activeShape).remove(drawer.activeLine);
+				
+				if(drawer.typePoly == 'rect'){
+					
+					var __left__ = drawer.rectangle.left, 
+						__top__ = drawer.rectangle.top, 
+						__width__ = drawer.rectangle.width, 
+						__height__ = drawer.rectangle.height, 
+						__name__ = document.getElementById("label").textContent;
+
+					drawer.canvas.remove(drawer.rectangle);
+
+					var rect = configureRectangle(__left__, __top__, __width__, __height__, __name__) ;
+					drawer.canvas.add(rect);
+				}
+				else {
+					var polygon = configurePoly(points, namelabel)
+					drawer.canvas.add(polygon);	
+				}
+				
 				drawer.activeLine = null;
 				drawer.activeShape = null;
 				drawer.polygonMode = false;
 				drawer.canvas.selection = true;
-				// drawer.canvas.renderAll();
-				drawer.endDraw();
-				createItemToBoundingBoxes(drawer.canvas, document.getElementById("label").textContent);
+				
+				drawer.canvas.renderAll();
+				
+				createItemToBoundingBoxes(drawer.canvas, namelabel);
+
+				drawer.startDraw(namelabel);
 			}
 		};
 
 
 		drawer.mouseDown = function(o){
 
-			if(drawer.isQuadrilateral){
+			var pointer = drawer.canvas.getPointer(o.e);
+
+			if (drawer.typePoly == 'rect'){
+
+				drawer.polygon.addPoint(o);
+
+				if (drawer.pointArray.length == 1){
+
+					var fp = drawer.pointArray[0];
+					drawer.origX = pointer.x;
+					drawer.origY = pointer.y;
+					
+					var points = [fp.left, fp.top, fp.left, fp.top];
+					var line = configureLine(points);
+
+					drawer.rectangle = configureRectangle(
+						drawer.origX,
+						drawer.origY,
+						pointer.x-drawer.origX,
+						pointer.y-drawer.origY,
+					);
+
+					drawer.lineArray.push(line);
+					drawer.canvas.add(line);
+					drawer.canvas.add(drawer.rectangle);
+				}
+				if (drawer.pointArray.length == 2){
+					drawer.polygon.generatePolygon(drawer.pointArray);
+				}
+			}
+			else if(drawer.typePoly == 'quad'){
+				
 				if (drawer.pointArray.length == 2){
 					var fp = drawer.pointArray[0];
 					var points = [fp.left, fp.top, fp.left, fp.top];
@@ -193,20 +280,27 @@ class DrawPolygon{
 					drawer.polygon.addPoint(o);
 					drawer.polygon.generatePolygon(drawer.pointArray);
 				}
+				else {
+					drawer.polygon.addPoint(o);
+				}
 			}
 			else if (o.target && o.target.name == drawer.pointArray[0].name){
 				if(!drawer.isQuadrilateral){
 					drawer.polygon.generatePolygon(drawer.pointArray);
 				}
 			}
-			if(drawer.polygonMode){
-				drawer.polygon.addPoint(o);
+			else if(drawer.polygonMode){
+				drawer.polygon.addPoint(o);	
 			}
+			
 		}
 
 		drawer.mouseMove= function(o){
 
 			if(drawer.activeLine && drawer.activeLine.class == "line"){
+
+				drawStatus.setIsDrawing(true);
+				
 				var pointer = drawer.canvas.getPointer(o.e);
 				drawer.activeLine.set({ x2: pointer.x, y2: pointer.y });
 
@@ -215,8 +309,20 @@ class DrawPolygon{
 					x:pointer.x,
 					y:pointer.y
 				}
-				if(drawer.isQuadrilateral && drawer.pointArray.length == 3){
+				if(drawer.typePoly=='quad' && drawer.pointArray.length == 3){
 					drawer.finalLineActive.set({ x2: pointer.x, y2: pointer.y })
+				}
+				else if (drawer.typePoly == 'rect' && drawer.pointArray.length == 1){
+
+					if(drawer.origX>pointer.x){
+						drawer.rectangle.set({ left: Math.abs(pointer.x) });
+					}
+					if(drawer.origY>pointer.y){
+						drawer.rectangle.set({ top: Math.abs(pointer.y) });
+					}
+
+					drawer.rectangle.set({ width: Math.abs(drawer.origX - pointer.x) });
+					drawer.rectangle.set({ height: Math.abs(drawer.origY - pointer.y) });
 				}
 				drawer.activeShape.set({
 					points: points
@@ -227,14 +333,19 @@ class DrawPolygon{
 		}
 
 		drawer.mouseUp= function(o){
+			if(drawer.activeLine == null){
+				drawStatus.setIsDrawing(false);
+			}
 		}
 	}
 
-	startDraw(){
-		AllCheckBoxEdit(this.canvas, false);
-		
-		this.canvas.defaultCursor = 'pointer';
+	startDraw(namelabel){
+		this.endDraw();
 
+		document.getElementById("label").textContent = namelabel;
+		AllCheckBoxEdit(this.canvas, false);
+		this.canvas.defaultCursor = 'pointer';
+		
 		this.polygon.drawPolygon();
 		this.canvas.on('mouse:down', this.mouseDown);
 		this.canvas.on('mouse:move', this.mouseMove);
@@ -242,16 +353,16 @@ class DrawPolygon{
 	}
 
 	endDraw(){
-		
 		this.canvas.defaultCursor = 'default';
-
+		document.getElementById("label").textContent = "NO LABEL";
+		
 		this.canvas.off('mouse:down', this.mouseDown);
 		this.canvas.off('mouse:move', this.mouseMove);
 		this.canvas.off('mouse:up', this.mouseUp);
 	}
 
-	setisQuadrilateral(value){
-		this.isQuadrilateral = value;
+	setType(value){
+		this.typePoly = value;
 	}
 }
 

@@ -8,7 +8,7 @@ import {DrawPolygon} from "./drawer/polygon"
 import {AllCheckBoxEdit, AllCheckBoxHidden, DeleteAll} from "./controller/itemReact";
 import {Color} from "./style/color"
 import {PopupControllers} from "./controller/popup";
-import {init_event, labelHandle} from "./event/einit"
+import {init_event} from "./event/einit"
 
 const canvas = new fabric.Canvas('canvas', {
 	hoverCursor: 'pointer',
@@ -154,32 +154,14 @@ var btnEnd = document.getElementById("end");
 Array.from(labelSelector.children).forEach(function(elem) {
 	elem.addEventListener('click', function(){
 		var spl = elem.textContent.split('-');
-
-		label.textContent = spl[0];
-		if (spl[1] == 'rect'){
-			drawPoly.endDraw();
-			drawRect.endDraw();
-			drawRect.startDraw();	
-		}
-		else if (spl[1] == 'quad'){
-			drawRect.endDraw();
-			drawPoly.endDraw();
-			drawPoly.setisQuadrilateral(true);
-			drawPoly.startDraw();
-		}	
-		else if (spl[1] == 'poly'){
-			drawRect.endDraw();
-			drawPoly.endDraw();
-			drawPoly.setisQuadrilateral(false);
-			drawPoly.startDraw();
-		}
+		drawPoly.setType(spl[1]);
+		drawPoly.startDraw(spl[0]);
 	});
 });
 
 btnEnd.addEventListener('click', function(o){
-	drawRect.endDraw();
+	// drawRect.endDraw();
 	drawPoly.endDraw();
-	label.textContent = "NO LABEL";
 });
 
 var tabletask = document.getElementById("tabletask");
@@ -197,7 +179,8 @@ tabletask.addEventListener('contextmenu', function(ev) {
 Array.from(labelselect.children).forEach(function(elem) {
 	var spl = elem.textContent.split('-');
 	elem.addEventListener('click', function(){
-		labelHandle(spl,true);
+		drawPoly.setType(spl[1]);
+		drawPoly.startDraw(spl[0]);
 	});
 });
 

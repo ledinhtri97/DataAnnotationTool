@@ -10,7 +10,7 @@ class DrawRectangle{
 		drawer.canvas = __canvas__;
 		drawer.mouseDown = function(o){
 			drawer.isDown = true;
-			drawStatus.setIsDrawing(true);
+			// drawStatus.setIsDrawing(true);
 			var pointer = drawer.canvas.getPointer(o.e);
 			drawer.origX = pointer.x;
 			drawer.origY = pointer.y;
@@ -43,7 +43,7 @@ class DrawRectangle{
 
 		drawer.mouseUp= function(o){
 			drawer.isDown = false;
-			drawStatus.setIsDrawing(false);
+			// drawStatus.setIsDrawing(false);
 
 			if (drawer.rect.width > 10 && drawer.rect.height > 15) {
 				drawer.rect.selectable = false;
