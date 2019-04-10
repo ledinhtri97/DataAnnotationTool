@@ -24,31 +24,10 @@ var mouseDownPoint = null;
 
 var objectShape = null;
 var labelselect = document.getElementById("labelselect");
-var label = document.getElementById("label");
+// var label = document.getElementById("label");
 
 var formSubmitting = false;
 var setFormSubmitting = function() { formSubmitting = true; };
-
-const labelHandle = function(spl, draw=true){
-	if(draw){
-		label.textContent = spl[0];
-		if (spl[1] == 'rect'){
-			drawPoly.endDraw();
-			drawRect.endDraw();
-			drawRect.startDraw();	
-		}
-		else if (spl[1] == 'quad'){
-			drawRect.endDraw();
-			drawPoly.endDraw();
-			drawPoly.setisQuadrilateral(true);
-			drawPoly.startDraw();
-		}
-	}
-	else{
-		drawPoly.endDraw();
-		drawRect.endDraw();
-	}
-}
 
 const init_event = function(__canvas__, popupControllers){
 
@@ -109,14 +88,15 @@ const init_event = function(__canvas__, popupControllers){
 		}
 		else if(key == 113) {
 			//quit draw -> q key
-			labelHandle('', false);
-			document.getElementById('label').textContent = "NO LABEL";
+			drawPoly.endDraw();
 		}
 		//draw-keyboard shortcut
 		Array.from(labelselect.children).forEach(function(elem, index) {
 			var spl = elem.textContent.split('-');
-			if((drawStatus.getIsDrawing() == false) && (key == 49+index)){
-				labelHandle(spl, true);
+			var isd = drawStatus.getIsDrawing();
+			if(!isd && (key == 49+index)){
+				drawPoly.setType(spl[1]);
+				drawPoly.startDraw(spl[0]);
 			}
 		});
 	}
@@ -144,39 +124,38 @@ const init_event = function(__canvas__, popupControllers){
 				objectShape = obj;
 
 				if (obj.type != "circle"){
-
 					obj.set('fill', Color.Opacity_GREEN);
 					var iitem = __canvas__.getObjects().indexOf(obj);
-					var current_element = document.getElementById("itembb_"+iitem);
-					var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
+					if (iitem >= 0) {
+						var current_element = document.getElementById("itembb_"+iitem);
+						var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
+						//bug moving polygon without circle on edit
+						if(obj.type != 'polygon'){
+							obj.selectable = icheckbox.checked;
+						}
+						else{
+							obj.selectable = false;
+						}
+						popupControllers.popup(obj);
+					}
+				}
+			}
+			__canvas__.renderAll();
+		},
+		'mouse:out': function(e){
+			objectShape = null;
+			try {
+				if (e.target.type != "circle"){
+					e.target.set('fill', Color.Transparent);
+					__canvas__.renderAll();	
+				}
+			}
+			catch(error) {
 
-				//bug moving polygon without circle on edit
-				if(obj.type != 'polygon'){
-					obj.selectable = icheckbox.checked;
-				}
-				else{
-					obj.selectable = false;
-				}
-				
-				popupControllers.popup(obj);
 			}
-		}
-		__canvas__.renderAll();
-	},
-	'mouse:out': function(e){
-		objectShape = null;
-		try {
-			if (e.target.type != "circle"){
-				e.target.set('fill', Color.Transparent);
-				__canvas__.renderAll();	
-			}
-		}
-		catch(error) {
-			
-		}
-	},
-	'object:selected': function(e){
-		if(e.target.type != "circle"){
+		},
+		'object:selected': function(e){
+			if(e.target.type != "circle"){
 			// var iitem = __canvas__.getObjects().indexOf(e.target);
 			objectShape = e.target;
 			popupControllers.popup(e.target);
@@ -342,5 +321,5 @@ const init_event = function(__canvas__, popupControllers){
 	//
 }
 
-export {init_event, labelHandle};
+export {init_event};
 
