@@ -5403,3 +5403,1912 @@ worker 4 lifetime reached, it was running for 301 second(s)
 Respawned uWSGI worker 4 (new pid: 25371)
 worker 1 lifetime reached, it was running for 301 second(s)
 Respawned uWSGI worker 1 (new pid: 25373)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 25555)
+...The work of process 25370 is done. Seeya!
+!!! uWSGI process 25370 got Segmentation Fault !!!
+*** backtrace of 25370 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 25370)
+Respawned uWSGI worker 2 (new pid: 25619)
+...The work of process 25371 is done. Seeya!
+!!! uWSGI process 25371 got Segmentation Fault !!!
+*** backtrace of 25371 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 25371)
+Respawned uWSGI worker 4 (new pid: 25643)
+...The work of process 25373 is done. Seeya!
+!!! uWSGI process 25373 got Segmentation Fault !!!
+*** backtrace of 25373 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 25373)
+Respawned uWSGI worker 1 (new pid: 25701)
+...The work of process 25555 is done. Seeya!
+!!! uWSGI process 25555 got Segmentation Fault !!!
+*** backtrace of 25555 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 25555)
+Respawned uWSGI worker 3 (new pid: 25740)
+Cannot resolve keyword 'is_badmeta' into field. Choices are: annotated_by_user, boxes_position, dataset, dataset_id, extfile, full_path, id, is_annotated, is_onworking, name, onviewing_user, viewed_by_user
+Internal Server Error: /gvlab-dat/workspace/ws-1/
+Traceback (most recent call last):
+  File "./usermaster/subviews/query/querymeta.py", line 10, in get_query_meta_general
+    onviewing_user=user.username)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/query.py", line 844, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/query.py", line 862, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1164, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1028, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1389, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+django.core.exceptions.FieldError: Cannot resolve keyword 'is_badmeta' into field. Choices are: annotated_by_user, boxes_position, dataset, dataset_id, extfile, full_path, id, is_annotated, is_onworking, name, onviewing_user, viewed_by_user
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/core/handlers/base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/rest_framework/generics.py", line 254, in get
+    return self.retrieve(request, *args, **kwargs)
+  File "./usermaster/subviews/maintaskview.py", line 27, in retrieve
+    queryset = self.get_queryset()
+  File "./usermaster/subviews/maintaskview.py", line 22, in get_queryset
+    meta_data = querymeta.get_query_meta_general(dataset_id, user)
+  File "./usermaster/subviews/query/querymeta.py", line 26, in get_query_meta_general
+    is_annotated=0)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/query.py", line 844, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/query.py", line 862, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1164, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1028, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1389, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+django.core.exceptions.FieldError: Cannot resolve keyword 'is_badmeta' into field. Choices are: annotated_by_user, boxes_position, dataset, dataset_id, extfile, full_path, id, is_annotated, is_onworking, name, onviewing_user, viewed_by_user
+...The work of process 25643 is done. Seeya!
+!!! uWSGI process 25643 got Segmentation Fault !!!
+*** backtrace of 25643 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 25643)
+Respawned uWSGI worker 4 (new pid: 25751)
+...The work of process 25701 is done. Seeya!
+!!! uWSGI process 25701 got Segmentation Fault !!!
+*** backtrace of 25701 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+...The work of process 25740 is done. Seeya!
+worker 1 killed successfully (pid: 25701)
+Respawned uWSGI worker 1 (new pid: 25758)
+...The work of process 25619 is done. Seeya!
+!!! uWSGI process 25740 got Segmentation Fault !!!
+*** backtrace of 25740 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+!!! uWSGI process 25619 got Segmentation Fault !!!
+*** backtrace of 25619 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 25619)
+Respawned uWSGI worker 2 (new pid: 25775)
+worker 3 killed successfully (pid: 25740)
+Respawned uWSGI worker 3 (new pid: 25776)
+...The work of process 25751 is done. Seeya!
+!!! uWSGI process 25751 got Segmentation Fault !!!
+*** backtrace of 25751 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 25751)
+Respawned uWSGI worker 4 (new pid: 25835)
+...The work of process 25775 is done. Seeya!
+!!! uWSGI process 25775 got Segmentation Fault !!!
+*** backtrace of 25775 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+...The work of process 25776 is done. Seeya!
+...The work of process 25835 is done. Seeya!
+!!! uWSGI process 25835 got Segmentation Fault !!!
+*** backtrace of 25835 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+!!! uWSGI process 25776 got Segmentation Fault !!!
+*** backtrace of 25776 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 25775)
+Respawned uWSGI worker 2 (new pid: 25849)
+worker 3 killed successfully (pid: 25776)
+Respawned uWSGI worker 3 (new pid: 25850)
+worker 4 killed successfully (pid: 25835)
+Respawned uWSGI worker 4 (new pid: 25851)
+...The work of process 25758 is done. Seeya!
+!!! uWSGI process 25758 got Segmentation Fault !!!
+*** backtrace of 25758 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 25758)
+Respawned uWSGI worker 1 (new pid: 25888)
+...The work of process 25851 is done. Seeya!
+!!! uWSGI process 25851 got Segmentation Fault !!!
+*** backtrace of 25851 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+...The work of process 25849 is done. Seeya!
+worker 4 killed successfully (pid: 25851)
+Respawned uWSGI worker 4 (new pid: 25902)
+...The work of process 25850 is done. Seeya!
+!!! uWSGI process 25850 got Segmentation Fault !!!
+*** backtrace of 25850 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+!!! uWSGI process 25849 got Segmentation Fault !!!
+*** backtrace of 25849 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 25849)
+Respawned uWSGI worker 2 (new pid: 25908)
+worker 3 killed successfully (pid: 25850)
+Respawned uWSGI worker 3 (new pid: 25909)
+...The work of process 25888 is done. Seeya!
+!!! uWSGI process 25888 got Segmentation Fault !!!
+*** backtrace of 25888 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 25888)
+Respawned uWSGI worker 1 (new pid: 25925)
+...The work of process 25908 is done. Seeya!
+!!! uWSGI process 25908 got Segmentation Fault !!!
+*** backtrace of 25908 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+...The work of process 25909 is done. Seeya!
+!!! uWSGI process 25909 got Segmentation Fault !!!
+*** backtrace of 25909 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+...The work of process 25902 is done. Seeya!
+worker 2 killed successfully (pid: 25908)
+Respawned uWSGI worker 2 (new pid: 25933)
+worker 3 killed successfully (pid: 25909)
+Respawned uWSGI worker 3 (new pid: 25934)
+!!! uWSGI process 25902 got Segmentation Fault !!!
+*** backtrace of 25902 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 25902)
+Respawned uWSGI worker 4 (new pid: 25939)
+...The work of process 25925 is done. Seeya!
+!!! uWSGI process 25925 got Segmentation Fault !!!
+*** backtrace of 25925 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eadd) [0x7f039632fadd]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyGC_Collect+0x53) [0x7f03962e54f3]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x5f) [0x7f03962f1ddf]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+...The work of process 25933 is done. Seeya!
+!!! uWSGI process 25933 got Segmentation Fault !!!
+*** backtrace of 25933 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+...The work of process 25939 is done. Seeya!
+worker 1 killed successfully (pid: 25925)
+Respawned uWSGI worker 1 (new pid: 25948)
+worker 2 killed successfully (pid: 25933)
+Respawned uWSGI worker 2 (new pid: 25949)
+!!! uWSGI process 25939 got Segmentation Fault !!!
+*** backtrace of 25939 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+...The work of process 25934 is done. Seeya!
+!!! uWSGI process 25934 got Segmentation Fault !!!
+*** backtrace of 25934 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 25934)
+Respawned uWSGI worker 3 (new pid: 25969)
+worker 4 killed successfully (pid: 25939)
+Respawned uWSGI worker 4 (new pid: 25970)
+...The work of process 25948 is done. Seeya!
+!!! uWSGI process 25948 got Segmentation Fault !!!
+*** backtrace of 25948 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 25948)
+Respawned uWSGI worker 1 (new pid: 26038)
+...The work of process 25949 is done. Seeya!
+!!! uWSGI process 25949 got Segmentation Fault !!!
+*** backtrace of 25949 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 25949)
+Respawned uWSGI worker 2 (new pid: 26040)
+...The work of process 25969 is done. Seeya!
+!!! uWSGI process 25969 got Segmentation Fault !!!
+*** backtrace of 25969 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+...The work of process 25970 is done. Seeya!
+!!! uWSGI process 25970 got Segmentation Fault !!!
+*** backtrace of 25970 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 25969)
+Respawned uWSGI worker 3 (new pid: 26077)
+worker 4 killed successfully (pid: 25970)
+Respawned uWSGI worker 4 (new pid: 26078)
+Cannot resolve keyword 'is_badmeta' into field. Choices are: annotated_by_user, boxes_position, dataset, dataset_id, extfile, full_path, id, is_annotated, is_onworking, name, onviewing_user, viewed_by_user
+Internal Server Error: /gvlab-dat/workspace/ws-1/
+Traceback (most recent call last):
+  File "./usermaster/subviews/query/querymeta.py", line 10, in get_query_meta_general
+    onviewing_user=user.username)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/query.py", line 844, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/query.py", line 862, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1164, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1028, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1389, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+django.core.exceptions.FieldError: Cannot resolve keyword 'is_badmeta' into field. Choices are: annotated_by_user, boxes_position, dataset, dataset_id, extfile, full_path, id, is_annotated, is_onworking, name, onviewing_user, viewed_by_user
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/core/handlers/base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/rest_framework/views.py", line 495, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/rest_framework/views.py", line 455, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/rest_framework/views.py", line 492, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/rest_framework/generics.py", line 254, in get
+    return self.retrieve(request, *args, **kwargs)
+  File "./usermaster/subviews/maintaskview.py", line 27, in retrieve
+    queryset = self.get_queryset()
+  File "./usermaster/subviews/maintaskview.py", line 22, in get_queryset
+    meta_data = querymeta.get_query_meta_general(dataset_id, user)
+  File "./usermaster/subviews/query/querymeta.py", line 26, in get_query_meta_general
+    is_annotated=0)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/query.py", line 844, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/query.py", line 862, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1164, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1028, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1389, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+django.core.exceptions.FieldError: Cannot resolve keyword 'is_badmeta' into field. Choices are: annotated_by_user, boxes_position, dataset, dataset_id, extfile, full_path, id, is_annotated, is_onworking, name, onviewing_user, viewed_by_user
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+!!! uWSGI process 26038 got Segmentation Fault !!!
+*** backtrace of 26038 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+[0xddea60]
+*** end of backtrace ***
+!!! uWSGI process 26040 got Segmentation Fault !!!
+*** backtrace of 26040 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f0395b344b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f039632fac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f03961b0fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f03963313d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f03962d5ca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f03962f1b30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f03962f1de4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f0395b38ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f0395b39045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(end_me+0x25) [0x46a5c5]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x143) [0x46dad3]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f0395b1f830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+DAMN ! worker 1 (pid: 26038) MISTERIOUSLY killed by signal 11 :( trying respawn ...
+Respawned uWSGI worker 1 (new pid: 26152)
+DAMN ! worker 2 (pid: 26040) MISTERIOUSLY killed by signal 11 :( trying respawn ...
+Respawned uWSGI worker 2 (new pid: 26153)
+Respawned uWSGI worker 3 (new pid: 26154)
+Respawned uWSGI worker 4 (new pid: 26155)
+SIGINT/SIGQUIT received...killing workers...
+SIGINT/SIGQUIT received...killing workers...
+SIGINT/SIGQUIT received...killing workers...
+gateway "uWSGI http 1" has been buried (pid: 18789)
+gateway "uWSGI http 1" has been buried (pid: 18789)
+SIGINT/SIGQUIT received...killing workers...
+gateway "uWSGI http 1" has been buried (pid: 18789)
+gateway "uWSGI http 1" has been buried (pid: 18789)
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+worker 3 buried after 1 seconds
+worker 4 buried after 1 seconds
+goodbye to uWSGI.
+VACUUM: unix socket /home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/run/uwsgi.sock removed.
+*** Starting uWSGI 2.0.18 (64bit) on [Wed Apr 10 16:16:34 2019] ***
+compiled with version: 5.4.0 20160609 on 03 April 2019 11:25:52
+os: Linux-4.15.0-47-generic #50~16.04.1-Ubuntu SMP Fri Mar 15 16:06:21 UTC 2019
+nodename: gvlab-pc
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 4
+current working directory: /home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/DAT
+detected binary path: /home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi
+chdir() to /home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/DAT
+your processes number limit is 63448
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: enabled
+uWSGI http bound on 8080 fd 7
+uwsgi socket 0 bound to UNIX address /home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/run/uwsgi.sock fd 10
+Python version: 3.5.2 (default, Nov 12 2018, 13:43:14)  [GCC 5.4.0 20160609]
+Set PythonHome to /home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x1863680
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+setting request body buffering size to 204800 bytes
+mapped 1388600 bytes (1356 KB) for 4 cores
+*** Operational MODE: preforking ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x1863680 pid: 26355 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 26355)
+spawned uWSGI worker 1 (pid: 26381, cores: 1)
+spawned uWSGI worker 2 (pid: 26382, cores: 1)
+spawned uWSGI worker 3 (pid: 26385, cores: 1)
+spawned uWSGI worker 4 (pid: 26386, cores: 1)
+spawned uWSGI http 1 (pid: 26387)
+...The work of process 26381 is done. Seeya!
+!!! uWSGI process 26381 got Segmentation Fault !!!
+worker 1 killed successfully (pid: 26381)
+Respawned uWSGI worker 1 (new pid: 26437)
+...The work of process 26382 is done. Seeya!
+!!! uWSGI process 26382 got Segmentation Fault !!!
+worker 2 killed successfully (pid: 26382)
+Respawned uWSGI worker 2 (new pid: 26501)
+...The work of process 26385 is done. Seeya!
+!!! uWSGI process 26385 got Segmentation Fault !!!
+worker 3 killed successfully (pid: 26385)
+Respawned uWSGI worker 3 (new pid: 26524)
+...The work of process 26386 is done. Seeya!
+!!! uWSGI process 26386 got Segmentation Fault !!!
+worker 4 killed successfully (pid: 26386)
+Respawned uWSGI worker 4 (new pid: 26566)
+...The work of process 26437 is done. Seeya!
+!!! uWSGI process 26437 got Segmentation Fault !!!
+*** backtrace of 26437 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 26437)
+Respawned uWSGI worker 1 (new pid: 26627)
+...The work of process 26501 is done. Seeya!
+!!! uWSGI process 26501 got Segmentation Fault !!!
+*** backtrace of 26501 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 26501)
+Respawned uWSGI worker 2 (new pid: 26649)
+...The work of process 26524 is done. Seeya!
+!!! uWSGI process 26524 got Segmentation Fault !!!
+*** backtrace of 26524 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 26524)
+Respawned uWSGI worker 3 (new pid: 26693)
+...The work of process 26566 is done. Seeya!
+!!! uWSGI process 26566 got Segmentation Fault !!!
+*** backtrace of 26566 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 26566)
+Respawned uWSGI worker 4 (new pid: 26754)
+...The work of process 26627 is done. Seeya!
+!!! uWSGI process 26627 got Segmentation Fault !!!
+*** backtrace of 26627 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 26627)
+Respawned uWSGI worker 1 (new pid: 26795)
+...The work of process 26649 is done. Seeya!
+!!! uWSGI process 26649 got Segmentation Fault !!!
+*** backtrace of 26649 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 26649)
+Respawned uWSGI worker 2 (new pid: 26818)
+...The work of process 26693 is done. Seeya!
+!!! uWSGI process 26693 got Segmentation Fault !!!
+*** backtrace of 26693 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 26693)
+Respawned uWSGI worker 3 (new pid: 26859)
+...The work of process 26754 is done. Seeya!
+!!! uWSGI process 26754 got Segmentation Fault !!!
+*** backtrace of 26754 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 26754)
+Respawned uWSGI worker 4 (new pid: 26902)
+...The work of process 26795 is done. Seeya!
+!!! uWSGI process 26795 got Segmentation Fault !!!
+*** backtrace of 26795 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 26795)
+Respawned uWSGI worker 1 (new pid: 26963)
+...The work of process 26818 is done. Seeya!
+!!! uWSGI process 26818 got Segmentation Fault !!!
+*** backtrace of 26818 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 26818)
+Respawned uWSGI worker 2 (new pid: 26987)
+...The work of process 26859 is done. Seeya!
+!!! uWSGI process 26859 got Segmentation Fault !!!
+*** backtrace of 26859 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 26859)
+Respawned uWSGI worker 3 (new pid: 27048)
+...The work of process 26963 is done. Seeya!
+!!! uWSGI process 26963 got Segmentation Fault !!!
+*** backtrace of 26963 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+...The work of process 26987 is done. Seeya!
+worker 1 killed successfully (pid: 26963)
+Respawned uWSGI worker 1 (new pid: 27060)
+!!! uWSGI process 26987 got Segmentation Fault !!!
+*** backtrace of 26987 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 26987)
+Respawned uWSGI worker 2 (new pid: 27062)
+worker 4 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27075)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27079)
+worker 2 lifetime reached, it was running for 301 second(s)
+!!! uWSGI process 26902 got Segmentation Fault !!!
+*** backtrace of 26902 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(end_me+0x25) [0x46a5c5]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x143) [0x46dad3]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+DAMN ! worker 4 (pid: 26902) MISTERIOUSLY killed by signal 11 :( trying respawn ...
+Respawned uWSGI worker 4 (new pid: 27097)
+Respawned uWSGI worker 2 (new pid: 27098)
+...The work of process 27075 is done. Seeya!
+!!! uWSGI process 27075 got Segmentation Fault !!!
+*** backtrace of 27075 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 27075)
+Respawned uWSGI worker 3 (new pid: 27161)
+...The work of process 27079 is done. Seeya!
+!!! uWSGI process 27079 got Segmentation Fault !!!
+*** backtrace of 27079 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 27079)
+Respawned uWSGI worker 1 (new pid: 27183)
+...The work of process 27097 is done. Seeya!
+!!! uWSGI process 27097 got Segmentation Fault !!!
+*** backtrace of 27097 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 27097)
+Respawned uWSGI worker 4 (new pid: 27248)
+...The work of process 27098 is done. Seeya!
+!!! uWSGI process 27098 got Segmentation Fault !!!
+*** backtrace of 27098 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 27098)
+Respawned uWSGI worker 2 (new pid: 27268)
+...The work of process 27161 is done. Seeya!
+!!! uWSGI process 27161 got Segmentation Fault !!!
+*** backtrace of 27161 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 27161)
+Respawned uWSGI worker 3 (new pid: 27331)
+...The work of process 27183 is done. Seeya!
+!!! uWSGI process 27183 got Segmentation Fault !!!
+*** backtrace of 27183 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 27183)
+Respawned uWSGI worker 1 (new pid: 27350)
+...The work of process 27248 is done. Seeya!
+!!! uWSGI process 27248 got Segmentation Fault !!!
+*** backtrace of 27248 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 27248)
+Respawned uWSGI worker 4 (new pid: 27419)
+...The work of process 27268 is done. Seeya!
+!!! uWSGI process 27268 got Segmentation Fault !!!
+*** backtrace of 27268 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 27268)
+Respawned uWSGI worker 2 (new pid: 27438)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27449)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27450)
+...The work of process 27419 is done. Seeya!
+!!! uWSGI process 27419 got Segmentation Fault !!!
+*** backtrace of 27419 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 27419)
+Respawned uWSGI worker 4 (new pid: 27518)
+...The work of process 27438 is done. Seeya!
+!!! uWSGI process 27438 got Segmentation Fault !!!
+*** backtrace of 27438 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 27438)
+Respawned uWSGI worker 2 (new pid: 27542)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27555)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27556)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27560)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27561)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27571)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27572)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27577)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27578)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27590)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27591)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27596)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27597)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27608)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27609)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27614)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27615)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27668)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27669)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27674)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27675)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27685)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27687)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27691)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27692)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27706)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27708)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27712)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27713)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27724)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27725)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27729)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27730)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27744)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27745)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27752)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27753)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27763)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27764)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27768)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27769)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27782)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27783)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27787)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27788)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27799)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27800)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27804)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27805)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27818)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27819)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27822)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27823)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27835)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27836)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27839)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27840)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 27855)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 27856)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 27859)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 27860)
+...The work of process 27855 is done. Seeya!
+!!! uWSGI process 27855 got Segmentation Fault !!!
+*** backtrace of 27855 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 27855)
+Respawned uWSGI worker 3 (new pid: 27925)
+...The work of process 27856 is done. Seeya!
+!!! uWSGI process 27856 got Segmentation Fault !!!
+*** backtrace of 27856 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 27856)
+Respawned uWSGI worker 1 (new pid: 27946)
+...The work of process 27859 is done. Seeya!
+!!! uWSGI process 27859 got Segmentation Fault !!!
+*** backtrace of 27859 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 27859)
+Respawned uWSGI worker 4 (new pid: 28008)
+...The work of process 27860 is done. Seeya!
+!!! uWSGI process 27860 got Segmentation Fault !!!
+*** backtrace of 27860 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 27860)
+Respawned uWSGI worker 2 (new pid: 28028)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 28067)
+worker 2 lifetime reached, it was running for 301 second(s)
+!!! uWSGI process 27946 got Segmentation Fault !!!
+*** backtrace of 27946 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(end_me+0x25) [0x46a5c5]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x143) [0x46dad3]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+!!! uWSGI process 27925 got Segmentation Fault !!!
+*** backtrace of 27925 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(end_me+0x25) [0x46a5c5]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x143) [0x46dad3]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+DAMN ! worker 3 (pid: 27925) MISTERIOUSLY killed by signal 11 :( trying respawn ...
+Respawned uWSGI worker 3 (new pid: 28086)
+DAMN ! worker 1 (pid: 27946) MISTERIOUSLY killed by signal 11 :( trying respawn ...
+Respawned uWSGI worker 1 (new pid: 28087)
+Respawned uWSGI worker 2 (new pid: 28088)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 28104)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 28105)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 28118)
+Respawned uWSGI worker 2 (new pid: 28119)
+Respawned uWSGI worker 4 (new pid: 28120)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 28121)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 28137)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 28138)
+Respawned uWSGI worker 4 (new pid: 28139)
+Respawned uWSGI worker 3 (new pid: 28140)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 28153)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 28154)
+Respawned uWSGI worker 4 (new pid: 28155)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 28175)
+Respawned uWSGI worker 1 (new pid: 28176)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 28177)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 28191)
+Respawned uWSGI worker 3 (new pid: 28192)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 28193)
+Respawned uWSGI worker 2 (new pid: 28194)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 28210)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 28212)
+Respawned uWSGI worker 1 (new pid: 28213)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 28227)
+Respawned uWSGI worker 4 (new pid: 28228)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 28229)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 28247)
+Respawned uWSGI worker 2 (new pid: 28248)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 28249)
+Respawned uWSGI worker 3 (new pid: 28250)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 28264)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 28265)
+Respawned uWSGI worker 4 (new pid: 28266)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 28284)
+Respawned uWSGI worker 1 (new pid: 28285)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 28286)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 28301)
+Respawned uWSGI worker 3 (new pid: 28302)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 28303)
+Respawned uWSGI worker 2 (new pid: 28304)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 28322)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 28323)
+Respawned uWSGI worker 1 (new pid: 28324)
