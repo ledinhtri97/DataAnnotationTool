@@ -21,6 +21,8 @@ class MetaDataModel(models.Model):
 
    is_onworking = models.BooleanField(default=False, verbose_name="File image is on busy or not")
 
+   is_badmeta = models.BooleanField(default=False, verbose_name="File image is bad or not")
+
    onviewing_user = models.CharField(max_length=1000, default='',blank=True, null=True ,verbose_name="User Viewing")
 
    annotated_by_user = models.ManyToManyField('auth.User', blank=True, related_name="annotated_by_user")
