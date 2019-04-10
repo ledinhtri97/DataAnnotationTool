@@ -6,12 +6,14 @@ def get_query_meta_general(dataset_id=None, user=None):
       dataset_id=dataset_id,
       is_onworking=1,
       is_annotated=0,
+      is_badmeta=0,
       onviewing_user=user.username)
     # print("try: ", query_meta_data.first())
     if(query_meta_data.count()==0):
       query_meta_data = MetaDataModel.objects.filter(
         dataset_id=dataset_id,
         is_onworking=0,
+        is_badmeta=0,
         is_annotated=0).exclude(viewed_by_user=user)
       # print("try-again: ", query_meta_data.first())
     
@@ -20,6 +22,7 @@ def get_query_meta_general(dataset_id=None, user=None):
     query_meta_data = MetaDataModel.objects.filter(
       dataset_id=dataset_id,
       is_onworking=0,
+      is_badmeta=0,
       is_annotated=0)
     # print("except: ", query_meta_data)
 

@@ -1,8 +1,7 @@
 import {fabric} from 'fabric';
 import {requestFaceAPI} from "./api/faceRequest";
 import {requestPersonAPI} from "./api/personRequest";
-import {requestNextMetaData} from "./controller/next";
-import {requestSaveAndNext} from  "./controller/saveNnext"
+import {rqnext, rqsavenext, rqbadnext} from  "./controller/request"
 import {initMaintask, outWorkSpace, renderBBS_RECT, renderBBS_POLY} from "./controller/renderInit"
 import {DrawRectangle} from "./drawer/rectangle"
 import {DrawPolygon} from "./drawer/polygon"
@@ -95,6 +94,19 @@ if (btnPredict){
 
 //=====================CONTROLER=======================//
 //
+
+const btnBad = document.getElementById("baddata");
+
+if(btnBad){
+	btnBad.addEventListener('click', function(){
+		listPredict.splice(0,listPredict.length);
+		btnPredict.disabled = false;	
+		document.getElementById("groupcontrol").style["display"] = "none";
+		rqbadnext(metaid.textContent, canvas);
+
+	});
+}
+
 const btnNext = document.getElementById("next");
 
 btnNext.addEventListener('click', function(){
@@ -102,7 +114,7 @@ btnNext.addEventListener('click', function(){
 	btnPredict.disabled = false;
 			
 	document.getElementById("groupcontrol").style["display"] = "none";
-	requestNextMetaData(metaid.textContent, canvas);
+	rqnext(metaid.textContent, canvas);
 });
 
 const btnSaveandNext = document.getElementById("savennext");
@@ -112,7 +124,7 @@ btnSaveandNext.addEventListener('click', function(){
 	btnPredict.disabled = false;
 	
 	document.getElementById("groupcontrol").style["display"] = "none";
-	requestSaveAndNext(metaid.textContent, canvas);
+	rqsavenext(metaid.textContent, canvas);
 })
 
 //=======================DRAWER=======================//
