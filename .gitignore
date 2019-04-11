@@ -19,10 +19,12 @@ downloads/
 htmlcov/
 node_modules/
 cypress/
-*/log/
+log/
 run/
 storage_data/
 upload_data/
+_DATASET_/
+.ipynb_checkpoints/
 
 *.sqlite3
 *.avi
