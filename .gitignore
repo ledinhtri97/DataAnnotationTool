@@ -19,7 +19,7 @@ downloads/
 htmlcov/
 node_modules/
 cypress/
-log/
+*/log/
 run/
 storage_data/
 upload_data/

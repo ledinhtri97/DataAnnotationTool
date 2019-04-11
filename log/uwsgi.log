@@ -7312,3 +7312,2581 @@ worker 1 lifetime reached, it was running for 301 second(s)
 worker 2 lifetime reached, it was running for 301 second(s)
 Respawned uWSGI worker 3 (new pid: 28323)
 Respawned uWSGI worker 1 (new pid: 28324)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 28445)
+Respawned uWSGI worker 4 (new pid: 28446)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 28449)
+...The work of process 28445 is done. Seeya!
+!!! uWSGI process 28445 got Segmentation Fault !!!
+*** backtrace of 28445 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+Respawned uWSGI worker 1 (new pid: 28586)
+worker 2 killed successfully (pid: 28445)
+Respawned uWSGI worker 2 (new pid: 28587)
+...The work of process 28446 is done. Seeya!
+!!! uWSGI process 28446 got Segmentation Fault !!!
+*** backtrace of 28446 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 28446)
+Respawned uWSGI worker 4 (new pid: 28637)
+...The work of process 28449 is done. Seeya!
+!!! uWSGI process 28449 got Segmentation Fault !!!
+*** backtrace of 28449 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 28449)
+Respawned uWSGI worker 3 (new pid: 28657)
+...The work of process 28637 is done. Seeya!
+!!! uWSGI process 28637 got Segmentation Fault !!!
+*** backtrace of 28637 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+...The work of process 28657 is done. Seeya!
+worker 4 killed successfully (pid: 28637)
+Respawned uWSGI worker 4 (new pid: 28695)
+!!! uWSGI process 28657 got Segmentation Fault !!!
+*** backtrace of 28657 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 28657)
+Respawned uWSGI worker 3 (new pid: 28697)
+...The work of process 28586 is done. Seeya!
+...The work of process 28587 is done. Seeya!
+!!! uWSGI process 28586 got Segmentation Fault !!!
+*** backtrace of 28586 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+!!! uWSGI process 28587 got Segmentation Fault !!!
+*** backtrace of 28587 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 28586)
+Respawned uWSGI worker 1 (new pid: 28718)
+worker 2 killed successfully (pid: 28587)
+Respawned uWSGI worker 2 (new pid: 28719)
+...The work of process 28695 is done. Seeya!
+!!! uWSGI process 28695 got Segmentation Fault !!!
+*** backtrace of 28695 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 28695)
+Respawned uWSGI worker 4 (new pid: 28787)
+...The work of process 28697 is done. Seeya!
+!!! uWSGI process 28697 got Segmentation Fault !!!
+*** backtrace of 28697 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 28697)
+Respawned uWSGI worker 3 (new pid: 28807)
+...The work of process 28718 is done. Seeya!
+!!! uWSGI process 28718 got Segmentation Fault !!!
+*** backtrace of 28718 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 28718)
+Respawned uWSGI worker 1 (new pid: 28871)
+...The work of process 28719 is done. Seeya!
+!!! uWSGI process 28719 got Segmentation Fault !!!
+*** backtrace of 28719 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 28719)
+Respawned uWSGI worker 2 (new pid: 28893)
+...The work of process 28787 is done. Seeya!
+!!! uWSGI process 28787 got Segmentation Fault !!!
+*** backtrace of 28787 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 28787)
+Respawned uWSGI worker 4 (new pid: 28956)
+...The work of process 28807 is done. Seeya!
+!!! uWSGI process 28807 got Segmentation Fault !!!
+*** backtrace of 28807 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 28807)
+Respawned uWSGI worker 3 (new pid: 28976)
+...The work of process 28871 is done. Seeya!
+!!! uWSGI process 28871 got Segmentation Fault !!!
+*** backtrace of 28871 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 28871)
+Respawned uWSGI worker 1 (new pid: 29041)
+...The work of process 28893 is done. Seeya!
+!!! uWSGI process 28893 got Segmentation Fault !!!
+*** backtrace of 28893 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 28893)
+Respawned uWSGI worker 2 (new pid: 29062)
+...The work of process 28956 is done. Seeya!
+!!! uWSGI process 28956 got Segmentation Fault !!!
+*** backtrace of 28956 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 28956)
+Respawned uWSGI worker 4 (new pid: 29123)
+...The work of process 28976 is done. Seeya!
+!!! uWSGI process 28976 got Segmentation Fault !!!
+*** backtrace of 28976 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 28976)
+Respawned uWSGI worker 3 (new pid: 29142)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29157)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29158)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29164)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29165)
+...The work of process 29157 is done. Seeya!
+!!! uWSGI process 29157 got Segmentation Fault !!!
+*** backtrace of 29157 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 29157)
+Respawned uWSGI worker 1 (new pid: 29299)
+...The work of process 29158 is done. Seeya!
+!!! uWSGI process 29158 got Segmentation Fault !!!
+*** backtrace of 29158 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 29158)
+Respawned uWSGI worker 2 (new pid: 29321)
+...The work of process 29164 is done. Seeya!
+!!! uWSGI process 29164 got Segmentation Fault !!!
+*** backtrace of 29164 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 29164)
+Respawned uWSGI worker 4 (new pid: 29361)
+...The work of process 29165 is done. Seeya!
+!!! uWSGI process 29165 got Segmentation Fault !!!
+*** backtrace of 29165 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 29165)
+Respawned uWSGI worker 3 (new pid: 29419)
+...The work of process 29321 is done. Seeya!
+!!! uWSGI process 29321 got Segmentation Fault !!!
+*** backtrace of 29321 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 29321)
+Respawned uWSGI worker 2 (new pid: 29430)
+...The work of process 29361 is done. Seeya!
+...The work of process 29299 is done. Seeya!
+!!! uWSGI process 29361 got Segmentation Fault !!!
+*** backtrace of 29361 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+!!! uWSGI process 29299 got Segmentation Fault !!!
+*** backtrace of 29299 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 29299)
+Respawned uWSGI worker 1 (new pid: 29488)
+worker 4 killed successfully (pid: 29361)
+Respawned uWSGI worker 4 (new pid: 29489)
+...The work of process 29419 is done. Seeya!
+!!! uWSGI process 29419 got Segmentation Fault !!!
+*** backtrace of 29419 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 29419)
+Respawned uWSGI worker 3 (new pid: 29525)
+...The work of process 29430 is done. Seeya!
+!!! uWSGI process 29430 got Segmentation Fault !!!
+*** backtrace of 29430 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 29430)
+Respawned uWSGI worker 2 (new pid: 29548)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29584)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29585)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29586)
+Respawned uWSGI worker 2 (new pid: 29587)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29604)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29605)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29606)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29619)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29620)
+Respawned uWSGI worker 3 (new pid: 29621)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29622)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29638)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29639)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29640)
+Respawned uWSGI worker 4 (new pid: 29641)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29655)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29656)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29657)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29673)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29674)
+Respawned uWSGI worker 2 (new pid: 29675)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29676)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29690)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29691)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29692)
+Respawned uWSGI worker 3 (new pid: 29693)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29709)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29710)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29711)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29729)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29730)
+Respawned uWSGI worker 4 (new pid: 29731)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29732)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29749)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29750)
+Respawned uWSGI worker 4 (new pid: 29751)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29752)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29768)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29769)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29771)
+Respawned uWSGI worker 2 (new pid: 29772)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29832)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29833)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29834)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29848)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29849)
+Respawned uWSGI worker 3 (new pid: 29850)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29851)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29867)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29868)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29869)
+Respawned uWSGI worker 4 (new pid: 29870)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29884)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29885)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29886)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29901)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29902)
+Respawned uWSGI worker 2 (new pid: 29903)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29904)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29918)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29919)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29920)
+Respawned uWSGI worker 3 (new pid: 29921)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29938)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 29939)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29940)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 29954)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 29955)
+Respawned uWSGI worker 4 (new pid: 29956)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 29957)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30065)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30066)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30067)
+Respawned uWSGI worker 2 (new pid: 30068)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30243)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30244)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30245)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30304)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30305)
+Respawned uWSGI worker 3 (new pid: 30306)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30307)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30409)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30410)
+Respawned uWSGI worker 3 (new pid: 30411)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30412)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30429)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30430)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30431)
+Respawned uWSGI worker 4 (new pid: 30432)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30446)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30447)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30448)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30505)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30506)
+Respawned uWSGI worker 2 (new pid: 30507)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30508)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30520)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30521)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30522)
+Respawned uWSGI worker 3 (new pid: 30523)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30593)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30594)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30596)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30609)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30610)
+Respawned uWSGI worker 4 (new pid: 30611)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30613)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30628)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30629)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30631)
+Respawned uWSGI worker 2 (new pid: 30632)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30693)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30695)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30696)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30712)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30714)
+Respawned uWSGI worker 3 (new pid: 30715)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30716)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30730)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30731)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30732)
+Respawned uWSGI worker 4 (new pid: 30733)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30881)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30882)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30883)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30900)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30901)
+Respawned uWSGI worker 2 (new pid: 30902)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 30903)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30920)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30921)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 30922)
+Respawned uWSGI worker 3 (new pid: 30923)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 30985)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 30986)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 31010)
+Respawned uWSGI worker 3 (new pid: 31011)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 31135)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 31136)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 31137)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 31241)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 31242)
+Respawned uWSGI worker 4 (new pid: 31243)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 31244)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 31392)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 31393)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 31394)
+Respawned uWSGI worker 3 (new pid: 31395)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 31450)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 31451)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 31452)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 31470)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 31471)
+Respawned uWSGI worker 2 (new pid: 31472)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 31473)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 31729)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 31730)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 31731)
+Respawned uWSGI worker 4 (new pid: 31732)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 31926)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 31927)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 31928)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 31961)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 31962)
+Respawned uWSGI worker 3 (new pid: 31963)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 31964)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32022)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32023)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32024)
+Respawned uWSGI worker 2 (new pid: 32025)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32042)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32043)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32044)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32061)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32062)
+Respawned uWSGI worker 4 (new pid: 32063)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32064)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32079)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32080)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32081)
+Respawned uWSGI worker 3 (new pid: 32082)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32099)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32100)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32101)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32115)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32116)
+Respawned uWSGI worker 2 (new pid: 32117)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32118)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32135)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32136)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32137)
+Respawned uWSGI worker 4 (new pid: 32138)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32152)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32153)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32154)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32171)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32172)
+Respawned uWSGI worker 3 (new pid: 32173)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32174)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32191)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32192)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32193)
+Respawned uWSGI worker 2 (new pid: 32194)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32211)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32212)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32213)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32227)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32228)
+Respawned uWSGI worker 4 (new pid: 32229)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32230)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32246)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32247)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32248)
+Respawned uWSGI worker 3 (new pid: 32249)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32267)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32268)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32269)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32286)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32287)
+Respawned uWSGI worker 2 (new pid: 32288)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32289)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32302)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32304)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32305)
+Respawned uWSGI worker 4 (new pid: 32306)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32321)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32322)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32323)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32337)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32338)
+Respawned uWSGI worker 3 (new pid: 32339)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32341)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32357)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32358)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32360)
+Respawned uWSGI worker 2 (new pid: 32361)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32404)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32405)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32407)
+Respawned uWSGI worker 2 (new pid: 32408)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32423)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32425)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32426)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32439)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32441)
+Respawned uWSGI worker 4 (new pid: 32442)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32443)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32470)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32471)
+Respawned uWSGI worker 4 (new pid: 32472)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32473)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32486)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32487)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32488)
+Respawned uWSGI worker 3 (new pid: 32489)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32504)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32505)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32506)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32533)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32534)
+Respawned uWSGI worker 2 (new pid: 32535)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32536)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32553)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32554)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32555)
+Respawned uWSGI worker 4 (new pid: 32556)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32581)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32582)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32583)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32601)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32602)
+Respawned uWSGI worker 3 (new pid: 32603)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32604)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32618)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32619)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32620)
+Respawned uWSGI worker 2 (new pid: 32621)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32649)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32650)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32651)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32665)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32666)
+Respawned uWSGI worker 4 (new pid: 32667)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32668)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32687)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32688)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32689)
+Respawned uWSGI worker 3 (new pid: 32690)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32713)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32714)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32715)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32732)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32733)
+Respawned uWSGI worker 2 (new pid: 32734)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 32735)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32760)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 32761)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 32762)
+Respawned uWSGI worker 4 (new pid: 32763)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 312)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 313)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 314)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 332)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 333)
+Respawned uWSGI worker 3 (new pid: 334)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 335)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 362)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 363)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 364)
+Respawned uWSGI worker 2 (new pid: 365)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 379)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 380)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 381)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 410)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 411)
+Respawned uWSGI worker 4 (new pid: 412)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 413)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 426)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 427)
+Respawned uWSGI worker 4 (new pid: 428)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 429)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 446)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 447)
+Respawned uWSGI worker 4 (new pid: 448)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 449)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 473)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 474)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 475)
+Respawned uWSGI worker 3 (new pid: 476)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 494)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 495)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 496)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 510)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 511)
+Respawned uWSGI worker 2 (new pid: 512)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 513)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 539)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 540)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 541)
+Respawned uWSGI worker 4 (new pid: 542)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 556)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 557)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 558)
+Respawned uWSGI worker 4 (new pid: 559)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 586)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 587)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 588)
+Respawned uWSGI worker 4 (new pid: 589)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 605)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 606)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 607)
+Respawned uWSGI worker 4 (new pid: 608)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 625)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 626)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 627)
+Respawned uWSGI worker 4 (new pid: 628)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 652)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 653)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 654)
+Respawned uWSGI worker 4 (new pid: 655)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 671)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 672)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 674)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 687)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 688)
+Respawned uWSGI worker 3 (new pid: 689)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 691)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 718)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 719)
+Respawned uWSGI worker 3 (new pid: 720)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 722)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 734)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 736)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 737)
+Respawned uWSGI worker 2 (new pid: 738)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 764)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 765)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 766)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 778)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 779)
+Respawned uWSGI worker 4 (new pid: 780)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 781)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 797)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 798)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 799)
+Respawned uWSGI worker 2 (new pid: 800)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 824)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 825)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 826)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 846)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 847)
+Respawned uWSGI worker 3 (new pid: 848)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 849)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 873)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 874)
+Respawned uWSGI worker 3 (new pid: 875)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 876)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 893)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 894)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 895)
+Respawned uWSGI worker 4 (new pid: 896)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 909)
+Respawned uWSGI worker 2 (new pid: 910)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 911)
+Respawned uWSGI worker 4 (new pid: 912)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 939)
+Respawned uWSGI worker 2 (new pid: 940)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 941)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 954)
+Respawned uWSGI worker 1 (new pid: 955)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 956)
+Respawned uWSGI worker 3 (new pid: 957)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 974)
+Respawned uWSGI worker 1 (new pid: 975)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 976)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 999)
+Respawned uWSGI worker 4 (new pid: 1000)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1001)
+Respawned uWSGI worker 2 (new pid: 1002)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1019)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 1020)
+Respawned uWSGI worker 1 (new pid: 1021)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1046)
+Respawned uWSGI worker 3 (new pid: 1047)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1048)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 1065)
+Respawned uWSGI worker 3 (new pid: 1066)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1068)
+Respawned uWSGI worker 1 (new pid: 1069)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 1083)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1084)
+Respawned uWSGI worker 2 (new pid: 1085)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1115)
+Respawned uWSGI worker 4 (new pid: 1117)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1118)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1133)
+Respawned uWSGI worker 1 (new pid: 1134)
+Respawned uWSGI worker 4 (new pid: 1135)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1136)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1153)
+Respawned uWSGI worker 1 (new pid: 1154)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 1165)
+Respawned uWSGI worker 3 (new pid: 1166)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1182)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1183)
+Respawned uWSGI worker 4 (new pid: 1184)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1201)
+Respawned uWSGI worker 2 (new pid: 1202)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1203)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 1231)
+Respawned uWSGI worker 2 (new pid: 1232)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1233)
+Respawned uWSGI worker 1 (new pid: 1234)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 1251)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1252)
+Respawned uWSGI worker 3 (new pid: 1253)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1269)
+Respawned uWSGI worker 4 (new pid: 1271)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1272)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1300)
+Respawned uWSGI worker 1 (new pid: 1301)
+Respawned uWSGI worker 4 (new pid: 1302)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1304)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1319)
+Respawned uWSGI worker 4 (new pid: 1320)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1321)
+Respawned uWSGI worker 2 (new pid: 1322)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1350)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 1351)
+Respawned uWSGI worker 1 (new pid: 1352)
+Respawned uWSGI worker 2 (new pid: 1353)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1366)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1367)
+Respawned uWSGI worker 2 (new pid: 1368)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 1387)
+Respawned uWSGI worker 3 (new pid: 1388)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1389)
+Respawned uWSGI worker 2 (new pid: 1390)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 1415)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1416)
+Respawned uWSGI worker 1 (new pid: 1417)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1436)
+Respawned uWSGI worker 4 (new pid: 1437)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1439)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1451)
+Respawned uWSGI worker 2 (new pid: 1452)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 1454)
+Respawned uWSGI worker 3 (new pid: 1455)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1483)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1485)
+Respawned uWSGI worker 4 (new pid: 1486)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1561)
+Respawned uWSGI worker 1 (new pid: 1562)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1610)
+Respawned uWSGI worker 4 (new pid: 1611)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1638)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1639)
+Respawned uWSGI worker 2 (new pid: 1640)
+Respawned uWSGI worker 4 (new pid: 1641)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1655)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1656)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1676)
+Respawned uWSGI worker 4 (new pid: 1677)
+Respawned uWSGI worker 3 (new pid: 1678)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1679)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 1704)
+Respawned uWSGI worker 4 (new pid: 1705)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1706)
+Respawned uWSGI worker 1 (new pid: 1707)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 302 second(s)
+Respawned uWSGI worker 2 (new pid: 1723)
+Respawned uWSGI worker 4 (new pid: 1724)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 1725)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 2445)
+Respawned uWSGI worker 2 (new pid: 2446)
+Respawned uWSGI worker 4 (new pid: 2447)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 2448)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 2706)
+Respawned uWSGI worker 4 (new pid: 2707)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 2708)
+Respawned uWSGI worker 3 (new pid: 2709)
+...The work of process 2706 is done. Seeya!
+!!! uWSGI process 2706 got Segmentation Fault !!!
+*** backtrace of 2706 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 2706)
+Respawned uWSGI worker 1 (new pid: 2730)
+...The work of process 2707 is done. Seeya!
+!!! uWSGI process 2707 got Segmentation Fault !!!
+*** backtrace of 2707 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 2707)
+Respawned uWSGI worker 4 (new pid: 2738)
+Not Found: /favicon.ico
+...The work of process 2709 is done. Seeya!
+...The work of process 2708 is done. Seeya!
+!!! uWSGI process 2709 got Segmentation Fault !!!
+*** backtrace of 2709 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+!!! uWSGI process 2708 got Segmentation Fault !!!
+*** backtrace of 2708 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 2708)
+Respawned uWSGI worker 2 (new pid: 2749)
+worker 3 killed successfully (pid: 2709)
+Respawned uWSGI worker 3 (new pid: 2750)
+...The work of process 2738 is done. Seeya!
+...The work of process 2749 is done. Seeya!
+!!! uWSGI process 2738 got Segmentation Fault !!!
+*** backtrace of 2738 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+!!! uWSGI process 2749 got Segmentation Fault !!!
+*** backtrace of 2749 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 2738)
+Respawned uWSGI worker 4 (new pid: 2775)
+worker 2 killed successfully (pid: 2749)
+Respawned uWSGI worker 2 (new pid: 2776)
+...The work of process 2750 is done. Seeya!
+!!! uWSGI process 2750 got Segmentation Fault !!!
+*** backtrace of 2750 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+...The work of process 2730 is done. Seeya!
+!!! uWSGI process 2730 got Segmentation Fault !!!
+*** backtrace of 2730 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 2730)
+Respawned uWSGI worker 1 (new pid: 2783)
+worker 3 killed successfully (pid: 2750)
+Respawned uWSGI worker 3 (new pid: 2784)
+...The work of process 2775 is done. Seeya!
+!!! uWSGI process 2775 got Segmentation Fault !!!
+*** backtrace of 2775 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 2775)
+Respawned uWSGI worker 4 (new pid: 2799)
+...The work of process 2776 is done. Seeya!
+!!! uWSGI process 2776 got Segmentation Fault !!!
+*** backtrace of 2776 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 2 killed successfully (pid: 2776)
+Respawned uWSGI worker 2 (new pid: 2803)
+...The work of process 2783 is done. Seeya!
+!!! uWSGI process 2783 got Segmentation Fault !!!
+*** backtrace of 2783 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 1 killed successfully (pid: 2783)
+Respawned uWSGI worker 1 (new pid: 2814)
+...The work of process 2784 is done. Seeya!
+!!! uWSGI process 2784 got Segmentation Fault !!!
+*** backtrace of 2784 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 3 killed successfully (pid: 2784)
+Respawned uWSGI worker 3 (new pid: 2819)
+...The work of process 2799 is done. Seeya!
+!!! uWSGI process 2799 got Segmentation Fault !!!
+*** backtrace of 2799 ***
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_backtrace+0x2c) [0x46d50c]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_segfault+0x21) [0x46d8d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f266c9cd4b0]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x22eac4) [0x7f266d1c8ac4]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0xaffb8) [0x7f266d049fb8]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(+0x2303d7) [0x7f266d1ca3d7]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(_PyGC_CollectNoFail+0x31) [0x7f266d16eca1]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(PyImport_Cleanup+0x360) [0x7f266d18ab30]
+/usr/lib/x86_64-linux-gnu/libpython3.5m.so.1.0(Py_Finalize+0x64) [0x7f266d18ade4]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_plugins_atexit+0x71) [0x46a571]
+/lib/x86_64-linux-gnu/libc.so.6(+0x39ff8) [0x7f266c9d1ff8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x3a045) [0x7f266c9d2045]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x422b5f]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf26]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x46cf58]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_close_request+0x569) [0x423859]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop_run+0xdd) [0x4693fd]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(simple_loop+0xe) [0x4691de]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_ignition+0x22a) [0x46dbba]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_worker_run+0x27d) [0x4723ad]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(uwsgi_init_worker_mount_apps+0) [0x472990]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi() [0x41f54e]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf0) [0x7f266c9b8830]
+/home/ledinhtri/ldt_dat_thesis/DataAnnotationTool/env/bin/uwsgi(_start+0x29) [0x41f579]
+*** end of backtrace ***
+worker 4 killed successfully (pid: 2799)
+Respawned uWSGI worker 4 (new pid: 2827)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 2852)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 2855)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 2856)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 2857)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 2906)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 2908)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 2909)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 2910)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3245)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3247)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3248)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3249)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3262)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3264)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3265)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3266)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3280)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3282)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3283)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3284)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3308)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3309)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3310)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3311)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3327)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3328)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3329)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3330)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3343)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3344)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3345)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3346)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3371)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3372)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3373)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3374)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3388)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3389)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3390)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3391)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3421)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3422)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3423)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3424)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3437)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3438)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3439)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3440)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3458)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3459)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3460)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3461)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3497)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3498)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3499)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3508)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3534)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3535)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3537)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3538)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3568)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3569)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3570)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3574)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3588)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3589)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3590)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3591)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3606)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3610)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3611)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3612)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3646)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3647)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3648)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3649)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3663)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3667)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3668)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3669)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3684)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3685)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3686)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3687)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3715)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3719)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3720)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3721)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3748)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3750)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3751)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3752)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3786)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3790)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3791)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3792)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3806)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3807)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3808)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3809)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3837)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3838)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3839)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3840)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3864)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3865)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3866)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3868)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3892)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3893)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3894)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3896)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3920)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3921)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3923)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3924)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3944)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3947)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3948)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3949)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 3962)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3964)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 3965)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 3966)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4001)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4004)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4005)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4006)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4018)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4020)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4021)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4022)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4037)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4039)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4040)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4041)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4069)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4071)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4072)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4073)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4088)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4090)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4091)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4092)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4115)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4117)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4118)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4119)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4134)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4136)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4137)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4138)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4151)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4153)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4154)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4155)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4212)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4213)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4214)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4215)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4228)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4229)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4230)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4231)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4257)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4258)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4259)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4260)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4294)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4295)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4296)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4297)
+worker 2 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 2 (new pid: 4612)
+worker 1 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4613)
+worker 3 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 3 (new pid: 4614)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 4 (new pid: 4615)
