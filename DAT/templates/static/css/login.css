@@ -8,14 +8,14 @@
 .c-cont-form {
    width: 350px;
    padding: 80px 60px;
-   background: #18141D;
-   box-shadow: 0 30px 45px rgba(0, 0, 0, 0.35),
-       0 25px 27px rgba(0, 0, 0, 0.22);
+   background: #f7f4f1;
+   box-shadow: 0 37px 47px rgba(0, 0, 0, 0.05),
+       0 17px 17px rgba(0, 0, 0, 0.03);
 }
 
 /* Set a style for all buttons */
 .c-login-form button {
-   background-color: #4CAF50;
+   background-color: #156092;
    color: white;
    padding: 14px 20px;
    margin: 8px 0;
