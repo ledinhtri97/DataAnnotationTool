@@ -126,8 +126,8 @@ const init_event = function(__canvas__, popupControllers){
 				if (obj.type != "circle"){
 					obj.set('fill', Color.Opacity_GREEN);
 					var iitem = __canvas__.getObjects().indexOf(obj);
-					if (iitem >= 0) {
-						var current_element = document.getElementById("itembb_"+iitem);
+					var current_element = document.getElementById("itembb_"+iitem);
+					if (current_element) {
 						var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
 						//bug moving polygon without circle on edit
 						if(obj.type != 'polygon'){

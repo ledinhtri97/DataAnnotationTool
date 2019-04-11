@@ -8,7 +8,7 @@ const MAX = 999999;
 
 const configureCircle = function(__x__, __y__, __name__){
 	var circle = new fabric.Circle({
-		radius: 7,
+		radius: 4,
 		fill: Color.YELLOW,
 		left: __x__,
 		top: __y__,
@@ -211,12 +211,16 @@ class DrawPolygon{
 
 					drawer.canvas.remove(drawer.rectangle);
 
-					var rect = configureRectangle(__left__, __top__, __width__, __height__, __name__) ;
-					drawer.canvas.add(rect);
+					if(__width__ > 15 && __height__ > 10){
+						var rect = configureRectangle(__left__, __top__, __width__, __height__, __name__) ;
+						drawer.canvas.add(rect);
+						createItemToBoundingBoxes(drawer.canvas, namelabel);
+					}
 				}
 				else {
 					var polygon = configurePoly(points, namelabel)
 					drawer.canvas.add(polygon);	
+					createItemToBoundingBoxes(drawer.canvas, namelabel);
 				}
 				
 				drawer.activeLine = null;
@@ -226,7 +230,7 @@ class DrawPolygon{
 				
 				drawer.canvas.renderAll();
 				
-				createItemToBoundingBoxes(drawer.canvas, namelabel);
+				
 
 				drawer.startDraw(namelabel);
 			}
