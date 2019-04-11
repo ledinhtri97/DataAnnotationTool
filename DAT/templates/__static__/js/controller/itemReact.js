@@ -62,13 +62,30 @@ const createItemToBoundingBoxes = function (canvas, namelabel, __iitem__=-1){
 		}
 		else{
 			if (bbs_available.childElementCount){
-				for (var i = __iitem__-1; i >=0 ; i--){
-					var beforeChild = document.getElementById("itembb_"+(i));
-					if (beforeChild && beforeChild.parentElement.id!="bbs_hidden"){
-						bbs_available.insertBefore(new_element, beforeChild.nextSibling);
-						break;
-					}	
-				}			
+
+				var mindis = 999999;
+				var __id__ = '';
+
+				Array.from(bbs_available.children).forEach(function(elem) {
+					var id = elem.id.split('_')[1];
+
+					var tem = Math.abs(id-__iitem__);
+					if(tem< mindis){
+						__id__ = id;
+						mindis = tem;
+					}
+				});
+
+				var __elem__ = document.getElementById("itembb_"+__id__);
+
+				if(__id__ < __iitem__){
+					bbs_available.insertBefore(new_element, __elem__.nextSibling);	
+				}
+				else{
+					bbs_available.insertBefore(new_element, __elem__);		
+				}
+
+				
 			}
 			else{
 				bbs_available.appendChild(new_element);
@@ -112,7 +129,7 @@ const AllCheckBoxHidden = function(canvas, value){
 		wrapper.find(
 			'input[type="checkbox"]'
 			).at(0).simulate('change',{ target: { checked: icheckbox.checked } });
-		
+
 	});
 }
 
