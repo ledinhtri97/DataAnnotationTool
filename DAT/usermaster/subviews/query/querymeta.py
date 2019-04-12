@@ -31,8 +31,9 @@ def get_query_meta_general(dataset_id=None, user=None):
   #   meta_data = query_meta_data.exclude(viewed_by_user=user).first()
   # except AttributeError:
   
-  meta_data = query_meta_data.first()  
-  handle_metadata_before_release(meta_data, user)
+  meta_data = query_meta_data.first()
+  if(meta_data):
+    handle_metadata_before_release(meta_data, user)
   return meta_data
 
 def handle_metadata_before_release(meta_data, user):

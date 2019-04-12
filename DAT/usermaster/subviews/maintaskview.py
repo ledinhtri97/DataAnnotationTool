@@ -25,11 +25,13 @@ class MainTaskView(generics.RetrieveUpdateAPIView):
 
   def retrieve(self, request, *args, **kwargs):
     queryset = self.get_queryset()
-    serializer = MainTaskMetaDataSerializer(queryset)
-    newdict = {'labels': [
+    newdict = {}
+    if (queryset):
+      serializer = MainTaskMetaDataSerializer(queryset)
+      newdict = {'labels': [
         str(lb) for lb in 
           DataSetModel.objects.filter(id=serializer.data['dataset']).first().labels.all()
       ]}
-    newdict.update(serializer.data)
-    
+      newdict.update(serializer.data)
+      
     return Response(data=newdict)

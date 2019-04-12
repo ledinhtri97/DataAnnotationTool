@@ -15,3 +15,4 @@ gooutmain_2.addEventListener('click', function(){
 		window.location.href = gooutmain_2.formAction;
 	}
 });
+

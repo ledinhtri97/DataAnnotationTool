@@ -43,13 +43,6 @@ class WorkspaceView(generics.RetrieveAPIView):
         }
       }
     """
-    #data = []
-    # for wp in serializer.data:
-    #   info = {}
-    #   ds = DataSetModel.objects.filter(id=wp['dataset']).first()
-    #   info['namedata'] = ds.name
-
-    # print({'data': data})
+    
     return Response(data={'data': data})
-    # return JsonResponse(serializer.data, safe=False)
 

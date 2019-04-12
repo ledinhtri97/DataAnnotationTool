@@ -6,6 +6,7 @@ import json
 from .maintaskview import MainTaskView
 from usermaster.serializers import MainTaskMetaDataSerializer
 from .query import querymeta
+from django.core import serializers
 
 def index(request, metaid):
 
@@ -29,8 +30,8 @@ def index(request, metaid):
   ])
   
   queryset = querymeta.get_query_meta_general(dataset_id, user)
-  serializer = MainTaskMetaDataSerializer(queryset)
-
   
-  return JsonResponse(serializer.data)
+  datareturn = MainTaskMetaDataSerializer(queryset).data if(queryset) else {}
+
+  return JsonResponse(datareturn)
   # return JsonResponse({})

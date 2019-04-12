@@ -19,11 +19,18 @@
 		<div class="wsitemname">
 			<div class="item">
 				<p>{{wp.nameworkspace}}</p>
-				<button type="" onclick="window.location.href = '{% url 'maintask' id=wp.dataset%}';">Join</button>
+				{% if wp.num_allmeta == wp.num_annotated_meta %}
+					<button type="" onclick="window.location.href = '{% url 'maintask' id=wp.dataset%}';"disabled>Join</button>
+				{% else %}
+				   <button type="" onclick="window.location.href = '{% url 'maintask' id=wp.dataset%}';">Join</button>
+				{% endif %}
+				
 			</div>
 		</div>
 		<div class="wsiteminfo">
-			<p>{{wp.dataset}}</p>
+			<p>dataset-id: {{wp.dataset}}</p>
+			<p>total meta data: {{wp.num_allmeta}}</p>
+			<p>meta data annotated: {{wp.num_annotated_meta}}</p>
 		</div>   
 	</div>
  	{% endfor %}

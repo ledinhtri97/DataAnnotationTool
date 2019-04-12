@@ -21,6 +21,7 @@ def index(request, metaid):
   current_meta_data.save(update_fields=['is_onworking', 'onviewing_user'])
   
   queryset = querymeta.get_query_meta_general(dataset_id, user)
-  serializer = MainTaskMetaDataSerializer(queryset)
+  
+  datareturn = MainTaskMetaDataSerializer(queryset).data if(queryset) else ''
 
-  return JsonResponse(serializer.data)
+  return JsonResponse(datareturn)

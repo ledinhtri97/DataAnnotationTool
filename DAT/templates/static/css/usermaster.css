@@ -101,6 +101,7 @@ body{
 }
 
 .wsiteminfo p {
+	margin: 3px 0;
 	padding-left: 10px;
 }
 
