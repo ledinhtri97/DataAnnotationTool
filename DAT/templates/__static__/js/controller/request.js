@@ -30,6 +30,7 @@ const outWorkSpace = function(metaid, url){
 		return response.json();
 	})
 	.then(data => {
+		window.removeEventListener("beforeunload", ask_before_out);
 		window.location.href = url;
 	});
 }
