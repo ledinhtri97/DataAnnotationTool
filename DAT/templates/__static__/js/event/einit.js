@@ -43,6 +43,13 @@ const ask_before_out = function (e) {
 	return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
 };
 
+const reset_when_go =  function(){
+	bigplus.splice(0, bigplus.length);
+	for (var i in storageObj){
+		delete storageObj[i];
+	}
+}
+
 const init_event = function(__canvas__, popupControllers){
 
 	window.onload = function() {
@@ -217,8 +224,7 @@ const init_event = function(__canvas__, popupControllers){
 				});
 				__canvas__.remove(bigplus[0]);
 				__canvas__.remove(bigplus[1]);
-				bigplus.splice(0, 2);
-
+				
 				for(var i in storageObj){
 					var xxx = document.getElementById("itembb_"+i);
 					var renewiitem = __canvas__.getObjects().indexOf(storageObj[i]);
@@ -226,6 +232,8 @@ const init_event = function(__canvas__, popupControllers){
 						xxx.id = "itembb_"+renewiitem;
 					}
 				}
+
+				reset_when_go();
 			}
 		}
 		__canvas__.renderAll();
@@ -365,5 +373,5 @@ const init_event = function(__canvas__, popupControllers){
 	//
 }
 
-export {init_event, ask_before_out};
+export {init_event, ask_before_out, reset_when_go};
 

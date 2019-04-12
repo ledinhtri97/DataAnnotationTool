@@ -3,7 +3,10 @@ import ReactDOM from "react-dom";
 import React, {Component} from "react";
 import Cookie from 'js-cookie';
 import {AllCheckBoxEdit} from "./itemReact";
-import {ask_before_out} from "../event/einit"
+import {ask_before_out, reset_when_go} from "../event/einit";
+import {drawPoly} from "../maintask"
+
+var label = document.getElementById("label");
 
 const nomoredata_handle =  function(){
 
@@ -89,7 +92,14 @@ const rqsavenext = function(metaid, canvas){
 
 			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
 			initMaintask(canvas, url, metadata.boxes_position);
-			document.getElementById("bbsfirst").textContent = metadata.boxes_position
+			document.getElementById("bbsfirst").textContent = metadata.boxes_position;
+
+			if(label.textContent!="NO LABEL"){
+				var lb = label.textContent;
+				reset_when_go();
+				drawPoly.startDraw(lb);
+			}
+
 		}
 	}).catch(function(ex) {
 		console.log("parsing failed", ex);
@@ -120,7 +130,14 @@ const rqnext = function(metaid, canvas){
 
 			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
 			initMaintask(canvas, url, metadata.boxes_position);
-			document.getElementById("bbsfirst").textContent = metadata.boxes_position
+			document.getElementById("bbsfirst").textContent = metadata.boxes_position;
+
+			if(label.textContent!="NO LABEL"){
+				var lb = label.textContent;
+				reset_when_go();
+				drawPoly.startDraw(lb);
+			}
+
 		}
 
 	});
@@ -150,7 +167,14 @@ const rqbadnext = function(metaid, canvas){
 
 			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
 			initMaintask(canvas, url, metadata.boxes_position);
-			document.getElementById("bbsfirst").textContent = metadata.boxes_position
+			document.getElementById("bbsfirst").textContent = metadata.boxes_position;
+
+			if(label.textContent!="NO LABEL"){
+				var lb = label.textContent;
+				reset_when_go();
+				drawPoly.startDraw(lb);
+			}
+			
 		}
 	});
 }
