@@ -21,11 +21,11 @@ const configureCircle = function(__x__, __y__, __name__){
 	return circle;
 }
 
-const configureLine = function(__points__){
+const configureLine = function(__points__, __color__=Color.GRAY){
 	var line = new fabric.Line(__points__, {
 		strokeWidth: 2,
-		fill: Color.GRAY,
-		stroke: Color.GRAY,
+		fill: __color__,
+		stroke: __color__,
 		class:'line',
 		originX:'center',
 		originY:'center',
@@ -114,6 +114,8 @@ class DrawPolygon{
 				drawer.polygonMode = true;
 				drawer.pointArray = new Array();
 				drawer.lineArray = new Array();
+				// drawStatus.setIsDrawing(true);
+				// drawStatus.setIsWaiting(true);
 				// drawer.activeLine;
 			},
 			addPoint : function(o) {
@@ -303,7 +305,8 @@ class DrawPolygon{
 
 			if(drawer.activeLine && drawer.activeLine.class == "line"){
 
-				drawStatus.setIsDrawing(true);
+				// drawStatus.setIsDrawing(true);
+				drawStatus.setIsWaiting(false);
 				
 				var pointer = drawer.canvas.getPointer(o.e);
 				drawer.activeLine.set({ x2: pointer.x, y2: pointer.y });
@@ -338,7 +341,8 @@ class DrawPolygon{
 
 		drawer.mouseUp= function(o){
 			if(drawer.activeLine == null){
-				drawStatus.setIsDrawing(false);
+				// drawStatus.setIsDrawing(false);
+				drawStatus.setIsWaiting(true);
 			}
 		}
 	}
@@ -350,6 +354,9 @@ class DrawPolygon{
 		AllCheckBoxEdit(this.canvas, false);
 		this.canvas.defaultCursor = 'pointer';
 		
+		drawStatus.setIsDrawing(true);
+		drawStatus.setIsWaiting(true);
+		
 		this.polygon.drawPolygon();
 		this.canvas.on('mouse:down', this.mouseDown);
 		this.canvas.on('mouse:move', this.mouseMove);
@@ -358,6 +365,10 @@ class DrawPolygon{
 
 	endDraw(){
 		this.canvas.defaultCursor = 'default';
+		
+		drawStatus.setIsDrawing(false);
+		drawStatus.setIsWaiting(false);
+		
 		document.getElementById("label").textContent = "NO LABEL";
 		
 		this.canvas.off('mouse:down', this.mouseDown);

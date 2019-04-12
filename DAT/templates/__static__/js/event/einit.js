@@ -1,5 +1,6 @@
 import {drawRect, drawPoly} from "../maintask"
 import {Color} from '../style/color'
+import {configureLine} from "../drawer/polygon"
 import React from "react";
 import ReactDOM from "react-dom";
 import {drawStatus} from "../maintask";
@@ -15,6 +16,8 @@ var Direction = {
 	DOWN: 3
 };
 
+var bigplus = [];
+var storageObj = {};
 var zoomLevel = 0;
 var zoomLevelMin = 0;
 var zoomLevelMax = 3;
@@ -29,20 +32,21 @@ var labelselect = document.getElementById("labelselect");
 var formSubmitting = false;
 var setFormSubmitting = function() { formSubmitting = true; };
 
+const ask_before_out = function (e) {
+	if (formSubmitting) {
+		return undefined;
+	}
+	var confirmationMessage = 'Có vẻ như bạn đang chỉnh sửa một số thứ. '
+	+ 'Nếu bạn rời khỏi hay tải lại trang hiện tại trước khi lưu dữ liệu. Dữ liệu có thể sẽ mất';
+
+	(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+	return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+};
+
 const init_event = function(__canvas__, popupControllers){
 
 	window.onload = function() {
-		window.addEventListener("beforeunload", function (e) {
-			if (formSubmitting) {
-				return undefined;
-			}
-
-			var confirmationMessage = 'Có vẻ như bạn đang chỉnh sửa một số thứ. '
-			+ 'Nếu bạn rời khỏi hay tải lại trang hiện tại trước khi lưu dữ liệu. Dữ liệu có thể sẽ mất';
-
-			(e || window.event).returnValue = confirmationMessage; //Gecko + IE
-			return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-		});
+		window.addEventListener("beforeunload", ask_before_out)
 	};
 
 	window.onkeypress = function(e){
@@ -50,7 +54,7 @@ const init_event = function(__canvas__, popupControllers){
 
 		if(key == 101){
 			//E key -> Edit
-			if(objectShape && objectShape.type!='circle'){
+			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
 				document.getElementById("groupcontrol").style["display"] = "none";
 				var iitem = __canvas__.getObjects().indexOf(objectShape)
 				var current_element = document.getElementById("itembb_"+iitem);
@@ -65,7 +69,7 @@ const init_event = function(__canvas__, popupControllers){
 		}
 		else if (key == 104){
 			//H key -> hidden
-			if(objectShape && objectShape.type!='circle'){
+			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
 				document.getElementById("groupcontrol").style["display"] = "none";
 				var iitem = __canvas__.getObjects().indexOf(objectShape)
 				var current_element = document.getElementById("itembb_"+iitem);
@@ -80,7 +84,7 @@ const init_event = function(__canvas__, popupControllers){
 		}
 		else if (key == 100){
 			//D key -> Delete
-			if(objectShape && objectShape.type!='circle'){
+			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
 				var wrapper = shallow(<ElementITEM canvas={__canvas__} objshape={objectShape} />);
 				wrapper.find('input[type="button"]').simulate('click');
 				document.getElementById("groupcontrol").style["display"] = "none";
@@ -94,7 +98,8 @@ const init_event = function(__canvas__, popupControllers){
 		Array.from(labelselect.children).forEach(function(elem, index) {
 			var spl = elem.textContent.split('-');
 			var isd = drawStatus.getIsDrawing();
-			if(!isd && (key == 49+index)){
+			var isw = drawStatus.getIsWaiting();
+			if((!isd || (isd && isw)) && (key == 49+index)){
 				drawPoly.setType(spl[1]);
 				drawPoly.startDraw(spl[0]);
 			}
@@ -123,7 +128,7 @@ const init_event = function(__canvas__, popupControllers){
 			if (obj){
 				objectShape = obj;
 
-				if (obj.type != "circle"){
+				if (obj.type != "circle" && obj.type != "line"){
 					obj.set('fill', Color.Opacity_GREEN);
 					var iitem = __canvas__.getObjects().indexOf(obj);
 					var current_element = document.getElementById("itembb_"+iitem);
@@ -145,7 +150,7 @@ const init_event = function(__canvas__, popupControllers){
 		'mouse:out': function(e){
 			objectShape = null;
 			try {
-				if (e.target.type != "circle"){
+				if (e.target.type != "circle" && e.target.type != "line"){
 					e.target.set('fill', Color.Transparent);
 					__canvas__.renderAll();	
 				}
@@ -155,7 +160,7 @@ const init_event = function(__canvas__, popupControllers){
 			}
 		},
 		'object:selected': function(e){
-			if(e.target.type != "circle"){
+			if(e.target.type != "circle" && e.target.type != "line"){
 			// var iitem = __canvas__.getObjects().indexOf(e.target);
 			objectShape = e.target;
 			popupControllers.popup(e.target);
@@ -177,17 +182,56 @@ const init_event = function(__canvas__, popupControllers){
 	},
 	'mouse:move': function(e){
 		//ZOOM PART
+		var pointer = __canvas__.getPointer(e.e, true);
+		var label = document.getElementById("label");
 		if (shiftKeyDown && mouseDownPoint) {
-			var pointer = __canvas__.getPointer(e.e, true);
 			var mouseMovePoint = new fabric.Point(pointer.x, pointer.y);
 			__canvas__.relativePan(mouseMovePoint.subtract(mouseDownPoint));
 			mouseDownPoint = mouseMovePoint;
 			keepPositionInBounds(__canvas__);
 		}
+
+		// if(label.textContent != "NO LABEL"){
+		if(drawStatus.getIsDrawing()){
+			if(bigplus.length == 0){
+
+				var x = configureLine([0, pointer.y, __canvas__.getWidth(), pointer.y], Color.WHITE);
+				var y = configureLine([pointer.x, 0, pointer.x,__canvas__.getHeight()], Color.WHITE);
+				bigplus.push(x);
+				bigplus.push(y);
+				__canvas__.add(x);
+				__canvas__.add(y);
+
+			}
+			else{
+				bigplus[0].set({ y1: pointer.y, y2: pointer.y });
+				bigplus[1].set({ x1: pointer.x, x2: pointer.x });
+			}		
+		}
+		else{
+			if(bigplus.length != 0){
+				__canvas__.getObjects().forEach(function(obj, index){
+					if(obj.type!='circle' && obj.type!='line'){
+						storageObj[index] = obj;
+					}
+				});
+				__canvas__.remove(bigplus[0]);
+				__canvas__.remove(bigplus[1]);
+				bigplus.splice(0, 2);
+
+				for(var i in storageObj){
+					var xxx = document.getElementById("itembb_"+i);
+					var renewiitem = __canvas__.getObjects().indexOf(storageObj[i]);
+					if(xxx && renewiitem!=-1){
+						xxx.id = "itembb_"+renewiitem;
+					}
+				}
+			}
+		}
+		__canvas__.renderAll();
 	},
 	'object:modified': function(e){
-		if(e.target.type != "circle"){
-			// var iitem = __canvas__.getObjects().indexOf(e.target);
+		if(e.target.type != "circle" && e.target.type != "line"){
 			popupControllers.popup(e.target);
 		}
 	},
@@ -321,5 +365,5 @@ const init_event = function(__canvas__, popupControllers){
 	//
 }
 
-export {init_event};
+export {init_event, ask_before_out};
 

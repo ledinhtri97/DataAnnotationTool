@@ -1,9 +1,8 @@
 import {fabric} from 'fabric';
 import {requestFaceAPI} from "./api/faceRequest";
 import {requestPersonAPI} from "./api/personRequest";
-import {rqnext, rqsavenext, rqbadnext} from  "./controller/request"
-import {initMaintask, outWorkSpace, renderBBS_RECT, renderBBS_POLY} from "./controller/renderInit"
-import {DrawRectangle} from "./drawer/rectangle"
+import {outWorkSpace, rqnext, rqsavenext, rqbadnext} from  "./controller/request"
+import {initMaintask, renderBBS_RECT, renderBBS_POLY} from "./controller/renderInit"
 import {DrawPolygon} from "./drawer/polygon"
 import {AllCheckBoxEdit, AllCheckBoxHidden, DeleteAll} from "./controller/itemReact";
 import {Color} from "./style/color"
@@ -133,6 +132,7 @@ btnSaveandNext.addEventListener('click', function(){
 class DrawStatus{
 	constructor(__isDrawing__){
 		this.isDrawing = __isDrawing__;
+		this.isWaiting = false;
 	}
 
 	setIsDrawing(__isDrawing__){
@@ -142,10 +142,17 @@ class DrawStatus{
 	getIsDrawing(){
 		return this.isDrawing;
 	}
+
+	setIsWaiting(_isWaiting_){
+		this.isWaiting = _isWaiting_;
+	}
+
+	getIsWaiting(){
+		return this.isWaiting;
+	}
 }
 
 const drawStatus = new DrawStatus(false);
-const drawRect = new DrawRectangle(canvas);
 const drawPoly = new DrawPolygon(canvas);
 var labelSelector = document.getElementById("labelSelect");
 var label = document.getElementById("label");
@@ -160,7 +167,6 @@ Array.from(labelSelector.children).forEach(function(elem) {
 });
 
 btnEnd.addEventListener('click', function(o){
-	// drawRect.endDraw();
 	drawPoly.endDraw();
 });
 
@@ -209,8 +215,6 @@ if (deleteall){
 }
 
 //BONUS
-//
-//
 
 var ws = document.getElementById("gooutmain_workspace");
 var lo = document.getElementById("gooutmain_logout");
@@ -233,4 +237,4 @@ lo.addEventListener('click', function(){
 	}
 });
 
-export {drawRect, drawPoly, drawStatus, listPredict, canvas};
+export {drawPoly, drawStatus, listPredict, canvas};
