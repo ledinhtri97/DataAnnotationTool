@@ -3,6 +3,34 @@ import ReactDOM from "react-dom";
 import React, {Component} from "react";
 import Cookie from 'js-cookie';
 import {AllCheckBoxEdit} from "./itemReact";
+import {ask_before_out} from "../event/einit"
+
+const nomoredata_handle =  function(){
+
+	var ws = document.getElementById("gooutmain_workspace");
+	
+	var metaid = document.getElementById("metaid");
+
+	window.removeEventListener("beforeunload", ask_before_out);
+	
+	alert("Look like have no more data!!! return to workspace");
+	
+	outWorkSpace(metaid.textContent, ws.formAction);
+}
+
+const outWorkSpace = function(metaid, url){
+	fetch("/gvlab-dat/workspace/outworkspace/"+metaid, {metaid: metaid})
+	.then(response => {
+		if(response.status !== 200){
+			return "Out Workspace Failed";
+		}
+		return response.json();
+	})
+	.then(data => {
+		window.location.href = url;
+	});
+}
+
 
 const rqsavenext = function(metaid, canvas){
 
@@ -15,7 +43,6 @@ const rqsavenext = function(metaid, canvas){
 		// var item_html = document.getElementById("itembb_"+i);
 		if (item.type = 'rect'){ 
 			myData += [
-			// item_html.firstElementChild.firstElementChild.textContent,
 			item.name,
 			item.left / canvas.getWidth(),
 			item.top / canvas.getHeight(),
@@ -24,7 +51,6 @@ const rqsavenext = function(metaid, canvas){
 			].join(',') + '\n';
 		}
 		else if(item.type = 'polygon'){
-			// var bb = [item_html.firstElementChild.firstElementChild.textContent];
 			var bb = [item.name];
 			for (var p of item.points){
 				bb.push(p.x / canvas.getWidth());
@@ -47,21 +73,24 @@ const rqsavenext = function(metaid, canvas){
 	}).then(function(response) {
 		return response.json();
 	}).then(function(metadata) {
-		// console.log("Data is ok", metadata);
 
-		document.getElementById("metaid").textContent = metadata.id;
-		var bbs_available = document.getElementById("bbs_available");
-		bbs_available.innerHTML = "";
-		
-		var bbs_hidden = document.getElementById("bbs_hidden");
-		bbs_hidden.innerHTML = "";
-		
-		canvas.clear();
+		if(!metadata.id){
+			nomoredata_handle();
+		}
+		else{
+			document.getElementById("metaid").textContent = metadata.id;
+			var bbs_available = document.getElementById("bbs_available");
+			bbs_available.innerHTML = "";
 
-		var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
-		initMaintask(canvas, url, metadata.boxes_position);
-		document.getElementById("bbsfirst").textContent = metadata.boxes_position
+			var bbs_hidden = document.getElementById("bbs_hidden");
+			bbs_hidden.innerHTML = "";
 
+			canvas.clear();
+
+			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
+			initMaintask(canvas, url, metadata.boxes_position);
+			document.getElementById("bbsfirst").textContent = metadata.boxes_position
+		}
 	}).catch(function(ex) {
 		console.log("parsing failed", ex);
 	});
@@ -77,18 +106,22 @@ const rqnext = function(metaid, canvas){
 		return response.json();
 	})
 	.then(metadata => {
-		document.getElementById("metaid").textContent = metadata.id;
-		var bbs_available = document.getElementById("bbs_available");
-		bbs_available.innerHTML = "";
-		var bbs_hidden = document.getElementById("bbs_hidden");
-		bbs_hidden.innerHTML = "";
+		if(!metadata.id){
+			nomoredata_handle();
+		}
+		else{
+			document.getElementById("metaid").textContent = metadata.id;
+			var bbs_available = document.getElementById("bbs_available");
+			bbs_available.innerHTML = "";
+			var bbs_hidden = document.getElementById("bbs_hidden");
+			bbs_hidden.innerHTML = "";
 
-		canvas.clear();
+			canvas.clear();
 
-		var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
-		initMaintask(canvas, url, metadata.boxes_position);
-		document.getElementById("bbsfirst").textContent = metadata.boxes_position
-
+			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
+			initMaintask(canvas, url, metadata.boxes_position);
+			document.getElementById("bbsfirst").textContent = metadata.boxes_position
+		}
 
 	});
 }
@@ -103,21 +136,23 @@ const rqbadnext = function(metaid, canvas){
 		return response.json();
 	})
 	.then(metadata => {
-		document.getElementById("metaid").textContent = metadata.id;
-		var bbs_available = document.getElementById("bbs_available");
-		bbs_available.innerHTML = "";
-		var bbs_hidden = document.getElementById("bbs_hidden");
-		bbs_hidden.innerHTML = "";
+		if(!metadata.id){
+			nomoredata_handle();
+		}
+		else{
+			document.getElementById("metaid").textContent = metadata.id;
+			var bbs_available = document.getElementById("bbs_available");
+			bbs_available.innerHTML = "";
+			var bbs_hidden = document.getElementById("bbs_hidden");
+			bbs_hidden.innerHTML = "";
 
-		canvas.clear();
+			canvas.clear();
 
-		var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
-		initMaintask(canvas, url, metadata.boxes_position);
-		document.getElementById("bbsfirst").textContent = metadata.boxes_position
-
+			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
+			initMaintask(canvas, url, metadata.boxes_position);
+			document.getElementById("bbsfirst").textContent = metadata.boxes_position
+		}
 	});
 }
 
-
-
-export {rqsavenext, rqnext, rqbadnext};
+export {outWorkSpace, rqsavenext, rqnext, rqbadnext};

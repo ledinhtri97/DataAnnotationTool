@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {fabric} from "fabric";
-import {drawRect, drawPoly, listPredict} from "../maintask";
+import {drawPoly, listPredict} from "../maintask";
 import {createItemToBoundingBoxes, ElementITEM} from "./itemReact";
 import {configureCircle, configurePoly} from "../drawer/polygon";
 import {Color} from "../style/color"
@@ -25,9 +25,7 @@ class LabelControl{
 
 			if (icheckbox.checked) {
 				this.canvas.item(iitem).visible = icheckbox.checked;
-				// __canvas__.item(iitem).strokeWidth=3;
 			}
-
 			this.obj.setColor(Color.Opacity_GREEN);
 			this.canvas.renderAll();
 		}
@@ -38,19 +36,13 @@ class LabelControl{
 	__outITEM__(){
 		var iitem = this.canvas.getObjects().indexOf(this.obj);
 		var __canvas__ = this.canvas;
-
 		var current_element = document.getElementById("itembb_"+iitem);
 
 		if(current_element){
-
-
 			var icheckbox = current_element.firstElementChild.children[1].firstElementChild;
-
 			if (icheckbox.checked) {
 				__canvas__.item(iitem).visible = !icheckbox.checked;
-				// __canvas__.item(iitem).strokeWidth=0;
 			}
-
 			this.obj.setColor(Color.Transparent);
 			__canvas__.renderAll();
 		}
@@ -68,7 +60,7 @@ class LabelControl{
 
 			var icheckbox_edit = current_element.firstElementChild.children[2].firstElementChild;
 
-			if (icheckbox.checked){
+			if (icheckbox.checked && this.obj.visible){
 				icheckbox_edit.disabled = true;
 				bbs_available.removeChild(current_element);
 				bbs_hidden.appendChild(current_element);
@@ -92,18 +84,15 @@ class LabelControl{
 
 			this.canvas.renderAll();
 		}
-
 	}
 
-	__eventedITEM__(){
+	__editITEM__(){
 		var iitem = this.canvas.getObjects().indexOf(this.obj);
 		var __canvas__ = this.canvas;
 		var lbc = this;
 
 		var current_element = document.getElementById("itembb_"+iitem);
 		if(current_element){
-
-
 			var label = current_element.firstElementChild.firstElementChild.textContent;
 			var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
 
@@ -113,6 +102,7 @@ class LabelControl{
 					this.obj.set('stroke', Color.RED);
 					__canvas__.setActiveObject(this.obj);
 				}
+				drawPoly.endDraw();
 			}
 			else{
 				var isPredictObj = listPredict.indexOf(this.obj);
@@ -124,6 +114,7 @@ class LabelControl{
 				}
 				this.obj.set('stroke', Color.GREEN);
 				__canvas__.discardActiveObject();
+
 			}		
 
 			if (this.obj.type == 'polygon'){
@@ -147,10 +138,9 @@ class LabelControl{
 							lbc.obj.set('stroke', Color.RED);
 
 							__canvas__.insertAt(lbc.obj, iitem);
-							// __canvas__.sendToBack(lbc.obj);
-						
-						__canvas__.renderAll();
-					});
+
+							__canvas__.renderAll();
+						});
 						circle.on('moved', function(){
 
 							__canvas__.remove(lbc.obj);
@@ -191,14 +181,11 @@ class LabelControl{
 			}
 
 			__canvas__.renderAll();
-			drawRect.endDraw();
-			drawPoly.endDraw();
+			// drawPoly.endDraw();
 		}
 	}
 
 	__deleteITEM__(){
-		
-
 		var iitem = this.canvas.getObjects().indexOf(this.obj);
 
 		if (iitem  >= 0) {
@@ -234,21 +221,21 @@ class LabelControl{
 			for(var i in map_obj){
 				var xxx = document.getElementById("itembb_"+i);
 				var renewiitem = __canvas__.getObjects().indexOf(map_obj[i]);
-				xxx.id = "itembb_"+renewiitem;
 
-				var s_circles = [];
-
-				for(var c of f_circles){
-					var spl = c.name.split('_');
-					if (spl[1] == i){
-						c.name = spl[0]+'_'+renewiitem;
-						s_circles.push(c);	
+				if(xxx && renewiitem!=-1){
+					xxx.id = "itembb_"+renewiitem;
+					var s_circles = [];
+					for(var c of f_circles){
+						var spl = c.name.split('_');
+						if (spl[1] == i){
+							c.name = spl[0]+'_'+renewiitem;
+							s_circles.push(c);	
+						}
 					}
-				}
-
-				for(var c of s_circles){
-					f_circles.splice(f_circles.indexOf(c), 1)
-					__canvas__.add(c);
+					for(var c of s_circles){
+						f_circles.splice(f_circles.indexOf(c), 1)
+						__canvas__.add(c);
+					}
 				}
 			}
 			__canvas__.renderAll();

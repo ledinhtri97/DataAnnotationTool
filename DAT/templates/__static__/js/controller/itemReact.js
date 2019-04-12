@@ -26,7 +26,7 @@ class ElementITEM extends React.Component{
 		React.createElement("span", null,
 			React.createElement("input", {
 				type: "checkbox",
-				onChange: function(e){labelControl.__eventedITEM__()}
+				onChange: function(e){labelControl.__editITEM__()}
 			}), React.createElement("label", {
 			}, "Enable")), 
 		React.createElement("input", {

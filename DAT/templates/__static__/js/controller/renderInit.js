@@ -80,17 +80,4 @@ const renderBBS_POLY = function(canvas, bb){
 	return polygon;
 }
 
-const outWorkSpace = function(metaid, url){
-	fetch("/gvlab-dat/workspace/outworkspace/"+metaid, {metaid: metaid})
-	.then(response => {
-		if(response.status !== 200){
-			return "Out Workspace Failed";
-		}
-		return response.json();
-	})
-	.then(data => {
-		window.location.href = url;
-	});
-}
-
-export {initMaintask, outWorkSpace, renderBBS_RECT, renderBBS_POLY}
+export {initMaintask, renderBBS_RECT, renderBBS_POLY}
