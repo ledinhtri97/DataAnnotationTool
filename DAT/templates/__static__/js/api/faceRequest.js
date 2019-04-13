@@ -1,5 +1,5 @@
 import {createItemToBoundingBoxes} from '../controller/itemReact';
-import {configureRectangle} from '../drawer/rectangle';
+import {configureRectangle} from '../drawer/polygon';
 
 const requestFaceAPI = function(meta_id, canvas){
 	fetch("/gvlab-dat/workspace/facedet/"+meta_id, {metaid: meta_id})
