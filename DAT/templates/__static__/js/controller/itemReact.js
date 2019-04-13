@@ -10,7 +10,8 @@ class ElementITEM extends React.Component{
 	render(){
 
 		var labelControl = new LabelControl(this.props.canvas, this.props.objshape);
-		var namelabel = this.props.namelabel;
+		// var namelabel = this.props.namelabel;
+		var namelabel = this.props.objshape.name;
 
 		return React.createElement("form", {
 			onMouseEnter: function(){labelControl.__overITEM__()},
@@ -22,13 +23,13 @@ class ElementITEM extends React.Component{
 				type: "checkbox",
 				onChange: function(e){labelControl.__hiddenITEM__()}
 			}), React.createElement("label", {
-			}, "Hidden")), 
+			}, "H")), 
 		React.createElement("span", null,
 			React.createElement("input", {
 				type: "checkbox",
 				onChange: function(e){labelControl.__editITEM__()}
 			}), React.createElement("label", {
-			}, "Enable")), 
+			}, "E")), 
 		React.createElement("input", {
 			type: "button",
 			style: {
@@ -99,7 +100,8 @@ const createItemToBoundingBoxes = function (canvas, namelabel, __iitem__=-1){
 			console.log(e);
 		}
 	}
-	ReactDOM.render(<ElementITEM canvas={canvas} objshape={objshape} namelabel={namelabel}/>, new_element);
+	// namelabel={namelabel}
+	ReactDOM.render(<ElementITEM canvas={canvas} objshape={objshape}/>, new_element);
 }
 
 const AllCheckBoxEdit = function(canvas, value){

@@ -83,6 +83,8 @@ const rqsavenext = function(metaid, canvas){
 		}
 		else{
 			document.getElementById("metaid").textContent = metadata.id;
+			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
+
 			var bbs_available = document.getElementById("bbs_available");
 			bbs_available.innerHTML = "";
 
@@ -93,7 +95,7 @@ const rqsavenext = function(metaid, canvas){
 
 			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
 			initMaintask(canvas, url, metadata.boxes_position);
-			document.getElementById("bbsfirst").textContent = metadata.boxes_position;
+			// document.getElementById("bbsfirst").textContent = metadata.boxes_position;
 
 			if(label.textContent!="NO LABEL"){
 				var lb = label.textContent;
@@ -122,6 +124,7 @@ const rqnext = function(metaid, canvas){
 		}
 		else{
 			document.getElementById("metaid").textContent = metadata.id;
+			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
 			var bbs_available = document.getElementById("bbs_available");
 			bbs_available.innerHTML = "";
 			var bbs_hidden = document.getElementById("bbs_hidden");
@@ -131,7 +134,7 @@ const rqnext = function(metaid, canvas){
 
 			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
 			initMaintask(canvas, url, metadata.boxes_position);
-			document.getElementById("bbsfirst").textContent = metadata.boxes_position;
+			// document.getElementById("bbsfirst").textContent = metadata.boxes_position;
 
 			if(label.textContent!="NO LABEL"){
 				var lb = label.textContent;
@@ -159,6 +162,7 @@ const rqbadnext = function(metaid, canvas){
 		}
 		else{
 			document.getElementById("metaid").textContent = metadata.id;
+			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
 			var bbs_available = document.getElementById("bbs_available");
 			bbs_available.innerHTML = "";
 			var bbs_hidden = document.getElementById("bbs_hidden");
@@ -168,7 +172,7 @@ const rqbadnext = function(metaid, canvas){
 
 			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
 			initMaintask(canvas, url, metadata.boxes_position);
-			document.getElementById("bbsfirst").textContent = metadata.boxes_position;
+			// document.getElementById("bbsfirst").textContent = metadata.boxes_position;
 
 			if(label.textContent!="NO LABEL"){
 				var lb = label.textContent;
