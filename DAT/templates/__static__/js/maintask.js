@@ -69,16 +69,17 @@ var listPredict = [];
 
 if (btnPredict){
 	btnPredict.addEventListener('click', function(){
-		var bbs = document.getElementById("bbsfirst").textContent
+		var predict_bbs = document.getElementById("predict_bbs").textContent;
 		try {
 			if(listPredict.length == 0) {
 				btnPredict.disabled = true;
-				bbs.split('\n').forEach(function(line){
+				
+				predict_bbs.split('\n').forEach(function(line){
 					var info = line.split(',');
-					if (info.length==5){
+					if (info.length==5  || info.length==6){
 						listPredict.push(renderBBS_RECT(canvas, info));	
 					}
-					else if (info.length==9){
+					else if (info.length==9 || info.length==10){
 						listPredict.push(renderBBS_POLY(canvas, info));
 					}
 				});
