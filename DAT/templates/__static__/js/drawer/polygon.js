@@ -38,7 +38,7 @@ const configureLine = function(__points__, __color__=Color.GRAY){
 	return line;
 }
 
-const configureRectangle = function (__left__, __top__, __width__, __height__, __name__='', __color__=Color.GREEN){
+const configureRectangle = function (__left__, __top__, __width__, __height__, __name__='', __color__=Color.GREEN, __accuracy__='1.0'){
 	var rect = new fabric.Rect({
 		left: __left__,
 		top: __top__,
@@ -63,6 +63,7 @@ const configureRectangle = function (__left__, __top__, __width__, __height__, _
 		flipY: false,
 		lockScalingFlip: true,
 		name: __name__,
+		accuracy: __accuracy__,
 		// lockUniScaling: false,
 		// selectable: false,
 		// evented: false,
@@ -77,7 +78,7 @@ const configureRectangle = function (__left__, __top__, __width__, __height__, _
 	return rect;
 }
 
-const configurePoly = function(__points__, __name__='', __color__=Color.GREEN){
+const configurePoly = function(__points__, __name__='', __color__=Color.GREEN, __accuracy__='1.0'){
 	var polygon = new fabric.Polygon(__points__,{
 		hasControls: false,
 		originX: 'left',
@@ -91,6 +92,7 @@ const configurePoly = function(__points__, __name__='', __color__=Color.GREEN){
 		objectCaching: false,
 		selectable: false,
 		name:__name__,
+		accuracy: __accuracy__,
 	});
 
 	return polygon;
@@ -352,7 +354,7 @@ class DrawPolygon{
 
 		document.getElementById("label").textContent = namelabel;
 		AllCheckBoxEdit(this.canvas, false);
-		this.canvas.defaultCursor = 'pointer';
+		this.canvas.defaultCursor = 'crosshair';
 		
 		drawStatus.setIsDrawing(true);
 		drawStatus.setIsWaiting(true);
@@ -368,7 +370,7 @@ class DrawPolygon{
 		
 		drawStatus.setIsDrawing(false);
 		drawStatus.setIsWaiting(false);
-		
+
 		document.getElementById("label").textContent = "NO LABEL";
 		
 		this.canvas.off('mouse:down', this.mouseDown);
@@ -381,4 +383,4 @@ class DrawPolygon{
 	}
 }
 
-export {configureCircle, configureLine, configurePoly, DrawPolygon};
+export {configureCircle, configureLine, configureRectangle, configurePoly, DrawPolygon};
