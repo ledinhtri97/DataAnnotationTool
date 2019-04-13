@@ -2,6 +2,7 @@
 {% block title %}Workspace{% endblock %}
 {% block loadhead%}
 {%load static%}
+<!-- <link rel="stylesheet" type="text/css" media="screen" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}"> -->
 <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/usermaster.css' %}">
 {% endblock %}
 {% block content %}
@@ -27,6 +28,7 @@
 			<button id="btn_hidden" type="button">H</button>
 			<button id="btn_delete" type="button">D</button>
 			<label id="labelpopup"></label>
+			<label id="accuracypopup"></label>
 		</div>	
 		
 		<a id="imgurl" href="/gvlab-dat/dataset/{{full_path}}/{{name}}.{{extfile}}" style="display:none"></a>
@@ -76,11 +78,13 @@
 		</div>
 	</div>
 </div>
-<span id="bbsfirst" style="display: none;">{{boxes_position}}</span>
+<div id="predict_bbs" style="display: none;">{{predict_bbs}}</div>
 {% endblock content %}
 
 {%block loadjs%}
 {% load static %}
-<script src="{% static 'js/main.js' %}"></script>  
+<script src="{% static 'js/index.js' %}"></script>  
+<script src="{% static 'js/bt.js' %}"></script> 
+<!-- <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>   -->
 {% endblock loadjs %}
 
