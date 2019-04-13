@@ -10,8 +10,8 @@ import cv2
 if (torch.cuda.is_available() and settings.FLAG_CUDA):
     torch.set_default_tensor_type('torch.cuda.FloatTensor')
 
-from apimodel.DLmodels.SSDModel.ssd import build_ssd
-from apimodel.DLmodels.SSDModel.data import BaseTransform
+# from apimodel.DLmodels.SSDModel.ssd import build_ssd
+# from apimodel.DLmodels.SSDModel.data import BaseTransform
 
 # labelmap = ['aeroplane', 'bicycle', 'bird', 'boat',
 #     'bottle', 'bus', 'car', 'cat', 'chair',
@@ -19,33 +19,11 @@ from apimodel.DLmodels.SSDModel.data import BaseTransform
 #     'motorbike', 'person', 'pottedplant',
 #     'sheep', 'sofa', 'train', 'tvmonitor']
 
-def objectdetAPI(path_image, labels):
-  
-  #check if used API
-  if ('face' in labels):
-    labelmap = ['face']
+def objectdetAPI(frame, labels, labelmap, eval, transform):
 
-    net = build_ssd('test', 300, 2)
-    net.load_weights(os.path.join(settings.BASE_DIR, settings.MODELS_DIR, 'ssd300_WIDERFACE_115000.pth'))
-    
-  else:
-    labelmap = ['aeroplane', 'bicycle', 'bird', 'boat',
-      'bottle', 'bus', 'car', 'cat', 'chair',
-      'cow', 'diningtable', 'dog', 'horse',
-      'motorbike', 'person', 'pottedplant',
-      'sheep', 'sofa', 'train', 'tvmonitor']
-
-    net_p = build_ssd('test', 300, 21)
-    net_p.load_weights(os.path.join(settings.BASE_DIR, settings.MODELS_DIR, 'ssd300_mAP_77.43_v2.pth'))
-  
-  transform = BaseTransform(net.size, (104 / 256.0, 117 / 256.0, 123 / 256.0))
-  eval = net.eval()
-
-  frame = cv2.imread(path_image)
-  rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-  
   start = time.time()
-  jsonObjectdet = {'resAPI': []}
+  # jsonObjectdet = {'resAPI': []}
+  bbs_predict = ""
 
   height, width = frame.shape[:2]
   frame_t = transform(frame)[0]
@@ -67,18 +45,28 @@ def objectdetAPI(path_image, labels):
         else:
           pt = (detections[0, i, j, 1:] * scale).numpy()
       
-        jsonObjectdet['resAPI'].append({
-          'xmin': int(pt[0])/width,
-          'ymin': int(pt[1])/height,
-          'xmax': int(pt[2])/width,
-          'ymax': int(pt[3])/height
-        })
+        # jsonObjectdet['resAPI'].append({
+        #   'accuracy': round(detections[0, i, j, 0].item(), 2),
+        #   'label': labelmap[i - 1],
+        #   'xmin': int(pt[0])/width,
+        #   'ymin': int(pt[1])/height,
+        #   'xmax': int(pt[2])/width,
+        #   'ymax': int(pt[3])/height
+        # })
+        bbs_predict += ','.join([
+          str(round(detections[0, i, j, 0].item(), 2)),
+          labelmap[i - 1],
+          str(int(pt[0]) / width),
+          str(int(pt[1]) / height),
+          str(int(pt[2]) / width),
+          str(int(pt[3])/height)
+        ]) + '\n'
       
       j += 1 # We increment j to get to the next occurrence.
   
   end = time.time()
   print("obj_locations ssd Execution time: " + str(end-start))
 
-  return jsonObjectdet
+  return bbs_predict
 
 
