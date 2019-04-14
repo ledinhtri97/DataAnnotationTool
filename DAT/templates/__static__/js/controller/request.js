@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import React, {Component} from "react";
 import Cookie from 'js-cookie';
 import {AllCheckBoxEdit} from "./itemReact";
-import {ask_before_out, reset_when_go} from "../event/einit";
+import {reset_when_go} from "../event/einit";
+import {outWorkSpace, ask_before_out} from "../modules/dat-utils"
 import {drawPoly} from "../maintask"
 
 var label = document.getElementById("label");
@@ -20,21 +21,6 @@ const nomoredata_handle =  function(){
 	
 	outWorkSpace(metaid.textContent, ws.formAction);
 }
-
-const outWorkSpace = function(metaid, url){
-	fetch("/gvlab-dat/workspace/outworkspace/"+metaid, {metaid: metaid})
-	.then(response => {
-		if(response.status !== 200){
-			return "Out Workspace Failed";
-		}
-		return response.json();
-	})
-	.then(data => {
-		window.removeEventListener("beforeunload", ask_before_out);
-		window.location.href = url;
-	});
-}
-
 
 const rqsavenext = function(metaid, canvas){
 
@@ -184,4 +170,4 @@ const rqbadnext = function(metaid, canvas){
 	});
 }
 
-export {outWorkSpace, rqsavenext, rqnext, rqbadnext};
+export {rqsavenext, rqnext, rqbadnext};
