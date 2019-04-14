@@ -1,3 +1,4 @@
+import {ask_before_out} from "../modules/dat-utils"
 import {drawRect, drawPoly} from "../maintask"
 import {Color} from '../style/color'
 import {configureLine} from "../drawer/polygon"
@@ -28,20 +29,6 @@ var mouseDownPoint = null;
 var objectShape = null;
 var labelselect = document.getElementById("labelselect");
 // var label = document.getElementById("label");
-
-var formSubmitting = false;
-var setFormSubmitting = function() { formSubmitting = true; };
-
-const ask_before_out = function (e) {
-	if (formSubmitting) {
-		return undefined;
-	}
-	var confirmationMessage = 'Có vẻ như bạn đang chỉnh sửa một số thứ. '
-	+ 'Nếu bạn rời khỏi hay tải lại trang hiện tại trước khi lưu dữ liệu. Dữ liệu có thể sẽ mất';
-
-	(e || window.event).returnValue = confirmationMessage; //Gecko + IE
-	return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-};
 
 const reset_when_go =  function(){
 	bigplus.splice(0, bigplus.length);
@@ -373,5 +360,5 @@ const init_event = function(__canvas__, popupControllers){
 	//
 }
 
-export {init_event, ask_before_out, reset_when_go};
+export {init_event, reset_when_go};
 

@@ -1,7 +1,8 @@
 import {fabric} from 'fabric';
 import {requestFaceAPI} from "./api/faceRequest";
 import {requestPersonAPI} from "./api/personRequest";
-import {outWorkSpace, rqnext, rqsavenext, rqbadnext} from  "./controller/request"
+import {outWorkSpace} from "./modules/dat-utils"
+import {rqnext, rqsavenext, rqbadnext} from  "./controller/request"
 import {initMaintask, renderBBS_RECT, renderBBS_POLY} from "./controller/renderInit"
 import {DrawPolygon} from "./drawer/polygon"
 import {AllCheckBoxEdit, AllCheckBoxHidden, DeleteAll} from "./controller/itemReact";
@@ -216,26 +217,5 @@ if (deleteall){
 }
 
 //BONUS
-
-var ws = document.getElementById("gooutmain_workspace");
-var lo = document.getElementById("gooutmain_logout");
-
-ws.addEventListener('click', function(){
-	if(metaid){
-		outWorkSpace(metaid.textContent, ws.formAction);
-	}
-	else {
-		window.location.href = ws.formAction;
-	}
-});
-
-lo.addEventListener('click', function(){
-	if(metaid){
-		outWorkSpace(metaid.textContent, lo.formAction);
-	}
-	else{
-		window.location.href = lo.formAction;
-	}
-});
 
 export {drawPoly, drawStatus, listPredict, canvas};
