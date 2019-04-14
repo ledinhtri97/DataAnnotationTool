@@ -6,9 +6,14 @@ html, body {
 body{
 	margin: 0px;
 	padding: 0px;
+	background: #FAFAFA;
 }
 
-.container{
+.hidden{
+	display: none;
+}
+
+.container-dat{
 	width: 100%;
 	height: 100%;
 }
