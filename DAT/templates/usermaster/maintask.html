@@ -2,10 +2,10 @@
 {% block title %}Workspace{% endblock %}
 {% block loadhead%}
 {%load static%}
-<!-- <link rel="stylesheet" type="text/css" media="screen" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}"> -->
 <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/usermaster.css' %}">
 {% endblock %}
 {% block content %}
+
 <div class="mainboard">
 	<div class="tabletask" id="tabletask">
 		<canvas id="canvas">	
@@ -84,7 +84,7 @@
 {%block loadjs%}
 {% load static %}
 <script src="{% static 'js/index.js' %}"></script>  
-<script src="{% static 'js/bt.js' %}"></script> 
+<script src="{% static 'js/ui.js' %}"></script> 
 <!-- <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>   -->
 {% endblock loadjs %}
 

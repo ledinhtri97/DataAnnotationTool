@@ -5,40 +5,9 @@
 <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/usermaster.css' %}">
 {% endblock %}
 {% block content %}
-<div class="wshead">
-	<div class="wsname">
-		<p>Workspace Name</p>
+	<div id="workspaces"></div>
+	<div id="datawps" class="hidden">{"workspaces":[{% for wp in data %}{"name": "{{wp.nameworkspace}}","iddataset": {{wp.dataset}},"total":{{wp.num_allmeta}},"anno":{{wp.num_annotated_meta}},"url_join":"{% url 'maintask' id=wp.dataset%}"},{% endfor%}{}]}
 	</div>
-	<div class="wsinfo">
-		<p>Workspace Infomation</p>
-	</div>
-</div>
-<div class="wscontent">
-	{% for wp in data %}
-	<div class="wsitem">
-		<div class="wsitemname">
-			<div class="item">
-				<p>{{wp.nameworkspace}}</p>
-				{% if wp.num_allmeta == wp.num_annotated_meta %}
-					<button type="" onclick="window.location.href = '{% url 'maintask' id=wp.dataset%}';"disabled>Join</button>
-				{% else %}
-				   <button type="" onclick="window.location.href = '{% url 'maintask' id=wp.dataset%}';">Join</button>
-				{% endif %}
-				
-			</div>
-		</div>
-		<div class="wsiteminfo">
-			<p>dataset-id: {{wp.dataset}}</p>
-			<p>total meta data: {{wp.num_allmeta}}</p>
-			<p>meta data annotated: {{wp.num_annotated_meta}}</p>
-		</div>   
-	</div>
- 	{% endfor %}
-</div>
-
 {% endblock content%}
-
 {%block loadjs%}
-{% load static %}
-<script src="{% static 'js/default.js' %}"></script> 
 {% endblock loadjs %}
