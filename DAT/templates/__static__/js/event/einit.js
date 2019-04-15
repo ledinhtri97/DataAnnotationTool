@@ -49,7 +49,7 @@ const init_event = function(__canvas__, popupControllers){
 		if(key == 101){
 			//E key -> Edit
 			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
-				document.getElementById("groupcontrol").style["display"] = "none";
+				// document.getElementById("groupcontrol").style["display"] = "none";
 				var iitem = __canvas__.getObjects().indexOf(objectShape)
 				var current_element = document.getElementById("itembb_"+iitem);
 				var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
@@ -64,7 +64,7 @@ const init_event = function(__canvas__, popupControllers){
 		else if (key == 104){
 			//H key -> hidden
 			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
-				document.getElementById("groupcontrol").style["display"] = "none";
+				// document.getElementById("groupcontrol").style["display"] = "none";
 				var iitem = __canvas__.getObjects().indexOf(objectShape)
 				var current_element = document.getElementById("itembb_"+iitem);
 				var icheckbox = current_element.firstElementChild.children[1].firstElementChild;
@@ -81,7 +81,7 @@ const init_event = function(__canvas__, popupControllers){
 			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
 				var wrapper = shallow(<ElementITEM canvas={__canvas__} objshape={objectShape} />);
 				wrapper.find('input[type="button"]').simulate('click');
-				document.getElementById("groupcontrol").style["display"] = "none";
+				// document.getElementById("groupcontrol").style["display"] = "none";
 			}
 		}
 		else if(key == 113) {
@@ -102,7 +102,7 @@ const init_event = function(__canvas__, popupControllers){
 
 	__canvas__.on({
 		'object:scaling': function(e) {
-			document.getElementById("groupcontrol").style["display"] = "none";
+			// document.getElementById("groupcontrol").style["display"] = "none";
 			var obj = e.target,
 			width = obj.width,
 			height = obj.height,
@@ -163,7 +163,7 @@ const init_event = function(__canvas__, popupControllers){
 	'mouse:down': function(e){
 		if(!__canvas__.getActiveObject())
 		{
-			document.getElementById("groupcontrol").style["display"] = "none";
+			// document.getElementById("groupcontrol").style["display"] = "none";
 		}
 		//ZOOM PART
 		var pointer = __canvas__.getPointer(e.e, true);
@@ -231,7 +231,7 @@ const init_event = function(__canvas__, popupControllers){
 		}
 	},
 	'object:moving': function(e){
-		document.getElementById("groupcontrol").style["display"] = "none";
+		// document.getElementById("groupcontrol").style["display"] = "none";
 	},});
 
 	//===================BEGIN ZOOM PART======================//
@@ -241,7 +241,7 @@ const init_event = function(__canvas__, popupControllers){
 	}
 
 	const MouseWheelHandler = function(options){
-		document.getElementById("groupcontrol").style["display"] = "none";
+		// document.getElementById("groupcontrol").style["display"] = "none";
 		var delta = getWheelDelta(options);
 		if (delta != 0) {
 			var pointer = __canvas__.getPointer(options.e, true);
@@ -318,7 +318,7 @@ const init_event = function(__canvas__, popupControllers){
 		if (options.repeat) {
 			return;
 		}
-		document.getElementById("groupcontrol").style["display"] = "none";
+		// document.getElementById("groupcontrol").style["display"] = "none";
 		var key = options.which || options.keyCode; // key detection
 		if (key == 32) { // handle Shift key
 			__canvas__.defaultCursor = 'move';
