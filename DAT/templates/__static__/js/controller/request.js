@@ -11,18 +11,18 @@ var label = document.getElementById("label");
 
 const nomoredata_handle =  function(){
 
-	var ws = document.getElementById("gooutmain_workspace");
+	var url_workspace = document.getElementById("url_workspace").textContent;
 	
-	var metaid = document.getElementById("metaid");
+	var meta_id = document.getElementById("meta_id");
 
 	window.removeEventListener("beforeunload", ask_before_out);
 	
 	alert("Look like have no more data!!! return to workspace");
 	
-	outWorkSpace(metaid.textContent, ws.formAction);
+	outWorkSpace(meta_id.textContent, url_workspace);
 }
 
-const rqsavenext = function(metaid, canvas){
+const rqsavenext = function(meta_id, canvas){
 
 	AllCheckBoxEdit(canvas, false);
 
@@ -31,16 +31,16 @@ const rqsavenext = function(metaid, canvas){
 	for(var i = 0; i < canvas.getObjects().length; i+=1){
 		var item = canvas.item(i);
 		// var item_html = document.getElementById("itembb_"+i);
-		if (item.type = 'rect'){ 
+		if (item.type == 'rect'){ 
 			myData += [
 			item.name,
 			item.left / canvas.getWidth(),
 			item.top / canvas.getHeight(),
-			item.width / canvas.getWidth(),
-			item.height / canvas.getHeight()
+			(item.left + item.width) / canvas.getWidth(),
+			(item.top + item.height) / canvas.getHeight()
 			].join(',') + '\n';
 		}
-		else if(item.type = 'polygon'){
+		else if(item.type == 'polygon'){
 			var bb = [item.name];
 			for (var p of item.points){
 				bb.push(p.x / canvas.getWidth());
@@ -51,7 +51,7 @@ const rqsavenext = function(metaid, canvas){
 	}
 	// console.log(myData)
 
-	fetch("/gvlab-dat/workspace/savenext/"+metaid+"/", {
+	fetch("/gvlab-dat/workspace/savenext/"+meta_id+"/", {
 		method: "POST",
 		credentials: "same-origin",
 		headers: {
@@ -68,7 +68,7 @@ const rqsavenext = function(metaid, canvas){
 			nomoredata_handle();
 		}
 		else{
-			document.getElementById("metaid").textContent = metadata.id;
+			document.getElementById("meta_id").textContent = metadata.id;
 			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
 
 			var bbs_available = document.getElementById("bbs_available");
@@ -96,8 +96,8 @@ const rqsavenext = function(metaid, canvas){
 }
 
 
-const rqnext = function(metaid, canvas){
-	fetch("/gvlab-dat/workspace/next/"+metaid+"/", {metaid: metaid})
+const rqnext = function(meta_id, canvas){
+	fetch("/gvlab-dat/workspace/next/"+meta_id+"/", {meta_id: meta_id})
 	.then(response => {
 		if(response.status !== 200){
 			return "Something went wrong";
@@ -109,7 +109,7 @@ const rqnext = function(metaid, canvas){
 			nomoredata_handle();
 		}
 		else{
-			document.getElementById("metaid").textContent = metadata.id;
+			document.getElementById("meta_id").textContent = metadata.id;
 			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
 			var bbs_available = document.getElementById("bbs_available");
 			bbs_available.innerHTML = "";
@@ -134,8 +134,8 @@ const rqnext = function(metaid, canvas){
 }
 
 
-const rqbadnext = function(metaid, canvas){
-	fetch("/gvlab-dat/workspace/badnext/"+metaid+"/", {metaid: metaid})
+const rqbadnext = function(meta_id, canvas){
+	fetch("/gvlab-dat/workspace/badnext/"+meta_id+"/", {meta_id: meta_id})
 	.then(response => {
 		if(response.status !== 200){
 			return "Something went wrong";
@@ -147,7 +147,7 @@ const rqbadnext = function(metaid, canvas){
 			nomoredata_handle();
 		}
 		else{
-			document.getElementById("metaid").textContent = metadata.id;
+			document.getElementById("meta_id").textContent = metadata.id;
 			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
 			var bbs_available = document.getElementById("bbs_available");
 			bbs_available.innerHTML = "";
