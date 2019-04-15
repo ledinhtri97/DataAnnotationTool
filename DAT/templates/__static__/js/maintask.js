@@ -41,7 +41,7 @@ initMaintask(
 //===================DEFAULT-INIT======================//
 //
 
-const metaid = document.getElementById("metaid");
+const meta_id = document.getElementById("meta_id");
 
 //=======================API===========================//
 
@@ -51,16 +51,24 @@ var listPredict = [];
 if (btnPredict){
 	btnPredict.addEventListener('click', function(){
 		var predict_bbs = document.getElementById("predict_bbs").textContent;
+		var boxes_position = document.getElementById("boxes_position").textContent;
+		var bbs = predict_bbs ? predict_bbs : boxes_position;
 		try {
 			if(listPredict.length == 0) {
-				btnPredict.disabled = true;
+				btnPredict.style['display'] = 'none';
 				
-				predict_bbs.split('\n').forEach(function(line){
+				bbs.split('\n').forEach(function(line){
 					var info = line.split(',');
 					if (info.length==5  || info.length==6){
+						if(info.length == 5){
+							info.unshift("1.0");
+						}
 						listPredict.push(renderBBS_RECT(canvas, info));	
 					}
 					else if (info.length==9 || info.length==10){
+						if(info.length == 9){
+							info.unshift("1.0");
+						}
 						listPredict.push(renderBBS_POLY(canvas, info));
 					}
 				});
@@ -81,31 +89,31 @@ const btnBad = document.getElementById("bad_data");
 if(btnBad){
 	btnBad.addEventListener('click', function(){
 		listPredict.splice(0,listPredict.length);
-		btnPredict.disabled = false;	
+		btnPredict.style['display'] = '';	
 		document.getElementById("groupcontrol").style["display"] = "none";
-		rqbadnext(metaid.textContent, canvas);
+		rqbadnext(meta_id.textContent, canvas);
 
 	});
 }
 
-const btnNext = document.getElementById("next");
+const btnNext = document.getElementById("skip_next");
 
 btnNext && btnNext.addEventListener('click', function(){
 	listPredict.splice(0,listPredict.length);
-	btnPredict.disabled = false;
+	btnPredict.style['display'] = '';
 			
-	document.getElementById("groupcontrol").style["display"] = "none";
-	rqnext(metaid.textContent, canvas);
+	// document.getElementById("groupcontrol").style["display"] = "none";
+	rqnext(meta_id.textContent, canvas);
 });
 
-const btnSaveandNext = document.getElementById("savennext");
+const btnSaveandNext = document.getElementById("save_next");
 
 btnSaveandNext && btnSaveandNext.addEventListener('click', function(){
 	listPredict.splice(0,listPredict.length);
-	btnPredict.disabled = false;
+	btnPredict.style['display'] = '';
 	
-	document.getElementById("groupcontrol").style["display"] = "none";
-	rqsavenext(metaid.textContent, canvas);
+	// document.getElementById("groupcontrol").style["display"] = "none";
+	rqsavenext(meta_id.textContent, canvas);
 })
 
 //=======================DRAWER=======================//
