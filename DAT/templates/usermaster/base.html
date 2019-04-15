@@ -19,6 +19,8 @@
    {%endblock%}
     <div style="display: none;">
       <p id="username">{{user.username}}</p>
+      <p id="url_workspace">{% url "workspace" %}</p>
+      <p id="url_logout">{% url "logout" %}</p>
    </div>
 </body>
 {% load static %}
