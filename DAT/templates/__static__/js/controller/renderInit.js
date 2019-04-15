@@ -5,7 +5,7 @@ import {configurePoly, configureRectangle} from '../drawer/polygon';
 import {Color} from "../style/color"
 
 function image_convert(img){
-	var parent = document.getElementById("tabletask");
+	var parent = document.getElementById("cvcontainer");
 
 	var scale = Math.min( 
 		parent.clientWidth / img.width, 
