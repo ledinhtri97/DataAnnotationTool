@@ -196,23 +196,25 @@ class MenuAppBar extends React.Component {
 
 	handleWorkspace = () => {
 		this.setState({ anchorEl: null });
-		var metaid = document.getElementById("meta_id");
-		if(metaid){
-			outWorkSpace(metaid.textContent, "/gvlab-dat/workspace/");
+		var meta_id = document.getElementById("meta_id");
+		var url_workspace = document.getElementById("url_workspace").textContent;
+		if(meta_id){
+			outWorkSpace(meta_id.textContent, url_workspace);
 		}
 		else{
-			window.location.href = "/gvlab-dat/workspace/";
+			window.location.href = url_workspace;
 		}
 	};
 	
 	handleLogout = () => {
 		this.setState({ anchorEl: null });
-		var metaid = document.getElementById("meta_id");
-		if(metaid){
-			outWorkSpace(metaid.textContent, "/gvlab-dat/logout/");
+		var meta_id = document.getElementById("meta_id");
+		var url_logout = document.getElementById("url_logout").textContent;
+		if(meta_id){
+			outWorkSpace(meta_id.textContent, url_logout);
 		}
 		else{
-			window.location.href = "/gvlab-dat/logout/";
+			window.location.href = url_logout;
 		}
 	}
 
@@ -248,7 +250,7 @@ class MenuAppBar extends React.Component {
 						TransitionComponent={Zoom} 
 						placement="bottom" 
 						classes={{tooltip: classes.lightTooltip}}>
-					<IconButton  aria-haspopup="true"color="inherit">
+					<IconButton id="skip_next" aria-haspopup="true"color="inherit">
 					<SkipNext />
 					</IconButton>
 					</Tooltip>
@@ -257,7 +259,7 @@ class MenuAppBar extends React.Component {
 						TransitionComponent={Zoom} 
 						placement="bottom" 
 						classes={{tooltip: classes.lightTooltip}}>
-					<IconButton aria-haspopup="true" color="inherit">
+					<IconButton id="save_next" aria-haspopup="true" color="inherit">
 					<Beenhere />
 					<KeyboardArrowRight />
 					</IconButton>

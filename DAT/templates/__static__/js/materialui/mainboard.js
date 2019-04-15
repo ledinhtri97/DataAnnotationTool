@@ -22,8 +22,9 @@ const styles = theme => ({
 		width: '100%',
 		height: '100%',
 		overflow: 'auto',
-		// display: 'flex',
-		// position: 'relative',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	cvcontainer:{
 		width: '100%',
@@ -31,6 +32,7 @@ const styles = theme => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
+		paddingTop: "50px",
 	},
 	canvas:{
 		boxShadow: "0 5px 10px rgba(0, 0, 0, 0.35),0 5px 7px rgba(0, 0, 0, 0.24)",
@@ -52,7 +54,7 @@ class MainBoard extends React.Component {
 		// const workspaces = JSON.parse(document.getElementById("datawps").textContent)['workspaces'];
 		return (
 			<main className={classes.content}>
-			<div className={classes.appBarSpacer} />
+			{/*<div className={classes.appBarSpacer} />*/}
 			<div className={classes.cvcontainer} id="cvcontainer">
 				<canvas id="canvas" className={classes.canvas}></canvas>
 			</div>

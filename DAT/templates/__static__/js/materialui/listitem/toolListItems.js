@@ -97,7 +97,7 @@ class toolListItems extends React.Component {
 
         return(
             <div>
-            <div id="predict_api">
+            <div id="predict_api" onClick={tool.handleClick("Predict API is hidden!!! read more in the instruction")}>
             <ListItem button className={classes.listItem}>
             <Tooltip title="Predict API" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
             <ListItemIcon className={classes.icon}>
