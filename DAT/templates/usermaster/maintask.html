@@ -1,28 +1,35 @@
 {% extends "usermaster/base.html" %}
 {% block title %}Workspace{% endblock %}
 {% block loadhead%}
-{%load static%}
-<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/usermaster.css' %}">
+<style type="text/css" media="screen">
+	#containerapp{
+		width: 100%;
+		height: 100%;
+	}
+</style>
 {% endblock %}
 {% block content %}
 
-<div class="mainboard">
-	<div class="tabletask" id="tabletask">
-		<canvas id="canvas">	
-		</canvas>
+<div style="display: none;">
+	<div id="meta_id">{{id}}</div>
+	<div id="predict_bbs">{{predict_bbs}}</div>
+	<div id="url_image">/gvlab-dat/dataset/{{full_path}}/{{name}}.{{extfile}}</div>
+	<div id="label_select">
+		{%for lb in labels%}
+		<p>{{lb}}</p>
+		{% endfor %}
+	</div>
+</div>
+
+<!-- <div id="mainboard"></div> -->
+<div class="mainboard" style="display: none;">
 		<div id="selectpopup" class="dropdown-content" style="display: none;">
 			<div class="controll_all">
 				<span><input id="hall" type="checkbox"><label>hAll</label></span>
 				<span><input id="eall" type="checkbox"><label>eAll</label></span>
 			</div>
-
-			<div id="labelselect">
-				{%for lb in labels%}
-				<p>{{lb}}</p>
-				{% endfor %}
-			</div>
 		</div>
-		
+
 		<div id="groupcontrol" style="display: none;">
 			<button id="btn_edit" type="button">E</button>
 			<button id="btn_hidden" type="button">H</button>
@@ -30,9 +37,7 @@
 			<label id="labelpopup"></label>
 			<label id="accuracypopup"></label>
 		</div>	
-		
-		<a id="imgurl" href="/gvlab-dat/dataset/{{full_path}}/{{name}}.{{extfile}}" style="display:none"></a>
-	</div>
+	
 	<div class="tableinfo_control">
 		<div class="tableinfo" id="tableinfo">
 			<div id="bbs_available">
@@ -44,11 +49,6 @@
 			<p>Label Drawer: <span id="label">NO LABEL</span></p>
 			<div class="drawer">
 				<div class="dropdown">
-					<div id="labelSelect" class="dropdown-content stylestatic">
-						{%for lb in labels%}
-						<p>{{lb}}</p>
-						{% endfor %}
-					</div>
 					<button type="button">Begin</button>
 				</div>
 				<button id="end" type="button">End</button>
@@ -56,35 +56,28 @@
 			</div>	
 			<p>API</p>
 			<div class="apirequest">
-				<!-- <button id="facedet" type="button">Face</button> -->
-				<!-- <button id="persondet" type="button">Person</button> -->
-				<!-- <div class="dropdown">
-					<div id="apiSelect" class="dropdown-content stylestatic">
-						{%for lb in labels%}
-						<p>{{lb}}</p>
-						{% endfor %}
-					</div>
-					<button type="button">API</button>
-				</div> -->
-				<button id="predictAPI" type="button">Predict</button>
+				
+				<button id="facedet" type="button">Face</button>
+				<button id="persondet" type="button">Person</button>
+				div class="dropdown">
+				<button type="button">API</button>
 			</div>
-			<p>Controller</p>
-			<div class="controller">
-				<button id="baddata" type="button">Bad Data</button>
-				<button id="next" type="button">Next</button>
-				{% csrf_token %}
-				<button id="savennext" type="button">Save&Next</button>
-			</div>
+			<button id="predictAPI" type="button">Predict</button>
+		</div>
+		<p>Controller</p>
+		<div class="controller">
+			<button id="baddata" type="button">Bad Data</button>
+			<button id="next" type="button">Next</button>
+			{% csrf_token %}
+			<button id="savennext" type="button">Save&Next</button>
 		</div>
 	</div>
 </div>
-<div id="predict_bbs" style="display: none;">{{predict_bbs}}</div>
 {% endblock content %}
-
 {%block loadjs%}
 {% load static %}
 <script src="{% static 'js/index.js' %}"></script>  
-<script src="{% static 'js/ui.js' %}"></script> 
-<!-- <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>   -->
 {% endblock loadjs %}
+
+
 

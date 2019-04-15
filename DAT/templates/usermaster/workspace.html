@@ -1,13 +1,7 @@
 {% extends "usermaster/base.html" %}
 {% block title %}Workspace{% endblock %}
-{% block loadhead%}
-{%load static%}
-<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/usermaster.css' %}">
-{% endblock %}
 {% block content %}
 	<div id="workspaces"></div>
-	<div id="datawps" class="hidden">{"workspaces":[{% for wp in data %}{"name": "{{wp.nameworkspace}}","iddataset": {{wp.dataset}},"total":{{wp.num_allmeta}},"anno":{{wp.num_annotated_meta}},"url_join":"{% url 'maintask' id=wp.dataset%}"},{% endfor%}{}]}
+	<div id="home" style="display:none;">{"workspaces":[{% for wp in data %}{"name": "{{wp.nameworkspace}}","iddataset": {{wp.dataset}},"total":{{wp.num_allmeta}},"anno":{{wp.num_annotated_meta}},"url_join":"{% url 'maintask' id=wp.dataset%}"},{% endfor%}{}]}
 	</div>
 {% endblock content%}
-{%block loadjs%}
-{% endblock loadjs %}

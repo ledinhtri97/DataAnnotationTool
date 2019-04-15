@@ -4,21 +4,21 @@
    <meta charset="utf-8">
    <title>{% block title %}{% endblock %}</title>
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   {%load static%}
+   <style type="text/css" media="screen">
+      html, body{
+         width: 100%;
+         height: 100%;
+      }
+   </style>       
    {% block loadhead %}
    {% endblock loadhead%}
-   {% block urluser %}
-   {% endblock urluser %}
 </head>
 <body>
-   <div id="navbar"></div>
+   <div id="containerapp"></div>
    {%block content%}
    {%endblock%}
-   <div style="display: none;">
+    <div style="display: none;">
       <p id="username">{{user.username}}</p>
-      {%if id%}
-      <p id="metaid">{{id}}</p>
-      {%endif%}
    </div>
 </body>
 {% load static %}
