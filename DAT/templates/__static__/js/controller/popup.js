@@ -10,6 +10,7 @@ class PopupControllers{
 	constructor(__canvas__){
 		const PC = this;
 		PC.canvas = __canvas__;
+		PC.ispopup = false;
 
 		var btn_delete = document.getElementById("btn_delete");
 		var btn_hidden = document.getElementById("btn_hidden");
@@ -52,19 +53,25 @@ class PopupControllers{
 		btn_edit.addEventListener('click', PC.btn_edit_event);
 	}
 
+	setPopup = function(value){
+		this.ispopup = value;
+	}
+
 	popup = function(__obj__){
 		this.objshape = __obj__;
 
-		var groupcontrol =  document.getElementById("groupcontrol");
-		var tabletask = document.getElementById("tabletask");
-		var cv_element = document.getElementById("canvas");
-		document.getElementById("labelpopup").textContent = this.objshape.name;
-		document.getElementById("accuracypopup").textContent = this.objshape.accuracy;
-		var left = (tabletask.clientWidth - cv_element.clientWidth) / 2;
-		var top = (tabletask.clientHeight - cv_element.clientHeight) / 2;
-		groupcontrol.style["left"] = (left + this.objshape.oCoords.tl.x) +"px";
-		groupcontrol.style["top"] = (top + this.objshape.oCoords.tl.y - 40)+"px";
-		groupcontrol.style["display"] = "";
+		if(this.ispopup) {
+			var groupcontrol =  document.getElementById("groupcontrol");
+			var tabletask = document.getElementById("tabletask");
+			var cv_element = document.getElementById("canvas");
+			document.getElementById("labelpopup").textContent = this.objshape.name;
+			document.getElementById("accuracypopup").textContent = this.objshape.accuracy;
+			var left = (tabletask.clientWidth - cv_element.clientWidth) / 2;
+			var top = (tabletask.clientHeight - cv_element.clientHeight) / 2;
+			groupcontrol.style["left"] = (left + this.objshape.oCoords.tl.x) +"px";
+			groupcontrol.style["top"] = (top + this.objshape.oCoords.tl.y - 40)+"px";
+			groupcontrol.style["display"] = "";
+		}
 	}
 }
 
