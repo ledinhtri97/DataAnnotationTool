@@ -27,7 +27,7 @@ var shiftKeyDown = false;
 var mouseDownPoint = null;
 
 var objectShape = null;
-var labelselect = document.getElementById("labelselect");
+var labelselect = document.getElementById("label_select");
 // var label = document.getElementById("label");
 
 const reset_when_go =  function(){
