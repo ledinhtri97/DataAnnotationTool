@@ -193,7 +193,7 @@ class LabelControl{
 			if (isPredictObj >= 0) {
 				listPredict.splice(isPredictObj, 1);
 				if(listPredict.length==0){
-					document.getElementById("predictAPI").disabled = false;
+					document.getElementById("predict_api").style['display'] = '';
 				}
 			}
 			var __canvas__ = this.canvas;
