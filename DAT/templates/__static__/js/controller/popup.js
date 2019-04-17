@@ -59,15 +59,15 @@ class PopupControllers{
 
 	popup = function(__obj__){
 		this.objshape = __obj__;
-
-		if(this.ispopup) {
-			var groupcontrol =  document.getElementById("groupcontrol");
-			var tabletask = document.getElementById("tabletask");
+		var groupcontrol = document.getElementById("groupcontrol");
+		if(this.ispopup && groupcontrol) {
+			
+			var cvcontainer = document.getElementById("cvcontainer");
 			var cv_element = document.getElementById("canvas");
 			document.getElementById("labelpopup").textContent = this.objshape.name;
 			document.getElementById("accuracypopup").textContent = this.objshape.accuracy;
-			var left = (tabletask.clientWidth - cv_element.clientWidth) / 2;
-			var top = (tabletask.clientHeight - cv_element.clientHeight) / 2;
+			var left = (cvcontainer.clientWidth - cv_element.clientWidth) / 2;
+			var top = (cvcontainer.clientHeight - cv_element.clientHeight) / 2;
 			groupcontrol.style["left"] = (left + this.objshape.oCoords.tl.x) +"px";
 			groupcontrol.style["top"] = (top + this.objshape.oCoords.tl.y - 40)+"px";
 			groupcontrol.style["display"] = "";
