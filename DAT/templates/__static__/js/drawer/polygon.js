@@ -208,10 +208,10 @@ class DrawPolygon{
 				if(drawer.typePoly == 'rect'){
 					
 					var __left__ = drawer.rectangle.left, 
-						__top__ = drawer.rectangle.top, 
-						__width__ = drawer.rectangle.width, 
-						__height__ = drawer.rectangle.height, 
-						__name__ = document.getElementById("label").textContent;
+					__top__ = drawer.rectangle.top, 
+					__width__ = drawer.rectangle.width, 
+					__height__ = drawer.rectangle.height, 
+					__name__ = document.getElementById("label").textContent;
 
 					drawer.canvas.remove(drawer.rectangle);
 
@@ -243,64 +243,65 @@ class DrawPolygon{
 
 		drawer.mouseDown = function(o){
 
-			var pointer = drawer.canvas.getPointer(o.e);
+			if(!drawStatus.getZoomSpaceKey()){
+				var pointer = drawer.canvas.getPointer(o.e);
 
-			if (drawer.typePoly == 'rect'){
+				if (drawer.typePoly == 'rect'){
 
-				drawer.polygon.addPoint(o);
+					drawer.polygon.addPoint(o);
 
-				if (drawer.pointArray.length == 1){
+					if (drawer.pointArray.length == 1){
 
-					var fp = drawer.pointArray[0];
-					drawer.origX = pointer.x;
-					drawer.origY = pointer.y;
+						var fp = drawer.pointArray[0];
+						drawer.origX = pointer.x;
+						drawer.origY = pointer.y;
+						
+						var points = [fp.left, fp.top, fp.left, fp.top];
+						var line = configureLine(points);
+
+						drawer.rectangle = configureRectangle(
+							drawer.origX,
+							drawer.origY,
+							pointer.x-drawer.origX,
+							pointer.y-drawer.origY,
+							);
+
+						drawer.lineArray.push(line);
+						drawer.canvas.add(line);
+						drawer.canvas.add(drawer.rectangle);
+					}
+					if (drawer.pointArray.length == 2){
+						drawer.polygon.generatePolygon(drawer.pointArray);
+					}
+				}
+				else if(drawer.typePoly == 'quad'){
 					
-					var points = [fp.left, fp.top, fp.left, fp.top];
-					var line = configureLine(points);
+					if (drawer.pointArray.length == 2){
+						var fp = drawer.pointArray[0];
+						var points = [fp.left, fp.top, fp.left, fp.top];
+						var line = configureLine(points);
 
-					drawer.rectangle = configureRectangle(
-						drawer.origX,
-						drawer.origY,
-						pointer.x-drawer.origX,
-						pointer.y-drawer.origY,
-					);
-
-					drawer.lineArray.push(line);
-					drawer.canvas.add(line);
-					drawer.canvas.add(drawer.rectangle);
+						drawer.finalLineActive = line;
+						drawer.lineArray.push(line);
+						drawer.canvas.add(line);
+					}
+					if (drawer.pointArray.length == 3){
+						drawer.polygon.addPoint(o);
+						drawer.polygon.generatePolygon(drawer.pointArray);
+					}
+					else {
+						drawer.polygon.addPoint(o);
+					}
 				}
-				if (drawer.pointArray.length == 2){
-					drawer.polygon.generatePolygon(drawer.pointArray);
+				else if (o.target && o.target.name == drawer.pointArray[0].name){
+					if(!drawer.isQuadrilateral){
+						drawer.polygon.generatePolygon(drawer.pointArray);
+					}
 				}
-			}
-			else if(drawer.typePoly == 'quad'){
-				
-				if (drawer.pointArray.length == 2){
-					var fp = drawer.pointArray[0];
-					var points = [fp.left, fp.top, fp.left, fp.top];
-					var line = configureLine(points);
-
-					drawer.finalLineActive = line;
-					drawer.lineArray.push(line);
-					drawer.canvas.add(line);
-				}
-				if (drawer.pointArray.length == 3){
-					drawer.polygon.addPoint(o);
-					drawer.polygon.generatePolygon(drawer.pointArray);
-				}
-				else {
-					drawer.polygon.addPoint(o);
+				else if(drawer.polygonMode){
+					drawer.polygon.addPoint(o);	
 				}
 			}
-			else if (o.target && o.target.name == drawer.pointArray[0].name){
-				if(!drawer.isQuadrilateral){
-					drawer.polygon.generatePolygon(drawer.pointArray);
-				}
-			}
-			else if(drawer.polygonMode){
-				drawer.polygon.addPoint(o);	
-			}
-			
 		}
 
 		drawer.mouseMove= function(o){
@@ -356,8 +357,7 @@ class DrawPolygon{
 		AllCheckBoxEdit(this.canvas, false);
 		this.canvas.defaultCursor = 'crosshair';
 		
-		drawStatus.setIsDrawing(true);
-		drawStatus.setIsWaiting(true);
+		drawStatus.startDrawStatus(namelabel+"-"+this.typePoly);
 		
 		this.polygon.drawPolygon();
 		this.canvas.on('mouse:down', this.mouseDown);
@@ -368,8 +368,7 @@ class DrawPolygon{
 	endDraw(){
 		this.canvas.defaultCursor = 'default';
 		
-		drawStatus.setIsDrawing(false);
-		drawStatus.setIsWaiting(false);
+		drawStatus.stopDrawStatus();
 
 		document.getElementById("label").textContent = "NO LABEL";
 		
