@@ -23,7 +23,7 @@ var zoomLevel = 0;
 var zoomLevelMin = 0;
 var zoomLevelMax = 3;
 
-var shiftKeyDown = false;
+var spaceKeyDown = false;
 var mouseDownPoint = null;
 
 var objectShape = null;
@@ -37,6 +37,8 @@ const reset_when_go =  function(){
 	}
 }
 
+const groupcontrol = document.getElementById("groupcontrol");
+
 const init_event = function(__canvas__, popupControllers){
 
 	window.onload = function() {
@@ -49,7 +51,7 @@ const init_event = function(__canvas__, popupControllers){
 		if(key == 101){
 			//E key -> Edit
 			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
-				// document.getElementById("groupcontrol").style["display"] = "none";
+				if(groupcontrol) groupcontrol.style["display"] = "none";
 				var iitem = __canvas__.getObjects().indexOf(objectShape)
 				var current_element = document.getElementById("itembb_"+iitem);
 				var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
@@ -64,7 +66,7 @@ const init_event = function(__canvas__, popupControllers){
 		else if (key == 104){
 			//H key -> hidden
 			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
-				// document.getElementById("groupcontrol").style["display"] = "none";
+				if(groupcontrol) groupcontrol.style["display"] = "none";
 				var iitem = __canvas__.getObjects().indexOf(objectShape)
 				var current_element = document.getElementById("itembb_"+iitem);
 				var icheckbox = current_element.firstElementChild.children[1].firstElementChild;
@@ -81,7 +83,7 @@ const init_event = function(__canvas__, popupControllers){
 			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
 				var wrapper = shallow(<ElementITEM canvas={__canvas__} objshape={objectShape} />);
 				wrapper.find('input[type="button"]').simulate('click');
-				// document.getElementById("groupcontrol").style["display"] = "none";
+				if(groupcontrol) groupcontrol.style["display"] = "none";
 			}
 		}
 		else if(key == 113) {
@@ -94,6 +96,7 @@ const init_event = function(__canvas__, popupControllers){
 			var isd = drawStatus.getIsDrawing();
 			var isw = drawStatus.getIsWaiting();
 			if((!isd || (isd && isw)) && (key == 49+index)){
+
 				drawPoly.setType(spl[1]);
 				drawPoly.startDraw(spl[0]);
 			}
@@ -102,7 +105,7 @@ const init_event = function(__canvas__, popupControllers){
 
 	__canvas__.on({
 		'object:scaling': function(e) {
-			// document.getElementById("groupcontrol").style["display"] = "none";
+			if(groupcontrol) groupcontrol.style["display"] = "none";
 			var obj = e.target,
 			width = obj.width,
 			height = obj.height,
@@ -163,7 +166,7 @@ const init_event = function(__canvas__, popupControllers){
 	'mouse:down': function(e){
 		if(!__canvas__.getActiveObject())
 		{
-			// document.getElementById("groupcontrol").style["display"] = "none";
+			if(groupcontrol) groupcontrol.style["display"] = "none";
 		}
 		//ZOOM PART
 		var pointer = __canvas__.getPointer(e.e, true);
@@ -178,7 +181,7 @@ const init_event = function(__canvas__, popupControllers){
 		//ZOOM PART
 		var pointer = __canvas__.getPointer(e.e, true);
 		var label = document.getElementById("label");
-		if (shiftKeyDown && mouseDownPoint) {
+		if (spaceKeyDown && mouseDownPoint) {
 			var mouseMovePoint = new fabric.Point(pointer.x, pointer.y);
 			__canvas__.relativePan(mouseMovePoint.subtract(mouseDownPoint));
 			mouseDownPoint = mouseMovePoint;
@@ -186,7 +189,7 @@ const init_event = function(__canvas__, popupControllers){
 		}
 
 		// if(label.textContent != "NO LABEL"){
-		if(drawStatus.getIsDrawing()){
+		if(drawStatus.getIsDrawing() && !drawStatus.getIsZoom()){
 			if(bigplus.length == 0){
 
 				var x = configureLine([0, pointer.y, __canvas__.getWidth(), pointer.y], Color.WHITE);
@@ -231,7 +234,7 @@ const init_event = function(__canvas__, popupControllers){
 		}
 	},
 	'object:moving': function(e){
-		// document.getElementById("groupcontrol").style["display"] = "none";
+		if(groupcontrol) groupcontrol.style["display"] = "none";
 	},});
 
 	//===================BEGIN ZOOM PART======================//
@@ -241,9 +244,10 @@ const init_event = function(__canvas__, popupControllers){
 	}
 
 	const MouseWheelHandler = function(options){
-		// document.getElementById("groupcontrol").style["display"] = "none";
+		if(groupcontrol) groupcontrol.style["display"] = "none";
 		var delta = getWheelDelta(options);
 		if (delta != 0) {
+			drawStatus.setIsZoom(true);
 			var pointer = __canvas__.getPointer(options.e, true);
 			var point = new fabric.Point(pointer.x, pointer.y);
 			if (delta > 0) {
@@ -287,6 +291,9 @@ const init_event = function(__canvas__, popupControllers){
 			__canvas__.zoomToPoint(point, Math.pow(2, zoomLevel));
 			keepPositionInBounds(__canvas__);
 		}
+		if(zoomLevel == 0){
+			drawStatus.setIsZoom(false);
+		}
 	}
 
 	function keepPositionInBounds() {
@@ -318,12 +325,12 @@ const init_event = function(__canvas__, popupControllers){
 		if (options.repeat) {
 			return;
 		}
-		// document.getElementById("groupcontrol").style["display"] = "none";
+		if(groupcontrol) groupcontrol.style["display"] = "none";
 		var key = options.which || options.keyCode; // key detection
-		if (key == 32) { // handle Shift key
+		if (key == 32) { // handle Space key
 			__canvas__.defaultCursor = 'move';
 			__canvas__.selection = false;
-			shiftKeyDown = true;
+			spaceKeyDown = true;
 		} else if (key === 37) { // handle Left key
 			move(Direction.LEFT);
 		} else if (key === 38) { // handle Up key
@@ -333,15 +340,18 @@ const init_event = function(__canvas__, popupControllers){
 		} else if (key === 40) { // handle Down key
 			move(Direction.DOWN);
 		}
+		drawStatus.setZoomSpaceKey(spaceKeyDown);
 	});
 
 	fabric.util.addListener(document.body, 'keyup', function(options) {
 		var key = options.which || options.keyCode; // key detection
 		if (key == 32) { // handle Shift key
-			__canvas__.defaultCursor = 'default';
+			var typeCursor = drawStatus.getIsDrawing() ? 'crosshair' : 'default';
+			__canvas__.defaultCursor = typeCursor;
 			__canvas__.selection = true;
-			shiftKeyDown = false;
+			spaceKeyDown = false;
 		}
+		drawStatus.setZoomSpaceKey(spaceKeyDown);
 	});
 
 	var cv_container = document.getElementsByClassName('canvas-container')[0];
