@@ -20,22 +20,22 @@ const canvas = new fabric.Canvas('canvas', {
 
 const groupcontrol =  document.getElementById("groupcontrol");
 
-groupcontrol && groupcontrol.addEventListener('mouseover', function(e){
+if(groupcontrol) groupcontrol.addEventListener('mouseover', function(e){
 	groupcontrol.style["display"] = "";
 });
 
-groupcontrol && groupcontrol.addEventListener('mouseout', function(e){
+if(groupcontrol) groupcontrol.addEventListener('mouseout', function(e){
 	groupcontrol.style["display"] = "none";
 });
 
 const popupControllers = new PopupControllers(canvas);
+popupControllers.setPopup(true);
 
 init_event(canvas, popupControllers);
 
 initMaintask(
 	canvas, 
 	document.getElementById('url_image').textContent,
-	// document.getElementById("bbsfirst").textContent
 );
 
 //===================DEFAULT-INIT======================//
@@ -80,7 +80,6 @@ if (btnPredict){
 	});
 }
 
-
 //=====================CONTROLER=======================//
 //
 
@@ -90,7 +89,7 @@ if(btnBad){
 	btnBad.addEventListener('click', function(){
 		listPredict.splice(0,listPredict.length);
 		btnPredict.style['display'] = '';	
-		document.getElementById("groupcontrol").style["display"] = "none";
+		if(groupcontrol) groupcontrol.style["display"] = "none";
 		rqbadnext(meta_id.textContent, canvas);
 
 	});
@@ -102,7 +101,7 @@ btnNext && btnNext.addEventListener('click', function(){
 	listPredict.splice(0,listPredict.length);
 	btnPredict.style['display'] = '';
 			
-	// document.getElementById("groupcontrol").style["display"] = "none";
+	if(groupcontrol) groupcontrol.style["display"] = "none";
 	rqnext(meta_id.textContent, canvas);
 });
 
@@ -112,7 +111,7 @@ btnSaveandNext && btnSaveandNext.addEventListener('click', function(){
 	listPredict.splice(0,listPredict.length);
 	btnPredict.style['display'] = '';
 	
-	// document.getElementById("groupcontrol").style["display"] = "none";
+	if(groupcontrol) groupcontrol.style["display"] = "none";
 	rqsavenext(meta_id.textContent, canvas);
 })
 
@@ -123,6 +122,9 @@ class DrawStatus{
 	constructor(__isDrawing__){
 		this.isDrawing = __isDrawing__;
 		this.isWaiting = false;
+		this.isZoom = false;
+		this.idTool = '';
+		this.zoomSpaceKey = false;
 	}
 
 	setIsDrawing(__isDrawing__){
@@ -133,12 +135,48 @@ class DrawStatus{
 		return this.isDrawing;
 	}
 
-	setIsWaiting(_isWaiting_){
-		this.isWaiting = _isWaiting_;
+	setIsWaiting(__isWaiting___){
+		this.isWaiting = __isWaiting___;
 	}
 
 	getIsWaiting(){
 		return this.isWaiting;
+	}
+
+	setIdTool(__idTool__){
+		this.idTool = __idTool__;
+	}
+
+	setIsZoom(__isZoom__){
+		this.isZoom = __isZoom__;
+	}
+
+	getIsZoom(){
+		return this.isZoom;
+	}
+
+	setZoomSpaceKey(__zoomSpace__){
+		this.zoomSpaceKey = __zoomSpace__;
+	}
+
+	getZoomSpaceKey(){
+		return this.zoomSpaceKey;
+	}
+
+	startDrawStatus(__idTool__){
+		this.isDrawing = true;
+		this.isWaiting = true;
+		this.idTool = __idTool__;
+		var currentTool = document.getElementById(this.idTool);
+		if (currentTool) currentTool.style['backgroundColor'] = "#ADE4FF";
+	}
+
+	stopDrawStatus(){
+		this.isDrawing = false;
+		this.isWaiting = false;
+		var currentTool = document.getElementById(this.idTool);
+		if (currentTool) currentTool.style['backgroundColor'] = "#FFFFFF";
+		this.idTool = '';
 	}
 }
 
