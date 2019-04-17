@@ -14,7 +14,7 @@ function image_convert(img){
 	return [img.width*scale, img.height*scale]
 }
 
-const initMaintask = function(canvas, url, bbs='') {
+const initMaintask = function(canvas, url) {
 	fabric.Image.fromURL(
 		url,
 		function(img) {
@@ -25,19 +25,6 @@ const initMaintask = function(canvas, url, bbs='') {
 			canvas.setHeight(wh[1]);
 			canvas.setBackgroundImage(img);
 			canvas.renderAll();
-			// try {
-			// 	bbs.split('\n').forEach(function(line){
-			// 		var info = line.split(',');
-			// 		if (info.length==5){
-			// 			renderBBS_RECT(canvas, info);	
-			// 		}
-			// 		else if (info.length==9){
-			// 			renderBBS_POLY(canvas, info);
-			// 		}
-			// 	});
-			// } catch(e) {
-			// 	console.log(e);
-			// }
 		}
 	);
 };
