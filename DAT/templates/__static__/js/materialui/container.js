@@ -24,6 +24,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import Home from '@material-ui/icons/Home';
 
 import generalListItems from './listitem/generalListItems';
 import historyListItems from './listitem/historyListItems';
@@ -240,6 +241,9 @@ class MenuAppBar extends React.Component {
 			className={classNames(classes.menuButton, !ON_HOMEPAGE && this.state.open && classes.menuButtonHidden,)}>
 			{!ON_HOMEPAGE && (<MenuIcon />)}
 			</IconButton>
+			<IconButton aria-haspopup="true" color="inherit" onClick={this.handleWorkspace}>
+			<Home />
+			</IconButton>
 			<Typography variant="h6" color="inherit" className={classes.grow}>Data Annotation Tool - GVLab</Typography>
 			<div>
 			{
@@ -250,7 +254,7 @@ class MenuAppBar extends React.Component {
 						TransitionComponent={Zoom} 
 						placement="bottom" 
 						classes={{tooltip: classes.lightTooltip}}>
-					<IconButton id="skip_next" aria-haspopup="true"color="inherit">
+					<IconButton id="skip_next" aria-haspopup="true" color="inherit">
 					<SkipNext />
 					</IconButton>
 					</Tooltip>
