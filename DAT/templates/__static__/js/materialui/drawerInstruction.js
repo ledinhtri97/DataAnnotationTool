@@ -100,6 +100,8 @@ class TemporaryDrawerInstruction extends React.Component {
 
 	render() {
 		const { classes } = this.props;
+		
+		var labelselect = Array.from(document.getElementById("label_select").children);
 
 		const sideList = (
 			<div className={classes.list}>
@@ -117,12 +119,19 @@ class TemporaryDrawerInstruction extends React.Component {
 			<Typography variant="title" color="inherit" className={classes.grow}>Hotkeys number</Typography>
 			
 			<List>
-			{MAP_LABEL_INS.map((icon, index) => (
-				<ListItem button key={index} className={classes.listItem}>
-				<ListItemIcon>{icon}</ListItemIcon>
-				<Typography variant="caption" color="inherit" className={classes.caption}>Label availble {index}</Typography>
-				</ListItem>
-				))}
+			{
+                labelselect.map(function(lb, _key_) {
+                    var spl = lb.textContent.split('-');
+                    var labelname = spl[0].charAt(0).toUpperCase() + spl[0].slice(1);
+                    var labeltype = spl[1].charAt(0).toUpperCase() + spl[1].slice(1);
+                    return (
+                        <ListItem button key={_key_} className={classes.listItem}>
+                        <ListItemIcon>{MAP_LABEL_INS[_key_]}</ListItemIcon>
+                        <Typography variant="caption" color="inherit" className={classes.caption}>{labelname + " | " + labeltype}</Typography>
+                        </ListItem>
+                        );}
+                    )
+            }
 			</List>
 			</div>
 			);
