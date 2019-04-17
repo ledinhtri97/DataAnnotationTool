@@ -20,24 +20,18 @@
 		<p>{{lb}}</p>
 		{% endfor %}
 	</div>
+	{% csrf_token %}
 </div>
 
 <!-- <div id="mainboard"></div> -->
 <div class="mainboard" style="display: none;">
+
 		<div id="selectpopup" class="dropdown-content" style="display: none;">
 			<div class="controll_all">
 				<span><input id="hall" type="checkbox"><label>hAll</label></span>
 				<span><input id="eall" type="checkbox"><label>eAll</label></span>
 			</div>
 		</div>
-
-		<div id="groupcontrol" style="display: none;">
-			<button id="btn_edit" type="button">E</button>
-			<button id="btn_hidden" type="button">H</button>
-			<button id="btn_delete" type="button">D</button>
-			<label id="labelpopup"></label>
-			<label id="accuracypopup"></label>
-		</div>	
 	
 	<div class="tableinfo_control">
 		<div class="tableinfo" id="tableinfo">
@@ -49,28 +43,8 @@
 		<div class="tablecontrol">
 			<p>Label Drawer: <span id="label">NO LABEL</span></p>
 			<div class="drawer">
-				<div class="dropdown">
-					<button type="button">Begin</button>
-				</div>
-				<button id="end" type="button">End</button>
 				<button id="deleteall" type="button">DELETE ALL</button>
 			</div>	
-			<p>API</p>
-			<div class="apirequest">
-				
-				<button id="facedet" type="button">Face</button>
-				<button id="persondet" type="button">Person</button>
-				div class="dropdown">
-				<button type="button">API</button>
-			</div>
-			<button id="predictAPI" type="button">Predict</button>
-		</div>
-		<p>Controller</p>
-		<div class="controller">
-			<button id="baddata" type="button">Bad Data</button>
-			<button id="next" type="button">Next</button>
-			{% csrf_token %}
-			<button id="savennext" type="button">Save&Next</button>
 		</div>
 	</div>
 </div>
