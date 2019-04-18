@@ -6,12 +6,13 @@ import {Color} from "../style/color"
 
 function image_convert(img){
 	var parent = document.getElementById("cvcontainer");
-
-	var scale = Math.min( 
-		parent.clientWidth / img.width, 
-		parent.clientHeight / img.height 
-		);
-	return [img.width*scale, img.height*scale]
+	if(parent){
+		var scale = Math.min( 
+			parent.clientWidth / img.width, 
+			parent.clientHeight / img.height 
+			);
+		return [img.width*scale, img.height*scale]
+	}
 }
 
 const initMaintask = function(canvas, url) {
@@ -26,7 +27,7 @@ const initMaintask = function(canvas, url) {
 			canvas.setBackgroundImage(img);
 			canvas.renderAll();
 		}
-	);
+		);
 };
 
 const renderBBS_RECT = function(canvas, bb){
@@ -45,22 +46,22 @@ const renderBBS_RECT = function(canvas, bb){
 const renderBBS_POLY = function(canvas, bb){
 
 	var polygon = configurePoly([
-		{
-			x: bb[2]*canvas.getWidth(),
-			y: bb[3]*canvas.getHeight()
-		},
-		{
-			x: bb[4]*canvas.getWidth(),
-			y: bb[5]*canvas.getHeight()
-		},
-		{
-			x: bb[6]*canvas.getWidth(),
-			y: bb[7]*canvas.getHeight()
-		},
-		{
-			x: bb[8]*canvas.getWidth(),
-			y: bb[9]*canvas.getHeight()
-		},
+	{
+		x: bb[2]*canvas.getWidth(),
+		y: bb[3]*canvas.getHeight()
+	},
+	{
+		x: bb[4]*canvas.getWidth(),
+		y: bb[5]*canvas.getHeight()
+	},
+	{
+		x: bb[6]*canvas.getWidth(),
+		y: bb[7]*canvas.getHeight()
+	},
+	{
+		x: bb[8]*canvas.getWidth(),
+		y: bb[9]*canvas.getHeight()
+	},
 	], bb[1], Color.BLUE, bb[0]);
 	canvas.add(polygon);
 	canvas.renderAll();
