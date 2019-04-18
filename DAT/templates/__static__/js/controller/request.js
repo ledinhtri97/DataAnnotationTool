@@ -5,7 +5,7 @@ import Cookie from 'js-cookie';
 import {AllCheckBoxEdit} from "./itemReact";
 import {reset_when_go} from "../event/einit";
 import {outWorkSpace, ask_before_out} from "../modules/dat-utils"
-import {drawPoly} from "../maintask"
+import {drawPoly} from "../main_module"
 
 var label = document.getElementById("label");
 
