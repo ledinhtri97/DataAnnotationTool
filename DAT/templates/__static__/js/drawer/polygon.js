@@ -1,12 +1,12 @@
-import {createItemToBoundingBoxes, AllCheckBoxEdit} from '../controller/itemReact';
+import {createItemToList} from "../controller/label"
 import {Color} from "../style/color"
 import {fabric} from "fabric";
-import {drawStatus} from "../maintask";
+import {drawStatus} from "../main_module";
 
 const MIN = 99;
 const MAX = 999999;
 
-const configureCircle = function(__x__, __y__, __name__){
+const configureCircle = function(__x__, __y__, __name__=''){
 	var circle = new fabric.Circle({
 		radius: 4,
 		fill: Color.YELLOW,
@@ -21,9 +21,9 @@ const configureCircle = function(__x__, __y__, __name__){
 	return circle;
 }
 
-const configureLine = function(__points__, __color__=Color.GRAY){
+const configureLine = function(__points__, __color__=Color.WHITE){
 	var line = new fabric.Line(__points__, {
-		strokeWidth: 2,
+		strokeWidth: 1,
 		fill: __color__,
 		stroke: __color__,
 		class:'line',
@@ -38,7 +38,12 @@ const configureLine = function(__points__, __color__=Color.GRAY){
 	return line;
 }
 
-const configureRectangle = function (__left__, __top__, __width__, __height__, __name__='', __color__=Color.GREEN, __accuracy__='1.0'){
+const configureRectangle = function (
+	__left__, __top__, __width__, __height__, __name__='', __accuracy__='1.0'){
+
+	var color = document.getElementById(__name__+'-rect_color').textContent;
+
+	var strokeWidth = parseInt(document.getElementById('width_stroke').textContent);
 	var rect = new fabric.Rect({
 		left: __left__,
 		top: __top__,
@@ -48,8 +53,8 @@ const configureRectangle = function (__left__, __top__, __width__, __height__, _
 		originX: 'left',
 		originY: 'top',
 		hasBorder: true,
-		stroke: __color__,
-		strokeWidth: 3,
+		stroke: color,
+		strokeWidth: strokeWidth,
 		fill:'transparent',
 		transparentCorners: false,
 		cornerStrokeColor: 5,
@@ -64,6 +69,7 @@ const configureRectangle = function (__left__, __top__, __width__, __height__, _
 		lockScalingFlip: true,
 		name: __name__,
 		accuracy: __accuracy__,
+		basicColor: color,
 		// lockUniScaling: false,
 		// selectable: false,
 		// evented: false,
@@ -75,17 +81,25 @@ const configureRectangle = function (__left__, __top__, __width__, __height__, _
 	rect.setControlVisible('mr', false);
 	rect.setControlVisible('mb', false);
 
+	configureIconLabel(__left__+(__width__/2), __top__+(__height__/2), rect);
+
 	return rect;
 }
 
-const configurePoly = function(__points__, __name__='', __color__=Color.GREEN, __accuracy__='1.0'){
+
+
+const configurePoly = function(__points__, __name__='', __accuracy__='1.0', __circles__=[]){
+	
+	var type_poly = (__points__.length == 4) ? 'quad' : 'poly';
+	var color = document.getElementById(__name__+'-'+type_poly+'_color').textContent;
+	var strokeWidth = parseInt(document.getElementById('width_stroke').textContent);
 	var polygon = new fabric.Polygon(__points__,{
 		hasControls: false,
 		originX: 'left',
 		originY: 'top',
 		hasBorders: false,
-		stroke: __color__,
-		strokeWidth: 3,
+		stroke: color,
+		strokeWidth: strokeWidth,
 		fill:'transparent',
 		transparentCorners: true,
 		cornerSize: 10,
@@ -93,9 +107,35 @@ const configurePoly = function(__points__, __name__='', __color__=Color.GREEN, _
 		selectable: false,
 		name:__name__,
 		accuracy: __accuracy__,
+		circles: __circles__,
+		basicColor: color,
 	});
 
+	var __left__ = polygon.left + polygon.width / 2;
+	var __top__ = polygon.top + polygon.height / 2;
+
+	configureIconLabel(__left__, __top__, polygon);
+
 	return polygon;
+}
+
+const configureIconLabel = function(__left__, __top__, object){
+	const icon = new fabric.Circle({
+		radius: document.getElementById("size_icon").textContent,
+		fill: object.stroke,
+		left: __left__,
+		top: __top__,
+		hasBorders: false,
+		hasControls: false,
+		selectable: false,
+		originX:'center',
+		originY:'center',
+		object: object,
+		name_id: 'icon',
+
+	});
+	object.icon = icon;
+	return icon;
 }
 
 class DrawPolygon{
@@ -210,21 +250,29 @@ class DrawPolygon{
 					var __left__ = drawer.rectangle.left, 
 					__top__ = drawer.rectangle.top, 
 					__width__ = drawer.rectangle.width, 
-					__height__ = drawer.rectangle.height, 
-					__name__ = document.getElementById("label").textContent;
-
+					__height__ = drawer.rectangle.height;
+					
 					drawer.canvas.remove(drawer.rectangle);
 
 					if(__width__ > 15 && __height__ > 10){
-						var rect = configureRectangle(__left__, __top__, __width__, __height__, __name__) ;
+
+						var rect = configureRectangle(
+							__left__, __top__, __width__, __height__, namelabel) ;
+						
 						drawer.canvas.add(rect);
-						createItemToBoundingBoxes(drawer.canvas, namelabel);
+
+						createItemToList(drawer.canvas, rect);
+
 					}
 				}
 				else {
+
 					var polygon = configurePoly(points, namelabel)
-					drawer.canvas.add(polygon);	
-					createItemToBoundingBoxes(drawer.canvas, namelabel);
+					
+					drawer.canvas.add(polygon);
+					
+					createItemToList(drawer.canvas, polygon);
+					
 				}
 				
 				drawer.activeLine = null;
@@ -255,7 +303,7 @@ class DrawPolygon{
 						var fp = drawer.pointArray[0];
 						drawer.origX = pointer.x;
 						drawer.origY = pointer.y;
-						
+
 						var points = [fp.left, fp.top, fp.left, fp.top];
 						var line = configureLine(points);
 
@@ -264,6 +312,7 @@ class DrawPolygon{
 							drawer.origY,
 							pointer.x-drawer.origX,
 							pointer.y-drawer.origY,
+							document.getElementById("label").textContent,
 							);
 
 						drawer.lineArray.push(line);
@@ -275,7 +324,7 @@ class DrawPolygon{
 					}
 				}
 				else if(drawer.typePoly == 'quad'){
-					
+
 					if (drawer.pointArray.length == 2){
 						var fp = drawer.pointArray[0];
 						var points = [fp.left, fp.top, fp.left, fp.top];
@@ -354,7 +403,13 @@ class DrawPolygon{
 		this.endDraw();
 
 		document.getElementById("label").textContent = namelabel;
-		AllCheckBoxEdit(this.canvas, false);
+		
+		this.canvas.getObjects().forEach(function(obj){
+			if(obj.labelControl){
+				obj.labelControl.__editITEM__(false);
+			}
+		});
+
 		this.canvas.defaultCursor = 'crosshair';
 		
 		drawStatus.startDrawStatus(namelabel+"-"+this.typePoly);
