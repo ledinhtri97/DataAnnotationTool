@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'colorfield',
     'progressbarupload',
     'rest_framework',
     'crispy_forms',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'adminmaster.workspacemanagement',
     'usermaster',
     'apimodel',
+    'deeplearning',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
