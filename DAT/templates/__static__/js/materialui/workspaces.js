@@ -90,16 +90,15 @@ class Workspaces extends React.Component {
 		const { classes } = this.props;
 		const workspace = this;
 		const workspaces = JSON.parse(document.getElementById("home").textContent)['workspaces'];
+		workspaces.pop();
+
 		return (
 			<React.Fragment>
 			<main className={classes.main}>
 			<div className={classes.heroUnit}>
 			<div className={classes.heroContent}>
-			<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+			<Typography component="h3" variant="h2" align="center" color="textPrimary" gutterBottom>
 			Main Workspace
-			</Typography>
-			<Typography variant="h6" align="center" color="textSecondary" paragraph>
-			Hello, have good day and let's label data.
 			</Typography>
             {/*<div className={classes.heroButtons}>
               <Grid container spacing={16} justify="center">
