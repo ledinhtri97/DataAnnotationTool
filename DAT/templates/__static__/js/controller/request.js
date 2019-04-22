@@ -2,7 +2,6 @@ import {initMaintask} from "./renderInit"
 import ReactDOM from "react-dom";
 import React, {Component} from "react";
 import Cookie from 'js-cookie';
-import {AllCheckBoxEdit} from "./itemReact";
 import {reset_when_go} from "../event/einit";
 import {outWorkSpace, ask_before_out} from "../modules/dat-utils"
 import {drawPoly} from "../main_module"
@@ -23,8 +22,6 @@ const nomoredata_handle =  function(){
 }
 
 const rqsavenext = function(meta_id, canvas){
-
-	AllCheckBoxEdit(canvas, false);
 
 	var myData = ""
 
@@ -71,11 +68,11 @@ const rqsavenext = function(meta_id, canvas){
 			document.getElementById("meta_id").textContent = metadata.id;
 			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
 
-			var bbs_available = document.getElementById("bbs_available");
-			bbs_available.innerHTML = "";
+			// var bbs_available = document.getElementById("bbs_available");
+			// bbs_available.innerHTML = "";
 
-			var bbs_hidden = document.getElementById("bbs_hidden");
-			bbs_hidden.innerHTML = "";
+			// var bbs_hidden = document.getElementById("bbs_hidden");
+			// bbs_hidden.innerHTML = "";
 
 			canvas.clear();
 
@@ -111,10 +108,11 @@ const rqnext = function(meta_id, canvas){
 		else{
 			document.getElementById("meta_id").textContent = metadata.id;
 			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
-			var bbs_available = document.getElementById("bbs_available");
-			bbs_available.innerHTML = "";
-			var bbs_hidden = document.getElementById("bbs_hidden");
-			bbs_hidden.innerHTML = "";
+
+			// var bbs_available = document.getElementById("bbs_available");
+			// bbs_available.innerHTML = "";
+			// var bbs_hidden = document.getElementById("bbs_hidden");
+			// bbs_hidden.innerHTML = "";
 
 			canvas.clear();
 
@@ -149,10 +147,11 @@ const rqbadnext = function(meta_id, canvas){
 		else{
 			document.getElementById("meta_id").textContent = metadata.id;
 			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
-			var bbs_available = document.getElementById("bbs_available");
-			bbs_available.innerHTML = "";
-			var bbs_hidden = document.getElementById("bbs_hidden");
-			bbs_hidden.innerHTML = "";
+			
+			// var bbs_available = document.getElementById("bbs_available");
+			// bbs_available.innerHTML = "";
+			// var bbs_hidden = document.getElementById("bbs_hidden");
+			// bbs_hidden.innerHTML = "";
 
 			canvas.clear();
 
