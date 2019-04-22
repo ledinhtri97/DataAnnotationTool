@@ -35,13 +35,13 @@ class ScanMetaToDatabase(object):
             from adminmaster.datamanagement.submodels.metadata import MetaDataModel
             
             if (type_file):
-               print(xxxfile, type_file)
+               # print(xxxfile, type_file)
                temp = MetaDataModel.objects.filter(
                      dataset=self.dataSetModel,
                      name=xxxfile.split('.')[0]
                ).first()
                try:
-                  print(temp, temp.get_full_origin())
+                  # print(temp, temp.get_full_origin())
                   with open(os.path.join(settings.BASE_DIR, store_folder, full_path_folder, xxxfile), "r") as f:
                      bbs = ""
                      print(temp.get_full_origin())
