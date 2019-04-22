@@ -50,6 +50,9 @@ const styles = theme => ({
     close: {
         padding: theme.spacing.unit / 2,
     },
+    hidden: {
+        display: 'none',
+    }
 });
 
 class toolListItems extends React.Component {
@@ -62,6 +65,9 @@ class toolListItems extends React.Component {
     };
 
     handleClick = message => () => {
+        if(message == 'stop'){
+            message = document.getElementById("stop_mode").textContent;
+        }
         this.queue.push({message, key: new Date().getTime(),});
 
         if (this.state.open) {
@@ -93,12 +99,14 @@ class toolListItems extends React.Component {
         const { messageInfo } = this.state;
         const tool = this;
 
-        var labelselect = Array.from(document.getElementById("label_select").children);
+        // var labelselect = Array.from(document.getElementById("label_select").children);
+        var labelselect = JSON.parse(document.getElementById("label_select").textContent)['labels'];
+        labelselect.pop();
 
         return(
             <div>
             <div id="predict_api" onClick={tool.handleClick("Predict API is hidden!!! read more in the instruction")}>
-            <ListItem button className={classes.listItem}>
+            <ListItem button>
             <Tooltip title="Predict API" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
             <ListItemIcon className={classes.icon}>
             <OfflineBolt />
@@ -121,12 +129,12 @@ class toolListItems extends React.Component {
 
             {
                 labelselect.map(function(lb, key) {
-                    var spl = lb.textContent.split('-');
+                    var spl = lb.id.split('-');
                     var labelname = spl[0].charAt(0).toUpperCase() + spl[0].slice(1);
                     var labeltype = spl[1].charAt(0).toUpperCase() + spl[1].slice(1);
                     var message = "Drawing " + labelname + " by " + (spl[1]=='rect'? "rectangle" : "polygon") + " shape";
                     return (
-                        <div id={lb.textContent} key={key} onClick={tool.handleClick(message)}>
+                        <div id={lb.id} key={key} onClick={tool.handleClick(message)}>
                         <ListItem button>
                         <Tooltip title={labelname + " | " + labeltype} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
                         <ListItemIcon className={classes.icon}>
@@ -135,13 +143,14 @@ class toolListItems extends React.Component {
                         </Tooltip>
                         <ListItemText primary={labelname + " | " + labeltype} />
                         </ListItem>
+                        <div id={lb.id+'_color'} className={classes.hidden}>{lb.color}</div>
                         </div>
                         );}
                     )
             }
 
-            <div id="stop_draw" onClick={tool.handleClick("Stop Drawing")}>
-            <ListItem button className={classes.listItem}>
+            <div id="stop_draw" onClick={tool.handleClick('stop')}>
+            <ListItem button>
             <Tooltip title="Stop Drawing" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
             <ListItemIcon className={classes.icon}>
             <Cancel />
