@@ -15,38 +15,10 @@
 	<div id="predict_bbs">{{predict_bbs}}</div>
 	<div id="boxes_position">{{boxes_position}}</div>
 	<div id="url_image">/gvlab-dat/dataset/{{full_path}}/{{name}}.{{extfile}}</div>
-	<div id="label_select">
-		{%for lb in labels%}
-		<p>{{lb}}</p>
-		{% endfor %}
-	</div>
+	<div id="label_select">{"labels":[{% for lb in labels %}{"id": "{{lb.id}}","icon": "{{lb.icon}}","color":"{{lb.color}}"},{% endfor%}{}]}</div>
+	<div id="settings_data">{"settings":{"show_popup": "{{settings.show_popup}}","auto_hidden": "{{settings.auto_hidden}}","auto_predict":"{{settings.auto_predict}}","ask_dialog":"{{settings.ask_dialog}}","color_background":"{{settings.color_background}}","size_icon":{{settings.size_icon}},"width_stroke":{{settings.width_stroke}}}}</div>
 	{% csrf_token %}
-</div>
-
-<!-- <div id="mainboard"></div> -->
-<div class="mainboard" style="display: none;">
-
-		<div id="selectpopup" class="dropdown-content" style="display: none;">
-			<div class="controll_all">
-				<span><input id="hall" type="checkbox"><label>hAll</label></span>
-				<span><input id="eall" type="checkbox"><label>eAll</label></span>
-			</div>
-		</div>
-	
-	<div class="tableinfo_control">
-		<div class="tableinfo" id="tableinfo">
-			<div id="bbs_available">
-			</div>
-			<div id="bbs_hidden">
-			</div>
-		</div>
-		<div class="tablecontrol">
-			<p>Label Drawer: <span id="label">NO LABEL</span></p>
-			<div class="drawer">
-				<button id="deleteall" type="button">DELETE ALL</button>
-			</div>	
-		</div>
-	</div>
+	<div id="stop_mode">You are not in labeling mode</div>
 </div>
 {% endblock content %}
 {%block loadjs%}
