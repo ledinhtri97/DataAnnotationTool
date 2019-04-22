@@ -83,14 +83,9 @@ class MainBoard extends React.Component {
 			<div className={classes.firstcontainer}>
 				<div className={classes.secondcontainer} id="cvcontainer">
 					<canvas id="canvas" className={classes.canvas}></canvas>
-					<div id="groupcontrol" style={{display: 'none', position: 'absolute',}}>
-						<span id="btn_edit">{MAP_ICON_INS['E']}</span>
-						<span id="btn_hidden">{MAP_ICON_INS['H']}</span>
-						<span id="btn_delete">{MAP_ICON_INS['D']}</span>
-						{/*<Chip id="labelpopup" className={classes.label} />*/}
-						{/*<Chip id="accuracypopup" className={classes.label} />*/}
-						{<label id="labelpopup" className={classes.label}></label>}
-						{<label id="accuracypopup" className={classes.label}></label>}
+					<div id="group_control" style={{display: 'none', position: 'absolute',}}>
+						{<label id="label_popup" className={classes.label}></label>}
+						{<label id="accuracy_popup" className={classes.label}></label>}
 					</div>
 				</div>
 			</div>
