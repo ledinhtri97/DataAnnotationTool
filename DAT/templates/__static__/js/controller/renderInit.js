@@ -1,6 +1,5 @@
 import {fabric} from 'fabric';
-import {createItemToBoundingBoxes} from './itemReact';
-// import {configureRectangle} from '../drawer/rectangle';
+import {createItemToList} from "./label"
 import {configurePoly, configureRectangle} from '../drawer/polygon';
 import {Color} from "../style/color"
 
@@ -36,10 +35,11 @@ const renderBBS_RECT = function(canvas, bb){
 		bb[3]*canvas.getHeight(), 
 		(bb[4]-bb[2])*canvas.getWidth(),
 		(bb[5]-bb[3])*canvas.getHeight(),
-		bb[1], Color.BLUE, bb[0]);
+		bb[1], bb[0]);
+	rect.set('stroke', Color.BLUE);
 	canvas.add(rect);
 	canvas.renderAll();
-	createItemToBoundingBoxes(canvas, bb[1]);
+	createItemToList(canvas, rect);
 	return rect;
 }
 
@@ -62,10 +62,11 @@ const renderBBS_POLY = function(canvas, bb){
 		x: bb[8]*canvas.getWidth(),
 		y: bb[9]*canvas.getHeight()
 	},
-	], bb[1], Color.BLUE, bb[0]);
+	], __name__=bb[1], __accuracy__=bb[0]);
+	polygon.set('stroke', Color.BLUE);
 	canvas.add(polygon);
 	canvas.renderAll();
-	createItemToBoundingBoxes(canvas, bb[1]);
+	createItemToList(canvas, polygon);
 	return polygon;
 }
 
