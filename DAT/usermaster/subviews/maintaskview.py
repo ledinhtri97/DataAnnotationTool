@@ -1,9 +1,11 @@
 from adminmaster.datamanagement.models import DataSetModel
 from adminmaster.datamanagement.models import MetaDataModel
+from usermaster.models import UserSettingsModel
 from usermaster.serializers import MainTaskMetaDataSerializer
 from rest_framework import generics
 from rest_framework.response import Response
 from django.http import JsonResponse
+import json
 # from apimodel.api.ssdpredict import objectdetAPI
 # from apimodel import combo_1, combo_2
 from .query import querymeta
@@ -24,16 +26,37 @@ class MainTaskView(generics.RetrieveUpdateAPIView):
 
     return meta_data
 
+  def get_settings(self):
+    dataset_id = self.request.parser_context['kwargs']['id']
+    user = self.request.user
+
+    sett = UserSettingsModel.objects.filter(dataset=dataset_id, user=user).first()
+
+    return sett.settings if sett else ''
+
+
   def retrieve(self, request, *args, **kwargs):
+    
     queryset = self.get_queryset()
+    sett = self.get_settings()
+
     newdict = {}
+
     if (queryset):
       serializer = MainTaskMetaDataSerializer(queryset)
 
       newdict = {'labels': [
-        str(lb) for lb in 
-          DataSetModel.objects.filter(id=serializer.data['dataset']).first().labels.all()
-      ]}
+          {
+            'id': str(lb),
+            'color': lb.color,
+          } for lb in 
+            DataSetModel.objects.filter(id=serializer.data['dataset']).first().labels.all()
+        ],
+        'settings': json.loads(sett),
+      }
+      
+      print(newdict)
+
       newdict.update(serializer.data)
 
     return Response(data=newdict)
