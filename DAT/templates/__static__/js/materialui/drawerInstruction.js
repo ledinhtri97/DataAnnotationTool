@@ -59,6 +59,7 @@ const styles = theme =>({
 
 const MAP_ICON_INS = {
 	A: (<IconButton><SvgIcon><path d="M3,5C3,3.9 3.9,3 5,3H19C20.1,3 21,3.9 21,5V19C21,20.1 20.1,21 19,21H5C3.89,21 3,20.1 3,19V5M11,7C9.9,7 9,7.9 9,9V17H11V13H13V17H15V9C15,7.9 14.1,7 13,7H11M11,9H13V11H11V9Z" /></SvgIcon></IconButton> ),
+	B: (<IconButton><SvgIcon><path d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M15,10.5V9A2,2 0 0,0 13,7H9V17H13A2,2 0 0,0 15,15V13.5C15,12.7 14.3,12 13.5,12C14.3,12 15,11.3 15,10.5M13,15H11V13H13V15M13,11H11V9H13V11Z" /></SvgIcon></IconButton> ),
 	S: (<IconButton><SvgIcon><path d="M11,7A2,2 0 0,0 9,9V11A2,2 0 0,0 11,13H13V15H9V17H13A2,2 0 0,0 15,15V13A2,2 0 0,0 13,11H11V9H15V7H11M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
 	E: (<IconButton><SvgIcon><path d="M9,7V17H15V15H11V13H15V11H11V9H15V7H9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
 	H: (<IconButton><SvgIcon><path d="M9,7V17H11V13H13V17H15V7H13V11H11V7H9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
@@ -68,6 +69,7 @@ const MAP_ICON_INS = {
 
 const MAP_TEXT_INS = {
 	A: "Skip and next",
+	B: "Report bad data and next",
 	S: "Save and next",
 	E: "Hover on shape and edit",
 	H: "Hover on shape and hidden",
@@ -101,13 +103,14 @@ class TemporaryDrawerInstruction extends React.Component {
 	render() {
 		const { classes } = this.props;
 		
-		var labelselect = Array.from(document.getElementById("label_select").children);
-
+		var labelselect = JSON.parse(document.getElementById("label_select").textContent)['labels'];
+		labelselect.pop();
+		
 		const sideList = (
 			<div className={classes.list}>
 			<Typography variant="title" color="inherit" className={classes.grow}>Hotkeys character</Typography>
 			<List>
-			{['A', 'S', 'E', 'H', 'D', 'Q'].map((text, index) => (
+			{['A', 'B', 'S', 'E', 'H', 'D', 'Q'].map((text, index) => (
 				<ListItem button key={index} className={classes.listItem}>
 				<ListItemIcon>{MAP_ICON_INS[text]}</ListItemIcon>
 				<Typography variant="caption" color="inherit" className={classes.caption}>{MAP_TEXT_INS[text]}</Typography>
@@ -121,7 +124,7 @@ class TemporaryDrawerInstruction extends React.Component {
 			<List>
 			{
                 labelselect.map(function(lb, _key_) {
-                    var spl = lb.textContent.split('-');
+                    var spl = lb.id.split('-');
                     var labelname = spl[0].charAt(0).toUpperCase() + spl[0].slice(1);
                     var labeltype = spl[1].charAt(0).toUpperCase() + spl[1].slice(1);
                     return (
