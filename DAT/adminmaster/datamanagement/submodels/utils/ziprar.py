@@ -11,6 +11,7 @@ from django.conf import settings
 
 class ZipRarExtractor(object):
     def __init__(self, inputDataModels, dir_path):
+        print(inputDataModels)
         self.inputDataModels = inputDataModels
         self.dir_path = dir_path
 
