@@ -29,7 +29,6 @@ import Home from '@material-ui/icons/Home';
 import generalListItems from './listitem/generalListItems';
 import historyListItems from './listitem/historyListItems';
 import toolListItems from './listitem/toolListItems';
-import labelListItems from './listitem/labelListItems';
 
 import {outWorkSpace} from "../modules/dat-utils"
 
@@ -39,9 +38,15 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
+
+import TemporaryDrawerInstruction from "./drawerInstruction";
+import TemporaryDrawerSettings from "./drawerSettings";
+
+import MainBoard from "./mainboard";
 
 // import ListItemIcon from '@material-ui/core/ListItemIcon';
 
@@ -148,13 +153,20 @@ const styles = theme =>({
     },
     padcontroller:{
     	marginLeft: "50px",
-	},
-	lightTooltip: {
-        backgroundColor: theme.palette.common.white,
-        color: 'rgba(0, 0, 0, 0.87)',
-        boxShadow: theme.shadows[1],
-        fontSize: 11,
-    }
+    },
+    lightTooltip: {
+    	backgroundColor: theme.palette.common.white,
+    	color: 'rgba(0, 0, 0, 0.87)',
+    	boxShadow: theme.shadows[1],
+    	fontSize: 11,
+    },
+    button: {
+    	margin: theme.spacing.unit,
+    	width: '150px',
+    },
+    hidden: {
+    	display: 'none',
+    },
 });
 
 // {/*<IconButton className={classes.menuButton} color="inherit" aria-label="Menu">*/}
@@ -217,7 +229,11 @@ class MenuAppBar extends React.Component {
 		else{
 			window.location.href = url_logout;
 		}
-	}
+	};
+
+	init_value = (value) => {
+		return JSON.parse(document.getElementById("settings_data").textContent)['settings'][value];
+	};
 
 	render() {
 		const { classes } = this.props;
@@ -227,7 +243,7 @@ class MenuAppBar extends React.Component {
 		const ON_HOMEPAGE =  document.getElementById("home") != null;
 		const ON_WORKSPACE = document.getElementById("project") != null;
 		const ON_WORKING = document.getElementById("meta_id") != null;
-		
+
 		return (	
 			<div className={classes.root}>
 			<CssBaseline />
@@ -249,20 +265,21 @@ class MenuAppBar extends React.Component {
 			{
 				ON_WORKING && (
 					<React.Fragment>
+					<Button id="label" variant="contained" color="primary" className={classes.button}>NO LABEL</Button>
 					<Tooltip 
-						title="Skip and next" 
-						TransitionComponent={Zoom} 
-						placement="bottom" 
-						classes={{tooltip: classes.lightTooltip}}>
+					title="Skip and next" 
+					TransitionComponent={Zoom} 
+					placement="bottom" 
+					classes={{tooltip: classes.lightTooltip}}>
 					<IconButton id="skip_next" aria-haspopup="true" color="inherit">
 					<SkipNext />
 					</IconButton>
 					</Tooltip>
 					<Tooltip 
-						title="Save and continue" 
-						TransitionComponent={Zoom} 
-						placement="bottom" 
-						classes={{tooltip: classes.lightTooltip}}>
+					title="Save and continue" 
+					TransitionComponent={Zoom} 
+					placement="bottom" 
+					classes={{tooltip: classes.lightTooltip}}>
 					<IconButton id="save_next" aria-haspopup="true" color="inherit">
 					<Beenhere />
 					<KeyboardArrowRight />
@@ -271,15 +288,15 @@ class MenuAppBar extends React.Component {
 					</React.Fragment>)
 			}
 			<Chip label={document.getElementById("username").textContent} className={classNames(classes.chip, ON_WORKING && classes.padcontroller)} />
-			{ON_WORKING && <span id="keyboard" className={classes.span}/>}
+			{ON_WORKING && <span id="keyboard" className={classes.span} />}
 			<Tooltip 
-						title="Account" 
-						TransitionComponent={Zoom} 
-						placement="bottom" 
-						classes={{tooltip: classes.lightTooltip}}>
+			title="Account" 
+			TransitionComponent={Zoom} 
+			placement="bottom" 
+			classes={{tooltip: classes.lightTooltip}}>
 			<IconButton 
-				aria-owns={open ? 'menu-appbar' : undefined} 
-				aria-haspopup="true" onClick={this.handleMenu} color="inherit">
+			aria-owns={open ? 'menu-appbar' : undefined} 
+			aria-haspopup="true" onClick={this.handleMenu} color="inherit">
 			<AccountCircle />
 			</IconButton>
 			</Tooltip>
@@ -333,7 +350,16 @@ class MenuAppBar extends React.Component {
 			>
 			<div className={classes.toolbarIcon}>
 
-			<span id="settings" title="Settings" className={classes.span}/>
+			<span id="settings" title="Settings" className={classes.span} />
+			<div className={classes.hidden}>
+			<span id="show_popup">{this.init_value("show_popup")}</span>
+			<span id="auto_hidden">{this.init_value("auto_hidden")}</span>
+			<span id="auto_predict">{this.init_value("auto_predict")}</span>
+			<span id="ask_dialog">{this.init_value("ask_dialog")}</span>
+			<span id="color_background">{this.init_value("color_background")}</span>
+			<span id="size_icon">{this.init_value("size_icon")}</span>
+			<span id="width_stroke">{this.init_value("width_stroke")}</span>
+			</div>
 
 			<IconButton onClick={this.handleDrawerClose}>
 			<ChevronLeftIcon />
@@ -361,7 +387,8 @@ class MenuAppBar extends React.Component {
 			</ExpansionPanelSummary>
 			<ExpansionPanelDetails className={classes.tabExpandDetail}>
 			<Divider />
-			<List className={classes.listItem}>{React.createElement(labelListItems)}</List>
+			<List className={classes.listItem} id="label_list_items">
+			</List>
 			</ExpansionPanelDetails>
 			</ExpansionPanel>
 
