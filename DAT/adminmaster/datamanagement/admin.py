@@ -12,7 +12,6 @@ import os
 import shutil
 from django.conf import settings
 import django.utils.safestring as safestring
-from django.utils.html import format_html
 
 class DataSetForm(forms.ModelForm):
    class Meta:
