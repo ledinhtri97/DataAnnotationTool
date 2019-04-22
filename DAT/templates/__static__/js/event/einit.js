@@ -1,14 +1,10 @@
 import {ask_before_out} from "../modules/dat-utils"
-import {drawRect, drawPoly} from "../maintask"
+import {drawStatus, drawPoly, controllerRequest} from "../main_module"
 import {Color} from '../style/color'
 import {configureLine} from "../drawer/polygon"
 import React from "react";
 import ReactDOM from "react-dom";
-import {drawStatus} from "../maintask";
-import {ElementITEM} from "../controller/itemReact";
-import { shallow, configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-configure({ adapter: new Adapter() });
+import AlertDialog from "../materialui/dialog"
 
 var Direction = {
 	LEFT: 0,
@@ -26,9 +22,21 @@ var zoomLevelMax = 3;
 var spaceKeyDown = false;
 var mouseDownPoint = null;
 
-var objectShape = null;
+var objectGlobal = null;
 var labelselect = document.getElementById("label_select");
-// var label = document.getElementById("label");
+
+var dialogChild = null;
+var dialog = document.getElementById("dialog");
+
+const group_control = document.getElementById("group_control");
+const size_icon = document.getElementById("size_icon");
+const width_stroke = document.getElementById("width_stroke");
+
+
+const validObjectShape = function(obj){
+	// return obj.type != 'circle' && obj.type != 'line' && obj.type != 'image';
+	return obj.type == 'rect' || obj.type == 'polygon';
+}
 
 const reset_when_go =  function(){
 	bigplus.splice(0, bigplus.length);
@@ -37,9 +45,66 @@ const reset_when_go =  function(){
 	}
 }
 
-const groupcontrol = document.getElementById("groupcontrol");
+
+const controll_bigplus = function(__canvas__, pointer){
+	if(drawStatus.getIsDrawing() && !drawStatus.getIsZoom() && !drawStatus.getPopuHover()){
+		if(bigplus.length == 0){
+
+			var x = configureLine([0, pointer.y, __canvas__.getWidth(), pointer.y], Color.WHITE);
+			var y = configureLine([pointer.x, 0, pointer.x,__canvas__.getHeight()], Color.WHITE);
+			bigplus.push(x);
+			bigplus.push(y);
+			__canvas__.add(x);
+			__canvas__.add(y);
+
+		}
+		else{
+			bigplus[0].set({ y1: pointer.y, y2: pointer.y });
+			bigplus[1].set({ x1: pointer.x, x2: pointer.x });
+		}		
+	}
+	else{
+		if(bigplus.length != 0){
+			__canvas__.getObjects().forEach(function(obj, index){
+				if(validObjectShape(obj)){
+					storageObj[index] = obj;
+				}
+			});
+			__canvas__.remove(bigplus[0]);
+			__canvas__.remove(bigplus[1]);
+
+			for(var i in storageObj){
+				var xxx = document.getElementById("itembb_"+i);
+				var renewiitem = __canvas__.getObjects().indexOf(storageObj[i]);
+				if(xxx && renewiitem!=-1){
+					xxx.id = "itembb_"+renewiitem;
+				}
+			}
+
+			reset_when_go();
+		}
+	}
+	__canvas__.renderAll();
+}
 
 const init_event = function(__canvas__, popupControllers){
+	
+	if(group_control) {
+
+		group_control.addEventListener('mouseover', function(e){
+			var pointer = __canvas__.getPointer(e.e, true);
+			group_control.style["display"] = "";
+			drawStatus.setPopuHover(true);
+			controll_bigplus(__canvas__, pointer);
+		});
+		
+		group_control.addEventListener('mouseout', function(e){
+			var pointer = __canvas__.getPointer(e.e, true);
+			group_control.style["display"] = "none";
+			drawStatus.setPopuHover(false);
+			controll_bigplus(__canvas__, pointer);
+		});
+	}
 
 	window.onload = function() {
 		window.addEventListener("beforeunload", ask_before_out)
@@ -47,65 +112,99 @@ const init_event = function(__canvas__, popupControllers){
 
 	window.onkeypress = function(e){
 		var key = e.keyCode ? e.keyCode : e.which;
-
-		if(key == 101){
+		// alert(key);
+		if(key == 97){
+			if(dialog){
+				ReactDOM.unmountComponentAtNode(dialog);
+				var message = "Skip this data and continue?";
+				var request = "rqnext";
+				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
+			}
+		}
+		else if (key == 98) {
+			if(dialog){
+				ReactDOM.unmountComponentAtNode(dialog);
+				var message = "Are you sure this is bad data and want to continue?";
+				var request = "rqbadnext";
+				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
+			}
+		}
+		else if(key == 115){
+			if(dialog){
+				ReactDOM.unmountComponentAtNode(dialog);
+				var message = "All labels will be save and continue?";
+				var request = "rqsavenext";
+				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
+			}
+		}
+		else if(key == 101){
 			//E key -> Edit
-			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
-				if(groupcontrol) groupcontrol.style["display"] = "none";
-				var iitem = __canvas__.getObjects().indexOf(objectShape)
-				var current_element = document.getElementById("itembb_"+iitem);
-				var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
+			if(objectGlobal && (validObjectShape(objectGlobal) || objectGlobal.name_id == 'icon')){
+				if(group_control) group_control.style["display"] = "none";
+				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 
-				icheckbox.checked = !icheckbox.checked;
-				var wrapper = shallow(<ElementITEM canvas={__canvas__} objshape={objectShape}/>);
-				wrapper.find(
-					'input[type="checkbox"]'
-					).at(1).simulate('change',{ target: { checked: icheckbox.checked } });
+				if(labelControl){
+					if(objectGlobal.object && objectGlobal.object.hidden){
+						var e_hidden = document.getElementById(labelControl.getId()+"_hidden");
+						e_hidden && e_hidden.click();
+					}
+					labelControl.__editITEM__();
+				}
 			}
 		}
 		else if (key == 104){
 			//H key -> hidden
-			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
-				if(groupcontrol) groupcontrol.style["display"] = "none";
-				var iitem = __canvas__.getObjects().indexOf(objectShape)
-				var current_element = document.getElementById("itembb_"+iitem);
-				var icheckbox = current_element.firstElementChild.children[1].firstElementChild;
-				icheckbox.checked = !icheckbox.checked;
-
-				var wrapper = shallow(<ElementITEM canvas={__canvas__} objshape={objectShape}/>); 
-				wrapper.find(
-					'input[type="checkbox"]'
-					).at(0).simulate('change',{ target: { checked: icheckbox.checked } });
+			if(objectGlobal && (validObjectShape(objectGlobal) || objectGlobal.name_id == 'icon')){
+				if(group_control) group_control.style["display"] = "none";
+				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
+				if(labelControl){
+					var e_hidden = document.getElementById(labelControl.getId()+"_hidden");
+					e_hidden && e_hidden.click();
+				}
 			}
 		}
 		else if (key == 100){
 			//D key -> Delete
-			if(objectShape && objectShape.type!='circle' && objectShape.type != "line"){
-				var wrapper = shallow(<ElementITEM canvas={__canvas__} objshape={objectShape} />);
-				wrapper.find('input[type="button"]').simulate('click');
-				if(groupcontrol) groupcontrol.style["display"] = "none";
+			if(objectGlobal && (validObjectShape(objectGlobal) || objectGlobal.name_id == 'icon')){
+				if(group_control) group_control.style["display"] = "none";
+				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
+				if(labelControl){
+					var e_delete = document.getElementById(labelControl.getId()+"_delete");
+					e_delete && e_delete.click();
+				}
 			}
 		}
 		else if(key == 113) {
 			//quit draw -> q key
-			drawPoly.endDraw();
-		}
-		//draw-keyboard shortcut
-		Array.from(labelselect.children).forEach(function(elem, index) {
-			var spl = elem.textContent.split('-');
-			var isd = drawStatus.getIsDrawing();
-			var isw = drawStatus.getIsWaiting();
-			if((!isd || (isd && isw)) && (key == 49+index)){
-
-				drawPoly.setType(spl[1]);
-				drawPoly.startDraw(spl[0]);
+			if(drawStatus.getIsDrawing()){
+				document.getElementById("stop_mode").textContent = "Stop labeling mode";
+				drawPoly.endDraw();
 			}
-		});
+			else{
+				document.getElementById("stop_mode").textContent = "You are not in labeling mode";
+			}
+		}
+		else {
+			if(labelselect){
+				var labels = JSON.parse(labelselect.textContent)['labels'];
+				labels.pop();
+
+				labels.forEach(function(elem, index) {
+					var spl = elem.id.split('-');
+					var isd = drawStatus.getIsDrawing();
+					var isw = drawStatus.getIsWaiting();
+					if((!isd || (isd && isw)) && (key == 49+index)){
+						drawPoly.setType(spl[1]);
+						drawPoly.startDraw(spl[0]);
+					}
+				});
+			}
+		}
 	}
 
 	__canvas__.on({
 		'object:scaling': function(e) {
-			if(groupcontrol) groupcontrol.style["display"] = "none";
+			if(group_control) group_control.style["display"] = "none";
 			var obj = e.target,
 			width = obj.width,
 			height = obj.height,
@@ -123,17 +222,13 @@ const init_event = function(__canvas__, popupControllers){
 			var obj = e.target;
 
 			if (obj){
-				objectShape = obj;
+				objectGlobal = obj;
 
-				if (obj.type != "circle" && obj.type != "line"){
-					obj.set('fill', Color.Opacity_GREEN);
-					var iitem = __canvas__.getObjects().indexOf(obj);
-					var current_element = document.getElementById("itembb_"+iitem);
-					if (current_element) {
-						var icheckbox = current_element.firstElementChild.children[2].firstElementChild;
-						//bug moving polygon without circle on edit
+				if (validObjectShape(obj)){
+					if (obj.labelControl && !obj.hidden) {
+						obj.set('fill', Color.Opacity_GREEN);
 						if(obj.type != 'polygon'){
-							obj.selectable = icheckbox.checked;
+							obj.selectable = obj.labelControl.getIsEdit();
 						}
 						else{
 							obj.selectable = false;
@@ -141,101 +236,81 @@ const init_event = function(__canvas__, popupControllers){
 						popupControllers.popup(obj);
 					}
 				}
+				else if(obj.name_id == 'icon'){
+					obj.object.visible = true;
+					popupControllers.popup(obj);
+				}
 			}
 			__canvas__.renderAll();
 		},
 		'mouse:out': function(e){
-			objectShape = null;
+			objectGlobal = null;
+			var obj = e.target;
 			try {
-				if (e.target.type != "circle" && e.target.type != "line"){
-					e.target.set('fill', Color.Transparent);
-					__canvas__.renderAll();	
+				if (validObjectShape(obj)){
+					obj.set('fill', Color.Transparent);
 				}
+				else if(obj.name_id == 'icon'){
+					obj.object.visible = false;
+					if(group_control) group_control.style["display"] = "none";
+				}
+				__canvas__.renderAll();	
 			}
 			catch(error) {
 
 			}
 		},
 		'object:selected': function(e){
-			if(e.target.type != "circle" && e.target.type != "line"){
-			// var iitem = __canvas__.getObjects().indexOf(e.target);
-			objectShape = e.target;
-			popupControllers.popup(e.target);
-		}
-	},
-	'mouse:down': function(e){
-		if(!__canvas__.getActiveObject())
-		{
-			if(groupcontrol) groupcontrol.style["display"] = "none";
-		}
-		//ZOOM PART
-		var pointer = __canvas__.getPointer(e.e, true);
-		mouseDownPoint = new fabric.Point(pointer.x, pointer.y);
-
-	},
-	'mouse:up': function(e){
-		//ZOOM PART
-		mouseDownPoint = null;
-	},
-	'mouse:move': function(e){
-		//ZOOM PART
-		var pointer = __canvas__.getPointer(e.e, true);
-		var label = document.getElementById("label");
-		if (spaceKeyDown && mouseDownPoint) {
-			var mouseMovePoint = new fabric.Point(pointer.x, pointer.y);
-			__canvas__.relativePan(mouseMovePoint.subtract(mouseDownPoint));
-			mouseDownPoint = mouseMovePoint;
-			keepPositionInBounds(__canvas__);
-		}
-
-		// if(label.textContent != "NO LABEL"){
-		if(drawStatus.getIsDrawing() && !drawStatus.getIsZoom()){
-			if(bigplus.length == 0){
-
-				var x = configureLine([0, pointer.y, __canvas__.getWidth(), pointer.y], Color.WHITE);
-				var y = configureLine([pointer.x, 0, pointer.x,__canvas__.getHeight()], Color.WHITE);
-				bigplus.push(x);
-				bigplus.push(y);
-				__canvas__.add(x);
-				__canvas__.add(y);
-
+			var obj = e.target;
+			if(validObjectShape(obj)){
+				objectGlobal = obj;
+				popupControllers.popup(obj);
 			}
-			else{
-				bigplus[0].set({ y1: pointer.y, y2: pointer.y });
-				bigplus[1].set({ x1: pointer.x, x2: pointer.x });
+		},
+		'mouse:down': function(e){
+			if(!__canvas__.getActiveObject())
+			{
+				if(group_control) group_control.style["display"] = "none";
+			}
+
+			var pointer = __canvas__.getPointer(e.e, true);
+			mouseDownPoint = new fabric.Point(pointer.x, pointer.y);
+
+		},
+		'mouse:up': function(e){
+			mouseDownPoint = null;
+		},
+		'mouse:move': function(e){
+
+			var pointer = __canvas__.getPointer(e.e, true);
+			controll_bigplus(__canvas__, pointer);
+
+			var label = document.getElementById("label");
+			if (spaceKeyDown && mouseDownPoint) {
+				var mouseMovePoint = new fabric.Point(pointer.x, pointer.y);
+				__canvas__.relativePan(mouseMovePoint.subtract(mouseDownPoint));
+				mouseDownPoint = mouseMovePoint;
+				keepPositionInBounds(__canvas__);
 			}		
-		}
-		else{
-			if(bigplus.length != 0){
-				__canvas__.getObjects().forEach(function(obj, index){
-					if(obj.type!='circle' && obj.type!='line'){
-						storageObj[index] = obj;
-					}
-				});
-				__canvas__.remove(bigplus[0]);
-				__canvas__.remove(bigplus[1]);
+			__canvas__.renderAll();
+		},
+		'object:modified': function(e){
+			var obj = e.target;
+			if(validObjectShape(obj)){
 				
-				for(var i in storageObj){
-					var xxx = document.getElementById("itembb_"+i);
-					var renewiitem = __canvas__.getObjects().indexOf(storageObj[i]);
-					if(xxx && renewiitem!=-1){
-						xxx.id = "itembb_"+renewiitem;
-					}
-				}
+				obj.icon.set({
+					left: obj.left + obj.width / 2,
+					top: obj.top + obj.height / 2,
+				});
 
-				reset_when_go();
+				__canvas__.renderAll();
+
+				popupControllers.popup(obj);
 			}
-		}
-		__canvas__.renderAll();
-	},
-	'object:modified': function(e){
-		if(e.target.type != "circle" && e.target.type != "line"){
-			popupControllers.popup(e.target);
-		}
-	},
-	'object:moving': function(e){
-		if(groupcontrol) groupcontrol.style["display"] = "none";
-	},});
+		},
+		'object:moving': function(e){
+			if(group_control) group_control.style["display"] = "none";
+		},});
 
 	//===================BEGIN ZOOM PART======================//
 
@@ -244,7 +319,7 @@ const init_event = function(__canvas__, popupControllers){
 	}
 
 	const MouseWheelHandler = function(options){
-		if(groupcontrol) groupcontrol.style["display"] = "none";
+		if(group_control) group_control.style["display"] = "none";
 		var delta = getWheelDelta(options);
 		if (delta != 0) {
 			drawStatus.setIsZoom(true);
@@ -325,7 +400,7 @@ const init_event = function(__canvas__, popupControllers){
 		if (options.repeat) {
 			return;
 		}
-		if(groupcontrol) groupcontrol.style["display"] = "none";
+		if(group_control) group_control.style["display"] = "none";
 		var key = options.which || options.keyCode; // key detection
 		if (key == 32) { // handle Space key
 			__canvas__.defaultCursor = 'move';
@@ -356,7 +431,8 @@ const init_event = function(__canvas__, popupControllers){
 
 	var cv_container = document.getElementsByClassName('canvas-container')[0];
 
-	if (cv_container.addEventListener) {
+	if(cv_container){
+		if (cv_container.addEventListener) {
     	// IE9, Chrome, Safari, Opera
     	cv_container.addEventListener("mousewheel", MouseWheelHandler, false);
     	// Firefox
@@ -365,6 +441,7 @@ const init_event = function(__canvas__, popupControllers){
     else {
     	cv_container.attachEvent("onmousewheel", MouseWheelHandler);
     }
+}
 
     //===================BEGIN ZOOM PART======================//
 	//
