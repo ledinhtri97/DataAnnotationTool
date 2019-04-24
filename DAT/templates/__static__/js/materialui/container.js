@@ -26,12 +26,6 @@ import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Home from '@material-ui/icons/Home';
 
-import generalListItems from './listitem/generalListItems';
-import historyListItems from './listitem/historyListItems';
-import toolListItems from './listitem/toolListItems';
-
-import {outWorkSpace} from "../modules/dat-utils"
-
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -43,12 +37,12 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
-import TemporaryDrawerInstruction from "./drawerInstruction";
-import TemporaryDrawerSettings from "./drawerSettings";
 
-import MainBoard from "./mainboard";
+import generalListItems from './labeling-ui/listitem/generalListItems';
+import historyListItems from './labeling-ui/listitem/historyListItems';
+import toolListItems from './labeling-ui/listitem/toolListItems';
 
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
+import {outWorkSpace} from "../modules/dat-utils"
 
 const drawerWidth = 240;
 
@@ -126,7 +120,7 @@ const styles = theme =>({
     		width: theme.spacing.unit * 9,
     	},
     },
-    mainboard:{
+    labeling:{
     	width: '100%',
     	height: '100%',
     },
@@ -243,19 +237,19 @@ class MenuAppBar extends React.Component {
 		const ON_HOMEPAGE =  document.getElementById("home") != null;
 		const ON_WORKSPACE = document.getElementById("project") != null;
 		const ON_WORKING = document.getElementById("meta_id") != null;
-
+		const ON_CONTRIBUTE = document.getElementById("contribute") != null;
 		return (	
 			<div className={classes.root}>
 			<CssBaseline />
-			<AppBar position={ON_HOMEPAGE ? "static" : "absolute"}
-			className={classNames(classes.root_appbar, !ON_HOMEPAGE && classes.appBar, !ON_HOMEPAGE && this.state.open && classes.appBarShift)}>
+			<AppBar position={(ON_HOMEPAGE || ON_CONTRIBUTE) ? "static" : "absolute"}
+			className={classNames(classes.root_appbar, ON_WORKING && classes.appBar, ON_WORKING && this.state.open && classes.appBarShift)}>
 			<Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
 			<IconButton
 			color="inherit"
 			aria-label="Open drawer"
 			onClick={this.handleDrawerOpen}
-			className={classNames(classes.menuButton, !ON_HOMEPAGE && this.state.open && classes.menuButtonHidden,)}>
-			{!ON_HOMEPAGE && (<MenuIcon />)}
+			className={classNames(classes.menuButton, ON_WORKING && this.state.open && classes.menuButtonHidden,)}>
+			{ON_WORKING && (<MenuIcon />)}
 			</IconButton>
 			<IconButton aria-haspopup="true" color="inherit" onClick={this.handleWorkspace}>
 			<Home />
@@ -409,8 +403,7 @@ class MenuAppBar extends React.Component {
 			</Drawer>
 			)}
 
-
-		{ON_WORKING && <div id="mainboard" className={classes.mainboard}></div>}
+		{ON_WORKING && <div id="labeling" className={classes.labeling}></div>}
 
 		</div>	
 		);
