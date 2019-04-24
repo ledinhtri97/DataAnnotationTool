@@ -11,6 +11,7 @@
 {% block content %}
 
 <div style="display: none;">
+	<div id="data_id">{{dataset}}</div>
 	<div id="meta_id">{{id}}</div>
 	<div id="predict_bbs">{{predict_bbs}}</div>
 	<div id="boxes_position">{{boxes_position}}</div>
@@ -21,9 +22,10 @@
 	<div id="stop_mode">You are not in labeling mode</div>
 </div>
 {% endblock content %}
+
 {%block loadjs%}
 {% load static %}
-<script src="{% static 'js/index.js' %}"></script>  
+<script src="{% static 'js/build/labeling.js' %}"></script>  
 {% endblock loadjs %}
 
 

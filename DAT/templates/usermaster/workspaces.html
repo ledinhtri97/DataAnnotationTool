@@ -5,3 +5,8 @@
 	<div id="home" style="display:none;">{"workspaces":[{% for wp in data %}{"name": "{{wp.nameworkspace}}","iddataset": {{wp.dataset}},"total":{{wp.num_allmeta}},"anno":{{wp.num_annotated_meta}},"url_join":"{% url 'maintask' id=wp.dataset%}"},{% endfor%}{}]}
 	</div>
 {% endblock content%}
+
+{%block loadjs%} 
+{% load static %}
+<script src="{% static 'js/build/workspaces.js' %}"></script>  
+{% endblock loadjs %}
