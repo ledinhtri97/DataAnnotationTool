@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django import forms
 import json
-from usermaster.models import UserSettingsModel
+from adminmaster.workspacemanagement.models import UserSettingsModel
 from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from adminmaster.datamanagement.models import DataSetModel
 # Register your models here.
@@ -12,8 +12,6 @@ class WorkSpaceUserForm(forms.ModelForm):
       fields = '__all__'
 
     def generate_settings(self, dataset, users):
-      
-      print(dataset.id)
       
       sett_wdata = UserSettingsModel.objects.filter(dataset=dataset)
 
@@ -36,7 +34,6 @@ class WorkSpaceUserForm(forms.ModelForm):
       for u in users.all():
         if (not sett_wdata.filter(user=u).first()):
           UserSettingsModel.objects.get_or_create(dataset=dataset, user=u, settings=setts)
-          print(u)
 
     def save(self, commit=True):
       instance = super(WorkSpaceUserForm, self).save(commit=False)
@@ -74,5 +71,31 @@ class WorkSpaceUserAdmin(admin.ModelAdmin):
       ),
    ]
 
+class UserSettingsAdmin(admin.ModelAdmin):
+   #class Meta will not accept this form custom > find out why
+
+  readonly_fields = ['settings', 'dataset', 'user']
+   
+  fieldsets = [
+      (None,
+            {
+               'fields': ['settings']
+            }
+      ),
+      ('DATASET Field',
+            {
+                'fields': ['dataset']
+            }
+      ),
+      ('USERS Field',
+            {
+                'fields': ['user']
+            }
+      ),
+   ]
+
+  def has_delete_permission(self, request, obj=None):
+    return False
+
 admin.site.register(WorkSpaceUserModel, WorkSpaceUserAdmin)
-admin.site.register(UserSettingsModel)
+admin.site.register(UserSettingsModel, UserSettingsAdmin)

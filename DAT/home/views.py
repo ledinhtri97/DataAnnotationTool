@@ -12,7 +12,6 @@ class LoginUserView(auth_views.LoginView):
       if url:
          return url
       else:
-         # print(self.request.get_full_path())
          user = self.request.user
          if user.is_superuser:
             if("datadmin/login/" in self.request.get_full_path()):

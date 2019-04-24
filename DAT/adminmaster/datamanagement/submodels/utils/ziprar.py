@@ -50,9 +50,6 @@ class ZipRarExtractor(object):
                     self.dir_path,
                     file_gt.split('.')[0]
                 )
-
-                print(input)
-                print(output)
                 self.extract_file(input, output)
 
 
