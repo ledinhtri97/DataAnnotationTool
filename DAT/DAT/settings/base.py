@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'home',
     'adminmaster',
     'adminmaster.datamanagement',
+    'adminmaster.contributemanagement',
     'adminmaster.workspacemanagement',
     'usermaster',
     'apimodel',
