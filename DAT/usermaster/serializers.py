@@ -2,10 +2,25 @@ from rest_framework import serializers
 from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from adminmaster.datamanagement.models import DataSetModel
 from adminmaster.datamanagement.models import MetaDataModel
+from adminmaster.contributemanagement.models import ContributeModel
 
 # from apimodel.api.ssdpredict import objectdetAPI
 # from apimodel import combo_1, combo_2
 # import cv2
+
+class ContributeSerializer(serializers.ModelSerializer):
+  users_count = serializers.SerializerMethodField('def_users_count')
+  contribute_count = serializers.SerializerMethodField('def_contribute_count')
+
+  def def_users_count(self, contribute):
+    return contribute.user.count()
+
+  def def_contribute_count(self, contribute):
+    return contribute.input.count()
+   
+  class Meta:
+    model = ContributeModel
+    fields = ('id', 'available', 'description', 'name', 'users_count', 'contribute_count')
 
 class WorkspaceSerializer(serializers.ModelSerializer):
 
