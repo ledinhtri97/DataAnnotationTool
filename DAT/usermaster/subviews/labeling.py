@@ -1,6 +1,6 @@
 from adminmaster.datamanagement.models import DataSetModel
 from adminmaster.datamanagement.models import MetaDataModel
-from usermaster.models import UserSettingsModel
+from adminmaster.workspacemanagement.models import UserSettingsModel
 from usermaster.serializers import MainTaskMetaDataSerializer
 from rest_framework import generics
 from rest_framework.response import Response
@@ -10,12 +10,12 @@ import json
 # from apimodel import combo_1, combo_2
 from .query import querymeta
 
-class MainTaskView(generics.RetrieveUpdateAPIView):
+class LabelingView(generics.RetrieveUpdateAPIView):
   
   queryset = MetaDataModel.objects.all()
   serializer_class = MainTaskMetaDataSerializer
   lookup_field = 'id'
-  template_name = 'usermaster/maintask.html'
+  template_name = 'usermaster/labeling.html'
 
   #@Overwrite
   def get_queryset(self):
@@ -54,8 +54,6 @@ class MainTaskView(generics.RetrieveUpdateAPIView):
         ],
         'settings': json.loads(sett),
       }
-      
-      print(newdict)
 
       newdict.update(serializer.data)
 

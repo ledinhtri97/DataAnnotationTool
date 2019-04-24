@@ -1,17 +1,18 @@
 from adminmaster.workspacemanagement.models import WorkSpaceUserModel
-# from adminmaster.datamanagement.models import DataSetModel
+
 from usermaster.serializers import WorkspaceSerializer
 from rest_framework import generics
 from rest_framework.response import Response
-# from rest_framework.renderers import TemplateHTMLRenderer
+
 from django.http import JsonResponse
 import json
+from adminmaster.workspacemanagement.models import UserSettingsModel
 
 class WorkspaceView(generics.RetrieveAPIView):
   queryset = WorkSpaceUserModel.objects.all()
   serializer_class = WorkspaceSerializer
   lookup_field = 'id'
-  template_name='usermaster/workspace.html'
+  template_name='usermaster/workspaces.html'
   
   #@Overwrite
   def get_queryset(self):
@@ -46,3 +47,21 @@ class WorkspaceView(generics.RetrieveAPIView):
     
     return Response(data={'data': data})
 
+def saveseting_index(request):
+  if request.method == 'POST':
+
+    try:
+
+      __body__ = json.loads(request.body.decode('utf-8'))
+
+      user = request.user
+
+      setts = UserSettingsModel.objects.filter(dataset=int(__body__['data_id']), user=user).first()
+      setts.settings = json.dumps(__body__['sett'])
+
+      setts.save(update_fields=['settings'])
+    
+    except Exception as e:
+      print(e)
+
+  return JsonResponse({})

@@ -1,7 +1,7 @@
 from adminmaster.datamanagement.models import MetaDataModel
 
 def get_query_meta_general(dataset_id=None, user=None):
-  print(dataset_id, user.username)
+
   try:
     query_meta_data = MetaDataModel.objects.filter(
       dataset_id=dataset_id,
@@ -33,7 +33,7 @@ def get_query_meta_general(dataset_id=None, user=None):
   # except AttributeError:
   
   meta_data = query_meta_data.first()
-  print(meta_data)
+
   if (meta_data):
     handle_metadata_before_release(meta_data, user)
   return meta_data
