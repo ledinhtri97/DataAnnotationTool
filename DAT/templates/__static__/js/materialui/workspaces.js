@@ -62,33 +62,28 @@ const styles = theme => ({
 	},
 });
 
-class HandleButtonClick{
-
-	constructor(overview_url, startlabeling_url){
-		this.overview_url = overview_url;
-		this.startlabeling_url = startlabeling_url;
-	}
-
-	handleOverview(){
-		window.location.href = this.overview_url;
-	}
-
-	handleStartLabeling(){
-		window.location.href = this.startlabeling_url;
-	}
-
-}
-
 class Workspaces extends React.Component {
 
 	state = {
 		something: null,
 	};
 
+	handleContribute = () => {
+		window.location.href = '/gvlab-dat/workspace/contribute/';
+	};
+
+	handleOverview = () => {
+		window.location.href = "/gvlab-dat/workspace/#";
+	};
+
+	handleStartLabeling = (startlabeling_url) => {
+		window.location.href = startlabeling_url;
+	};
+
 	render() {
 
 		const { classes } = this.props;
-		const workspace = this;
+		const thiswp = this;
 		const workspaces = JSON.parse(document.getElementById("home").textContent)['workspaces'];
 		workspaces.pop();
 
@@ -100,27 +95,28 @@ class Workspaces extends React.Component {
 			<Typography component="h3" variant="h2" align="center" color="textPrimary" gutterBottom>
 			Main Workspace
 			</Typography>
-            {/*<div className={classes.heroButtons}>
+            <div className={classes.heroButtons}>
               <Grid container spacing={16} justify="center">
                 <Grid item>
                   <Button variant="contained" color="primary">
-                    Main call to action
+                    Overview Working
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Secondary action
+                  <Button variant="outlined" color="primary" 
+                  onClick={function(e){thiswp.handleContribute()}}>
+                    Contribute Data
                   </Button>
                 </Grid>
               </Grid>
-          </div>*/}
+          </div>
           </div>
           </div>
           <div className={classNames(classes.layout, classes.cardGrid)}>
           <Grid container spacing={40}>
           {workspaces.map(
           	function(wp, key) {if(wp.name) {
-          		const btnClick = new HandleButtonClick("/gvlab-dat/workspace/#", wp.url_join)
+
           		return (
           			<Grid item key={key} sm={6} md={4} lg={3}>
           			<Card className={classes.card}>
@@ -137,11 +133,16 @@ class Workspaces extends React.Component {
           			</Typography>
           			</CardContent>
           			<CardActions>
-          			<Button onClick={function(e){btnClick.handleOverview()}} color="primary" size="small">
+          			<Button 
+          				onClick={function(e){thiswp.handleOverview()}} 
+          				color="primary" size="small">
           			<BarChart className={classes.rightIcon} />
           			OVERVIEW
           			</Button>
-          			<Button onClick={function(e){btnClick.handleStartLabeling()}} variant="contained" size="small" color="primary" className={classes.button}>
+          			<Button 
+          				onClick={function(e){thiswp.handleStartLabeling(wp.url_join)}} 
+          				variant="contained" size="small" color="primary" 
+          				className={classes.button}>
           			<OpenInNew className={classes.rightIcon} />
           			LABELING
           			</Button>

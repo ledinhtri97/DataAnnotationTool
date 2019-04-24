@@ -51,7 +51,7 @@ const styles = theme =>({
 	},
 	grow: {
 		flexGrow: 1,
-		padding: "20px",
+		padding: "8px 25px",
 		fontWeight: 500,
 		backgroundColor: "#f0f0f0",
 	}
@@ -65,6 +65,7 @@ const MAP_ICON_INS = {
 	H: (<IconButton><SvgIcon><path d="M9,7V17H11V13H13V17H15V7H13V11H11V7H9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
 	D: (<IconButton><SvgIcon><path d="M9,7V17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H9M11,9H13V15H11V9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
 	Q: (<IconButton><SvgIcon><path d="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17V19H13V17A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M5,4H19A2,2 0 0,1 21,6V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V6A2,2 0 0,1 5,4Z" /></SvgIcon></IconButton> ),
+	SHIFT: (<IconButton><SvgIcon><path d="M19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21M12,7L7,12H10V16H14V12H17L12,7Z" /></SvgIcon></IconButton> ),
 };
 
 const MAP_TEXT_INS = {
@@ -75,6 +76,7 @@ const MAP_TEXT_INS = {
 	H: "Hover on shape and hidden",
 	D: "Hover on shape and delete",
 	Q: "Quit drawing",
+	SHIFT: "Press Shift key in drawing mode or on shape to display all same shape available",
 };
 
 const MAP_LABEL_INS = [
@@ -123,19 +125,27 @@ class TemporaryDrawerInstruction extends React.Component {
 			
 			<List>
 			{
-                labelselect.map(function(lb, _key_) {
-                    var spl = lb.id.split('-');
-                    var labelname = spl[0].charAt(0).toUpperCase() + spl[0].slice(1);
-                    var labeltype = spl[1].charAt(0).toUpperCase() + spl[1].slice(1);
-                    return (
-                        <ListItem button key={_key_} className={classes.listItem}>
-                        <ListItemIcon>{MAP_LABEL_INS[_key_]}</ListItemIcon>
-                        <Typography variant="caption" color="inherit" className={classes.caption}>{labelname + " | " + labeltype}</Typography>
-                        </ListItem>
-                        );}
-                    )
-            }
+				labelselect.map(function(lb, _key_) {
+					var spl = lb.id.split('-');
+					var labelname = spl[0].charAt(0).toUpperCase() + spl[0].slice(1);
+					var labeltype = spl[1].charAt(0).toUpperCase() + spl[1].slice(1);
+					return (
+						<ListItem button key={_key_} className={classes.listItem}>
+						<ListItemIcon>{MAP_LABEL_INS[_key_]}</ListItemIcon>
+						<Typography variant="caption" color="inherit" className={classes.caption}>{labelname + " | " + labeltype}</Typography>
+						</ListItem>
+						);}
+					)
+			}
 			</List>
+
+			<Typography variant="title" color="inherit" className={classes.grow}>Hotkeys control</Typography>
+			
+			<ListItem button className={classes.listItem}>
+			<ListItemIcon>{MAP_ICON_INS['SHIFT']}</ListItemIcon>
+			<Typography variant="caption" color="inherit" className={classes.caption}>{MAP_TEXT_INS['SHIFT']}</Typography>
+			</ListItem>
+
 			</div>
 			);
 

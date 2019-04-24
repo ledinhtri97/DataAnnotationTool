@@ -18,7 +18,8 @@ import Zoom from '@material-ui/core/Zoom';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import {quickSettings} from '../main_module';
+import {quickSettings} from '../../labeling';
+import {rqsavesettings} from '../../modules/labeling-module/controller/request';
 
 const styles = theme =>({
 	list: {
@@ -78,6 +79,18 @@ class TemporaryDrawerSettings extends React.Component {
 		});
 	};
 
+	toggleKeyDown = () => event => {
+		var key = event.keyCode ? event.keyCode : event.which;
+		if(key == 8 || key == 37 || key == 38 || key == 39 || key == 40){
+			return;
+		}
+		else{
+			this.setState({
+				['left']: false,
+			});
+		}
+
+	};
 
 
 	handleChange = (name) => event => {
@@ -99,14 +112,19 @@ class TemporaryDrawerSettings extends React.Component {
 
 		}
 		if(name == 'color_background'){
-			document.getElementById("mainboard").style['backgroundColor'] = (event.target.checked) ? "#FFFFFF" : "#332F2F";
+			document.getElementById("labeling").style['backgroundColor'] = (event.target.checked) ? "#FFFFFF" : "#332F2F";
 		}
 	};
 
 	handleNumberChange = (id, canvas) => event => {
 		var val = event.target.value;
 
-		if(val > 0){
+		if(val >= 0){
+			
+			if(val == 0){
+				val = 1;
+			}
+
 			if(id == 'size_icon'){
 				this.setState({size_icon: val});
 
@@ -149,7 +167,10 @@ class TemporaryDrawerSettings extends React.Component {
 
 			<ListItem button>
 			<ListItemText primary="Settings As Default" />
-			<Button variant="contained" color="primary" className={classes.button}>SAVE</Button>
+			<Button 
+				onClick={function(e){rqsavesettings()}}
+				variant="contained" 
+				color="primary" className={classes.button}>SAVE</Button>
 			</ListItem>
 			
 			<Divider />
@@ -212,7 +233,7 @@ class TemporaryDrawerSettings extends React.Component {
 			<div
 			tabIndex={0}
 			role="button"
-			onKeyDown={this.toggleDrawer('left', false)}
+			onKeyDown={this.toggleKeyDown()}
 			>
 			{setts}
 			</div>

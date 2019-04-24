@@ -10,7 +10,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import Settings from '@material-ui/icons/Settings';
 import { withStyles } from '@material-ui/core/styles';
-import {outWorkSpace} from "../../modules/dat-utils"
+import {outWorkSpace} from "../../../modules/dat-utils"
 
 const styles = theme => ({
   lightTooltip: {
