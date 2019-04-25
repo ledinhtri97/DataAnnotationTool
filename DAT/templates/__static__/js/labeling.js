@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {fabric} from 'fabric';
 
-import Labeling from "./materialui/labeling-ui/main";
+import Labeling from "./materialui/labeling-ui/labeling-main";
 import TemporaryDrawerInstruction from "./materialui/labeling-ui/drawerInstruction"
 import TemporaryDrawerSettings from "./materialui/labeling-ui/drawerSettings";
 
