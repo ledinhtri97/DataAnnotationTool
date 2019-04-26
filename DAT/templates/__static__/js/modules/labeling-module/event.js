@@ -29,7 +29,7 @@ var labelselect = document.getElementById("label_select");
 var dialogChild = null;
 var dialog = document.getElementById("dialog");
 
-const group_control = document.getElementById("group_control");
+
 const size_icon = document.getElementById("size_icon");
 const width_stroke = document.getElementById("width_stroke");
 
@@ -89,7 +89,7 @@ const controll_bigplus = function(__canvas__, pointer){
 }
 
 const init_event = function(__canvas__, popupControllers){
-	
+	var group_control = document.getElementById("group_control");
 	if(group_control) {
 
 		group_control.addEventListener('mouseover', function(e){
@@ -183,7 +183,9 @@ const init_event = function(__canvas__, popupControllers){
 		else if(key == 101){
 			//E key -> Edit
 			if(objectGlobal && (validObjectShape(objectGlobal) || objectGlobal.name_id == 'icon')){
-				if(group_control) group_control.style["display"] = "none";
+				if(group_control) {
+					group_control.style["display"] = "none";
+				}
 				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 
 				if(labelControl){
@@ -198,7 +200,9 @@ const init_event = function(__canvas__, popupControllers){
 		else if (key == 104){
 			//H key -> hidden
 			if(objectGlobal && (validObjectShape(objectGlobal) || objectGlobal.name_id == 'icon')){
-				if(group_control) group_control.style["display"] = "none";
+				if(group_control) {
+					group_control.style["display"] = "none";
+				}
 				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 				if(labelControl){
 					var e_hidden = document.getElementById(labelControl.getId()+"_hidden");
@@ -209,7 +213,9 @@ const init_event = function(__canvas__, popupControllers){
 		else if (key == 100){
 			//D key -> Delete
 			if(objectGlobal && (validObjectShape(objectGlobal) || objectGlobal.name_id == 'icon')){
-				if(group_control) group_control.style["display"] = "none";
+				if(group_control) {
+					group_control.style["display"] = "none";
+				}
 				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 				if(labelControl){
 					var e_delete = document.getElementById(labelControl.getId()+"_delete");
@@ -247,7 +253,9 @@ const init_event = function(__canvas__, popupControllers){
 
 	__canvas__.on({
 		'object:scaling': function(e) {
-			if(group_control) group_control.style["display"] = "none";
+			if(group_control) {
+				group_control.style["display"] = "none";
+			}
 			var obj = e.target,
 			width = obj.width,
 			height = obj.height,
@@ -295,7 +303,9 @@ const init_event = function(__canvas__, popupControllers){
 				}
 				else if(obj.name_id == 'icon'){
 					obj.object.visible = false;
-					if(group_control) group_control.style["display"] = "none";
+					if(group_control) {
+						group_control.style["display"] = "none";
+					}
 				}
 				__canvas__.renderAll();	
 			}
@@ -313,7 +323,9 @@ const init_event = function(__canvas__, popupControllers){
 		'mouse:down': function(e){
 			if(!__canvas__.getActiveObject())
 			{
-				if(group_control) group_control.style["display"] = "none";
+				if(group_control) {
+					group_control.style["display"] = "none";
+				}
 			}
 
 			var pointer = __canvas__.getPointer(e.e, true);
@@ -352,7 +364,9 @@ const init_event = function(__canvas__, popupControllers){
 			}
 		},
 		'object:moving': function(e){
-			if(group_control) group_control.style["display"] = "none";
+			if(group_control) {
+					group_control.style["display"] = "none";
+				}
 		},});
 
 	//===================BEGIN ZOOM PART======================//
@@ -362,7 +376,9 @@ const init_event = function(__canvas__, popupControllers){
 	}
 
 	const MouseWheelHandler = function(options){
-		if(group_control) group_control.style["display"] = "none";
+		if(group_control) {
+					group_control.style["display"] = "none";
+				}
 		var delta = getWheelDelta(options);
 		if (delta != 0) {
 			drawStatus.setIsZoom(true);
@@ -443,7 +459,9 @@ const init_event = function(__canvas__, popupControllers){
 		if (options.repeat) {
 			return;
 		}
-		if(group_control) group_control.style["display"] = "none";
+		if(group_control) {
+					group_control.style["display"] = "none";
+				}
 		var key = options.which || options.keyCode; // key detection
 		if (key == 32) { // handle Space key
 			__canvas__.defaultCursor = 'move';
