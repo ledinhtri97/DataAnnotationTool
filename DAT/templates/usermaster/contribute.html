@@ -3,8 +3,8 @@
 {% block content %}
 	<div id="contribute"></div>
 	{% csrf_token %}
-	<div id="contribute_data" style="display:none;">{"contribute":[{% for ct in data %}{"id": {{ct.id}}, "name": "{{ct.name}}","description": "{{ct.description}}", "users_count": {{ct.users_count}}, "contribute_count": {{ct.contribute_count}}, "url_upload": "{% url 'contribute_upload' contributeid=ct.id %}"},{% endfor%}{}]}</div>
-<!-- 	<div id="user_contribute" style="display:none;">{"contribute":[{% for ct in user_contrib %}{"id": {{ct.id}}, "name": "{{ct.name}}","description": "{{ct.description}}", "users_count": {{ct.users_count}}, "contribute_count": {{ct.contribute_count}}, "url_upload": "{% url 'contribute_upload' contributeid=ct.id %}"},{% endfor%}{}]}</div> -->
+	<div id="contribute_data" style="display:none;">{"contribute":[{% for ct in data %}{"id": {{ct.id}}, "name": "{{ct.name}}","description": "{{ct.description}}", "users_count": {{ct.users_count}}, "contribute_count": {{ct.contribute_count}}, "url_upload": "{% url 'contribute_upload' contributeid=1 %}"},{% endfor%}{}]}</div>
+<!-- 	<div id="user_contribute" style="display:none;">{"contribute":[{% for ct in user_contrib %}{"id": {{ct.id}}, "name": "{{ct.name}}","description": "{{ct.description}}", "users_count": {{ct.users_count}}, "contribute_count": {{ct.contribute_count}}, "url_upload": "{% url 'contribute_upload' contributeid=1 %}"},{% endfor%}{}]}</div> -->
 {% endblock content%}
 
 {%block loadjs%} 
