@@ -94,7 +94,7 @@ class InputDataAdmin(admin.ModelAdmin):
    change_form_template = 'progressbarupload/change_form.html'
    add_form_template = 'progressbarupload/change_form.html'
 
-   readonly_fields = ['owner', 'description', 'zipfile']
+   # readonly_fields = ['owner', 'description', 'zipfile']
 
 class OutputDataForm(forms.ModelForm):
    class Meta:
