@@ -2,12 +2,15 @@
 import zipfile
 # import rarfile
 import rarfile
+import patoolib
 # for path checking.
-import os.path
+import os
 # deleting directory.
 import shutil
 from adminmaster.datamanagement.models import DataSetModel
 from django.conf import settings
+
+charos = '\\' if os.name=='nt' else '/'
 
 class ZipRarExtractor(object):
     def __init__(self, inputDataModels, dir_path):
@@ -21,35 +24,20 @@ class ZipRarExtractor(object):
             
             file_zip = input_file.get_zipname()
             # print(file_zip)
-            input = os.path.join(
-                settings.BASE_DIR,
-                settings.UPLOAD_DIR,
-                file_zip
-            )
+            input = input_file.get_full_path_file()
 
-            output = os.path.join(
-                settings.BASE_DIR,
-                settings.STORAGE_DIR,
-                self.dir_path,
-                file_zip.split('.')[0]
-            )
+            output = input_file.get_output_path()
+
+            print(input, '\n', output)
 
             self.extract_file(input, output)
 
             file_gt = input_file.get_gtname()
             if (file_gt):
-                input = os.path.join(
-                    settings.BASE_DIR,
-                    settings.OUTPUT_DIR,
-                    file_gt
-                )
+                input = input_file.get_full_path_file()
 
-                output = os.path.join(
-                    settings.BASE_DIR,
-                    settings.OUTPUT_DIR,
-                    self.dir_path,
-                    file_gt.split('.')[0]
-                )
+                output = input_file.get_output_path()
+                
                 self.extract_file(input, output)
 
 
@@ -67,11 +55,11 @@ class ZipRarExtractor(object):
                 # output_directory_location = loc.split('.')[0]
                 output_directory_location = output
                 # if os path not exists .
-                remove_old = '/'.join(output_directory_location.split('/')[:-1])
-                if not os.path.exists(remove_old):
+                
+                if not os.path.exists(output_directory_location):
                     # create directory .
                     os.makedirs(output_directory_location, exist_ok=True)
-                    print(" Otput Directory ", output_directory_location)
+                    print(" Otput Directory 1", output_directory_location)
                     # extract
                     if input.endswith('.zip'):
                         self.extractzip(input, output_directory_location)
@@ -79,24 +67,27 @@ class ZipRarExtractor(object):
                         self.extractrar(input, output_directory_location)
                 else:
                     # Directory allready exist.
-                    print("Otput Directory ", output_directory_location)
+                    print("Otput Directory 2", output_directory_location)
                     # deleting previous directoty .
                     print("Deleting old Otput Directory ")
                     # Try to remove tree; if failed show an error using try...except on screen
                     try:
                         # delete the directory .
-                        
-                        # print(remove_old)
-                        shutil.rmtree(remove_old)
+                        shutil.rmtree(output_directory_location)
                         # delete success
                         print("Delete success now extracting")
                         # extract
-                        # extract
+                        os.makedirs(output_directory_location, exist_ok=True)
                         if input.endswith('.zip'):
                             self.extractzip(input, output_directory_location)
                         else:
                             self.extractrar(input, output_directory_location)
                     except OSError as e:
+                        os.makedirs(output_directory_location, exist_ok=True)
+                        if input.endswith('.zip'):
+                            self.extractzip(input, output_directory_location)
+                        else:
+                            self.extractrar(input, output_directory_location)
                         print("Error: %s - %s." % (e.filename, e.strerror))
             else:
                 print("File not located to this path")
@@ -137,24 +128,28 @@ class ZipRarExtractor(object):
         this function is valid if the file type is rar only
         '''
         # check the file is rar or not
-        if(rarfile.is_rarfile(loc)):
-            with rarfile.RarFile(loc, "r") as rar_ref:
-                # iterate over zip info list.
-                for item in rar_ref.infolist():
-                    rar_ref.extract(item, outloc)
-                # once extraction is complete
-                # get the name of the rar files inside the rar.
-                rar_files = [file for file in rar_ref.infolist() 
-                if file.filename.endswith('.rar')]
-                # iterate
-                for file in rar_files:
-                    # iterate to get the name.
-                    new_loc = os.path.join(outloc, file.filename)
-                    # new location
-                    # print(new_loc)
-                    # start extarction.
-                    # check_archrive_file(new_loc)
-                # close.
-                rar_ref.close()
+        if os.name == 'nt':
+            patoolib.extract_archive(loc, outdir=outloc)
         else:
-            print("File "+loc+" is not a rar file")
+            if(rarfile.is_rarfile(loc)):
+                with rarfile.RarFile(loc, "r") as rar_ref:
+                    # iterate over zip info list.
+                    for item in rar_ref.infolist():
+                        print(item)
+                        rar_ref.extract(item, outloc)
+                    # once extraction is complete
+                    # get the name of the rar files inside the rar.
+                    rar_files = [file for file in rar_ref.infolist() 
+                        if file.filename.endswith('.rar')]
+                    # iterate
+                    for file in rar_files:
+                        # iterate to get the name.
+                        new_loc = os.path.join(outloc, file.filename)
+                        # new location
+                        # print(new_loc)
+                        # start extarction.
+                        # check_archrive_file(new_loc)
+                    # close.
+                    rar_ref.close()
+            else:
+                print("File "+loc+" is not a rar file")
