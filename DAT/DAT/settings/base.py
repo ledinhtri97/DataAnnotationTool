@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'adminmaster.workspacemanagement',
     'usermaster',
     'apimodel',
-    'deeplearning',
+    # 'deeplearning',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -98,7 +98,7 @@ USE_TZ = True
 
 STATIC_URL = '/gvlab-dat/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'templates/static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'templates', 'static')
 
 # STATICFILES_DIRS = (
 #     # os.path.join(BASE_DIR, "templates"),
@@ -116,21 +116,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'templates/static')
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-UPLOAD_DIR = '_DATABASE_/upload_data/'
+UPLOAD_DIR = os.path.join('_DATABASE_', 'upload_data')
 
-STORAGE_DIR = '_DATABASE_/storage_data/'
+STORAGE_DIR = os.path.join('_DATABASE_', 'storage_data')
 
 STORAGE_URL = '/gvlab-dat/dataset/'
 
 STORAGE_ROOT = os.path.join(BASE_DIR, STORAGE_DIR)
 
-OUTPUT_DIR = '_DATABASE_/groundtruth/'
+OUTPUT_DIR = os.path.join('_DATABASE_', 'groundtruth')
 
 OUTPUT_URL = '/gvlab-dat/export-groundtruth/'
 
 OUTPUT_ROOT = os.path.join(BASE_DIR, OUTPUT_DIR)
 
-MODELS_DIR = '_DATABASE_/storage_models/'
+MODELS_DIR = os.path.join('_DATABASE_', 'storage_models')
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
