@@ -12,6 +12,8 @@ def user_output_directory_path(instance, filename):
     return os.path.join(settings.OUTPUT_DIR, 'user_{0}_{1}/{2}'.format(
        instance.owner.id, instance.owner.username, filename))
 
+charos = '\\' if os.name == 'nt' else '/'
+
 class InputDataModel(models.Model):
 
    TYPE_DATA_VALIDATION = ['zip', 'rar', 'mp4', 'avi', 'gif', 'jpg', 'png', 'JPG', 'PNG', 'JPEG']
@@ -39,20 +41,27 @@ class InputDataModel(models.Model):
    description = models.CharField(max_length=1000, default="None")
 
    def __str__(self):
-      return self.zipfile.name.split('/')[-1]
+      return self.get_zipname()
 
    def get_zipname(self):
       return self.zipfile.name.split('/')[-1]
    
    def get_full_path_file(self):
-      return os.path.join(settings.BASE_DIR, settings.UPLOAD_DIR, self.get_zipname())
+      return os.path.join(settings.BASE_DIR, str(self.zipfile).replace('/', charos))
+
+   def get_output_path(self):
+      output = os.path.join(
+         settings.BASE_DIR, settings.STORAGE_DIR, 
+         str(self.owner.username), self.get_zipname().split('.')[0])
+      print("output in input: ", output)
+      return output
 
    def get_gtname(self):
       # return (groundtruth)
       print(self.groundtruth)
       if (self.groundtruth):
          # print("have base groundtruth")
-         return self.groundtruth.name.split('/')[-1] 
+         return self.groundtruth.name.split(charos)[-1] 
       else:
          # print("no base groundtruth")
          return None
