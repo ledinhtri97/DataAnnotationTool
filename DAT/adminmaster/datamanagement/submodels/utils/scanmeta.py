@@ -1,13 +1,13 @@
 from django.conf import settings
 import os
 import cv2
+charos = '\\' if os.name == 'nt' else '/'
 
 class ScanMetaToDatabase(object):
 
    def __init__(self, dataSetModel, input_file_query):
       # print(dataSetModel, "object")
       self.dataSetModel = dataSetModel
-      self.dir_path = dataSetModel.get_dir_path()
       self.input_files = input_file_query.all()
 
       self.ACCEPTED_FILE = [
@@ -28,8 +28,9 @@ class ScanMetaToDatabase(object):
    def lookfiles(self, full_path_folder, type_file):
       # m = 100 if t == 0 else 5
       store_folder = settings.OUTPUT_DIR if (type_file) else settings.STORAGE_DIR
+      folders = os.listdir(os.path.join(store_folder, full_path_folder))
 
-      for xxxfile in os.listdir(os.path.join(store_folder, full_path_folder)):
+      for xxxfile in folders:
          if self.check_valid_file(xxxfile, type_file):
             """Do some shit stuff here"""
             from adminmaster.datamanagement.submodels.metadata import MetaDataModel
@@ -87,10 +88,8 @@ class ScanMetaToDatabase(object):
       folders_availiable = []
       for input_data in self.input_files:
          dir_name = {
-            'inputfile': os.path.join(self.dir_path, input_data.get_zipname().split('.')[0]),
-            'groundtruth': os.path.join(
-                  self.dir_path, input_data.get_gtname().split('.')[0]
-               ) if (input_data.get_gtname()) else None
+            'inputfile': input_data.get_output_path(),
+            'groundtruth': input_data.get_output_path() if (input_data.get_gtname()) else None
          }
          #may be need to check vaild path for sure
 
