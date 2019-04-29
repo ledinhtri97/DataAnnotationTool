@@ -1,0 +1,13 @@
+{% extends "adminmaster/base.html" %}
+{% block title %}Contribute Manager{% endblock %}
+{% block content %}
+	<div id="contribute"></div>
+	{% csrf_token %}
+	<div id="contribute_request" style="display:none;">{"contribute_request":[{% for ct in contribute_request %}{"id_file": {{ct.id_file}}, "user_name": "{{ct.user_name}}","file_name": "{{ct.file_name}}", "date_upload": "{{ct.date_upload}}", "url_view": "{% url 'contribute_view' id_file=1 %}", "url_accept": "{% url 'contribute_accept' id_file=1 %}"},{% endfor%}{}]}</div>
+	<div id="contribute_accepted" style="display:none;">{"contribute_accepted":[{% for ct in contribute_accepted %}{"id": {{ct.id}}, "user_name": "{{ct.user_name}}","file_name": "{{ct.file_name}}", "date_upload": "{{ct.date_upload}}", "url_view": "{% url 'contribute_view' id_file=1 %}", "url_save": "{% url 'contribute_save' id_file=1 %}"},{% endfor%}{}]}</div>
+{% endblock content%}
+
+{%block loadjs%} 
+{% load static %}
+<script src="{% static 'js/build/contribute.js' %}"></script> 
+{% endblock loadjs %}
