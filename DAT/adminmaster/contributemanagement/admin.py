@@ -20,12 +20,13 @@ class ContributeForm(forms.ModelForm):
     return instance_dataset
 
 class ContributeAdmin(admin.ModelAdmin):
-   #class Meta will not accept this form custom > find out why
-   form = ContributeForm
+    #class Meta will not accept this form custom > find out why
+    form = ContributeForm
 
-   readonly_fields = ['user', 'input']  # , 'dir_path'
+    list_display = ('name', 'manager_contribute',)
+    readonly_fields = ['user', 'input']  # , 'dir_path'
 
-   fieldsets = [
+    fieldsets = [
       (None,
             {
                'fields': ['name', 'available', 'description']
