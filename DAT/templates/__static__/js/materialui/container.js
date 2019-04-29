@@ -204,12 +204,12 @@ class MenuAppBar extends React.Component {
 	handleWorkspace = () => {
 		this.setState({ anchorEl: null });
 		var meta_id = document.getElementById("meta_id");
-		var url_workspace = document.getElementById("url_workspace").textContent;
+		var url_home = document.getElementById("url_home").textContent;
 		if(meta_id){
-			outWorkSpace(meta_id.textContent, url_workspace);
+			outWorkSpace(meta_id.textContent, url_home);
 		}
 		else{
-			window.location.href = url_workspace;
+			window.location.href = url_home;
 		}
 	};
 	
