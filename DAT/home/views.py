@@ -15,7 +15,7 @@ class LoginUserView(auth_views.LoginView):
          user = self.request.user
          if user.is_superuser:
             if("datadmin/login/" in self.request.get_full_path()):
-               return reverse("home")
+               return reverse("admin:index")
                # return reverse("datadmin")
             else:
                logout(self.request)
