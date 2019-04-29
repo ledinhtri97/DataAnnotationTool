@@ -32,7 +32,13 @@ const styles = theme => ({
   },
   form: {
     display: 'flex',
-  }
+  },
+  table_title: {
+    fontSize: '0.967rem',
+  },
+  table_content: {
+    fontSize: '0.925rem',
+  },
 });
 
 const CSRFToken = () => {
@@ -56,7 +62,7 @@ class UserTable extends React.Component {
 
     const { classes } = this.props;
 
-    const contributes = JSON.parse(document.getElementById("user_contribute").textContent)['user'];
+    const contributes = JSON.parse(document.getElementById("user_contribute").textContent)['user_contribute'];
     contributes.pop();
     const table = this;
 
@@ -65,10 +71,11 @@ class UserTable extends React.Component {
       <Table className={classes.table}>
       <TableHead>
       <TableRow>
-      <TableCell>Acceptable</TableCell>
-      <TableCell align="right">Name</TableCell>
-      <TableCell align="right">Description</TableCell>
-      <TableCell align="right">Contribute Files</TableCell>
+      <TableCell className={classes.table_title}>Contribute Name</TableCell>
+      <TableCell className={classes.table_title}>Activate</TableCell>
+      <TableCell className={classes.table_title}>File Name</TableCell>
+      <TableCell className={classes.table_title}>Date Upload</TableCell>
+      <TableCell className={classes.table_title}>Validate</TableCell>
       </TableRow>
       </TableHead>
       <TableBody>
@@ -76,47 +83,13 @@ class UserTable extends React.Component {
         contributes.map(function(ct, key){
           return (
             <TableRow key={key}>
-            <TableCell component="th" scope="row">
-            {ct.name}
+            <TableCell component="th" scope="row" className={classes.table_content}>
+            {ct.contribute_name}
             </TableCell>
-            <TableCell align="right">{ct.description}</TableCell>
-            <TableCell align="right">{ct.users_count}</TableCell>
-            <TableCell align="right">{ct.contribute_count}</TableCell>
-            <TableCell align="center">
-            <form className={classes.form}
-            encType="multipart/form-data" action={ct.url_upload} method="post">
-            <CSRFToken />
-
-            <input
-            accept=".rar, .zip, .jpg, .png, .PNG, .JPG, .JPEG, .mp4, .avi"
-            multiple
-            type="file"
-            id={"ctb_"+ct.id}
-            className={classes.input}
-            name="contribute_uploaded_file"
-            onChange={function(e){table.changeTitle(ct.id, e)}}
-            />
-            <label htmlFor={"ctb_"+ct.id}>
-            <Button 
-            id={"file_"+ct.id}
-            variant="contained" 
-            component="span" className={classes.button}>
-            Files
-            <AttachFile className={classes.rightIcon}/>
-            </Button>
-            </label>
-
-            <Button
-            id={"up_"+ct.id}
-            component="button"
-            type="submit"
-            variant="contained" color="default" className={classes.button} 
-            disabled={table.state.currentUpload!=ct.id}
-            >
-            <CloudUploadIcon />
-            </Button>
-            </form>
-            </TableCell>
+            <TableCell className={classes.table_content}>{ct.activate}</TableCell>
+            <TableCell className={classes.table_content}>{ct.file_name}</TableCell>
+            <TableCell className={classes.table_content}>{ct.date_upload}</TableCell>  
+            <TableCell className={classes.table_content}>{ct.validate}</TableCell>  
             </TableRow>
             );
         })
