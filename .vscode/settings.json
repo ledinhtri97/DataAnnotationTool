@@ -14,5 +14,5 @@
   "javascript.format.enable": false,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
   "python.formatting.provider": "autopep8",
-  "python.pythonPath": "${workspaceFolder}/env/bin/python3.5",
+  "python.pythonPath": "env\\Scripts\\python.exe",
 }
