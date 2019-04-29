@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 
 import ContributeTable from './table-contribute';
 import UserTable from './table-user';
+import RequestTable from './table-request';
+import AcceptedTable from './table-accepted';
 
 function TabContainer({ children, dir }) {
   return (
@@ -33,7 +35,7 @@ const styles = theme => ({
   },
   root2: {
     paddingTop: '1rem',
-    width: '90%',
+    width: '95%',
   }
 });
 
@@ -52,10 +54,12 @@ class Contribute extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
+    const viewsite = document.getElementById("adminsite") != null;
 
     return (
       <div className={classes.root}>
       <div className={classes.root2}>
+       { viewsite ? (
         <AppBar position="static" color="default">
           <Tabs
             value={this.state.value}
@@ -64,12 +68,25 @@ class Contribute extends React.Component {
             textColor="primary"
             variant="fullWidth"
           >
-            
-            <Tab label="Contribute Available" />
-            <Tab label="Your Contribute" />
-
+            <Tab label="Request Contributes" />
+            <Tab label="Accepted Contributes" />
           </Tabs>
         </AppBar>
+        ) : (
+          <AppBar position="static" color="default">
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+          >
+            <Tab label="Available Contributes" />
+            <Tab label="Your Contributes" />
+          </Tabs>
+        </AppBar>
+          )
+        }
         <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={this.state.value}
@@ -78,13 +95,23 @@ class Contribute extends React.Component {
           <TabContainer dir={theme.direction}>
           <span id="contribute_status">List contributes available</span>
           <div>
-            {React.createElement(ContributeTable)}
+            { viewsite ? (
+                React.createElement(RequestTable)
+              ) : (
+                React.createElement(ContributeTable)
+              )
+            }
           </div>
           </TabContainer>
 
           <TabContainer dir={theme.direction}>Your contributes information
           <div>
-            {React.createElement(UserTable)}
+            { viewsite ? (
+                React.createElement(AcceptedTable)
+              ) : (
+                React.createElement(UserTable)
+              )
+            }
           </div>
           </TabContainer>
 
