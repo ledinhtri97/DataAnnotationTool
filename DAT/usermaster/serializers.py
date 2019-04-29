@@ -17,7 +17,7 @@ class ContributeSerializer(serializers.ModelSerializer):
 
   def def_contribute_count(self, contribute):
     return contribute.input.count()
-   
+
   class Meta:
     model = ContributeModel
     fields = ('id', 'available', 'description', 'name', 'users_count', 'contribute_count')

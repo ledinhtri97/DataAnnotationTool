@@ -26,7 +26,7 @@ class ContributeView(generics.RetrieveAPIView):
       'contribute_name': contrib_temp.name,
       'activate': contrib_temp.available,
       'file_name': ip.get_zipname(),
-      'date_upload': ip.history.first().history_date,
+      'date_upload': ip.history.last().history_date,
       'validate': ip.useful,
     })
     #print(user_contrib)
