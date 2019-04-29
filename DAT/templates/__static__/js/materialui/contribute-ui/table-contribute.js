@@ -32,7 +32,13 @@ const styles = theme => ({
   },
   form: {
     display: 'flex',
-  }
+  },
+  table_title: {
+    fontSize: '0.967rem',
+  },
+  table_content: {
+    fontSize: '0.925rem',
+  },
 });
 
 const CSRFToken = () => {
@@ -78,7 +84,7 @@ class ContributeTable extends React.Component {
 
     const { classes } = this.props;
 
-    const contributes = JSON.parse(document.getElementById("contribute_data").textContent)['contribute'];
+    const contributes = JSON.parse(document.getElementById("contribute_data").textContent)['contribute_data'];
     contributes.pop();
     const table = this;
 
@@ -87,11 +93,11 @@ class ContributeTable extends React.Component {
       <Table className={classes.table}>
       <TableHead>
       <TableRow>
-      <TableCell>Name</TableCell>
-      <TableCell align="right">Description</TableCell>
-      <TableCell align="right">Contribute Users</TableCell>
-      <TableCell align="right">Contribute Files</TableCell>
-      <TableCell align="center">Contribute</TableCell>
+      <TableCell className={classes.table_title}>Name</TableCell>
+      <TableCell align="right" className={classes.table_title}>Description</TableCell>
+      <TableCell align="right" className={classes.table_title}>Contribute Users</TableCell>
+      <TableCell align="right" className={classes.table_title}>Contribute Files</TableCell>
+      <TableCell align="center" className={classes.table_title}>Contribute</TableCell>
       </TableRow>
       </TableHead>
       <TableBody>
@@ -99,20 +105,20 @@ class ContributeTable extends React.Component {
         contributes.map(function(ct, key){
           return (
             <TableRow key={key}>
-            <TableCell component="th" scope="row">
+            <TableCell component="th" scope="row" className={classes.table_content}>
             {ct.name}
             </TableCell>
-            <TableCell align="right">{ct.description}</TableCell>
-            <TableCell align="right">{ct.users_count}</TableCell>
-            <TableCell align="right">{ct.contribute_count}</TableCell>
-            <TableCell align="center">
+            <TableCell align="right" className={classes.table_content}>{ct.description}</TableCell>
+            <TableCell align="right" className={classes.table_content}>{ct.users_count}</TableCell>
+            <TableCell align="right" className={classes.table_content}>{ct.contribute_count}</TableCell>
+            <TableCell align="center" className={classes.table_content}>
             <form className={classes.form}
-            encType="multipart/form-data" action={ct.url_upload} method="post">
+            encType="multipart/form-data" action={ct.url_upload.replace("1", ct.id)} method="post">
             <CSRFToken />
 
             <input
             accept=".rar, .zip, .jpg, .png, .PNG, .JPG, .JPEG, .mp4, .avi"
-            multiple
+            //multiple
             type="file"
             id={"ctb_"+ct.id}
             className={classes.input}
