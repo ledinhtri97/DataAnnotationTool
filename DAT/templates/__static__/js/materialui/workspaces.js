@@ -69,7 +69,7 @@ class Workspaces extends React.Component {
 	};
 
 	handleContribute = () => {
-		window.location.href = '/gvlab-dat/workspace/contribute/';
+		window.location.href = document.getElementById("url_contribute").textContent;
 	};
 
 	handleOverview = () => {
