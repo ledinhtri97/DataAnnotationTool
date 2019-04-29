@@ -83,7 +83,9 @@ class Contribute extends React.Component {
           </TabContainer>
 
           <TabContainer dir={theme.direction}>Your contributes information
-        
+          <div>
+            {React.createElement(UserTable)}
+          </div>
           </TabContainer>
 
         </SwipeableViews>
