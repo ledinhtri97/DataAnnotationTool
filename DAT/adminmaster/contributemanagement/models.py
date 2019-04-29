@@ -1,6 +1,7 @@
 from django.db import models
 from adminmaster.datamanagement.models import InputDataModel
 from simple_history.models import HistoricalRecords
+from django.utils.html import format_html
 
 # Create your models here.
 class ContributeModel(models.Model):
@@ -16,6 +17,11 @@ class ContributeModel(models.Model):
   input = models.ManyToManyField(InputDataModel,  blank=True)
 
   history = HistoricalRecords()
+
+  def manager_contribute(self):
+    return format_html('<a target="_blank" href="/gvlab-dat/datadmin/contributes/{}/">Manager</a>', str(self.id))
+
+  manager_contribute.admin_order_field = 'name'
 
   def __str__(self):
     return self.name
