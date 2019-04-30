@@ -22,8 +22,7 @@ class DataSetForm(forms.ModelForm):
       """
          Need to extract file zip
       """
-      zipRarer = ZipRarExtractor(self.cleaned_data['input_file'],
-         instance_dataset.get_dir_path())
+      zipRarer = ZipRarExtractor(self.cleaned_data['input_file'])
       zipRarer.do_extract_all()
       """End of extract, Done!"""
 
