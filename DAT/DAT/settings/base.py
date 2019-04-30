@@ -118,6 +118,10 @@ LOGOUT_REDIRECT_URL = 'home'
 
 UPLOAD_DIR = os.path.join('_DATABASE_', 'upload_data')
 
+UPLOAD_URL = '/gvlab-dat/upload/'
+
+UPLOAD_ROOT = os.path.join(BASE_DIR, UPLOAD_DIR)
+
 STORAGE_DIR = os.path.join('_DATABASE_', 'storage_data')
 
 STORAGE_URL = '/gvlab-dat/dataset/'
