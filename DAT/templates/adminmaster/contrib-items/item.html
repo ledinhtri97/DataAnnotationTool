@@ -1,0 +1,13 @@
+{% extends "adminmaster/base.html" %}
+{% block title %}Contribute Manager{% endblock %}
+{% block content %}
+	<div id="contribute_items"></div>
+	{% csrf_token %}
+	<div id="contribute_type" style="display:none;">{{type}}</div>
+	<div id="contribute_metas" style="display:none;">{"contribute_metas":[{% for mt in metas %}{"url_meta": "{{mt}}"},{% endfor%}{}]}</div>
+{% endblock content%}
+
+{%block loadjs%} 
+{% load static %}
+<script src="{% static 'js/build/contribute.js' %}"></script>
+{% endblock loadjs %}

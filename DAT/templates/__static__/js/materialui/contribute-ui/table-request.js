@@ -62,7 +62,11 @@ class RequestTable extends React.Component {
     status.style['color'] = "#8C0C4B";
 
     this.setState({ currentUpload: id });
-  }
+  };
+
+  handleViewItem = (url_view) => {
+    window.location.href = url_view;
+  };
 
   render() {
 
@@ -98,7 +102,9 @@ class RequestTable extends React.Component {
             <TableCell align="right" className={classes.table_content}>{ct.file_name}</TableCell>
             <TableCell align="right" className={classes.table_content}>{ct.date_upload}</TableCell>
             <TableCell align="center" className={classes.table_content}>
-            <Button variant="contained" className={classes.button}>
+            <Button variant="contained" className={classes.button}
+              onClick={function(e){table.handleViewItem(ct.url_view.replace("1", ct.id_file))}}
+            >
             View
             </Button>
             </TableCell>
