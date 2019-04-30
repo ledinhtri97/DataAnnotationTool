@@ -13,10 +13,9 @@ from django.conf import settings
 charos = '\\' if os.name=='nt' else '/'
 
 class ZipRarExtractor(object):
-    def __init__(self, inputDataModels, dir_path):
+    def __init__(self, inputDataModels):
         print(inputDataModels)
         self.inputDataModels = inputDataModels
-        self.dir_path = dir_path
 
     def do_extract_all(self):
         # print(self.inputDataModels, "=======================")
