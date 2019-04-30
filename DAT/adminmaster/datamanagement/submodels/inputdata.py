@@ -53,7 +53,6 @@ class InputDataModel(models.Model):
       output = os.path.join(
          settings.BASE_DIR, settings.STORAGE_DIR, 
          str(self.owner.username), self.get_zipname().split('.')[0])
-      print("output in input: ", output)
       return output
 
    def get_gtname(self):
