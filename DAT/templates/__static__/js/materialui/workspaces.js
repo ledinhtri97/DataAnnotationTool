@@ -72,9 +72,13 @@ class Workspaces extends React.Component {
 		window.location.href = document.getElementById("url_contribute").textContent;
 	};
 
-	handleOverview = () => {
-		window.location.href = "/gvlab-dat/workspace/#";
+	handleOverviewAll = () => {
+		window.location.href = document.getElementById("url_overviewall").textContent;;
 	};
+
+	handleOverview =  (overview_url) => {
+		window.location.href = overview_url;
+	}
 
 	handleStartLabeling = (startlabeling_url) => {
 		window.location.href = startlabeling_url;
@@ -98,7 +102,9 @@ class Workspaces extends React.Component {
             <div className={classes.heroButtons}>
               <Grid container spacing={16} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary">
+                  <Button 
+                  	onClick={thiswp.handleOverviewAll}
+                  	variant="contained" color="primary">
                     Overview Working
                   </Button>
                 </Grid>
@@ -134,7 +140,7 @@ class Workspaces extends React.Component {
           			</CardContent>
           			<CardActions>
           			<Button 
-          				onClick={function(e){thiswp.handleOverview()}} 
+          				onClick={function(e){thiswp.handleOverview(wp.url_overview)}} 
           				color="primary" size="small">
           			<BarChart className={classes.rightIcon} />
           			OVERVIEW
