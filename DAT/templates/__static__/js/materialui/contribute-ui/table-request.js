@@ -10,7 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import AttachFile from '@material-ui/icons/AttachFile';
-import Cookie from 'js-cookie';
+import AlertDialog from "../dialog";
+import ReactDOM from "react-dom";
 
 const styles = theme => ({
   root: {
@@ -41,12 +42,6 @@ const styles = theme => ({
   },
 });
 
-const CSRFToken = () => {
-  return (
-    <input type="hidden" name="csrfmiddlewaretoken" value={Cookie.get("csrftoken")} />
-    );
-};
-
 // var currentUpload = null;
 
 class RequestTable extends React.Component {
@@ -66,6 +61,21 @@ class RequestTable extends React.Component {
 
   handleViewItem = (url_view) => {
     window.location.href = url_view;
+  };
+
+  handleAccepted = (url_accept) => {
+    var dialog = document.getElementById("dialog");
+    if(dialog){
+      ReactDOM.unmountComponentAtNode(dialog);
+      var message = "Agree accepted this contribute?";
+      var request = "rqacceptcontrib";
+      ReactDOM.render(<AlertDialog 
+        message={message} 
+        request={request} 
+        accept_url={url_accept}
+        contribute_url={window.location.href}
+        />, dialog);
+    }
   };
 
   render() {
@@ -109,7 +119,9 @@ class RequestTable extends React.Component {
             </Button>
             </TableCell>
             <TableCell align="center" className={classes.table_content}>
-            <Button variant="contained" className={classes.button}>
+            <Button 
+            onClick={function(e){table.handleAccepted(ct.url_accept.replace("1", ct.id_file))}}
+            variant="contained" className={classes.button}>
             Accept
             </Button>
             </TableCell>
