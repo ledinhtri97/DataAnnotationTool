@@ -8,7 +8,7 @@ import TemporaryDrawerSettings from "./materialui/labeling-ui/drawerSettings";
 
 import {outWorkSpace} from "./modules/dat-utils";
 
-import {rqnext, rqsavenext, rqbadnext} from  "./modules/labeling-module/controller/request"
+import {rqnext, rqsavenext, rqbadnext} from  "./modules/request"
 import {initMaintask, renderBBS_RECT, renderBBS_POLY} from "./modules/labeling-module/controller/renderInit"
 import {init_event} from "./modules/labeling-module/event"
 import {PopupControllers} from "./modules/labeling-module/controller/popup";
