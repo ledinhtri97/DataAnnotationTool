@@ -2,7 +2,7 @@
 {% block title %}Workspace{% endblock %}
 {% block content %}
 	<div id="workspaces"></div>
-	<div id="home" style="display:none;">{"workspaces":[{% for wp in data %}{"name": "{{wp.nameworkspace}}","iddataset": {{wp.dataset}},"total":{{wp.num_allmeta}},"anno":{{wp.num_annotated_meta}},"url_join":"{% url 'maintask' id=wp.dataset%}"},{% endfor%}{}]}
+	<div id="home" style="display:none;">{"workspaces":[{% for wp in data %}{"name": "{{wp.nameworkspace}}","iddataset": {{wp.dataset}},"total":{{wp.num_allmeta}},"anno":{{wp.num_annotated_meta}},"url_join":"{% url 'maintask' id=wp.dataset%}", "url_overview":"{% url 'overview-workspace' wsid=wp.dataset%}"},{% endfor%}{}]}
 	</div>
 {% endblock content%}
 

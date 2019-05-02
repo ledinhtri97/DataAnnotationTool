@@ -4,7 +4,8 @@
 	<div id="contribute_items"></div>
 	{% csrf_token %}
 	<div id="contribute_type" style="display:none;">{{type}}</div>
-	<div id="contribute_metas" style="display:none;">{"contribute_metas":[{% for mt in metas %}{"url_meta": "{{mt}}"},{% endfor%}{}]}</div>
+	<div id="contribute_accepted" style="display:none;">{{accepted}}</div>
+	<div id="contribute_metas" style="display:none;">{"contribute_name": "{{contribute_name}}", "accept_url": "{% url 'contribute_accept' id_file=id_file %}", "contribute_url": "{% url 'contributes' id_contribute=contribute_id %}", "file_name": "{{file_name}}", "contribute_metas":[{% for mt in metas %}{"url_meta": "{{mt}}"},{% endfor%}{}]}</div>
 {% endblock content%}
 
 {%block loadjs%} 

@@ -1,0 +1,11 @@
+{% extends "usermaster/base.html" %}
+{% block title %}Workspace{% endblock %}
+{% block content %}
+	<div id="overviewall"></div>
+	<div id="overview_data" style="display:none;"></div>
+{% endblock content%}
+
+{%block loadjs%} 
+{% load static %}
+<script src="{% static 'js/build/overviewall.js' %}"></script>  
+{% endblock loadjs %}

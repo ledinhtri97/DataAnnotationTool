@@ -4,7 +4,7 @@ import {Color} from './style/color'
 import {configureLine} from "./drawer/polygon"
 import React from "react";
 import ReactDOM from "react-dom";
-import AlertDialog from "../../materialui/labeling-ui/dialog";
+import AlertDialog from "../../materialui/dialog";
 
 var Direction = {
 	LEFT: 0,
