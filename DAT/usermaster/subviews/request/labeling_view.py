@@ -13,7 +13,7 @@ def next_index(request, metaid):
   # print(serializer.data)
   #now when query data finish -> need to change current onworking status
   current_meta_data.is_onworking = 0
-  current_meta_data.onviewing_user='';
+  current_meta_data.onviewing_user=''
   current_meta_data.viewed_by_user.add(user)
   current_meta_data.save(update_fields=['is_onworking', 'onviewing_user'])
   
@@ -36,7 +36,7 @@ def savenext_index(request, metaid):
   current_meta_data.boxes_position = body_unicode
   current_meta_data.is_onworking = 0
   current_meta_data.is_annotated = 1
-  current_meta_data.onviewing_user='';
+  current_meta_data.onviewing_user=''
   current_meta_data.annotated_by_user.add(user)
   
   current_meta_data.save(update_fields=[
@@ -60,7 +60,7 @@ def badnext_index(request, metaid):
   #now when query data finish -> need to change current onworking status
   current_meta_data.is_onworking = 0
   current_meta_data.is_badmeta = 1
-  current_meta_data.onviewing_user='';
+  current_meta_data.onviewing_user=''
   current_meta_data.viewed_by_user.add(user)
   current_meta_data.save(update_fields=['is_onworking', 'onviewing_user', 'is_badmeta'])
   

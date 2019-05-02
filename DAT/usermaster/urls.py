@@ -6,7 +6,8 @@ from usermaster.subviews.contribute import ContributeView
 from usermaster.subviews.request import labeling_view
 from usermaster.subviews.request import contribute_view
 from usermaster.subviews import apiview
-
+from usermaster.subviews.request.overview_all_view import OverViewAllView
+from usermaster.subviews.request.overview_workspcae_view import OverViewWorkspaceView
 urlpatterns = [
     
     path('', WorkspaceView.as_view(), name='workspace'),
@@ -21,6 +22,10 @@ urlpatterns = [
     path('outworkspace/<int:metaid>/', labeling_view.outws_index, name='outws'),
 
     path('savesettings/', saveseting_index, name='savesettings'),
+
+    path('overviewall/', OverViewAllView.as_view(), name='overviewall'),
+    path('overview/<int:wsid>/', OverViewWorkspaceView.as_view(),
+         name='overview-workspace'),
 
     # path('objdet/', apiview.o_index, name='objdet'),
     # path('facedet/<int:metaid>/', apiview.f_index, name='facedet'),
