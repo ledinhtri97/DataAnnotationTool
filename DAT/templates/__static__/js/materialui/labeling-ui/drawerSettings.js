@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-
+import ReactDOM from "react-dom";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -19,7 +19,7 @@ import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import {quickSettings} from '../../labeling';
-import {rqsavesettings} from '../../modules/labeling-module/controller/request';
+import AlertDialog from "../dialog";
 
 const styles = theme =>({
 	list: {
@@ -154,7 +154,16 @@ class TemporaryDrawerSettings extends React.Component {
 	};
 
 	handleSaveAsDefault = () => {
-
+		var dialog = document.getElementById("dialog");
+    	if(dialog){
+      	ReactDOM.unmountComponentAtNode(dialog);
+      	var message = "Save settings as default?";
+     	var request = "rqsavesettings";
+     	ReactDOM.render(<AlertDialog 
+        message={message} 
+        request={request}
+        />, dialog);
+    }
 	};
 
 	render() {
@@ -168,7 +177,7 @@ class TemporaryDrawerSettings extends React.Component {
 			<ListItem button>
 			<ListItemText primary="Settings As Default" />
 			<Button 
-				onClick={function(e){rqsavesettings()}}
+				onClick={this.handleSaveAsDefault}
 				variant="contained" 
 				color="primary" className={classes.button}>SAVE</Button>
 			</ListItem>
