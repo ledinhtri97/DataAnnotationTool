@@ -9,8 +9,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import AttachFile from '@material-ui/icons/AttachFile';
-import Cookie from 'js-cookie';
+import CheckCircle from '@material-ui/icons/CheckCircle';
+import HighlightOff from '@material-ui/icons/HighlightOff';
+import CloudDone from '@material-ui/icons/CloudDone';
+import CloudOff from '@material-ui/icons/CloudOff';
 
 const styles = theme => ({
   root: {
@@ -40,12 +42,6 @@ const styles = theme => ({
     fontSize: '0.925rem',
   },
 });
-
-const CSRFToken = () => {
-  return (
-    <input type="hidden" name="csrfmiddlewaretoken" value={Cookie.get("csrftoken")} />
-    );
-};
 
 class UserTable extends React.Component {
 
@@ -86,10 +82,18 @@ class UserTable extends React.Component {
             <TableCell component="th" scope="row" className={classes.table_content}>
             {ct.contribute_name}
             </TableCell>
-            <TableCell className={classes.table_content}>{ct.activate}</TableCell>
+            <TableCell className={classes.table_content}>
+            {
+              (ct.activate === 'True') ? (<CloudDone />) : (<CloudOff />)
+            }
+            </TableCell>
             <TableCell className={classes.table_content}>{ct.file_name}</TableCell>
             <TableCell className={classes.table_content}>{ct.date_upload}</TableCell>  
-            <TableCell className={classes.table_content}>{ct.validate}</TableCell>  
+            <TableCell className={classes.table_content}>
+            {
+              (ct.validate === 'True') ? (<CheckCircle color='primary'/>) : (<HighlightOff color='secondary'/>)
+            }
+            </TableCell>  
             </TableRow>
             );
         })
