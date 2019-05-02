@@ -5,7 +5,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {controllerRequest} from "../../labeling";
+import {controllerRequest} from "../labeling";
+import {rqsavesettings, rqacceptcontrib} from "../modules/request";
 
 class AlertDialog extends React.Component {
   state = {
@@ -19,7 +20,15 @@ class AlertDialog extends React.Component {
   handleRequest = () => {
     this.setState({ open: false });
     var request = this.props.request;
-    controllerRequest(request);
+    if (request == 'rqacceptcontrib') {
+      rqacceptcontrib(this.props.accept_url, this.props.contribute_url);
+    }
+    else if (request == 'rqsavesettings'){
+      rqsavesettings();
+    }
+    else {
+      controllerRequest(request);
+    }
   }; 
 
   render() {
