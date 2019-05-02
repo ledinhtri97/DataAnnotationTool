@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import AttachFile from '@material-ui/icons/AttachFile';
 import Cookie from 'js-cookie';
 
@@ -39,9 +39,6 @@ const styles = theme => ({
   table_content: {
     fontSize: '0.925rem',
   },
-  leftIcon: {
-    marginRight: theme.spacing.unit,
-  },
 });
 
 const CSRFToken = () => {
@@ -52,7 +49,7 @@ const CSRFToken = () => {
 
 // var currentUpload = null;
 
-class RequestTable extends React.Component {
+class AcceptedTable extends React.Component {
 
   state = {
     currentUpload: null,
@@ -65,7 +62,11 @@ class RequestTable extends React.Component {
     status.style['color'] = "#8C0C4B";
 
     this.setState({ currentUpload: id });
-  }
+  };
+
+  handleViewItem = (url_view) => {
+    window.location.href = url_view;
+  };
 
   render() {
 
@@ -74,6 +75,7 @@ class RequestTable extends React.Component {
     const contribute_accepted = JSON.parse(
       document.getElementById("contribute_accepted").textContent
       )['contribute_accepted'];
+
     contribute_accepted.pop();
     const table = this;
 
@@ -85,8 +87,7 @@ class RequestTable extends React.Component {
       <TableCell className={classes.table_title}>User Name</TableCell>
       <TableCell align="right" className={classes.table_title}>File name</TableCell>
       <TableCell align="right" className={classes.table_title}>Date Upload</TableCell>
-      <TableCell align="right" className={classes.table_title}>Date Accept</TableCell>
-      <TableCell align="center" className={classes.table_title}>Edit</TableCell>
+      <TableCell align="center" className={classes.table_title}>View</TableCell>
       </TableRow>
       </TableHead>
       <TableBody>
@@ -99,10 +100,11 @@ class RequestTable extends React.Component {
             </TableCell>
             <TableCell align="right" className={classes.table_content}>{ct.file_name}</TableCell>
             <TableCell align="right" className={classes.table_content}>{ct.date_upload}</TableCell>
-            <TableCell align="right" className={classes.table_content}>{ct.date_accept}</TableCell>
             <TableCell align="center" className={classes.table_content}>
-            <Button variant="contained" className={classes.button}>
-            Edit
+            <Button variant="contained" className={classes.button}
+              onClick={function(e){table.handleViewItem(ct.url_view.replace("1", ct.id_file))}}
+            >
+            View
             </Button>
             </TableCell>
             </TableRow>
@@ -117,8 +119,8 @@ class RequestTable extends React.Component {
   }
 }
 
-RequestTable.propTypes = {
+AcceptedTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(RequestTable);
+export default withStyles(styles)(AcceptedTable);
