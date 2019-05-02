@@ -16,7 +16,6 @@ class ContributeView(generics.RetrieveAPIView):
     def get_queryset(self):
         contrib_id = self.request.parser_context['kwargs']['id_contribute']
         contribute = ContributeModel.objects.filter(id=contrib_id).first()
-        
 
         review = {
             "name": contribute.name,
@@ -70,8 +69,16 @@ class ItemContributeView(generics.RetrieveAPIView):
         image_file = ext_file in ['jpg', 'JPG', 'JPEG', 'jpeg', 'png', 'PNG']
         zip_file = ext_file in ['rar', 'zip']
         media_file = ext_file in ['mp4', 'mp3', ]
+        
+        contribute = ContributeModel.objects.filter(
+            input=input_file.first()).first()
 
         __data__ = {
+            'contribute_name': contribute.name,
+            'contribute_id': contribute.id,
+            'id_file': id_file,
+            'accepted': input_file.first().useful,
+            'file_name': input_file.first().get_zipname(),
             'type': ext_file,
             'metas': [],
         }
@@ -80,7 +87,6 @@ class ItemContributeView(generics.RetrieveAPIView):
             __folder__ = input_file.first().get_output_path()
 
             if not os.path.exists(__folder__):
-                #print("need to extracted file: ", __folder__)
                 zipRarer = ZipRarExtractor(input_file)
                 zipRarer.do_extract_all()
             else:
@@ -90,9 +96,6 @@ class ItemContributeView(generics.RetrieveAPIView):
         elif image_file or media_file:
             __data__['metas'].append(
                 '/gvlab-dat/upload/'+input_file.first().get_full_path_file().replace('\\', '/'))
-        
-        #print(__data__)
-        
         return __data__
 
     # @Overwrite
@@ -102,7 +105,11 @@ class ItemContributeView(generics.RetrieveAPIView):
 
 
 def contribute_accept(request, id_file):
-    pass
+    input_ins = InputDataModel.objects.filter(id=id_file).first()
+    input_ins.useful = 1
+    input_ins.save(update_fields=['useful'])
+    print(input_ins)
+    return JsonResponse({})
 
 def contribute_save(request, id_file):
     pass
