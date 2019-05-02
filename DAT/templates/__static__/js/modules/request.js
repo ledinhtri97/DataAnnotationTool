@@ -1,10 +1,10 @@
-import {initMaintask} from "./renderInit"
+import {initMaintask} from "./labeling-module/controller/renderInit";
 import ReactDOM from "react-dom";
 import React, {Component} from "react";
 import Cookie from 'js-cookie';
-import {reset_when_go} from "../event";
-import {outWorkSpace, ask_before_out} from "../../dat-utils"
-import {drawPoly} from "../../../labeling"
+import {reset_when_go} from "./labeling-module/event";
+import {outWorkSpace, ask_before_out} from "./dat-utils"
+import {drawPoly} from "../labeling"
 
 var label = document.getElementById("label");
 
@@ -190,5 +190,22 @@ const rqsavesettings = function(){
 	});
 }
 
+const rqacceptcontrib = function(accept_url, contribute_url){
+	fetch(accept_url, {
+		method: "POST",
+		credentials: "same-origin",
+		headers: {
+			"X-CSRFToken": Cookie.get("csrftoken"),
+			"Accept": "application/json",
+			"Content-Type": "application/json"
+		},
+	})
+	.then(response => {
+		if(response.status !== 200){
+			return "Something went wrong";
+		}
+		window.location.href = contribute_url;
+	});
+}
 
-export {rqsavenext, rqnext, rqbadnext, rqsavesettings};
+export {rqsavenext, rqnext, rqbadnext, rqsavesettings, rqacceptcontrib};
