@@ -8,7 +8,10 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
+import Loyalty from '@material-ui/icons/Loyalty';
+import Done from '@material-ui/icons/Done';
 
+import TabShowLabels from './tabshow-labels';
 
 import {
   ComposedChart, Line, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -17,22 +20,22 @@ import {
 
 const data = [
   {
-    name: 'Page A', uv: 590, pv: 800, amt: 1400,
+    "name": 'Label A', "total": 590, "user": 800, "predict": 1400,
   },
   {
-    name: 'Page B', uv: 868, pv: 967, amt: 1506,
+    "name": 'Label B', "total": 868, "user": 967, "predict": 1506,
   },
   {
-    name: 'Page C', uv: 1397, pv: 1098, amt: 989,
+    "name": 'Label C', "total": 1397, "user": 1098, "predict": 989,
   },
   {
-    name: 'Page D', uv: 1480, pv: 1200, amt: 1228,
+    "name": 'Label D', "total": 1480, "user": 1200, "predict": 1228,
   },
   {
-    name: 'Page E', uv: 1520, pv: 1108, amt: 1100,
+    "name": 'Label E', "total": 1520, "user": 1108, "predict": 1100,
   },
   {
-    name: 'Page F', uv: 1400, pv: 680, amt: 1700,
+    "name": 'Label F', "total": 1400, "user": 680, "predict": 1700,
   },
 ];
 
@@ -42,7 +45,7 @@ class ChartExample extends PureComponent {
     return (
       <ComposedChart
         layout="vertical"
-        width={500}
+        width={600}
         height={400}
         data={data}
         margin={{
@@ -54,9 +57,9 @@ class ChartExample extends PureComponent {
         <YAxis dataKey="name" type="category" />
         <Tooltip />
         <Legend />
-        <Area dataKey="amt" fill="#8884d8" stroke="#8884d8" />
-        <Bar dataKey="pv" barSize={20} fill="#413ea0" />
-        <Line dataKey="uv" stroke="#ff7300" />
+        <Area dataKey="total" fill="#8884d8" stroke="#8884d8" />
+        <Bar dataKey="user" barSize={20} fill="#413ea0" />
+        <Line dataKey="predict" stroke="#ff7300" />
       </ComposedChart>
     );
   }
@@ -67,17 +70,18 @@ const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: '100%',
+    paddingTop: '4.5rem',
   },
   root2: {
-    paddingTop: '5rem',
     width: '95%',
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-around',
+    marginLeft: '1em'
   },
   button: {
     margin: theme.spacing.unit,
-    width: '15em',
+    width: '14em',
   },
   listStatus: {
     display: 'flex',
@@ -87,6 +91,15 @@ const styles = theme => ({
     padding: 0,
     width: '5em',
   },
+  extractButton: {
+    margin: theme.spacing.unit,
+    width: '20em',
+    float: 'right',
+    marginRight: '2rem',
+  },
+  tableLabels: {
+    width: '80%',
+  }
 });
 
 class OverviewWorkspace extends React.Component {
@@ -107,7 +120,11 @@ class OverviewWorkspace extends React.Component {
     
     return (
       <div className={classes.root}>
+      <Button variant="outlined" color="primary" className={classes.extractButton}>
+          Extract Report To Admin
+      </Button>
       <div className={classes.root2}>
+        
         <div>
           <div>
             <Typography gutterBottom variant="h5" component="h2">
@@ -177,6 +194,15 @@ class OverviewWorkspace extends React.Component {
             </Button>
             <Chip label="10" className={classes.chip}/>
             </div>
+
+            <div className={classes.listStatus}>
+            <Button variant="outlined" color="primary" className={classes.button}>
+              Flag false predict
+            </Button>
+            <Chip icon={<Loyalty color='secondary'/>} label="10" className={classes.chip}/>
+            <Chip icon={<Done color='primary'/>} label="10" className={classes.chip}/>
+            </div>
+
         </div>
         </div>
         <div>
@@ -186,6 +212,8 @@ class OverviewWorkspace extends React.Component {
           <ChartExample />
         </div>
       </div>
+
+      <TabShowLabels />
 
       </div>
 
