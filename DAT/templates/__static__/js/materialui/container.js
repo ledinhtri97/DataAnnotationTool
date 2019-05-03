@@ -161,6 +161,7 @@ const styles = theme =>({
     hidden: {
     	display: 'none',
     },
+	
 });
 
 // {/*<IconButton className={classes.menuButton} color="inherit" aria-label="Menu">*/}
@@ -404,7 +405,6 @@ class MenuAppBar extends React.Component {
 			)}
 
 		{ON_WORKING && <div id="labeling" className={classes.labeling}></div>}
-
 		</div>	
 		);
 }
