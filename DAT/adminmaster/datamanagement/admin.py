@@ -5,6 +5,7 @@ from .submodels.metadata import MetaDataModel
 from .submodels.inputdata import InputDataModel
 from .submodels.outputdata import OutputDataModel
 from .submodels.labeldata import LabelDataModel
+from .submodels.boudingbox import BoundingBoxModel
 from .submodels.utils.ziprar import ZipRarExtractor
 from .submodels.utils.scanmeta import ScanMetaToDatabase
 from .submodels.utils.groundtruth import GroundTruther
@@ -159,5 +160,6 @@ class OutputDataAdmin(admin.ModelAdmin):
 admin.site.register(DataSetModel, DataSetAdmin)
 admin.site.register(InputDataModel, InputDataAdmin)
 admin.site.register(LabelDataModel)
+admin.site.register(BoundingBoxModel)
 admin.site.register(MetaDataModel)
 admin.site.register(OutputDataModel, OutputDataAdmin)
