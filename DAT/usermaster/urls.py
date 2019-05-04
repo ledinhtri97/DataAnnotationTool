@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.conf import settings
 
 from usermaster.subviews.workspaces import WorkspaceView, saveseting_index
 from usermaster.subviews.labeling import LabelingView
@@ -7,7 +8,8 @@ from usermaster.subviews.request import labeling_view
 from usermaster.subviews.request import contribute_view
 from usermaster.subviews import apiview
 from usermaster.subviews.request.overview_all_view import OverViewAllView
-from usermaster.subviews.request.overview_workspcae_view import OverViewWorkspaceView
+from usermaster.subviews.request import overview_workspcae_view
+
 urlpatterns = [
     
     path('', WorkspaceView.as_view(), name='workspace'),
@@ -18,14 +20,18 @@ urlpatterns = [
     path('ws-<int:id>/', LabelingView.as_view(), name='maintask'),
     path('next/<int:metaid>/', labeling_view.next_index, name='next'),
     path('savenext/<int:metaid>/', labeling_view.savenext_index, name='savenext'),
-    path('badnext/<int:metaid>/', labeling_view.badnext_index, name='badnext'),
+    #path('badnext/<int:metaid>/', labeling_view.badnext_index, name='badnext'),
     path('outworkspace/<int:metaid>/', labeling_view.outws_index, name='outws'),
 
     path('savesettings/', saveseting_index, name='savesettings'),
 
-    path('overviewall/', OverViewAllView.as_view(), name='overviewall'),
-    path('overview/<int:wsid>/', OverViewWorkspaceView.as_view(),
+    path('overviewall/', OverViewAllView.as_view(), name='overviewall'),#mark-dev
+    
+    path('overview/<int:wsid>/', overview_workspcae_view.OverViewWorkspaceView.as_view(),
          name='overview-workspace'),
+    
+    # onworking
+    path('overview/<int:wsid>/'+settings.SLUG_API_URL, overview_workspcae_view.get_data_overview_workspace),
 
     # path('objdet/', apiview.o_index, name='objdet'),
     # path('facedet/<int:metaid>/', apiview.f_index, name='facedet'),
