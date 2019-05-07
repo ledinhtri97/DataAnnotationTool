@@ -112,7 +112,7 @@ class TemporaryDrawerInstruction extends React.Component {
 			<div className={classes.list}>
 			<Typography variant="title" color="inherit" className={classes.grow}>Hotkeys character</Typography>
 			<List>
-			{['A', 'B', 'S', 'E', 'H', 'D', 'Q'].map((text, index) => (
+			{['A', 'S', 'E', 'H', 'D', 'Q'].map((text, index) => (
 				<ListItem button key={index} className={classes.listItem}>
 				<ListItemIcon>{MAP_ICON_INS[text]}</ListItemIcon>
 				<Typography variant="caption" color="inherit" className={classes.caption}>{MAP_TEXT_INS[text]}</Typography>

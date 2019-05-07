@@ -32,9 +32,11 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+
   },
   root2: {
     paddingTop: '1rem',
+    paddingBottom: '6rem',
     width: '95%',
   }
 });
