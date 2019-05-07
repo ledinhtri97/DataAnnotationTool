@@ -158,17 +158,6 @@ const init_event = function(__canvas__, popupControllers){
 				controllerRequest('rqnext');
 			}
 		}
-		else if (key == 98) {
-			if(dialog && quickSettings.getAtt('ask_dialog')){
-				ReactDOM.unmountComponentAtNode(dialog);
-				var message = "Are you sure this is bad data and want to continue?";
-				var request = "rqbadnext";
-				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
-			}
-			else{
-				controllerRequest('rqbadnext');
-			}
-		}
 		else if(key == 115){
 			if(dialog && quickSettings.getAtt('ask_dialog')){
 				ReactDOM.unmountComponentAtNode(dialog);
@@ -225,7 +214,7 @@ const init_event = function(__canvas__, popupControllers){
 		}
 		else if(key == 113) {
 			//quit draw -> q key
-			if(drawStatus.getIsDrawing()){
+			if(drawStatus.getIsDrawing() && drawStatus.getIsWaiting()){
 				document.getElementById("stop_mode").textContent = "Stop labeling mode";
 				drawPoly.endDraw();
 			}

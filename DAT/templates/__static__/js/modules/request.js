@@ -27,10 +27,12 @@ const rqsavenext = function(meta_id, canvas){
 
 	for(var i = 0; i < canvas.getObjects().length; i+=1){
 		var item = canvas.item(i);
-		// var item_html = document.getElementById("itembb_"+i);
+		
 		if (item.type == 'rect'){ 
 			myData += [
 			item.name,
+			item.type_label,
+			item.flag,
 			item.left / canvas.getWidth(),
 			item.top / canvas.getHeight(),
 			(item.left + item.width) / canvas.getWidth(),
@@ -38,7 +40,7 @@ const rqsavenext = function(meta_id, canvas){
 			].join(',') + '\n';
 		}
 		else if(item.type == 'polygon'){
-			var bb = [item.name];
+			var bb = [item.name, item.type_label, item.flag];
 			for (var p of item.points){
 				bb.push(p.x / canvas.getWidth());
 				bb.push(p.y / canvas.getHeight());
@@ -46,7 +48,6 @@ const rqsavenext = function(meta_id, canvas){
 			myData += bb.join(',') + '\n';
 		}
 	}
-	// console.log(myData)
 
 	fetch("/gvlab-dat/workspace/savenext/"+meta_id+"/", {
 		method: "POST",
@@ -71,7 +72,7 @@ const rqsavenext = function(meta_id, canvas){
 
 			canvas.clear();
 
-			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
+			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name;
 			initMaintask(canvas, url, metadata.boxes_position);
 			// document.getElementById("bbsfirst").textContent = metadata.boxes_position;
 
@@ -107,7 +108,7 @@ const rqnext = function(meta_id, canvas){
 
 			canvas.clear();
 
-			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
+			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name;
 			initMaintask(canvas, url, metadata.boxes_position);
 			// document.getElementById("bbsfirst").textContent = metadata.boxes_position;
 
@@ -123,38 +124,38 @@ const rqnext = function(meta_id, canvas){
 }
 
 
-const rqbadnext = function(meta_id, canvas){
-	fetch("/gvlab-dat/workspace/badnext/"+meta_id+"/", {meta_id: meta_id})
-	.then(response => {
-		if(response.status !== 200){
-			return "Something went wrong";
-		}
-		return response.json();
-	})
-	.then(metadata => {
-		if(!metadata.id){
-			nomoredata_handle();
-		}
-		else{
-			document.getElementById("meta_id").textContent = metadata.id;
-			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
-			document.getElementById("label_list_items").innerHTML = "";
+// const rqbadnext = function(meta_id, canvas){
+// 	fetch("/gvlab-dat/workspace/badnext/"+meta_id+"/", {meta_id: meta_id})
+// 	.then(response => {
+// 		if(response.status !== 200){
+// 			return "Something went wrong";
+// 		}
+// 		return response.json();
+// 	})
+// 	.then(metadata => {
+// 		if(!metadata.id){
+// 			nomoredata_handle();
+// 		}
+// 		else{
+// 			document.getElementById("meta_id").textContent = metadata.id;
+// 			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
+// 			document.getElementById("label_list_items").innerHTML = "";
 
-			canvas.clear();
+// 			canvas.clear();
 
-			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name+'.'+metadata.extfile;
-			initMaintask(canvas, url, metadata.boxes_position);
-			// document.getElementById("bbsfirst").textContent = metadata.boxes_position;
+// 			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name;
+// 			initMaintask(canvas, url, metadata.boxes_position);
+// 			// document.getElementById("bbsfirst").textContent = metadata.boxes_position;
 
-			if(label.textContent!="NO LABEL"){
-				var lb = label.textContent;
-				reset_when_go();
-				drawPoly.startDraw(lb);
-			}
+// 			if(label.textContent!="NO LABEL"){
+// 				var lb = label.textContent;
+// 				reset_when_go();
+// 				drawPoly.startDraw(lb);
+// 			}
 			
-		}
-	});
-}
+// 		}
+// 	});
+// }
 
 
 const rqsavesettings = function(){
@@ -208,4 +209,4 @@ const rqacceptcontrib = function(accept_url, contribute_url){
 	});
 }
 
-export {rqsavenext, rqnext, rqbadnext, rqsavesettings, rqacceptcontrib};
+export {rqsavenext, rqnext, rqsavesettings, rqacceptcontrib};

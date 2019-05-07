@@ -8,7 +8,7 @@ const MAX = 999999;
 
 const configureCircle = function(__x__, __y__, __name__=''){
 	var circle = new fabric.Circle({
-		radius: 4,
+		radius: 2,
 		fill: Color.YELLOW,
 		left: __x__,
 		top: __y__,
@@ -41,9 +41,10 @@ const configureLine = function(__points__, __color__=Color.WHITE){
 const configureRectangle = function (
 	__left__, __top__, __width__, __height__, __name__='', __accuracy__='1.0'){
 
-	var color = document.getElementById(__name__+'-rect_color').textContent;
+	var color = document.getElementById(__name__+'-rect_color');
 
-	var strokeWidth = parseInt(document.getElementById('width_stroke').textContent);
+	var strokeWidth = document.getElementById('width_stroke');
+
 	var rect = new fabric.Rect({
 		left: __left__,
 		top: __top__,
@@ -53,8 +54,8 @@ const configureRectangle = function (
 		originX: 'left',
 		originY: 'top',
 		hasBorder: true,
-		stroke: color,
-		strokeWidth: strokeWidth,
+		stroke: color ? color.textContent : Color.YELLOW,
+		strokeWidth: strokeWidth ? parseInt(strokeWidth.textContent) : 2,
 		fill:'transparent',
 		transparentCorners: false,
 		cornerStrokeColor: 5,
@@ -67,12 +68,12 @@ const configureRectangle = function (
 		flipX: false,
 		flipY: false,
 		lockScalingFlip: true,
+		selectable: false,
 		name: __name__,
 		accuracy: __accuracy__,
-		basicColor: color,
-		// lockUniScaling: false,
-		// selectable: false,
-		// evented: false,
+		basicColor: color ? color.textContent : Color.YELLOW,
+		flag:-1,
+		type_label: 'type_label',
 	});
 	
 	rect.setControlVisible('mtr', false);
@@ -91,8 +92,10 @@ const configureRectangle = function (
 const configurePoly = function(__points__, __name__='', __accuracy__='1.0', __circles__=[]){
 	
 	var type_poly = (__points__.length == 4) ? 'quad' : 'poly';
-	var color = document.getElementById(__name__+'-'+type_poly+'_color').textContent;
-	var strokeWidth = parseInt(document.getElementById('width_stroke').textContent);
+	var color_id = document.getElementById(__name__+'-'+type_poly+'_color');
+	var color = color_id ? color_id.textContent : Color.YELLOW;
+	var strokeWidth_id = document.getElementById('width_stroke');
+	var strokeWidth = strokeWidth_id ? parseInt(strokeWidth_id.textContent) : 2;
 	var polygon = new fabric.Polygon(__points__,{
 		hasControls: false,
 		originX: 'left',
@@ -109,6 +112,8 @@ const configurePoly = function(__points__, __name__='', __accuracy__='1.0', __ci
 		accuracy: __accuracy__,
 		circles: __circles__,
 		basicColor: color,
+		flag:-1,
+		type_label: 'type_label',
 	});
 
 	var __left__ = polygon.left + polygon.width / 2;
@@ -120,8 +125,11 @@ const configurePoly = function(__points__, __name__='', __accuracy__='1.0', __ci
 }
 
 const configureIconLabel = function(__left__, __top__, object){
+	
+	var radius = document.getElementById("size_icon");
+
 	const icon = new fabric.Circle({
-		radius: document.getElementById("size_icon").textContent,
+		radius: radius ? radius.textContent : 3,
 		fill: object.stroke,
 		left: __left__,
 		top: __top__,
@@ -156,9 +164,6 @@ class DrawPolygon{
 				drawer.polygonMode = true;
 				drawer.pointArray = new Array();
 				drawer.lineArray = new Array();
-				// drawStatus.setIsDrawing(true);
-				// drawStatus.setIsWaiting(true);
-				// drawer.activeLine;
 			},
 			addPoint : function(o) {
 				var random = Math.floor(Math.random() * (MAX - MIN + 1)) + MIN;
@@ -185,9 +190,9 @@ class DrawPolygon{
 						x: pos.x,
 						y: pos.y
 					});
-					var polygon = new fabric.Polygon(polyPoint,{
+					var polygon = new fabric.Polygon(polyPoint, {
 						stroke:'#333333',
-						strokeWidth:1,
+						strokeWidth: 1,
 						fill: '#cccccc',
 						opacity: 0.1,
 						selectable: false,
@@ -258,7 +263,7 @@ class DrawPolygon{
 
 						var rect = configureRectangle(
 							__left__, __top__, __width__, __height__, namelabel) ;
-						
+						rect.type_label = drawer.typePoly;
 						drawer.canvas.add(rect);
 
 						createItemToList(drawer.canvas, rect);
@@ -268,7 +273,7 @@ class DrawPolygon{
 				else {
 
 					var polygon = configurePoly(points, namelabel)
-					
+					polygon.type_label = drawer.typePoly;
 					drawer.canvas.add(polygon);
 					
 					createItemToList(drawer.canvas, polygon);
