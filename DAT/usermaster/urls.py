@@ -32,6 +32,8 @@ urlpatterns = [
     
     # onworking
     path('overview/<int:wsid>/'+settings.SLUG_API_URL, overview_workspcae_view.get_data_overview_workspace),
+    path('metaview/<int:mtid>/'+settings.SLUG_API_URL,
+         overview_workspcae_view.get_meta_overview),
 
     # path('objdet/', apiview.o_index, name='objdet'),
     # path('facedet/<int:metaid>/', apiview.f_index, name='facedet'),
