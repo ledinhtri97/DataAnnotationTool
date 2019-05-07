@@ -25,7 +25,7 @@ class BoundingBoxModel(models.Model):
     )
     id = models.AutoField(primary_key=True)
 
-    label = models.CharField(max_length=1000, blank=True, null=True, verbose_name="name label")
+    label = models.ForeignKey(LabelDataModel, on_delete=models.CASCADE)
 
     position = models.CharField(
         max_length=1000, blank=True, null=True, verbose_name="position label")
@@ -42,7 +42,7 @@ class BoundingBoxModel(models.Model):
     history = HistoricalRecords()
 
     def __str__(self):
-        return self.label + ' - [' + self.position + ']'
+        return self.label.tag_label + ' - [' + self.position + ']'
 
     def get_groundtruth(self):
-        return self.label + ',' + self.position + '\n'
+        return self.label.tag_label + ',' + self.position + '\n'
