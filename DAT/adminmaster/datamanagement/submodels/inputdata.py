@@ -41,7 +41,7 @@ class InputDataModel(models.Model):
    description = models.CharField(max_length=1000, default="None")
 
    def __str__(self):
-      return self.get_zipname()
+      return self.get_zipname() + ' | ' + self.owner.username
 
    def get_zipname(self):
       return self.zipfile.name.split('/')[-1]
