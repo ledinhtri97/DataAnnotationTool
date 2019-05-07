@@ -57,9 +57,8 @@ class MainTaskMetaDataSerializer(serializers.ModelSerializer):
   class Meta:
     model = MetaDataModel
     fields = ['id', 'dataset', 'name', 'full_path',
-      'boxes_position', 'extfile', 'is_annotated',
-      'is_onworking', 'is_badmeta', 'onviewing_user',
-      'annotated_by_user', 'viewed_by_user',]
+      'boxes_position', 'is_annotated', 'onviewing_user',
+      'submitted_by_user', 'skipped_by_user',]
     # fields.append('predict_bbs')
     
 

@@ -45,6 +45,6 @@ class ContributeView(generics.RetrieveAPIView):
 
     user_contrib = self.get_queryset_user_contrib()
 
-    # print(data)
+    #print(user_contrib)
     
     return Response(data={'data': data, 'user_contrib': user_contrib})
