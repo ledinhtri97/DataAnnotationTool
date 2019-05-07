@@ -1,94 +1,259 @@
 import React from 'react';
+import ReactDOM from "react-dom";
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import TableHead from '@material-ui/core/TableHead';
 import Button from '@material-ui/core/Button';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import AttachFile from '@material-ui/icons/AttachFile';
-import Cookie from 'js-cookie';
+import dateFormat from 'dateformat';
+
+import AlertDialogView from "./dialog-view";
+
+import {fabric} from 'fabric';
+import {initMaintask} from '../../../modules/labeling-module/controller/renderInit';
+import {configurePoly, configureRectangle} from '../../../modules/labeling-module/drawer/polygon';
+
+
+const actionsStyles = theme => ({
+  root: {
+    flexShrink: 0,
+    color: theme.palette.text.secondary,
+    marginLeft: theme.spacing.unit * 2.5,
+  },
+});
+
+class TablePaginationActions extends React.Component {
+  handleFirstPageButtonClick = event => {
+    this.props.onChangePage(event, 0);
+  };
+
+  handleBackButtonClick = event => {
+    this.props.onChangePage(event, this.props.page - 1);
+  };
+
+  handleNextButtonClick = event => {
+    this.props.onChangePage(event, this.props.page + 1);
+  };
+
+  handleLastPageButtonClick = event => {
+    this.props.onChangePage(
+      event,
+      Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
+    );
+  };
+
+  render() {
+    const { classes, count, page, rowsPerPage, theme } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <IconButton
+          onClick={this.handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="First Page"
+        >
+          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="Previous Page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="Next Page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="Last Page"
+        >
+          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      </div>
+    );
+  }
+}
+
+TablePaginationActions.propTypes = {
+  classes: PropTypes.object.isRequired,
+  count: PropTypes.number.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  theme: PropTypes.object.isRequired,
+};
+
+const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
+  TablePaginationActions,
+);
+
+let counter = 0;
+function createData(name, calories, fat) {
+  counter += 1;
+  return { id: counter, name, calories, fat };
+}
 
 const styles = theme => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
   },
   table: {
-    minWidth: 600,
+    minWidth: 500,
   },
-  button: {
-    margin: theme.spacing.unit,
+  tableWrapper: {
+    overflowX: 'auto',
   },
   rightIcon: {
     marginLeft: theme.spacing.unit,
   },
   table_title: {
-    fontSize: '0.967rem',
+    fontSize: '0.947rem',
   },
   table_content: {
-    fontSize: '0.925rem',
+    fontSize: '0.915rem',
+  },
+  button: {
+    margin: theme.spacing.unit,
+    width: '7em',
+    fontSize: '0.85em',
+  },
+  tablePagniation: {
+    float: 'left',
   },
 });
 
-const CSRFToken = () => {
-  return (
-    <input type="hidden" name="csrfmiddlewaretoken" value={Cookie.get("csrftoken")} />
-    );
-};
-
 class SubmittedTable extends React.Component {
-
   state = {
-    something: null,
+    page: 0,
+    rowsPerPage: 5,
+  };
+
+  handleChangePage = (event, page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: event.target.value });
+  };
+
+  handleView = (url_meta) => {
+    var dialog_view = document.getElementById("dialog_view");
+    fetch(url_meta, {})
+      .then(response => {
+          if(response.status !== 200){
+            return "Something went wrong";
+          }
+          return response.json();
+        }
+      ).then(meta => {
+          if(dialog_view){
+            ReactDOM.unmountComponentAtNode(dialog_view);
+            ReactDOM.render(
+              <AlertDialogView name={meta.name}/>, dialog_view
+            );
+
+            const canvas = new fabric.Canvas('canvas', {
+              hoverCursor: 'pointer',
+              selection: true,
+              backgroundColor: null,
+              uniScaleTransform: true,
+            });
+
+            initMaintask(canvas, meta.url_meta, meta);
+        }
+      });
   };
 
   render() {
-
-    const { classes } = this.props;
-
-    const contributes = [];
-    contributes.pop();
-    
-    const table = this;
+    const self_table = this;
+    const { classes, submitted } = this.props;
+    const { rows, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, submitted.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root}>
-      <Table className={classes.table}>
-      <TableHead>
-      <TableRow>
-      <TableCell className={classes.table_title}>Meta Name</TableCell>
-      <TableCell align="right" className={classes.table_title}>Date Submitted</TableCell>
-      <TableCell align="right" className={classes.table_title}>Labeled Count</TableCell>
-      <TableCell align="right" className={classes.table_title}>View</TableCell>
-      <TableCell align="center" className={classes.table_title}>Notice Review</TableCell>
-      </TableRow>
-      </TableHead>
-      <TableBody>
-      {
-        contributes.map(function(ct, key){
-          return (
-            <TableRow key={key}>
-            <TableCell component="th" scope="row" className={classes.table_content}>
-            {ct.name}
-            </TableCell>
-            <TableCell align="right" className={classes.table_content}>{ct.description}</TableCell>
-            <TableCell align="right" className={classes.table_content}>{ct.users_count}</TableCell>
-            <TableCell align="right" className={classes.table_content}>{ct.contribute_count}</TableCell>
-            <TableCell align="center" className={classes.table_content}></TableCell>
-            </TableRow>
-            );
-        })
-      }
+        <div className={classes.tableWrapper}>
+          <Table className={classes.table}>
 
-      </TableBody>
-      </Table>
+            <TableHead>
+            <TableRow>
+            <TableCell className={classes.table_title}>Meta Name</TableCell>
+            <TableCell className={classes.table_title}>Last Date Update</TableCell>
+            <TableCell align="center" className={classes.table_title}>Labeled Count</TableCell>
+            <TableCell align="center" className={classes.table_title}>View</TableCell>
+            </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {submitted.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(function(smd, key) {
+                return (
+                <TableRow key={key}>
+                <TableCell component="th" scope="row" className={classes.table_content}>
+                {smd.meta_name}
+                </TableCell>
+                <TableCell className={classes.table_content}>
+                {dateFormat(new Date(smd.last_date_update), "dddd, mmmm dS, yyyy, h:MM:ss TT").toString()}
+                </TableCell>
+                <TableCell align="center" className={classes.table_content}>{smd.label_count}</TableCell>
+                <TableCell align="center" className={classes.table_content}>
+                {
+                smd.view ? <Button 
+                onClick={function(e){self_table.handleView(smd.url_meta)}}
+                variant="outlined" color="primary" className={classes.button}>
+                View
+                </Button> : <Button variant="outlined" color="primary" className={classes.button}>
+                Blocked
+                </Button>
+                }
+                </TableCell>
+                </TableRow>
+              )})}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 48 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow className={classes.tablePagniation}>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  colSpan={3}
+                  count={submitted.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    native: true,
+                  }}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActionsWrapped}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </div>
       </Paper>
-      );
+    );
   }
 }
 

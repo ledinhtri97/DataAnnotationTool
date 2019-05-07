@@ -132,7 +132,7 @@ const styles = theme => ({
   },
 });
 
-class SkippedTable extends React.Component {
+class NoticeReviewTable extends React.Component {
   state = {
     page: 0,
     rowsPerPage: 5,
@@ -147,9 +147,9 @@ class SkippedTable extends React.Component {
   };
 
   render() {
-    const { classes, skipped } = this.props;
-    const { rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, skipped.length - page * rowsPerPage);
+    const { classes, notice_review } = this.props;
+    const { rows, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, notice_review.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root}>
@@ -159,33 +159,31 @@ class SkippedTable extends React.Component {
             <TableHead>
             <TableRow>
             <TableCell className={classes.table_title}>Meta Name</TableCell>
+            <TableCell className={classes.table_title}>Message</TableCell>
             <TableCell className={classes.table_title}>Last Date Update</TableCell>
-            <TableCell className={classes.table_title}>Reason Skipped</TableCell>
+            <TableCell align="center" className={classes.table_title}>Flag Count</TableCell>
             <TableCell align="center" className={classes.table_title}>Labeled Count</TableCell>
-            <TableCell align="center" className={classes.table_title}>View</TableCell>
+            <TableCell align="center" className={classes.table_title}>Review</TableCell>
             </TableRow>
             </TableHead>
 
             <TableBody>
-              {skipped.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(function(skd, key) {
+              {notice_review.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(function(ntv, key) {
                 return (
                 <TableRow key={key}>
                 <TableCell component="th" scope="row" className={classes.table_content}>
-                {skd.meta_name}
+                {ntv.meta_name}
                 </TableCell>
+                <TableCell component="th" scope="row" align="center" className={classes.table_content}>{ntv.message}</TableCell>
                 <TableCell className={classes.table_content}>
-                {dateFormat(new Date(skd.last_date_update), "dddd, mmmm dS, yyyy, h:MM:ss TT").toString()}
+                {dateFormat(new Date(ntv.last_date_update), "dddd, mmmm dS, yyyy, h:MM:ss TT").toString()}
                 </TableCell>
-                <TableCell className={classes.table_content}>{skd.reason_skipped}</TableCell>
-                <TableCell align="center" className={classes.table_content}>{skd.label_count}</TableCell>
+                <TableCell align="center" className={classes.table_content}>{ntv.flag_count}</TableCell>
+                <TableCell align="center" className={classes.table_content}>{ntv.label_count}</TableCell>
                 <TableCell align="center" className={classes.table_content}>
-                {
-                skd.view ? <Button variant="outlined" color="primary" className={classes.button}>
-                View
-                </Button> : <Button variant="outlined" color="primary" className={classes.button}>
-                Blocked
+                <Button variant="outlined" color="primary" className={classes.button}>
+                Review
                 </Button>
-                }
                 </TableCell>
                 </TableRow>
               )})}
@@ -200,7 +198,7 @@ class SkippedTable extends React.Component {
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   colSpan={3}
-                  count={skipped.length}
+                  count={notice_review.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{
@@ -219,8 +217,8 @@ class SkippedTable extends React.Component {
   }
 }
 
-SkippedTable.propTypes = {
+NoticeReviewTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SkippedTable);
+export default withStyles(styles)(NoticeReviewTable);

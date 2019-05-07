@@ -7,11 +7,13 @@ import Tab from '@material-ui/core/Tab';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import Loyalty from '@material-ui/icons/Loyalty';
 import Redo from '@material-ui/icons/Redo';
+import NotificationsActive from '@material-ui/icons/NotificationsActive';
 import Typography from '@material-ui/core/Typography';
 
 import SubmittedTable from './table/table-submitted';
 import FlagFalsePredictTable from './table/table-flagfalsepredict';
 import SkippedTable from './table/table-skipped';
+import NoticeReviewTable from './table/table-noticereview';
 
 function TabContainer(props) {
   return (
@@ -44,7 +46,7 @@ class TabShowLabels extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, submitted, flaged, skipped, notice_review } = this.props;
     const { value } = this.state;
 
     return (
@@ -61,11 +63,13 @@ class TabShowLabels extends React.Component {
             <Tab label="Submitted" icon={<AssignmentTurnedIn />} />
             <Tab label="Flag false predict" icon={<Loyalty />} />
             <Tab label="Skipped" icon={<Redo />} />
+            <Tab label="Notice Review" icon={<NotificationsActive />} />
           </Tabs>
         </AppBar>
-        {value === 0 && <TabContainer><SubmittedTable/></TabContainer>}
-        {value === 1 && <TabContainer><FlagFalsePredictTable/></TabContainer>}
-        {value === 2 && <TabContainer><SkippedTable/></TabContainer>}
+        {value === 0 && <TabContainer><SubmittedTable submitted={submitted}/></TabContainer>}
+        {value === 1 && <TabContainer><FlagFalsePredictTable flaged={flaged}/></TabContainer>}
+        {value === 2 && <TabContainer><SkippedTable skipped={skipped}/></TabContainer>}
+        {value === 3 && <TabContainer><NoticeReviewTable notice_review={notice_review}/></TabContainer>}
       </div>
     );
   }
