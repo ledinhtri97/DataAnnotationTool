@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import Loyalty from '@material-ui/icons/Loyalty';
 import Done from '@material-ui/icons/Done';
 
+import ProgressesTable from './table/table-progress';
+
 import TabShowLabels from './tabshow-labels';
 
 import {
@@ -18,36 +20,28 @@ import {
   Legend,
 } from 'recharts';
 
-const data = [
-  {
-    "name": 'Label A', "total": 590, "user": 800, "predict": 1400,
-  },
-  {
-    "name": 'Label B', "total": 868, "user": 967, "predict": 1506,
-  },
-  {
-    "name": 'Label C', "total": 1397, "user": 1098, "predict": 989,
-  },
-  {
-    "name": 'Label D', "total": 1480, "user": 1200, "predict": 1228,
-  },
-  {
-    "name": 'Label E', "total": 1520, "user": 1108, "predict": 1100,
-  },
-  {
-    "name": 'Label F', "total": 1400, "user": 680, "predict": 1700,
-  },
-];
+class ChartObjectsCount extends PureComponent {
 
-class ChartExample extends PureComponent {
+  constructor(props){
+    super(props);
+    this.state = {
+      }
+  };
+
+  componentDidMount(){
+    //this.getData();
+  };
 
   render() {
+
+    const {objects} = this.props;
+
     return (
       <ComposedChart
         layout="vertical"
-        width={600}
+        width={680}
         height={400}
-        data={data}
+        data={objects}
         margin={{
           top: 20, right: 20, bottom: 20, left: 20,
         }}
@@ -81,15 +75,20 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    width: '14em',
+    width: '15em',
   },
   listStatus: {
     display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   chip: {
     margin: theme.spacing.unit,
+    marginTop: 0,
+    marginBottom: 0,
     padding: 0,
-    width: '5em',
+    width: '10em',
   },
   extractButton: {
     margin: theme.spacing.unit,
@@ -99,24 +98,89 @@ const styles = theme => ({
   },
   tableLabels: {
     width: '80%',
+  },
+  title: {
+    paddingLeft: '3em',
   }
 });
 
 class OverviewWorkspace extends React.Component {
-  state = {
-    value: 0,
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      value: 0,
+      total: {
+          submitted: 0,
+          remaining: 0,
+          skipped: 0,
+          labels_created: 0,
+          complete: 0,
+      },
+      user: {
+        submitted: 0,
+        available: 0,
+        skipped: 0,
+        labels_created: 0,
+        flag_false_predict: {
+          mark: 0,
+          accepted: 0,
+        }
+      },
+      objects: [
+              {
+                "name": 'Label A', "total": 3, "user": 3, "predict": 0,
+              },
+              {
+                "name": 'Label B', "total": 4, "user": 1, "predict": 3,
+              },
+              {
+                "name": 'Label C', "total": 5, "user": 2, "predict": 3,
+              },
+              {
+                "name": 'Label D', "total": 2, "user": 1, "predict": 1,
+              },
+              {
+                "name": 'Label E', "total": 1, "user": 1, "predict": 0,
+              },
+          ],
+      submitted: [],
+      skipped: [],
+      flaged: [],
+      notice_review: [],
+      };
   };
 
-  handleChange = (event, value) => {
-    this.setState({ value });
+  getData(){
+    setTimeout(() => {
+      fetch(window.location.href+'api-get-data/', {})
+      .then(response => {
+          if(response.status !== 200){
+            return "Something went wrong";
+          }
+          return response.json();
+        }
+      ).then(__data__ => {
+          this.setState({
+            total: __data__.total,
+            user: __data__.user,
+            objects: __data__.objects,
+            submitted: __data__.submitted,
+            skipped: __data__.skipped,
+            flaged: __data__.flaged,
+            notice_review: __data__.notice_review,
+          });
+      });     
+    }, 300);
   };
 
-  handleChangeIndex = index => {
-    this.setState({ value: index });
+  componentDidMount(){
+    this.getData();
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
+    const {total, user, objects, submitted, skipped, flaged, notice_review} = this.state
     
     return (
       <div className={classes.root}>
@@ -125,95 +189,18 @@ class OverviewWorkspace extends React.Component {
       </Button>
       <div className={classes.root2}>
         
-        <div>
-          <div>
-            <Typography gutterBottom variant="h5" component="h2">
-            Total Progress
-            </Typography>
-          </div>
-
-          <div>
-            <div className={classes.listStatus}>
-            <Button variant="outlined" color="primary" className={classes.button}>
-              Submitted
-            </Button>
-            <Chip label="10" className={classes.chip}/>
-            </div>
-            <div className={classes.listStatus}>
-            <Button variant="outlined" color="primary" className={classes.button}>
-              Remaining
-            </Button>
-            <Chip label="4" className={classes.chip}/>
-            </div>
-            <div className={classes.listStatus}>
-            <Button variant="outlined" color="primary" className={classes.button}>
-              Skipped
-            </Button>
-            <Chip label="10" className={classes.chip}/>
-            </div>
-            <div className={classes.listStatus}>
-            <Button variant="outlined" color="primary" className={classes.button}>
-              Complete 
-            </Button>
-            <Chip label="30%" className={classes.chip}/>
-            </div>
-          </div>
-        </div>
+        <ProgressesTable total={total} user={user} />
 
         <div>
-          <div>
-            <Typography gutterBottom variant="h5" component="h2">
-            Your Progress
-            </Typography>
-          </div>
-          <div>
-            <div className={classes.listStatus}>
-            <Button variant="outlined" color="primary" className={classes.button}>
-              Submitted
-            </Button>
-            <Chip label="6" className={classes.chip}/>
-            </div>
-            
-            <div className={classes.listStatus}>
-            <Button variant="outlined" color="primary" className={classes.button}>
-              Available
-            </Button>
-            <Chip label="4" className={classes.chip}/>
-            </div>
-
-            <div className={classes.listStatus}>
-            <Button variant="outlined" color="primary" className={classes.button}>
-              Skipped
-            </Button>
-            <Chip label="2" className={classes.chip}/>
-            </div>
-
-            <div className={classes.listStatus}>
-            <Button variant="outlined" color="primary" className={classes.button}>
-              Labels Created
-            </Button>
-            <Chip label="10" className={classes.chip}/>
-            </div>
-
-            <div className={classes.listStatus}>
-            <Button variant="outlined" color="primary" className={classes.button}>
-              Flag false predict
-            </Button>
-            <Chip icon={<Loyalty color='secondary'/>} label="10" className={classes.chip}/>
-            <Chip icon={<Done color='primary'/>} label="10" className={classes.chip}/>
-            </div>
-
-        </div>
-        </div>
-        <div>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
             Objects Count
           </Typography>
-          <ChartExample />
+          <ChartObjectsCount objects={objects}/>
         </div>
+        
       </div>
 
-      <TabShowLabels />
+      <TabShowLabels submitted={submitted} skipped={skipped} flaged={flaged} notice_review={notice_review}/>
 
       </div>
 
