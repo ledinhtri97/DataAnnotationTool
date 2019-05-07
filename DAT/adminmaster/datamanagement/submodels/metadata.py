@@ -1,43 +1,54 @@
 from django.db import models
 from adminmaster.datamanagement.models import DataSetModel
+from simple_history.models import HistoricalRecords
+from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
 from django.conf import settings
 import os
 #meta data model {image}
 class MetaDataModel(models.Model):
    
-   dataset = models.ForeignKey(DataSetModel, on_delete=models.CASCADE)
+    dataset = models.ForeignKey(DataSetModel, on_delete=models.CASCADE)
    
-   name = models.CharField(max_length=1000, verbose_name="File image name")
+    name = models.CharField(max_length=1000, verbose_name="File image name")
 
-   full_path = models.CharField(max_length=1000, verbose_name="Path File")
+    full_path = models.CharField(max_length=1000, verbose_name="Path File")
+
+    boxes_position = models.ManyToManyField(
+        BoundingBoxModel, blank=True, related_name="boxes_position")
+
+    is_annotated = models.BooleanField(
+       default=False, verbose_name="is annotated?")
+
+    is_allow_view = models.BooleanField(default=True, verbose_name="allow view?")
    
-   # title = models.CharField(max_length=100, verbose_name="Title")
+    is_notice_view = models.BooleanField(default=False, verbose_name="notice view?")
+
+    onviewing_user = models.OneToOneField(
+       'auth.User', blank=True, null=True, verbose_name="User Viewing", on_delete=models.CASCADE)
+
+    submitted_by_user = models.ManyToManyField('auth.User', blank=True, related_name="submitted_by_user")
+
+    #field a.k.a skip file
+    skipped_by_user = models.ManyToManyField('auth.User', blank=True, related_name="skipped_by_user")
+
+    history = HistoricalRecords()
+
+    def get_abs_origin(self):
+        return os.path.relpath(
+            os.path.join(self.full_path, self.name), 
+            os.path.join(settings.BASE_DIR, settings.STORAGE_DIR))
    
-   boxes_position = models.TextField(verbose_name="Bounding boxes", blank=True, null=True)  # {(xmin, ymin, xmax, ymax),(..), ...}
-   
-   extfile = models.CharField(max_length=100, default = 'jpg', verbose_name="Extend File image")
+    def get_full_origin(self):
+        return os.path.join(self.full_path, self.name)
 
-   is_annotated = models.BooleanField(default=False, verbose_name="Check data whether is annotated or not")
-
-   is_onworking = models.BooleanField(default=False, verbose_name="File image is on busy or not")
-
-   is_badmeta = models.BooleanField(default=False, verbose_name="File image is bad or not")
-
-   onviewing_user = models.CharField(max_length=1000, default='', blank=True, null=True ,verbose_name="User Viewing")
-
-   annotated_by_user = models.ManyToManyField('auth.User', blank=True, related_name="annotated_by_user")
-
-   viewed_by_user = models.ManyToManyField('auth.User', blank=True, related_name="viewed_by_user")
-
-   def get_abs_origin(self):
-      folder_path = '/'.join(self.full_path.split('/')[1:])
-      return os.path.join(folder_path, self.name+'.'+self.extfile)
-   
-   def get_full_origin(self):
-      return os.path.join(settings.BASE_DIR, settings.STORAGE_DIR, self.full_path, self.name+'.'+self.extfile)
-
-   def get_full_path__annotated_path(self):
-      return 'fullpath/anno'
-   
-   def __str__(self):
-      return self.name
+    def get_full_path__annotated_path(self):
+        return 'fullpath/anno'
+    
+    def get_url_api(self):
+        return '/gvlab-dat/workspace/metaview/{}/api-get-data/'.format(self.id)
+    
+    def get_url_meta(self):
+        return "/gvlab-dat/dataset/{}/{}".format(self.full_path, self.name)
+    
+    def __str__(self):
+        return self.get_abs_origin()
