@@ -8,7 +8,7 @@ import TemporaryDrawerSettings from "./materialui/labeling-ui/drawerSettings";
 
 import {outWorkSpace} from "./modules/dat-utils";
 
-import {rqnext, rqsavenext, rqbadnext} from  "./modules/request"
+import {rqnext, rqsavenext} from  "./modules/request"
 import {initMaintask, renderBBS_RECT, renderBBS_POLY} from "./modules/labeling-module/controller/renderInit"
 import {init_event} from "./modules/labeling-module/event"
 import {PopupControllers} from "./modules/labeling-module/controller/popup";
@@ -43,7 +43,7 @@ settings && ReactDOM.render(<TemporaryDrawerSettings canvas={canvas}/>, settings
 const group_control =  document.getElementById("group_control");
 const meta_id = document.getElementById("meta_id");
 const predict_api = document.getElementById("predict_api");
-const bad_data = document.getElementById("bad_data");
+//const bad_data = document.getElementById("bad_data");
 const skip_next = document.getElementById("skip_next");
 const save_next = document.getElementById("save_next");
 const stop_draw = document.getElementById("stop_draw");
@@ -115,22 +115,22 @@ const controllerRequest = (callback_cl) => {
 	listPredict.splice(0,listPredict.length);
 	predict_api.style['display'] = '';	
 	if(group_control) group_control.style["display"] = "none";
-	if(callback_cl == 'rqbadnext'){
-		rqbadnext(meta_id.textContent, canvas);
-	}
-	else if(callback_cl == 'rqnext'){
+	// if(callback_cl == 'rqbadnext'){
+	// 	rqbadnext(meta_id.textContent, canvas);
+	// }
+	if(callback_cl == 'rqnext'){
 		rqnext(meta_id.textContent, canvas);
 	}
-	else if (callback_cl == 'rqsavenext') {
+	if (callback_cl == 'rqsavenext') {
 		rqsavenext(meta_id.textContent, canvas);
 	}
 }
 
-if(bad_data){
-	bad_data.addEventListener('click', function(){
-		controllerRequest('rqbadnext');
-	});
-}
+// if(bad_data){
+// 	bad_data.addEventListener('click', function(){
+// 		controllerRequest('rqbadnext');
+// 	});
+// }
 
 if(skip_next) {
 	skip_next.addEventListener('click', function(){
