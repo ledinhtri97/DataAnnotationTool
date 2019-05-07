@@ -44,6 +44,7 @@ class ContributeView(generics.RetrieveAPIView):
     # @Overwrite
     def retrieve(self, request, *args, **kwargs):
         __data__ = self.get_queryset()
+        
         return Response(data=__data__)
 
 

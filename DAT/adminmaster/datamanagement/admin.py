@@ -156,10 +156,47 @@ class OutputDataAdmin(admin.ModelAdmin):
       return self.readonly_fields
 
 
+class LabelDataForm(forms.ModelForm):
+   class Meta:
+      model = LabelDataModel
+      fields = '__all__'
+
+   def save(self, commit=True):
+      instance_label = super(LabelDataForm, self).save(commit=False)
+      instance_label.tag_label = self.cleaned_data['tag_label'].replace(' ', '_')
+      if(not commit):
+         instance_label.save()
+      return instance_label
+
+
+class LabelDataAdmin(admin.ModelAdmin):
+   #class Meta will not accept this form custom > find out why
+
+   fieldsets = [
+       (None,
+        {
+            'fields': ['tag_label']
+        }
+        ),
+       ('Settings Field',
+           {
+               'fields': ['type_label', 'color', ]
+           }
+        ),
+       ('More Information',
+           {
+               'fields': ['description',]
+           }
+        ),
+   ]
+
+   form = LabelDataForm
+
+
 # Register your models here.
 admin.site.register(DataSetModel, DataSetAdmin)
 admin.site.register(InputDataModel, InputDataAdmin)
-admin.site.register(LabelDataModel)
+admin.site.register(LabelDataModel, LabelDataAdmin)
 admin.site.register(BoundingBoxModel)
 admin.site.register(MetaDataModel)
 admin.site.register(OutputDataModel, OutputDataAdmin)
