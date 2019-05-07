@@ -95,7 +95,7 @@ class UserSettingsAdmin(admin.ModelAdmin):
    ]
 
   def has_delete_permission(self, request, obj=None):
-    return False
+    return True
 
 admin.site.register(WorkSpaceUserModel, WorkSpaceUserAdmin)
 admin.site.register(UserSettingsModel, UserSettingsAdmin)

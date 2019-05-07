@@ -22,8 +22,8 @@ class ScanMetaToDatabase(object):
       folders_availiable = self.scan_folders()
       for fa in folders_availiable:
          self.lookfiles(fa['inputfile'], False)
-         if(fa['groundtruth']):
-            self.lookfiles(fa['groundtruth'], True)
+         # if(fa['groundtruth']):
+         #    self.lookfiles(fa['groundtruth'], True)
 
    def lookfiles(self, full_path_folder, type_file):
       # m = 100 if t == 0 else 5
@@ -35,45 +35,44 @@ class ScanMetaToDatabase(object):
             """Do some shit stuff here"""
             from adminmaster.datamanagement.submodels.metadata import MetaDataModel
             
-            if (type_file):
-               # print(xxxfile, type_file)
-               temp = MetaDataModel.objects.filter(
-                     dataset=self.dataSetModel,
-                     name=xxxfile.split('.')[0]
-               ).first()
-               try:
-                  # print(temp, temp.get_full_origin())
-                  with open(os.path.join(settings.BASE_DIR, store_folder, full_path_folder, xxxfile), "r") as f:
-                     bbs = ""
-                     print(temp.get_full_origin())
-                     img =  cv2.imread(temp.get_full_origin())
-                     height, width = img.shape[:2]
-                     for line in f:
-                        bb = line.split('\n')[0].split(',')
-                        if(len(bb)==8):
-                           bbs += ','.join([
-                              'text',
-                              str(float(bb[0])/width),
-                              str(float(bb[1])/height),
-                              str(float(bb[2])/width),
-                              str(float(bb[3])/height),
-                              str(float(bb[4])/width),
-                              str(float(bb[5])/height),
-                              str(float(bb[6])/width),
-                              str(float(bb[7])/height),
-                           ])+'\n'
-                  # print(bbs)
-                  temp.boxes_position = bbs
-                  temp.save(update_fields=['boxes_position'])
+            # if (type_file):#groundtruth
+            #    # print(xxxfile, type_file)
+            #    temp = MetaDataModel.objects.filter(
+            #          dataset=self.dataSetModel,
+            #          name=xxxfile.split('.')[0]
+            #    ).first()
+            #    try:
+            #       # print(temp, temp.get_full_origin())
+            #       with open(os.path.join(settings.BASE_DIR, store_folder, full_path_folder, xxxfile), "r") as f:
+            #          bbs = ""
+            #          print(temp.get_full_origin())
+            #          img =  cv2.imread(temp.get_full_origin())
+            #          height, width = img.shape[:2]
+            #          for line in f:
+            #             bb = line.split('\n')[0].split(',')
+            #             if(len(bb)==8):
+            #                bbs += ','.join([
+            #                   'text',
+            #                   str(float(bb[0])/width),
+            #                   str(float(bb[1])/height),
+            #                   str(float(bb[2])/width),
+            #                   str(float(bb[3])/height),
+            #                   str(float(bb[4])/width),
+            #                   str(float(bb[5])/height),
+            #                   str(float(bb[6])/width),
+            #                   str(float(bb[7])/height),
+            #                ])+'\n'
+            #       # print(bbs)
+            #       temp.boxes_position = bbs
+            #       temp.save(update_fields=['boxes_position'])
 
-               except Exception as e:
-                  print(e)
+            #    except Exception as e:
+            #       print(e)
 
-            else:
-               temp = MetaDataModel.objects.get_or_create(
+            # else: #tab
+            temp = MetaDataModel.objects.get_or_create(
                   dataset=self.dataSetModel,
-                  name=xxxfile.split('.')[0],
-                  extfile=xxxfile.split('.')[1],
+                  name=xxxfile,
                   full_path=full_path_folder
                )
             """end job"""
@@ -89,7 +88,8 @@ class ScanMetaToDatabase(object):
       for input_data in self.input_files:
          dir_name = {
             'inputfile': input_data.get_output_path(),
-            'groundtruth': input_data.get_output_path() if (input_data.get_gtname()) else None
+            'groundtruth': None
+            #'groundtruth': input_data.get_output_path() if (input_data.get_gtname()) else None
          }
          #may be need to check vaild path for sure
 
