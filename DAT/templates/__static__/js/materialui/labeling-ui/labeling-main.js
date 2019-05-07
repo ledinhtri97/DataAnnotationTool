@@ -57,15 +57,6 @@ const styles = theme => ({
 	
 });
 
-const MAP_ICON_INS = {
-	A: (<IconButton style={{padding:"5px",color: "#000000",}}><SvgIcon><path d="M3,5C3,3.9 3.9,3 5,3H19C20.1,3 21,3.9 21,5V19C21,20.1 20.1,21 19,21H5C3.89,21 3,20.1 3,19V5M11,7C9.9,7 9,7.9 9,9V17H11V13H13V17H15V9C15,7.9 14.1,7 13,7H11M11,9H13V11H11V9Z" /></SvgIcon></IconButton> ),
-	S: (<IconButton style={{padding:"5px",color: "#000000",}}><SvgIcon><path d="M11,7A2,2 0 0,0 9,9V11A2,2 0 0,0 11,13H13V15H9V17H13A2,2 0 0,0 15,15V13A2,2 0 0,0 13,11H11V9H15V7H11M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
-	E: (<IconButton style={{padding:"5px",color: "#000000",}}><SvgIcon><path d="M9,7V17H15V15H11V13H15V11H11V9H15V7H9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
-	H: (<IconButton style={{padding:"5px",color: "#000000",}}><SvgIcon><path d="M9,7V17H11V13H13V17H15V7H13V11H11V7H9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
-	D: (<IconButton style={{padding:"5px",color: "#000000",}}><SvgIcon><path d="M9,7V17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H9M11,9H13V15H11V9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
-	Q: (<IconButton style={{padding:"5px",color: "#000000",}}><SvgIcon><path d="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17V19H13V17A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M5,4H19A2,2 0 0,1 21,6V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V6A2,2 0 0,1 5,4Z" /></SvgIcon></IconButton> ),
-};
-
 class HandleButtonClick{constructor(){}}
 
 class Labeling extends React.Component {

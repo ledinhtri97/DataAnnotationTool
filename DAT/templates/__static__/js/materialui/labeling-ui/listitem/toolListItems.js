@@ -116,17 +116,6 @@ class toolListItems extends React.Component {
             </ListItem>
             </div>
 
-            <div id="bad_data">
-            <ListItem button>
-            <Tooltip title="Bad Data" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
-            <ListItemIcon className={classes.icon}>
-            <ThumbDownAlt />
-            </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Bad Data" />
-            </ListItem>
-            </div>
-
             {
                 labelselect.map(function(lb, key) {
                     var spl = lb.id.split('-');
@@ -194,3 +183,14 @@ toolListItems.propTypes = {
 };
 
 export default withStyles(styles)(toolListItems);
+
+//<div id="bad_data">
+//<ListItem button>
+//<Tooltip title="Bad Data" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+//<ListItemIcon className={classes.icon}>
+//<ThumbDownAlt />
+//</ListItemIcon>
+//</Tooltip>
+//<ListItemText primary="Bad Data" />
+//</ListItem>
+//</div>
