@@ -1,8 +1,10 @@
 {% extends "usermaster/base.html" %}
 {% block title %}Workspace{% endblock %}
 {% block content %}
-	<div id="overview_workspace"></div>
-	<div id="overview_data" style="display:none;"></div>
+	<div id="overview_workspace">{% load static %}<img 
+      style="display: block; margin: auto; margin-top: 5rem; width:40%; height:40%;"
+      src="{% static 'images/simple-loader.gif' %}" alt=""></div>
+	<div id="dialog_view" style="display:none;"></div>
 {% endblock content%}
 
 {%block loadjs%} 

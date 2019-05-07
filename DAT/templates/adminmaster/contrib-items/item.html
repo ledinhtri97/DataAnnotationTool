@@ -1,7 +1,9 @@
 {% extends "adminmaster/base.html" %}
 {% block title %}Contribute Manager{% endblock %}
 {% block content %}
-	<div id="contribute_items"></div>
+	<div id="contribute_items">{% load static %}<img 
+      style="display: block; margin: auto; margin-top: 5rem; width:40%; height:40%;"
+      src="{% static 'images/simple-loader.gif' %}" alt=""></div>
 	{% csrf_token %}
 	<div id="contribute_type" style="display:none;">{{type}}</div>
 	<div id="contribute_accepted" style="display:none;">{{accepted}}</div>

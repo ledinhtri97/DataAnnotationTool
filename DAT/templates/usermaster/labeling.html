@@ -15,7 +15,7 @@
 	<div id="meta_id">{{id}}</div>
 	<div id="predict_bbs">{{predict_bbs}}</div>
 	<div id="boxes_position">{{boxes_position}}</div>
-	<div id="url_image">/gvlab-dat/dataset/{{full_path}}/{{name}}.{{extfile}}</div>
+	<div id="url_image">/gvlab-dat/dataset/{{full_path}}/{{name}}</div>
 	<div id="label_select">{"labels":[{% for lb in labels %}{"id": "{{lb.id}}","icon": "{{lb.icon}}","color":"{{lb.color}}"},{% endfor%}{}]}</div>
 	<div id="settings_data">{"settings":{"show_popup": "{{settings.show_popup}}","auto_hidden": "{{settings.auto_hidden}}","auto_predict":"{{settings.auto_predict}}","ask_dialog":"{{settings.ask_dialog}}","color_background":"{{settings.color_background}}","size_icon":{{settings.size_icon}},"width_stroke":{{settings.width_stroke}}}}</div>
 	{% csrf_token %}
