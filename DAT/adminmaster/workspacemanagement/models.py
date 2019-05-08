@@ -1,6 +1,7 @@
 from django.db import models
 from adminmaster.datamanagement.models import DataSetModel
 from simple_history.models import HistoricalRecords
+from apimodel.models import ApiReferenceModel
 
 # Create your models here.
 class WorkSpaceUserModel(models.Model):
@@ -11,6 +12,8 @@ class WorkSpaceUserModel(models.Model):
 
    dataset = models.OneToOneField(DataSetModel,  on_delete=models.CASCADE)
 
+   api_reference = models.ManyToManyField(ApiReferenceModel, blank=True)
+
    def __str__(self):
        return self.nameworkspace
 
@@ -18,11 +21,9 @@ class WorkSpaceUserModel(models.Model):
 
 class UserSettingsModel(models.Model):
   
-  user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-
-  dataset = models.ForeignKey(DataSetModel, on_delete=models.CASCADE)
+  user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
 
   settings = models.TextField(default='', blank=True, null=True)
   
   def __str__(self):
-      return self.user.username + " | " + str(self.dataset)
+    return "Settings: " + self.user.username
