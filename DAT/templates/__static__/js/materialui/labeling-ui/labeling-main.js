@@ -54,6 +54,9 @@ const styles = theme => ({
 		paddingLeft: "3px",
 		fontSize: '1rem',
 	},
+    hidden: {
+    	display: 'none',
+    },
 	
 });
 
@@ -68,10 +71,10 @@ class Labeling extends React.Component {
 	render() {
 
 		const { classes } = this.props;
-		// const workspaces = JSON.parse(document.getElementById("datawps").textContent)['workspaces'];
+		
 		return (
 			<main className={classes.content}>
-			{/*<div className={classes.appBarSpacer} />*/}
+			
 			<div className={classes.firstcontainer}>
 				<div className={classes.secondcontainer} id="cvcontainer">
 					<canvas id="canvas" className={classes.canvas}></canvas>
@@ -79,6 +82,14 @@ class Labeling extends React.Component {
 						{<label id="label_popup" className={classes.label}></label>}
 						{<label id="accuracy_popup" className={classes.label}></label>}
 					</div>
+				</div>
+				<div className={classes.hidden}>
+					<span id="show_popup"></span>
+					<span id="auto_hidden"></span>
+					<span id="ask_dialog"></span>
+					<span id="color_background"></span>
+					<span id="size_icon"></span>
+					<span id="width_stroke"></span>
 				</div>
 			</div>
 			</main>
