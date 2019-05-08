@@ -14,6 +14,40 @@ function image_convert(img){
 	}
 }
 
+const create_shape = (bb, canvas) => {
+	var shape;
+	if(bb.type_label == 'rect'){
+		var position = bb.position.split(',');
+		shape = configureRectangle(
+		  position[0]*canvas.getWidth(),
+		  position[1]*canvas.getHeight(),
+		  (position[2]-position[0])*canvas.getWidth(),
+		  (position[3]-position[1])*canvas.getHeight(),
+		  bb.tag_label,
+		);
+	}
+	else{
+		var points = [];
+		var bbs = bb.position.split(',');
+		bbs.forEach(function(p, i){
+		  if (i%2==0) {
+		    points.push({
+		      x:bbs[i]*canvas.getWidth(),
+		      y:bbs[i+1]*canvas.getHeight(),
+		    });
+		  }
+		})
+	  	shape = configurePoly(points, bb.tag_label);
+	}
+	shape.type_label = bb.type_label;
+	shape.stroke = bb.color;
+	shape.basicColor = bb.color;
+	shape.icon.fill = bb.color;
+	shape.flag = bb.flag;
+	shape.accept_report_flag = bb.accept_report_flag;
+	return shape;
+}
+
 const initMaintask = function(canvas, url, view_init=null) {
 	fabric.Image.fromURL(
 		url,
@@ -28,40 +62,26 @@ const initMaintask = function(canvas, url, view_init=null) {
 			canvas.renderAll();
 
 			if(view_init){
+				
 				view_init.boxes_position.forEach(function(bb){
-	            var shape = null;
-				if(bb.type_label == 'rect'){
-	                var position = bb.position.split(',');
-	                shape = configureRectangle(
-	                  position[0]*canvas.getWidth(),
-	                  position[1]*canvas.getHeight(),
-	                  (position[2]-position[0])*canvas.getWidth(),
-	                  (position[3]-position[1])*canvas.getHeight(),
-	                  bb.tag_label,
-	                );
-	              }
-	              else{
-	                var points = [];
-	                var bbs = bb.position.split(',');
-	                bbs.forEach(function(p, i){
-	                  if (i%2==0){
-	                    points.push({
-	                      x:bbs[i]*canvas.getWidth(),
-	                      y:bbs[i+1]*canvas.getHeight(),
-	                    });
-	                  }
-	                })
-	                shape = configurePoly(points, bb.tag_label);
-	              }
+		            var shape = create_shape(bb, canvas);
+		            canvas.renderAll();
 
-	              shape.type_label = bb.type_label;
-	              shape.stroke = bb.color;
-	              shape.basicColor = bb.color;
-	              shape.flag = bb.flag;
-	              shape.accept_report_flag = bb.accept_report_flag;
-	              canvas.add(shape);
+		            createItemToList(canvas, shape);
 	            });
-	            canvas.renderAll();
+
+	            view_init.predict.forEach(function(bb){
+		            var shape = create_shape(bb, canvas);
+		            shape.accuracy = bb.conf
+		            shape.accept_edit = bb.accept_edit;
+		            canvas.add(shape);
+		            canvas.renderAll();
+
+		            createItemToList(canvas, shape);
+	            });
+
+	            
+	            
 			}
 			
 		}

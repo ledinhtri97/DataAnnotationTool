@@ -60,7 +60,7 @@ class LabelControl{
 			this.obj.hidden = checkbox_hidden.checked;
 			if(checkbox_hidden.checked) {
 				this.__editITEM__(false); 
-				this.canvas.add(this.obj.icon)
+				this.canvas.add(this.obj.icon);
 			}
 			else{
 				this.canvas.remove(this.obj.icon);	
@@ -70,6 +70,10 @@ class LabelControl{
 	}
 
 	__editITEM__(__default__=true){
+		if (this.obj.accept_edit == false && __default__) {
+			alert("This shape is blocked! you can not edit this shape!, let flag (F keyboard) to mark it false predict");
+			return;
+		}
 		var __canvas__ = this.canvas;
 		var lbc = this;
 		var current_element = document.getElementById(this.id);
@@ -86,15 +90,8 @@ class LabelControl{
 				drawPoly.endDraw();
 			}
 			else{
-				var isPredictObj = listPredict.indexOf(this.obj);
-				if (isPredictObj >= 0) {
-					lbc.obj.set('stroke', Color.BLUE);
-				}
-				else{
-					lbc.obj.set('stroke', lbc.obj.basicColor);
-				}
+				lbc.obj.set('stroke', lbc.obj.basicColor);
 				__canvas__.discardActiveObject();
-
 			}		
 
 			if (this.obj.type == 'polygon'){
@@ -108,15 +105,10 @@ class LabelControl{
 						var circle = configureCircle(point.x, point.y, index);
 
 						circle.on('moving', function(){
-
 							var p = circle;
-
 							var i = parseInt(p.name);
-
 							lbc.obj.points[i] = {x: p.getCenterPoint().x, y: p.getCenterPoint().y};
-
 							lbc.circlesHandle();
-
 						});
 
 						circle.on('moved', function(){
@@ -128,14 +120,7 @@ class LabelControl{
 					});
 				}
 				else{
-					var isPredictObj = listPredict.indexOf(this.obj);
-					if (isPredictObj >= 0) {
-						lbc.obj.set('stroke', Color.BLUE);
-					}
-					else{
-						lbc.obj.set('stroke', lbc.obj.basicColor);
-					}
-
+					lbc.obj.set('stroke', lbc.obj.basicColor);
 					lbc.obj.circles.forEach(function(c){
 						__canvas__.remove(c);
 					});
@@ -147,18 +132,22 @@ class LabelControl{
 	}
 
 	__deleteITEM__(){
+		if (this.obj.accept_edit == false) {
+			alert("This shape is blocked! you can not delete this shape! let flag (F keyboard) to mark it false predict");
+			return;
+		}
 		var lbc = this;
 		var current_element = document.getElementById(this.id);
 		if(current_element){
 
 			//check enable predict
-			var isPredictObj = listPredict.indexOf(this.obj);
-			if (isPredictObj >= 0) {
-				listPredict.splice(isPredictObj, 1);
-				if(listPredict.length==0){
-					document.getElementById("predict_api").style['display'] = '';
-				}
-			}
+			// var isPredictObj = listPredict.indexOf(this.obj);
+			// if (isPredictObj >= 0) {
+			// 	listPredict.splice(isPredictObj, 1);
+			// 	if(listPredict.length==0){
+			// 		document.getElementById("predict_api").style['display'] = '';
+			// 	}
+			// }
 
 			//remove circle if available in object poly
 			if(lbc.obj.type == 'polygon'){
