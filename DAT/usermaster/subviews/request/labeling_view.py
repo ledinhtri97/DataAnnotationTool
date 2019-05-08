@@ -1,9 +1,9 @@
 from adminmaster.datamanagement.submodels.metadata import MetaDataModel
 from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
 from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
-from usermaster.serializers import MainTaskMetaDataSerializer
 from django.http import JsonResponse
 from django.conf import settings
+from .querymeta import query_meta
 
 def get_query_meta_general(dataset_id=None, user=None):
   base_request = MetaDataModel.objects.filter(
@@ -31,12 +31,22 @@ def get_query_meta_general(dataset_id=None, user=None):
 
 
 def handle_metadata_before_release(meta_data, user):
-    if(not meta_data.onviewing_user):
-      #print("no one view, now add", user)
+  print(meta_data.onviewing_user)
+  if(not meta_data.onviewing_user):
+    #print("no one view, now add", user)
+    try:
       meta_data.onviewing_user = user
       meta_data.save(update_fields=['onviewing_user'])
-    else:
-      print(user, " is on viewing")
+    except:
+      meta_orther = MetaDataModel.objects.filter(onviewing_user=user).first()
+      meta_orther.onviewing_user = None
+      meta_orther.save(update_fields=['onviewing_user'])
+      
+      meta_data.onviewing_user = user
+      meta_data.save(update_fields=['onviewing_user'])
+
+  else:
+    print(user, " is on viewing")
 
 def next_index(request, metaid):
   current_meta_data = MetaDataModel.objects.filter(id=metaid).first()
@@ -53,11 +63,15 @@ def next_index(request, metaid):
   
   current_meta_data.save(update_fields=['onviewing_user'])
   #print(current_meta_data.skipped_by_user)
-  queryset = get_query_meta_general(dataset_id, user)
-  
-  datareturn = MainTaskMetaDataSerializer(queryset).data if(queryset) else {}
+  meta = get_query_meta_general(dataset_id, user)
+  workspace = WorkSpaceUserModel.objects.filter(dataset=meta.dataset).first()
 
-  return JsonResponse(datareturn)
+  data = {}
+
+  if meta:
+    data = query_meta(meta, workspace.api_reference)
+
+  return JsonResponse(data=data)
 
 def savenext_index(request, metaid):
 
@@ -93,11 +107,15 @@ def savenext_index(request, metaid):
  
     current_meta_data.save(update_fields=['is_annotated', 'onviewing_user'])
   
-  queryset = get_query_meta_general(dataset_id, user)
-  
-  datareturn = MainTaskMetaDataSerializer(queryset).data if(queryset) else {}
+  meta = get_query_meta_general(dataset_id, user)
+  workspace = WorkSpaceUserModel.objects.filter(dataset=meta.dataset).first()
 
-  return JsonResponse(datareturn)
+  data = {}
+
+  if meta:
+    data = query_meta(meta, workspace.api_reference)
+
+  return JsonResponse(data=data)
   
 
 def outws_index(request, metaid):
@@ -105,3 +123,4 @@ def outws_index(request, metaid):
   current_meta_data.onviewing_user =  None
   current_meta_data.save(update_fields=['onviewing_user'])
   return JsonResponse({})
+  return JsonResponse(data=data)

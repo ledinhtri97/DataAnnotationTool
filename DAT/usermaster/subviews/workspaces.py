@@ -29,23 +29,12 @@ class WorkspaceView(generics.RetrieveAPIView):
     data = JsonResponse(serializer.data, safe=False)
     data = json.loads(data.content.decode('utf8').replace("'", '"'))
 
-    """More features will be implement later:
-      Dataresponse : {
-        Workspace: {
-          Name: 'name',
-          custom: {'labeled-by-user', 'labeled-by-orther', 'non-labeled'}
-        },
-        Info: {
-          dataset: 'name',
-          numberuser: '100',
-          labeltag: {'face',...},
-          numbermeta: '10000',
-          numberdonebyuser: '100',
-        }
-      }
-    """
-    
     return Response(data={'data': data})
+
+
+def get_data_settings(request):
+  setts = UserSettingsModel.objects.filter(user=request.user).first()
+  return JsonResponse(data=json.loads(setts.settings))
 
 def saveseting_index(request):
   if request.method == 'POST':
@@ -54,11 +43,9 @@ def saveseting_index(request):
 
       __body__ = json.loads(request.body.decode('utf-8'))
 
-      user = request.user
-
-      setts = UserSettingsModel.objects.filter(dataset=int(__body__['data_id']), user=user).first()
+      setts = UserSettingsModel.objects.filter(user=request.user).first()
       setts.settings = json.dumps(__body__['sett'])
-
+      print(setts.settings)
       setts.save(update_fields=['settings'])
     
     except Exception as e:

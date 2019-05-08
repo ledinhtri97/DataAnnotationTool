@@ -6,6 +6,7 @@ from adminmaster.datamanagement.models import DataSetModel
 from adminmaster.datamanagement.submodels.metadata import MetaDataModel
 from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from rest_framework.response import Response
+from .querymeta import query_meta
 
 class OverViewWorkspaceView(generics.RetrieveAPIView):
     lookup_field = 'id'
@@ -16,23 +17,28 @@ class OverViewWorkspaceView(generics.RetrieveAPIView):
 
 
 def get_meta_overview(request, mtid):
+
+    label_select = request.GET.get('label_select', '')
+
     meta = MetaDataModel.objects.filter(id=mtid).first()
+    workspace = WorkSpaceUserModel.objects.filter(dataset=meta.dataset).first()
+
     data = {}
+
     if meta:
-        data = {
-            'name': meta.get_abs_origin(),
-            'url_meta': meta.get_url_meta(),
-            'boxes_position': [
-                {
-                    'tag_label': bb.label.tag_label,
-                    'type_label': bb.label.type_label,
-                    'color': bb.label.color,
-                    'flag': bb.flag,
-                    'accept_report_flag': bb.accept_report_flag,
-                    'position': bb.position,
-                } for bb in meta.boxes_position.all()
-            ] 
-        }
+        data = query_meta(meta, workspace.api_reference)
+
+        if label_select == 'true':
+            data['label_select'] = [
+                    {
+                        'id': lb.id,
+                        'tag_label': lb.tag_label,
+                        'type_label': lb.type_label,
+                        'color': lb.color,
+                    } for lb in
+                    DataSetModel.objects.filter(
+                        id=meta.dataset.id).first().labels.all()
+                ]
     
     return JsonResponse(data=data)
 
