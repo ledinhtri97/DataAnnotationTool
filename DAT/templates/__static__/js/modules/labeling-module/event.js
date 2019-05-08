@@ -24,15 +24,10 @@ var mouseDownPoint = null;
 
 var objectGlobal = null;
 var namelabelGlobal = null;
-var labelselect = document.getElementById("label_select");
+//var labelselect = document.getElementById("label_select");
 
 var dialogChild = null;
 var dialog = document.getElementById("dialog");
-
-
-const size_icon = document.getElementById("size_icon");
-const width_stroke = document.getElementById("width_stroke");
-
 
 const validObjectShape = function(obj){
 	// return obj.type != 'circle' && obj.type != 'line' && obj.type != 'image';
@@ -88,7 +83,7 @@ const controll_bigplus = function(__canvas__, pointer){
 	__canvas__.renderAll();
 }
 
-const init_event = function(__canvas__, popupControllers){
+const init_event = function(__canvas__, popupControllers, label_select){
 	var group_control = document.getElementById("group_control");
 	if(group_control) {
 
@@ -223,17 +218,14 @@ const init_event = function(__canvas__, popupControllers){
 			}
 		}
 		else {
-			if(labelselect){
-				var labels = JSON.parse(labelselect.textContent)['labels'];
-				labels.pop();
-
-				labels.forEach(function(elem, index) {
-					var spl = elem.id.split('-');
+			if(label_select){
+				
+				label_select.forEach(function(lb, index) {					
 					var isd = drawStatus.getIsDrawing();
 					var isw = drawStatus.getIsWaiting();
 					if((!isd || (isd && isw)) && (key == 49+index)){
-						drawPoly.setType(spl[1]);
-						drawPoly.startDraw(spl[0]);
+						drawPoly.setType(lb.type_label);
+						drawPoly.startDraw(lb.id, lb.tag_label);
 					}
 				});
 			}

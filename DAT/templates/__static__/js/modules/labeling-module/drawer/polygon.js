@@ -41,10 +41,6 @@ const configureLine = function(__points__, __color__=Color.WHITE){
 const configureRectangle = function (
 	__left__, __top__, __width__, __height__, __name__='', __accuracy__='1.0'){
 
-	var color = document.getElementById(__name__+'-rect_color');
-
-	var strokeWidth = document.getElementById('width_stroke');
-
 	var rect = new fabric.Rect({
 		left: __left__,
 		top: __top__,
@@ -54,8 +50,8 @@ const configureRectangle = function (
 		originX: 'left',
 		originY: 'top',
 		hasBorder: true,
-		stroke: color ? color.textContent : Color.YELLOW,
-		strokeWidth: strokeWidth ? parseInt(strokeWidth.textContent) : 2,
+		stroke: drawStatus.getColorlabel(),
+		strokeWidth: drawStatus.getStrokelabel(),
 		fill:'transparent',
 		transparentCorners: false,
 		cornerStrokeColor: 5,
@@ -71,9 +67,10 @@ const configureRectangle = function (
 		selectable: false,
 		name: __name__,
 		accuracy: __accuracy__,
-		basicColor: color ? color.textContent : Color.YELLOW,
+		basicColor: drawStatus.getColorlabel(),
 		flag:-1,
 		type_label: 'type_label',
+		accept_edit: true,
 	});
 	
 	rect.setControlVisible('mtr', false);
@@ -92,17 +89,14 @@ const configureRectangle = function (
 const configurePoly = function(__points__, __name__='', __accuracy__='1.0', __circles__=[]){
 	
 	var type_poly = (__points__.length == 4) ? 'quad' : 'poly';
-	var color_id = document.getElementById(__name__+'-'+type_poly+'_color');
-	var color = color_id ? color_id.textContent : Color.YELLOW;
-	var strokeWidth_id = document.getElementById('width_stroke');
-	var strokeWidth = strokeWidth_id ? parseInt(strokeWidth_id.textContent) : 2;
+
 	var polygon = new fabric.Polygon(__points__,{
 		hasControls: false,
 		originX: 'left',
 		originY: 'top',
 		hasBorders: false,
-		stroke: color,
-		strokeWidth: strokeWidth,
+		stroke: drawStatus.getColorlabel(),
+		strokeWidth: drawStatus.getStrokelabel(),
 		fill:'transparent',
 		transparentCorners: true,
 		cornerSize: 10,
@@ -111,9 +105,10 @@ const configurePoly = function(__points__, __name__='', __accuracy__='1.0', __ci
 		name:__name__,
 		accuracy: __accuracy__,
 		circles: __circles__,
-		basicColor: color,
+		basicColor: drawStatus.getColorlabel(),
 		flag:-1,
 		type_label: 'type_label',
+		accept_edit: true,
 	});
 
 	var __left__ = polygon.left + polygon.width / 2;
@@ -289,7 +284,7 @@ class DrawPolygon{
 				
 				
 
-				drawer.startDraw(namelabel);
+				drawer.startDraw();
 			}
 		};
 
@@ -404,11 +399,9 @@ class DrawPolygon{
 		}
 	}
 
-	startDraw(namelabel){
+	startDraw(id, namelabel){
 		this.endDraw();
 
-		document.getElementById("label").textContent = namelabel;
-		
 		this.canvas.getObjects().forEach(function(obj){
 			if(obj.labelControl){
 				obj.labelControl.__editITEM__(false);
@@ -416,8 +409,8 @@ class DrawPolygon{
 		});
 
 		this.canvas.defaultCursor = 'crosshair';
-		
-		drawStatus.startDrawStatus(namelabel+"-"+this.typePoly);
+
+		drawStatus.startDrawStatus(id, namelabel);
 		
 		this.polygon.drawPolygon();
 		this.canvas.on('mouse:down', this.mouseDown);
@@ -430,8 +423,6 @@ class DrawPolygon{
 		
 		drawStatus.stopDrawStatus();
 
-		document.getElementById("label").textContent = "NO LABEL";
-		
 		this.canvas.off('mouse:down', this.mouseDown);
 		this.canvas.off('mouse:move', this.mouseMove);
 		this.canvas.off('mouse:up', this.mouseUp);

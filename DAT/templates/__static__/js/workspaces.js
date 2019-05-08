@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Workspaces from "./materialui/workspaces"
+import Workspaces from "./materialui/workspaces-ui"
 
 const workspaces = document.getElementById("workspaces");
 setTimeout(function() {

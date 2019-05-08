@@ -5,12 +5,27 @@ class DrawStatus{
 		this.isWaiting = false;
 		this.isZoom = false;
 		this.idTool = '';
+		this.namelabel = 'NO LABEL';
 		this.zoomSpaceKey = false;
 		this.popupHover = false;
 	}
 
+	getIdlabel(){
+		return this.idTool;
+	}
+
 	getNamelabel(){
-		return document.getElementById("label").textContent;
+		return this.namelabel;
+	}
+
+	getColorlabel(){
+		var color = document.getElementById(this.idTool+'_color')
+		return color ? color.textContent : "#F4D03F";
+	}
+
+	getStrokelabel(){
+		var strokeWidth_id = document.getElementById('width_stroke');
+		return strokeWidth_id ? parseInt(strokeWidth_id.textContent) : 2;
 	}
 
 	setIsDrawing(__isDrawing__){
@@ -57,11 +72,15 @@ class DrawStatus{
 		return this.zoomSpaceKey;
 	}
 
-	startDrawStatus(__idTool__){
+	startDrawStatus(__idTool__, namelabel){
 		this.isDrawing = true;
 		this.isWaiting = true;
-		this.idTool = __idTool__;
+		if(__idTool__ && namelabel) {
+			this.idTool = __idTool__;
+			this.namelabel = namelabel;
+		}
 		var currentTool = document.getElementById(this.idTool);
+		document.getElementById("label").textContent = this.namelabel;
 		if (currentTool) currentTool.style['backgroundColor'] = "#ADE4FF";
 	}
 
@@ -69,8 +88,8 @@ class DrawStatus{
 		this.isDrawing = false;
 		this.isWaiting = false;
 		var currentTool = document.getElementById(this.idTool);
+		document.getElementById("label").textContent = "NO LABEL";
 		if (currentTool) currentTool.style['backgroundColor'] = "#FFFFFF";
-		this.idTool = '';
 	}
 }
 

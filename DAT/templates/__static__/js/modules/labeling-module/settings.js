@@ -1,14 +1,5 @@
 
 class QuickSettings{
-	
-	constructor(){
-		// show_popup
-		// auto_hidden
-		// auto_predict
-		// ask_dialog
-		// color_background
-		// width_stroke
-	}
 
 	getAtt(att){
 		var value = document.getElementById(att).textContent;

@@ -67,19 +67,16 @@ const rqsavenext = function(meta_id, canvas){
 		}
 		else{
 			document.getElementById("meta_id").textContent = metadata.id;
-			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
 			document.getElementById("label_list_items").innerHTML = "";
 
 			canvas.clear();
 
-			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name;
-			initMaintask(canvas, url, metadata.boxes_position);
-			// document.getElementById("bbsfirst").textContent = metadata.boxes_position;
-
-			if(label.textContent!="NO LABEL"){
-				var lb = label.textContent;
+			initMaintask(canvas, metadata.url_meta, metadata);
+			
+			if(label.textContent != "NO LABEL"){
+				
 				reset_when_go();
-				drawPoly.startDraw(lb);
+				drawPoly.startDraw();
 			}
 
 		}
@@ -103,19 +100,16 @@ const rqnext = function(meta_id, canvas){
 		}
 		else{
 			document.getElementById("meta_id").textContent = metadata.id;
-			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
 			document.getElementById("label_list_items").innerHTML = "";
 
 			canvas.clear();
 
-			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name;
-			initMaintask(canvas, url, metadata.boxes_position);
-			// document.getElementById("bbsfirst").textContent = metadata.boxes_position;
-
+			initMaintask(canvas, metadata.url_meta, metadata);
+			
 			if(label.textContent!="NO LABEL"){
-				var lb = label.textContent;
+				
 				reset_when_go();
-				drawPoly.startDraw(lb);
+				drawPoly.startDraw();
 			}
 
 		}
@@ -123,54 +117,17 @@ const rqnext = function(meta_id, canvas){
 	});
 }
 
-
-// const rqbadnext = function(meta_id, canvas){
-// 	fetch("/gvlab-dat/workspace/badnext/"+meta_id+"/", {meta_id: meta_id})
-// 	.then(response => {
-// 		if(response.status !== 200){
-// 			return "Something went wrong";
-// 		}
-// 		return response.json();
-// 	})
-// 	.then(metadata => {
-// 		if(!metadata.id){
-// 			nomoredata_handle();
-// 		}
-// 		else{
-// 			document.getElementById("meta_id").textContent = metadata.id;
-// 			document.getElementById("predict_bbs").textContent = metadata.predict_bbs;
-// 			document.getElementById("label_list_items").innerHTML = "";
-
-// 			canvas.clear();
-
-// 			var url = "/gvlab-dat/dataset/"+metadata.full_path+"/"+metadata.name;
-// 			initMaintask(canvas, url, metadata.boxes_position);
-// 			// document.getElementById("bbsfirst").textContent = metadata.boxes_position;
-
-// 			if(label.textContent!="NO LABEL"){
-// 				var lb = label.textContent;
-// 				reset_when_go();
-// 				drawPoly.startDraw(lb);
-// 			}
-			
-// 		}
-// 	});
-// }
-
-
 const rqsavesettings = function(){
 
 	var myData = {
 		'sett': {
 			'show_popup': document.getElementById('show_popup').textContent,
 			'auto_hidden': document.getElementById('auto_hidden').textContent,
-			'auto_predict': document.getElementById('auto_predict').textContent,
 			'ask_dialog': document.getElementById('ask_dialog').textContent,
 			'color_background': document.getElementById('color_background').textContent,
 			'size_icon': document.getElementById('size_icon').textContent,
 			'width_stroke': document.getElementById('width_stroke').textContent,
 		},
-		'data_id': document.getElementById("data_id").textContent,
 	};
 
 	fetch("/gvlab-dat/workspace/savesettings/", {
