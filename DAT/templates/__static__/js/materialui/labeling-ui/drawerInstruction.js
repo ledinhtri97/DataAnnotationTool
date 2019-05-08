@@ -103,10 +103,7 @@ class TemporaryDrawerInstruction extends React.Component {
 	};
 
 	render() {
-		const { classes } = this.props;
-		
-		var labelselect = JSON.parse(document.getElementById("label_select").textContent)['labels'];
-		labelselect.pop();
+		const { classes, label_select } = this.props;
 		
 		const sideList = (
 			<div className={classes.list}>
@@ -125,13 +122,12 @@ class TemporaryDrawerInstruction extends React.Component {
 			
 			<List>
 			{
-				labelselect.map(function(lb, _key_) {
-					var spl = lb.id.split('-');
-					var labelname = spl[0].charAt(0).toUpperCase() + spl[0].slice(1);
-					var labeltype = spl[1].charAt(0).toUpperCase() + spl[1].slice(1);
+				label_select.map(function(lb, key) {
+					var labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
+                    var labeltype = lb.type_label.charAt(0).toUpperCase() + lb.type_label.slice(1);
 					return (
-						<ListItem button key={_key_} className={classes.listItem}>
-						<ListItemIcon>{MAP_LABEL_INS[_key_]}</ListItemIcon>
+						<ListItem button key={key} className={classes.listItem}>
+						<ListItemIcon>{MAP_LABEL_INS[key]}</ListItemIcon>
 						<Typography variant="caption" color="inherit" className={classes.caption}>{labelname + " | " + labeltype}</Typography>
 						</ListItem>
 						);}
