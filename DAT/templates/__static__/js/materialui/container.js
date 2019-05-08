@@ -40,7 +40,7 @@ import Zoom from '@material-ui/core/Zoom';
 
 import generalListItems from './labeling-ui/listitem/generalListItems';
 import historyListItems from './labeling-ui/listitem/historyListItems';
-import toolListItems from './labeling-ui/listitem/toolListItems';
+//import toolListItems from './labeling-ui/listitem/toolListItems';
 
 import {outWorkSpace} from "../modules/dat-utils"
 
@@ -158,9 +158,6 @@ const styles = theme =>({
     	margin: theme.spacing.unit,
     	width: '150px',
     },
-    hidden: {
-    	display: 'none',
-    },
 	
 });
 
@@ -226,17 +223,12 @@ class MenuAppBar extends React.Component {
 		}
 	};
 
-	init_value = (value) => {
-		return JSON.parse(document.getElementById("settings_data").textContent)['settings'][value];
-	};
-
 	render() {
 		const { classes } = this.props;
 		const { anchorEl, expanded } = this.state;
 		const open = Boolean(anchorEl);
 
 		const ON_HOMEPAGE =  document.getElementById("home") != null;
-		const ON_WORKSPACE = document.getElementById("project") != null;
 		const ON_WORKING = document.getElementById("meta_id") != null;
 		const ON_CONTRIBUTE = document.getElementById("contribute") != null;
 		return (	
@@ -317,25 +309,6 @@ class MenuAppBar extends React.Component {
 		</Toolbar>
 		</AppBar>
 
-		{ON_WORKSPACE && (<Drawer
-			variant="permanent"
-			classes={{
-				paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-			}}
-			open={this.state.open}
-			>
-			<div className={classes.toolbarIcon}>
-			<IconButton onClick={this.handleDrawerClose}>
-			<ChevronLeftIcon />
-			</IconButton>
-			</div>
-			<Divider />
-			<List className={classes.listItem}>{React.createElement(generalListItems)}</List>
-			<Divider />
-			<List className={classes.listItem}>{React.createElement(historyListItems)}</List>
-			</Drawer>
-			)}
-
 		{ON_WORKING && (<Drawer
 			variant="permanent"
 			classes={{
@@ -346,15 +319,7 @@ class MenuAppBar extends React.Component {
 			<div className={classes.toolbarIcon}>
 
 			<span id="settings" title="Settings" className={classes.span} />
-			<div className={classes.hidden}>
-			<span id="show_popup">{this.init_value("show_popup")}</span>
-			<span id="auto_hidden">{this.init_value("auto_hidden")}</span>
-			<span id="auto_predict">{this.init_value("auto_predict")}</span>
-			<span id="ask_dialog">{this.init_value("ask_dialog")}</span>
-			<span id="color_background">{this.init_value("color_background")}</span>
-			<span id="size_icon">{this.init_value("size_icon")}</span>
-			<span id="width_stroke">{this.init_value("width_stroke")}</span>
-			</div>
+			
 
 			<IconButton onClick={this.handleDrawerClose}>
 			<ChevronLeftIcon />
@@ -370,7 +335,7 @@ class MenuAppBar extends React.Component {
 			</ExpansionPanelSummary>
 			<ExpansionPanelDetails className={classes.tabExpandDetail}>
 			<Divider />
-			<List className={classes.listItem}>{React.createElement(toolListItems)}</List>
+			<List className={classes.listItem} id="tools_list_items"></List>
 			</ExpansionPanelDetails>
 			</ExpansionPanel>
 
@@ -382,8 +347,7 @@ class MenuAppBar extends React.Component {
 			</ExpansionPanelSummary>
 			<ExpansionPanelDetails className={classes.tabExpandDetail}>
 			<Divider />
-			<List className={classes.listItem} id="label_list_items">
-			</List>
+			<List className={classes.listItem} id="label_list_items"></List>
 			</ExpansionPanelDetails>
 			</ExpansionPanel>
 
@@ -396,7 +360,7 @@ class MenuAppBar extends React.Component {
 			</ExpansionPanelSummary>
 			<ExpansionPanelDetails className={classes.tabExpandDetail}>
 			<Divider />
-			<List className={classes.listItem}>{React.createElement(generalListItems)}</List>
+			<List className={classes.listItem} id="general_list_items"></List>
 			</ExpansionPanelDetails>
 			</ExpansionPanel>
 
