@@ -55,7 +55,7 @@ const styles = theme => ({
     }
 });
 
-class toolListItems extends React.Component {
+class ToolListItems extends React.Component {
 
     queue = [];
 
@@ -95,13 +95,9 @@ class toolListItems extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes, label_select, drawPoly } = this.props;
         const { messageInfo } = this.state;
         const tool = this;
-
-        // var labelselect = Array.from(document.getElementById("label_select").children);
-        var labelselect = JSON.parse(document.getElementById("label_select").textContent)['labels'];
-        labelselect.pop();
 
         return(
             <div>
@@ -117,13 +113,16 @@ class toolListItems extends React.Component {
             </div>
 
             {
-                labelselect.map(function(lb, key) {
-                    var spl = lb.id.split('-');
-                    var labelname = spl[0].charAt(0).toUpperCase() + spl[0].slice(1);
-                    var labeltype = spl[1].charAt(0).toUpperCase() + spl[1].slice(1);
-                    var message = "Drawing " + labelname + " by " + (spl[1]=='rect'? "rectangle" : "polygon") + " shape";
+                label_select.map(function(lb, key) {
+                    var labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
+                    var labeltype = lb.type_label.charAt(0).toUpperCase() + lb.type_label.slice(1);
+                    var message = "Drawing " + labelname + " by " + (lb.type_label =='rect' ? "rectangle" : "polygon") + " shape";
                     return (
-                        <div id={lb.id} key={key} onClick={tool.handleClick(message)}>
+                        <div id={lb.id} key={key} onClick={function(e){
+                                tool.handleClick(message);
+                                drawPoly.setType(lb.type_label);
+                                drawPoly.startDraw(lb.id, lb.tag_label);
+                            }}>
                         <ListItem button>
                         <Tooltip title={labelname + " | " + labeltype} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
                         <ListItemIcon className={classes.icon}>
@@ -178,19 +177,8 @@ class toolListItems extends React.Component {
     };
 }
 
-toolListItems.propTypes = {
+ToolListItems.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(toolListItems);
-
-//<div id="bad_data">
-//<ListItem button>
-//<Tooltip title="Bad Data" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
-//<ListItemIcon className={classes.icon}>
-//<ThumbDownAlt />
-//</ListItemIcon>
-//</Tooltip>
-//<ListItemText primary="Bad Data" />
-//</ListItem>
-//</div>
+export default withStyles(styles)(ToolListItems);
