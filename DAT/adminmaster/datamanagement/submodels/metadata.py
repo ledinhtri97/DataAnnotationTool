@@ -23,6 +23,9 @@ class MetaDataModel(models.Model):
    
     is_notice_view = models.BooleanField(default=False, verbose_name="notice view?")
 
+    is_reference_api = models.BooleanField(
+        default=False, verbose_name="using reference api?")
+
     onviewing_user = models.OneToOneField(
        'auth.User', blank=True, null=True, verbose_name="User Viewing", on_delete=models.CASCADE)
 
