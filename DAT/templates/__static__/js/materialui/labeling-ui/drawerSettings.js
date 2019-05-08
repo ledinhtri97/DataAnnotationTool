@@ -48,29 +48,64 @@ const styles = theme =>({
 const MAP_SWITCH = {
 	'show_popup' : 'Show Popup',
 	'auto_hidden' : 'Auto Hidden',
-	'auto_predict' : 'Auto Predict',
 	'ask_dialog': 'Ask Dialog',
 	'color_background': 'Light / Dark Background',
 }
 
 const str2var = (value) => {
-	var res = JSON.parse(document.getElementById("settings_data").textContent)['settings'][value];
-	return res == 'false' ? false : res == 'true' ? true : res;
+	return value == 'false' ? false : value == 'true' ? true : value;
 }
 
 class TemporaryDrawerSettings extends React.Component {
 	
-	state = {
-		left: false,
-		checked: {
-			'show_popup' : str2var('show_popup'),
-			'auto_hidden' : str2var('auto_hidden'),
-			'auto_predict' : str2var('auto_predict'),
-			'ask_dialog': str2var('ask_dialog'),
-			'color_background': str2var('color_background'),
-		},
-		width_stroke:  str2var('width_stroke'),
-		size_icon:  str2var('size_icon'),
+	constructor(props){
+		super(props);
+		this.state = {
+			left: false,
+			checked: {
+				'show_popup': false,
+				'auto_hidden': false,
+				'ask_dialog': true,
+				'color_background': true,
+			},
+			width_stroke: 8,
+			size_icon: 3,
+		}
+	};
+
+	getData(){
+		fetch('/gvlab-dat/workspace/settings/'+'api-get-data/',{})
+		.then(response => {
+			if(response.status !== 200){
+				return "Something went wrong";
+			}
+				return response.json();
+			}
+		).then(sett => {
+		//console.log(sett)
+			this.setState({
+				checked: {
+					'show_popup': str2var(sett.show_popup),
+					'auto_hidden': str2var(sett.auto_hidden),
+					'ask_dialog': str2var(sett.ask_dialog),
+					'color_background': str2var(sett.color_background),
+				},
+				width_stroke: str2var(sett.width_stroke),
+				size_icon: str2var(sett.size_icon),
+			});
+
+			document.getElementById("show_popup").textContent = sett.show_popup;
+			document.getElementById("auto_hidden").textContent = sett.auto_hidden;
+			document.getElementById("ask_dialog").textContent = sett.ask_dialog;
+			document.getElementById("color_background").textContent = sett.color_background;
+			document.getElementById("width_stroke").textContent = sett.width_stroke;
+			document.getElementById("size_icon").textContent = sett.size_icon;
+			
+		});
+	};
+
+	componentDidMount(){
+		this.getData();
 	};
 
 	toggleDrawer = (side, open) => () => {
@@ -103,9 +138,6 @@ class TemporaryDrawerSettings extends React.Component {
 
 		}
 		if(name == 'auto_hidden'){
-
-		}
-		if(name == 'auto_predict'){
 
 		}
 		if(name == 'ask_dialog'){
@@ -156,14 +188,11 @@ class TemporaryDrawerSettings extends React.Component {
 	handleSaveAsDefault = () => {
 		var dialog = document.getElementById("dialog");
     	if(dialog){
-      	ReactDOM.unmountComponentAtNode(dialog);
-      	var message = "Save settings as default?";
-     	var request = "rqsavesettings";
-     	ReactDOM.render(<AlertDialog 
-        message={message} 
-        request={request}
-        />, dialog);
-    }
+	      	ReactDOM.unmountComponentAtNode(dialog);
+			var message = "Save settings as default?";
+			var request = "rqsavesettings";
+			ReactDOM.render(<AlertDialog message={message}  request={request} />, dialog);
+    	}
 	};
 
 	render() {
@@ -184,7 +213,7 @@ class TemporaryDrawerSettings extends React.Component {
 			
 			<Divider />
 
-			{['show_popup', 'auto_hidden', 'auto_predict', 'ask_dialog', 'color_background'].map((id, key) => (
+			{['show_popup', 'auto_hidden', 'ask_dialog', 'color_background'].map((id, key) => (
 				<ListItem button key={key}>
 				<ListItemText primary={MAP_SWITCH[id]} />
 				<Switch
@@ -256,5 +285,4 @@ TemporaryDrawerSettings.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-// const MainDrawerSettings = withStyles(styles)(TemporaryDrawerSettings)
 export default withStyles(styles)(TemporaryDrawerSettings);
