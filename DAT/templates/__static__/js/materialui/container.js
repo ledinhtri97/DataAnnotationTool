@@ -167,7 +167,7 @@ class MenuAppBar extends React.Component {
 	
 	state = {
 		anchorEl: null,
-		open: true,
+		open: false,
 		expanded: 'panel1',
 	};
 
