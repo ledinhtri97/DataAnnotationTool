@@ -51,7 +51,7 @@ class MetaDataModel(models.Model):
         return '/gvlab-dat/workspace/metaview/{}/api-get-data/'.format(self.id)
     
     def get_url_meta(self):
-        return "/gvlab-dat/dataset/{}/{}".format(self.full_path, self.name)
+        return "/gvlab-dat/dataset/{}".format(self.get_abs_origin())
     
     def __str__(self):
         return self.get_abs_origin()
