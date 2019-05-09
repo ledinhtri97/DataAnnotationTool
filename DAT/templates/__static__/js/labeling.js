@@ -8,7 +8,6 @@ import TemporaryDrawerSettings from "./materialui/labeling-ui/drawerSettings";
 import ToolListItems from './materialui/labeling-ui/listitem/toolListItems';
 
 import {outWorkSpace} from "./modules/dat-utils";
-
 import {rqnext, rqsavenext} from  "./modules/request"
 import {initMaintask, renderBBS_RECT, renderBBS_POLY} from "./modules/labeling-module/controller/renderInit"
 import {init_event} from "./modules/labeling-module/event"
@@ -33,7 +32,6 @@ const settings = document.getElementById("settings");
 settings && ReactDOM.render(<TemporaryDrawerSettings canvas={canvas}/>, settings);
 
 //===================DEFAULT-INIT======================//
-//
 
 const group_control =  document.getElementById("group_control");
 const meta_id = document.getElementById("meta_id");
@@ -44,7 +42,6 @@ const stop_mode = document.getElementById("stop_mode");
 const drawStatus = new DrawStatus();
 const drawPoly = new DrawPolygon(canvas);
 const popupControllers = new PopupControllers(canvas); 
-const listPredict = []; 	
 const quickSettings = new QuickSettings();
 
 if(labeling){
@@ -52,14 +49,15 @@ if(labeling){
 	fetch('/gvlab-dat/workspace/metaview/'+meta_id.textContent+'/api-get-data/?label_select=true', {})
 	.then(response => {
 		if(response.status !== 200){
-			return "Something went wrong";
+			return "FAILED";
 		}
 			return response.json();
 		}
 	).then(meta => {
-		//console.log(meta)
 
-		initMaintask(canvas, meta.url_meta, meta);
+		if(meta === "FAILED") return;
+
+		initMaintask(canvas, meta);
 		init_event(canvas, popupControllers, meta.label_select);
 
 		const tools_list_items = document.getElementById("tools_list_items");
@@ -73,11 +71,9 @@ if(labeling){
 }
 
 //=====================CONTROLER=======================//
-//
 
 const controllerRequest = (callback_cl) => {
-	listPredict.splice(0,listPredict.length);
-	predict_api.style['display'] = '';	
+
 	if(group_control) group_control.style["display"] = "none";
 
 	if(callback_cl == 'rqnext'){
@@ -108,4 +104,4 @@ if(stop_draw){
 	}, false);
 }
 
-export {canvas, quickSettings, drawStatus, drawPoly, listPredict, controllerRequest}
+export {quickSettings, drawStatus, drawPoly, controllerRequest}
