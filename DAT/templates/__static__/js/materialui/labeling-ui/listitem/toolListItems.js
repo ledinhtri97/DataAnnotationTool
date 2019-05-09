@@ -101,17 +101,18 @@ class ToolListItems extends React.Component {
 
         return(
             <div>
-            <div id="predict_api" onClick={tool.handleClick("Predict API is hidden!!! read more in the instruction")}>
+
+            <div id="stop_draw" onClick={tool.handleClick('stop')}>
             <ListItem button>
-            <Tooltip title="Predict API" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+            <Tooltip title="Stop Drawing" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
             <ListItemIcon className={classes.icon}>
-            <OfflineBolt />
+            <Cancel />
             </ListItemIcon>
             </Tooltip>
-            <ListItemText primary="Predict API" />
+            <ListItemText primary="Stop Drawing"/>
             </ListItem>
             </div>
-
+            
             {
                 label_select.map(function(lb, key) {
                     var labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
@@ -136,17 +137,6 @@ class ToolListItems extends React.Component {
                         );}
                     )
             }
-
-            <div id="stop_draw" onClick={tool.handleClick('stop')}>
-            <ListItem button>
-            <Tooltip title="Stop Drawing" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
-            <ListItemIcon className={classes.icon}>
-            <Cancel />
-            </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Stop Drawing"/>
-            </ListItem>
-            </div>
 
             <Snackbar
             key={messageInfo.key}

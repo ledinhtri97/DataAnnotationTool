@@ -77,12 +77,12 @@ class TemporaryDrawerSettings extends React.Component {
 		fetch('/gvlab-dat/workspace/settings/'+'api-get-data/',{})
 		.then(response => {
 			if(response.status !== 200){
-				return "Something went wrong";
+				return "FAILED";
 			}
 				return response.json();
 			}
 		).then(sett => {
-		//console.log(sett)
+			
 			this.setState({
 				checked: {
 					'show_popup': str2var(sett.show_popup),
