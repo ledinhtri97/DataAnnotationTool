@@ -70,11 +70,12 @@ class SubmittedTable extends React.Component {
     fetch(url_meta, {})
       .then(response => {
           if(response.status !== 200){
-            return "Something went wrong";
+            return "FAILED";
           }
           return response.json();
         }
       ).then(meta => {
+          if (meta === "FAILED") return;
           if(dialog_view){
             ReactDOM.unmountComponentAtNode(dialog_view);
             ReactDOM.render(
@@ -88,7 +89,7 @@ class SubmittedTable extends React.Component {
               uniScaleTransform: true,
             });
 
-            initMaintask(canvas, meta.url_meta, meta);
+            initMaintask(canvas, meta);
         }
       });
   };

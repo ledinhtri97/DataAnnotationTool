@@ -156,11 +156,12 @@ class OverviewWorkspace extends React.Component {
       fetch(window.location.href+'api-get-data/', {})
       .then(response => {
           if(response.status !== 200){
-            return "Something went wrong";
+            return "FAILED";
           }
           return response.json();
         }
       ).then(__data__ => {
+          if (__data__ === "FAILED") return;
           this.setState({
             total: __data__.total,
             user: __data__.user,
