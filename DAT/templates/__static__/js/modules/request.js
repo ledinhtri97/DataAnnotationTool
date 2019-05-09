@@ -71,7 +71,7 @@ const rqsavenext = function(meta_id, canvas){
 
 			canvas.clear();
 
-			initMaintask(canvas, metadata.url_meta, metadata);
+			initMaintask(canvas, metadata);
 			
 			if(label.textContent != "NO LABEL"){
 				
@@ -90,7 +90,7 @@ const rqnext = function(meta_id, canvas){
 	fetch("/gvlab-dat/workspace/next/"+meta_id+"/", {meta_id: meta_id})
 	.then(response => {
 		if(response.status !== 200){
-			return "Something went wrong";
+			return "FAILED";
 		}
 		return response.json();
 	})
@@ -142,7 +142,7 @@ const rqsavesettings = function(){
 	})
 	.then(response => {
 		if(response.status !== 200){
-			return "Something went wrong";
+			return "FAILED";
 		}
 		return response.json();
 	});
@@ -160,7 +160,7 @@ const rqacceptcontrib = function(accept_url, contribute_url){
 	})
 	.then(response => {
 		if(response.status !== 200){
-			return "Something went wrong";
+			return "FAILED";
 		}
 		window.location.href = contribute_url;
 	});
