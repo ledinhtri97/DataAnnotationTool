@@ -3,12 +3,17 @@ import requests
 def get_fake_api(meta, api_ref):
 
     files = {'image': open(meta.get_full_origin(), 'rb')}
+
+    #print('haha', files)
     try:
+        #print("try 1:", api_ref.local_api_url)
         r = requests.post(api_ref.local_api_url, files=files, verify=False)
+        
     except:
         try:
             if api_ref.public_api_url != "https://api_name_public/":
                 r = requests.post(api_ref, files=files, verify=False)
+            #print("try 2:", api_ref.public_api_url)
         except Exception as e:
             r = None
             data = [{'error': str(e)}]
@@ -28,11 +33,14 @@ def get_fake_api(meta, api_ref):
                     'accept_edit': lb['conf'] < api_ref.percent_accept/100.0,
                 } for lb in json_data['data']['boxes']
             ]
+
+
             
         except Exception as e:
             print(e)
             data = [{'error': json_data}]
         #{'data':{'boxes':[{'conf', 'label', 'xmax', 'ymax', 'xmin', 'ymin'}], '...parameters'}
+
     return data
 
 
@@ -58,4 +66,11 @@ def query_meta(meta, api_reference):
             get_fake_api(meta, api_ref) for api_ref in api_reference.all()
         ], [])
         
+        if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
+            data['status'] = 'failed'
+        else:
+            meta.is_reference_api = 1
+            meta.save(update_fields=['is_reference_api'])
+            data['status'] = 'OK'
+
     return data
