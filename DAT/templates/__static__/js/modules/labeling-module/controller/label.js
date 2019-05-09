@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import LabelItem from "../../../materialui/labeling-ui/item";
 import uniqid from "uniqid";
 import {fabric} from "fabric";
-import {drawPoly, listPredict, quickSettings} from "../../../labeling";
+import {drawPoly, quickSettings} from "../../../labeling";
 import {configureCircle, configurePoly} from "../drawer/polygon";
 import {Color} from "../style/color"
 
@@ -139,15 +139,6 @@ class LabelControl{
 		var lbc = this;
 		var current_element = document.getElementById(this.id);
 		if(current_element){
-
-			//check enable predict
-			// var isPredictObj = listPredict.indexOf(this.obj);
-			// if (isPredictObj >= 0) {
-			// 	listPredict.splice(isPredictObj, 1);
-			// 	if(listPredict.length==0){
-			// 		document.getElementById("predict_api").style['display'] = '';
-			// 	}
-			// }
 
 			//remove circle if available in object poly
 			if(lbc.obj.type == 'polygon'){

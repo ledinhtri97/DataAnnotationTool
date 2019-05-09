@@ -48,9 +48,9 @@ const create_shape = (bb, canvas) => {
 	return shape;
 }
 
-const initMaintask = function(canvas, url, view_init=null) {
+const initMaintask = function(canvas, meta) {
 	fabric.Image.fromURL(
-		url,
+		meta.url_meta,
 		function(img) {
 			var wh = image_convert(img)
 			img.scaleToWidth(wh[0]);
@@ -61,16 +61,15 @@ const initMaintask = function(canvas, url, view_init=null) {
 
 			canvas.renderAll();
 
-			if(view_init){
-				
-				view_init.boxes_position.forEach(function(bb){
+			if(meta.status === 'OK'){
+				meta.boxes_position.forEach(function(bb){
 		            var shape = create_shape(bb, canvas);
 		            canvas.renderAll();
 
 		            createItemToList(canvas, shape);
 	            });
 
-	            view_init.predict.forEach(function(bb){
+	            meta.predict.forEach(function(bb){
 		            var shape = create_shape(bb, canvas);
 		            shape.accuracy = bb.conf
 		            shape.accept_edit = bb.accept_edit;
@@ -78,10 +77,7 @@ const initMaintask = function(canvas, url, view_init=null) {
 		            canvas.renderAll();
 
 		            createItemToList(canvas, shape);
-	            });
-
-	            
-	            
+	            });  
 			}
 			
 		}
