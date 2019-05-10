@@ -9,7 +9,7 @@ import ToolListItems from './materialui/labeling-ui/listitem/toolListItems';
 
 import {outWorkSpace} from "./modules/dat-utils";
 import {rqnext, rqsavenext} from  "./modules/request"
-import {initMaintask, renderBBS_RECT, renderBBS_POLY} from "./modules/labeling-module/controller/renderInit"
+import {initMaintask} from "./modules/labeling-module/controller/renderInit"
 import {init_event} from "./modules/labeling-module/event"
 import {PopupControllers} from "./modules/labeling-module/controller/popup";
 import {DrawPolygon} from "./modules/labeling-module/drawer/polygon"
