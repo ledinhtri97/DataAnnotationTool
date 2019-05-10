@@ -39,11 +39,11 @@ class ChartObjectsCount extends PureComponent {
     return (
       <ComposedChart
         layout="vertical"
-        width={680}
+        width={640}
         height={400}
         data={objects}
         margin={{
-          top: 20, right: 20, bottom: 20, left: 20,
+          top: 20, right: 20, bottom: 20, left: 80,
         }}
       >
         <CartesianGrid stroke="#f5f5f5" />
@@ -189,16 +189,14 @@ class OverviewWorkspace extends React.Component {
           Extract Report To Admin
       </Button>
       <div className={classes.root2}>
-        
-        <ProgressesTable total={total} user={user} />
-
         <div>
           <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
             Objects Count
           </Typography>
           <ChartObjectsCount objects={objects}/>
         </div>
-        
+
+        <ProgressesTable total={total} user={user} />
       </div>
 
       <TabShowLabels submitted={submitted} skipped={skipped} flaged={flaged} notice_review={notice_review}/>
