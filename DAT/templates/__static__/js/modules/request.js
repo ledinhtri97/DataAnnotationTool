@@ -27,25 +27,26 @@ const rqsavenext = function(meta_id, canvas){
 
 	for(var i = 0; i < canvas.getObjects().length; i+=1){
 		var item = canvas.item(i);
-		
-		if (item.type == 'rect'){ 
-			myData += [
-			item.name,
-			item.type_label,
-			item.flag,
-			item.left / canvas.getWidth(),
-			item.top / canvas.getHeight(),
-			(item.left + item.width) / canvas.getWidth(),
-			(item.top + item.height) / canvas.getHeight()
-			].join(',') + '\n';
-		}
-		else if(item.type == 'polygon'){
-			var bb = [item.name, item.type_label, item.flag];
-			for (var p of item.points){
-				bb.push(p.x / canvas.getWidth());
-				bb.push(p.y / canvas.getHeight());
+		if (item.islabel) {
+			if (item.type == 'rect'){ 
+				myData += [
+				item.name,
+				item.type_label,
+				item.flag,
+				item.left / canvas.getWidth(),
+				item.top / canvas.getHeight(),
+				(item.left + item.width) / canvas.getWidth(),
+				(item.top + item.height) / canvas.getHeight()
+				].join(',') + '\n';
 			}
-			myData += bb.join(',') + '\n';
+			else if(item.type == 'polygon'){
+				var bb = [item.name, item.type_label, item.flag];
+				for (var p of item.points){
+					bb.push(p.x / canvas.getWidth());
+					bb.push(p.y / canvas.getHeight());
+				}
+				myData += bb.join(',') + '\n';
+			}
 		}
 	}
 
@@ -104,7 +105,7 @@ const rqnext = function(meta_id, canvas){
 
 			canvas.clear();
 
-			initMaintask(canvas, metadata.url_meta, metadata);
+			initMaintask(canvas, metadata);
 			
 			if(label.textContent!="NO LABEL"){
 				

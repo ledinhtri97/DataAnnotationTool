@@ -1,7 +1,7 @@
 import {ask_before_out} from "../dat-utils"
 import {drawStatus, drawPoly, controllerRequest, quickSettings} from "../../labeling"
 import {Color} from './style/color'
-import {configureLine} from "./drawer/polygon"
+import {configureLine, configureFlag} from "./drawer/polygon"
 import React from "react";
 import ReactDOM from "react-dom";
 import AlertDialog from "../../materialui/dialog";
@@ -29,9 +29,8 @@ var namelabelGlobal = null;
 var dialogChild = null;
 var dialog = document.getElementById("dialog");
 
-const validObjectShape = function(obj){
-	// return obj.type != 'circle' && obj.type != 'line' && obj.type != 'image';
-	return obj.type == 'rect' || obj.type == 'polygon';
+const isLabel = function(obj){
+	return obj.islabel;
 }
 
 const reset_when_go =  function(){
@@ -62,7 +61,7 @@ const controll_bigplus = function(__canvas__, pointer){
 	else{
 		if(bigplus.length != 0){
 			__canvas__.getObjects().forEach(function(obj, index){
-				if(validObjectShape(obj)){
+				if(isLabel(obj)){
 					storageObj[index] = obj;
 				}
 			});
@@ -109,8 +108,8 @@ const init_event = function(__canvas__, popupControllers, label_select){
 	window.onkeydown = function(e) {
 		var key = e.keyCode ? e.keyCode : e.which;
 		if(key == 16){
-			if(objectGlobal && (validObjectShape(objectGlobal) || objectGlobal.name_id == 'icon')){
-				namelabelGlobal = objectGlobal.name_id ? objectGlobal.object.name : objectGlobal.name;
+			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
+				namelabelGlobal = objectGlobal.isIcon ? objectGlobal.object.name : objectGlobal.name;
 			}
 			else if(drawStatus.getIsDrawing()){
 				namelabelGlobal = drawStatus.getNamelabel();
@@ -166,7 +165,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 		}
 		else if(key == 101){
 			//E key -> Edit
-			if(objectGlobal && (validObjectShape(objectGlobal) || objectGlobal.name_id == 'icon')){
+			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
 				if(group_control) {
 					group_control.style["display"] = "none";
 				}
@@ -181,9 +180,32 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				}
 			}
 		}
+		else if (key == 102){
+			//F key -> mark flag false predict
+			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
+				if(group_control) {
+					group_control.style["display"] = "none";
+				}
+
+				var o = objectGlobal.object || objectGlobal;
+				
+				if(o.flag != -1 && !o.accept_edit){
+					__canvas__.remove(o.shapeflag);
+					if(o.flag == 0){
+						o.flag = 1;
+					}
+					else if (o.flag == 1){
+						o.flag = 0;
+					}
+					var flag = configureFlag(o);
+					__canvas__.add(flag);
+					__canvas__.renderAll();
+				}
+			}
+		}
 		else if (key == 104){
 			//H key -> hidden
-			if(objectGlobal && (validObjectShape(objectGlobal) || objectGlobal.name_id == 'icon')){
+			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
 				if(group_control) {
 					group_control.style["display"] = "none";
 				}
@@ -196,7 +218,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 		}
 		else if (key == 100){
 			//D key -> Delete
-			if(objectGlobal && (validObjectShape(objectGlobal) || objectGlobal.name_id == 'icon')){
+			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
 				if(group_control) {
 					group_control.style["display"] = "none";
 				}
@@ -256,7 +278,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 			if (obj){
 				objectGlobal = obj;
 
-				if (validObjectShape(obj)){
+				if (isLabel(obj)){
 					if (obj.labelControl && !obj.hidden) {
 						obj.set('fill', Color.Opacity_GREEN);
 						if(obj.type != 'polygon'){
@@ -268,8 +290,11 @@ const init_event = function(__canvas__, popupControllers, label_select){
 						popupControllers.popup(obj);
 					}
 				}
-				else if(obj.name_id == 'icon'){
+				else if(obj.isIcon){
 					obj.object.visible = true;
+					if(obj.object.shapeflag) {
+						obj.object.shapeflag.visible = true;
+					}
 					popupControllers.popup(obj);
 				}
 			}
@@ -279,11 +304,14 @@ const init_event = function(__canvas__, popupControllers, label_select){
 			objectGlobal = null;
 			var obj = e.target;
 			try {
-				if (validObjectShape(obj)){
+				if (isLabel(obj)){
 					obj.set('fill', Color.Transparent);
 				}
-				else if(obj.name_id == 'icon'){
+				else if(obj.isIcon){
 					obj.object.visible = false;
+					if(obj.object.shapeflag) {
+						obj.object.shapeflag.visible = false;
+					}
 					if(group_control) {
 						group_control.style["display"] = "none";
 					}
@@ -296,7 +324,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 		},
 		'object:selected': function(e){
 			var obj = e.target;
-			if(validObjectShape(obj)){
+			if(isLabel(obj)){
 				objectGlobal = obj;
 				popupControllers.popup(obj);
 			}
@@ -332,7 +360,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 		},
 		'object:modified': function(e){
 			var obj = e.target;
-			if(validObjectShape(obj)){
+			if(isLabel(obj)){
 				
 				obj.icon.set({
 					left: obj.left + obj.width / 2,
