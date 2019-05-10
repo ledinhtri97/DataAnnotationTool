@@ -10,7 +10,7 @@ class PopupControllers{
 	}
 
 	popup = function(__obj__){
-		this.objshape = __obj__.name_id != 'icon' ? __obj__ : __obj__.object;
+		this.objshape = __obj__.isIcon ? __obj__.object : __obj__;
 
 		var group_control = document.getElementById("group_control");
 		var canPopup = !drawStatus.getIsDrawing() || (drawStatus.getIsWaiting() && drawStatus.getIsDrawing())
