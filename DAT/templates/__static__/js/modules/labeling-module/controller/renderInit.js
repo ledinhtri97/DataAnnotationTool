@@ -1,6 +1,6 @@
 import {fabric} from 'fabric';
 import {createItemToList} from "./label"
-import {configurePoly, configureRectangle} from '../drawer/polygon';
+import {configurePoly, configureRectangle, configureFlag} from '../drawer/polygon';
 import {Color} from "../style/color"
 
 function image_convert(img){
@@ -44,11 +44,10 @@ const create_shape = (bb, canvas) => {
 	shape.basicColor = bb.color;
 	shape.icon.fill = bb.color;
 	shape.flag = bb.flag;
-	shape.accept_report_flag = bb.accept_report_flag;
 	return shape;
 }
 
-const initMaintask = function(canvas, meta) {
+const initMaintask = function(canvas, meta, only_view=false) {
 	fabric.Image.fromURL(
 		meta.url_meta,
 		function(img) {
@@ -64,9 +63,9 @@ const initMaintask = function(canvas, meta) {
 			if(meta.status === 'OK'){
 				meta.boxes_position.forEach(function(bb){
 		            var shape = create_shape(bb, canvas);
+		            canvas.add(shape);
 		            canvas.renderAll();
-
-		            createItemToList(canvas, shape);
+		            if(!only_view) createItemToList(canvas, shape);
 	            });
 
 	            meta.predict.forEach(function(bb){
@@ -74,9 +73,14 @@ const initMaintask = function(canvas, meta) {
 		            shape.accuracy = bb.conf
 		            shape.accept_edit = bb.accept_edit;
 		            canvas.add(shape);
-		            canvas.renderAll();
 
-		            createItemToList(canvas, shape);
+		            if (!shape.accept_edit) {
+		            	var flag = configureFlag(shape);
+		            	canvas.add(flag);
+		            }
+
+		            canvas.renderAll();
+		            if(!only_view) createItemToList(canvas, shape);
 	            });  
 			}
 			
@@ -84,45 +88,4 @@ const initMaintask = function(canvas, meta) {
 	);
 };
 
-const renderBBS_RECT = function(canvas, bb){
-	var rect = configureRectangle(
-		bb[2]*canvas.getWidth(), 
-		bb[3]*canvas.getHeight(), 
-		(bb[4]-bb[2])*canvas.getWidth(),
-		(bb[5]-bb[3])*canvas.getHeight(),
-		bb[1], bb[0]);// __label_type__, __color__, __name__='', __accuracy__='1.0'
-	rect.set('stroke', Color.BLUE);
-	canvas.add(rect);
-	canvas.renderAll();
-	createItemToList(canvas, rect);
-	return rect;
-}
-
-const renderBBS_POLY = function(canvas, bb){
-
-	var polygon = configurePoly([
-	{
-		x: bb[2]*canvas.getWidth(),
-		y: bb[3]*canvas.getHeight()
-	},
-	{
-		x: bb[4]*canvas.getWidth(),
-		y: bb[5]*canvas.getHeight()
-	},
-	{
-		x: bb[6]*canvas.getWidth(),
-		y: bb[7]*canvas.getHeight()
-	},
-	{
-		x: bb[8]*canvas.getWidth(),
-		y: bb[9]*canvas.getHeight()
-	},
-	], __name__=bb[1], __accuracy__=bb[0]);
-	polygon.set('stroke', Color.BLUE);
-	canvas.add(polygon);
-	canvas.renderAll();
-	createItemToList(canvas, polygon);
-	return polygon;
-}
-
-export {initMaintask, renderBBS_RECT, renderBBS_POLY}
+export {initMaintask}
