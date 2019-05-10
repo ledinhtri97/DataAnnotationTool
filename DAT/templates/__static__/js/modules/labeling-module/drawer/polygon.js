@@ -8,7 +8,7 @@ const MAX = 999999;
 
 const configureCircle = function(__x__, __y__, __name__=''){
 	var circle = new fabric.Circle({
-		radius: 2,
+		radius: 6,
 		fill: Color.YELLOW,
 		left: __x__,
 		top: __y__,
@@ -16,6 +16,7 @@ const configureCircle = function(__x__, __y__, __name__=''){
 		hasControls: false,
 		originX:'center',
 		originY:'center',
+		strokeWidth: 4,
 		name:__name__,
 	});
 	return circle;
@@ -71,6 +72,7 @@ const configureRectangle = function (
 		flag:-1,
 		type_label: 'type_label',
 		accept_edit: true,
+		islabel: true,
 	});
 	
 	rect.setControlVisible('mtr', false);
@@ -83,8 +85,6 @@ const configureRectangle = function (
 
 	return rect;
 }
-
-
 
 const configurePoly = function(__points__, __name__='', __accuracy__='1.0', __circles__=[]){
 	
@@ -109,6 +109,7 @@ const configurePoly = function(__points__, __name__='', __accuracy__='1.0', __ci
 		flag:-1,
 		type_label: 'type_label',
 		accept_edit: true,
+		islabel: true,
 	});
 
 	var __left__ = polygon.left + polygon.width / 2;
@@ -134,11 +135,32 @@ const configureIconLabel = function(__left__, __top__, object){
 		originX:'center',
 		originY:'center',
 		object: object,
-		name_id: 'icon',
-
+		isIcon: true,
 	});
 	object.icon = icon;
 	return icon;
+}
+
+const configureFlag = function(master) {
+	var flag;
+	if (master.flag == 1) {
+		flag = configureRectangle(master.left-7, master.top-7, 14, 14);
+		flag.islabel = false;
+		flag.isflag = true;
+		flag.stroke = master.stroke;
+		flag.fill = Color.GREEN;
+		master.shapeflag = flag;
+	}
+	else if (master.flag == 0) {
+		flag = configureCircle(master.left, master.top);
+		flag.radius = 9;
+		flag.islabel = false;
+		flag.isflag = true;
+		flag.stroke = master.stroke;
+		flag.fill = Color.RED;
+		master.shapeflag = flag;
+	}
+	return flag;
 }
 
 class DrawPolygon{
@@ -219,14 +241,21 @@ class DrawPolygon{
 					drawer.activeShape = polygon;
 					drawer.canvas.add(polygon);
 				}
+
 				drawer.activeLine = line;
+				drawer.canvas.selection = false;
 
 				drawer.pointArray.push(circle);
 				drawer.lineArray.push(line);
 
 				drawer.canvas.add(line);
-				drawer.canvas.add(circle);
-				drawer.canvas.selection = false;
+
+				
+				if (drawer.typePoly != 'rect'){
+					drawer.canvas.add(circle);
+				}
+
+				return circle;
 			},
 			generatePolygon : function(pointArray){
 				var points = new Array();
@@ -254,7 +283,7 @@ class DrawPolygon{
 					
 					drawer.canvas.remove(drawer.rectangle);
 
-					if(__width__ > 15 && __height__ > 10){
+					if(__width__ > 13 && __height__ > 8){
 
 						var rect = configureRectangle(
 							__left__, __top__, __width__, __height__, namelabel) ;
@@ -262,17 +291,14 @@ class DrawPolygon{
 						drawer.canvas.add(rect);
 
 						createItemToList(drawer.canvas, rect);
-
 					}
 				}
 				else {
-
 					var polygon = configurePoly(points, namelabel)
 					polygon.type_label = drawer.typePoly;
 					drawer.canvas.add(polygon);
 					
 					createItemToList(drawer.canvas, polygon);
-					
 				}
 				
 				drawer.activeLine = null;
@@ -281,9 +307,6 @@ class DrawPolygon{
 				drawer.canvas.selection = true;
 				
 				drawer.canvas.renderAll();
-				
-				
-
 				drawer.startDraw();
 			}
 		};
@@ -296,7 +319,7 @@ class DrawPolygon{
 
 				if (drawer.typePoly == 'rect'){
 
-					drawer.polygon.addPoint(o);
+					var point = drawer.polygon.addPoint(o);
 
 					if (drawer.pointArray.length == 1){
 
@@ -316,8 +339,12 @@ class DrawPolygon{
 							);
 
 						drawer.lineArray.push(line);
-						drawer.canvas.add(line);
+						
 						drawer.canvas.add(drawer.rectangle);
+
+						drawer.canvas.add(line);
+						drawer.canvas.add(point);
+
 					}
 					if (drawer.pointArray.length == 2){
 						drawer.polygon.generatePolygon(drawer.pointArray);
@@ -357,7 +384,6 @@ class DrawPolygon{
 
 			if(drawer.activeLine && drawer.activeLine.class == "line"){
 
-				// drawStatus.setIsDrawing(true);
 				drawStatus.setIsWaiting(false);
 				
 				var pointer = drawer.canvas.getPointer(o.e);
@@ -369,31 +395,38 @@ class DrawPolygon{
 					y:pointer.y
 				}
 				if(drawer.typePoly=='quad' && drawer.pointArray.length == 3){
-					drawer.finalLineActive.set({ x2: pointer.x, y2: pointer.y })
+					drawer.finalLineActive.set({ x2: pointer.x, y2: pointer.y });
+					drawer.canvas.renderAll();
 				}
 				else if (drawer.typePoly == 'rect' && drawer.pointArray.length == 1){
 
-					if(drawer.origX>pointer.x){
+					if(drawer.origX > pointer.x){
 						drawer.rectangle.set({ left: Math.abs(pointer.x) });
 					}
-					if(drawer.origY>pointer.y){
+					else {
+						drawer.rectangle.set({ left: drawer.origX });
+					}
+
+					if(drawer.origY > pointer.y){
 						drawer.rectangle.set({ top: Math.abs(pointer.y) });
+					}
+					else {
+						drawer.rectangle.set({ top: drawer.origY });
 					}
 
 					drawer.rectangle.set({ width: Math.abs(drawer.origX - pointer.x) });
 					drawer.rectangle.set({ height: Math.abs(drawer.origY - pointer.y) });
+					drawer.canvas.renderAll();
 				}
 				drawer.activeShape.set({
 					points: points
 				});
-				drawer.canvas.renderAll();
+				
 			}
-			drawer.canvas.renderAll();
 		}
 
 		drawer.mouseUp= function(o){
 			if(drawer.activeLine == null){
-				// drawStatus.setIsDrawing(false);
 				drawStatus.setIsWaiting(true);
 			}
 		}
@@ -433,4 +466,4 @@ class DrawPolygon{
 	}
 }
 
-export {configureCircle, configureLine, configureRectangle, configurePoly, DrawPolygon};
+export {configureFlag, configureCircle, configureLine, configureRectangle, configurePoly, DrawPolygon};
