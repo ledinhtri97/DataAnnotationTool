@@ -161,7 +161,7 @@ class TemporaryDrawerSettings extends React.Component {
 				this.setState({size_icon: val});
 
 				canvas.getObjects().forEach(function(obj){
-					if(obj.name_id == 'icon'){
+					if(obj.isIcon){
 						obj.set('radius', parseInt(val));
 					}
 				});
