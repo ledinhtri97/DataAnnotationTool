@@ -20,6 +20,7 @@ class AlertDialog extends React.Component {
   handleRequest = () => {
     this.setState({ open: false });
     var request = this.props.request;
+    if (request == 'warning_label') return;
     if (request == 'rqacceptcontrib') {
       rqacceptcontrib(this.props.accept_url, this.props.contribute_url);
     }
