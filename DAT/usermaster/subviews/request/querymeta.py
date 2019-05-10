@@ -12,6 +12,7 @@ def get_fake_api(meta, api_ref):
     except:
         try:
             if api_ref.public_api_url != "https://api_name_public/":
+                print(api_ref.public_api_url)
                 r = requests.post(api_ref, files=files, verify=False)
             #print("try 2:", api_ref.public_api_url)
         except Exception as e:
@@ -47,6 +48,7 @@ def get_fake_api(meta, api_ref):
 def query_meta(meta, api_reference):
 
     data = {
+        'id': meta.id,
         'name': meta.get_abs_origin(),
         'url_meta': meta.get_url_meta(),
         'boxes_position': [
@@ -62,15 +64,41 @@ def query_meta(meta, api_reference):
     }
 
     if not meta.is_reference_api:
+
+        data ['predict'] = [
+            {
+                'tag_label': 'label_low',
+                'type_label': 'rect',
+                'color': '#F0F0F0',
+                'flag': 1,
+                'accept_report_flag': False,
+                'position': '0.34,0.35,0.45,0.53',
+                'conf': 0.45,
+                'accept_edit': True,
+            },
+            {
+                'tag_label': 'label_hight',
+                'type_label': 'rect',
+                'color': '#4285F4',
+                'flag': 1,
+                'accept_report_flag': False,
+                'position': '0.54,0.35,0.75,0.63',
+                'conf': 0.95,
+                'accept_edit': False,
+            }
+        ]
+
+        data['predict'] = []
+
         data['predict'] = sum([
             get_fake_api(meta, api_ref) for api_ref in api_reference.all()
         ], [])
         
         if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
-            data['status'] = 'failed'
+            data['status'] = 'FAILED'
         else:
-            meta.is_reference_api = 1
-            meta.save(update_fields=['is_reference_api'])
+            #meta.is_reference_api = 1
+            #meta.save(update_fields=['is_reference_api'])
             data['status'] = 'OK'
 
     return data

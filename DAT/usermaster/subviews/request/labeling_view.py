@@ -32,7 +32,7 @@ def get_query_meta_general(dataset_id=None, user=None):
 
 
 def handle_metadata_before_release(meta_data, user):
-  print(meta_data.onviewing_user)
+  
   if(not meta_data.onviewing_user):
     #print("no one view, now add", user)
     try:
@@ -84,10 +84,9 @@ def savenext_index(request, metaid):
     user = request.user
     
     for bb in current_meta_data.boxes_position.all():
-      print(bb)
+      print('old: ', bb)
       bb.delete()
 
-    print(body_unicode)
     for bb in body_unicode.split('\n')[:-1]:
       bb = bb.split(',')
       new_bb, created = BoundingBoxModel.objects.get_or_create(
@@ -113,7 +112,7 @@ def savenext_index(request, metaid):
   workspace = WorkSpaceUserModel.objects.get(dataset=meta.dataset)
 
   data = {}
-
+  print('meta: ', meta)
   if meta:
     data = query_meta(meta, workspace.api_reference)
 

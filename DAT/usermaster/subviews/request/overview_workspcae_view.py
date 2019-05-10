@@ -27,7 +27,7 @@ def get_meta_overview(request, mtid):
 
     if meta:
         data = query_meta(meta, workspace.api_reference)
-
+        
         if label_select == 'true':
             data['label_select'] = [
                     {
