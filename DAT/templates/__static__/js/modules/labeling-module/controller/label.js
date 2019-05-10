@@ -6,6 +6,18 @@ import {fabric} from "fabric";
 import {drawPoly, quickSettings} from "../../../labeling";
 import {configureCircle, configurePoly} from "../drawer/polygon";
 import {Color} from "../style/color"
+import AlertDialog from "../../../materialui/dialog";
+
+const alertWarning = () => {
+	var dialog = document.getElementById('dialog');
+
+	if(dialog && quickSettings.getAtt('ask_dialog')){
+		ReactDOM.unmountComponentAtNode(dialog);
+		var message = "This shape is blocked! you can not edit this shape!, let's flag (F keyboard) to mark if this is false predict. (square shape means: right predict, circle shape means: false predict)";
+		var request = "warning_label";
+		ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
+	}
+}
 
 class LabelControl{
 
@@ -18,14 +30,16 @@ class LabelControl{
 	}
 
 	circlesHandle(){
+		var idx = this.canvas.getObjects().indexOf(this.obj);
 
 		this.canvas.remove(this.obj);
 
-		this.obj = configurePoly(this.obj.points, this.obj.name, '1.0', this.obj.circles);
+		var new_poly = configurePoly(this.obj.points, this.obj.name, '1.0', this.obj.circles);
+		
+		this.obj = new_poly;
+		this.obj.labelControl = this;
 
-		this.obj.set('stroke', Color.RED)
-
-		this.canvas.add(this.obj);
+		this.canvas.insertAt(this.obj, idx);
 
 		this.canvas.renderAll();
 	}
@@ -57,6 +71,9 @@ class LabelControl{
 		if(checkbox_hidden){
 			this.obj.setColor(Color.Transparent);
 			this.obj.visible = !checkbox_hidden.checked;
+			if(this.obj.shapeflag) {
+				this.obj.shapeflag.visible = !checkbox_hidden.checked;
+			}
 			this.obj.hidden = checkbox_hidden.checked;
 			if(checkbox_hidden.checked) {
 				this.__editITEM__(false); 
@@ -71,7 +88,7 @@ class LabelControl{
 
 	__editITEM__(__default__=true){
 		if (this.obj.accept_edit == false && __default__) {
-			alert("This shape is blocked! you can not edit this shape!, let flag (F keyboard) to mark it false predict");
+			alertWarning();
 			return;
 		}
 		var __canvas__ = this.canvas;
@@ -82,12 +99,18 @@ class LabelControl{
 		
 		if(current_element){
 			this.obj.selectable = lbc.edit;
+
 			if (lbc.edit) {
 				if(this.obj.type == 'rect'){
 					this.obj.set('stroke', Color.RED);
 					__canvas__.setActiveObject(this.obj);
 				}
 				drawPoly.endDraw();
+				setTimeout(function() { //auto set block edit after 10s
+					lbc.obj.selectable = lbc.edit = false;
+					lbc.obj.set('stroke', lbc.obj.basicColor);
+					__canvas__.renderAll();
+				}, 10000);
 			}
 			else{
 				lbc.obj.set('stroke', lbc.obj.basicColor);
@@ -98,12 +121,12 @@ class LabelControl{
 				this.obj.selectable = false;
 				if(lbc.edit){
 
-					lbc.obj.set('stroke', Color.RED);
+					// lbc.obj.set('stroke', Color.RED);
 
 					lbc.obj.points.forEach(function(point, index) {
 
 						var circle = configureCircle(point.x, point.y, index);
-
+						circle.radius = 10;
 						circle.on('moving', function(){
 							var p = circle;
 							var i = parseInt(p.name);
@@ -120,11 +143,12 @@ class LabelControl{
 					});
 				}
 				else{
-					lbc.obj.set('stroke', lbc.obj.basicColor);
+					// lbc.obj.set('stroke', lbc.obj.basicColor);
 					lbc.obj.circles.forEach(function(c){
 						__canvas__.remove(c);
 					});
 					lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
+					__canvas__.renderAll();
 				}
 			}
 			__canvas__.renderAll();
@@ -133,7 +157,7 @@ class LabelControl{
 
 	__deleteITEM__(){
 		if (this.obj.accept_edit == false) {
-			alert("This shape is blocked! you can not delete this shape! let flag (F keyboard) to mark it false predict");
+			alertWarning();
 			return;
 		}
 		var lbc = this;
