@@ -26,6 +26,7 @@ const styles = theme => ({
   },
   table: {
     minWidth: 300,
+    
   },
   row: {
     '&:nth-of-type(odd)': {

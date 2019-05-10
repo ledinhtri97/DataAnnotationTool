@@ -67,7 +67,7 @@ class SubmittedTable extends React.Component {
 
   handleView = (url_meta) => {
     var dialog_view = document.getElementById("dialog_view");
-    fetch(url_meta, {})
+    fetch(url_meta+'?only_view=true', {})
       .then(response => {
           if(response.status !== 200){
             return "FAILED";
@@ -89,7 +89,7 @@ class SubmittedTable extends React.Component {
               uniScaleTransform: true,
             });
 
-            initMaintask(canvas, meta);
+            initMaintask(canvas, meta, true);
         }
       });
   };

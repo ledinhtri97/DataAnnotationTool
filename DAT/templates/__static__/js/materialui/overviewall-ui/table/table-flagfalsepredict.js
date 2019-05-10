@@ -64,6 +64,36 @@ class FlagFalsePredictTable extends React.Component {
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
 
+  handleView = (url_meta) => {
+    var dialog_view = document.getElementById("dialog_view");
+    fetch(url_meta+'?only_view=true', {})
+      .then(response => {
+          if(response.status !== 200){
+            return "FAILED";
+          }
+          return response.json();
+        }
+      ).then(meta => {
+          if(meta === "FAILED") return;
+          
+          if(dialog_view){
+            ReactDOM.unmountComponentAtNode(dialog_view);
+            ReactDOM.render(
+              <AlertDialogView name={meta.name}/>, dialog_view
+            );
+
+            const canvas = new fabric.Canvas('canvas', {
+              hoverCursor: 'pointer',
+              selection: true,
+              backgroundColor: null,
+              uniScaleTransform: true,
+            });
+
+            initMaintask(canvas, meta, true);
+        }
+      });
+  };
+
   render() {
     const self_table = this;
     const { classes, flaged } = this.props;
