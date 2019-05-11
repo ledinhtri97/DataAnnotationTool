@@ -14,9 +14,9 @@ from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
 
 class BoundingBoxModel(models.Model):
 
-    CREATED = -1
-    FALSE_POSITIVE = 0
-    TRUE_POSITIVE = 1
+    CREATED = '-1'
+    FALSE_POSITIVE = '0'
+    TRUE_POSITIVE = '1'
 
     TYPE_FLAG_CHOICES = (
         (CREATED, 'User created'), #alway FALSE_NEGATIVE
