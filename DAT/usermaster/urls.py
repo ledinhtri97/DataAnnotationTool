@@ -19,10 +19,13 @@ urlpatterns = [
     path('contribute-upload/<int:contributeid>/', contribute_view.index, name='contribute_upload'),
 
     path('ws-<int:id>/', LabelingView.as_view(), name='maintask'),
+    path('api_reference/<int:metaid>/'+settings.SLUG_API_URL,
+         labeling_view.api_reference_index, name='api_reference'),
     path('next/<int:metaid>/', labeling_view.next_index, name='next'),
     path('savenext/<int:metaid>/', labeling_view.savenext_index, name='savenext'),
     
     path('outworkspace/<int:metaid>/', labeling_view.outws_index, name='outws'),
+    
 
     path('savesettings/', saveseting_index, name='savesettings'),
     path('settings/'+settings.SLUG_API_URL, get_data_settings),

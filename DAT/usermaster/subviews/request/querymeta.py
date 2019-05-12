@@ -3,18 +3,19 @@ import requests
 def get_fake_api(meta, api_ref):
 
     files = {'image': open(meta.get_full_origin(), 'rb')}
-
-    #print('haha', files)
+    data = [{}]
+    
     try:
         #print("try 1:", api_ref.local_api_url)
-        r = requests.post(api_ref.local_api_url, files=files, verify=False)
-        
+        r = requests.post(api_ref.local_api_url, files=files,
+                          verify=False)
     except:
         try:
             if api_ref.public_api_url != "https://api_name_public/":
                 print(api_ref.public_api_url)
-                r = requests.post(api_ref, files=files, verify=False)
-            #print("try 2:", api_ref.public_api_url)
+                r = requests.post(api_ref.public_api_url,
+                                  files=files, verify=False)
+            print("try 2:", r)
         except Exception as e:
             r = None
             data = [{'error': str(e)}]
@@ -35,17 +36,60 @@ def get_fake_api(meta, api_ref):
                 } for lb in json_data['data']['boxes']
             ]
 
-
-            
         except Exception as e:
             print(e)
             data = [{'error': json_data}]
         #{'data':{'boxes':[{'conf', 'label', 'xmax', 'ymax', 'xmin', 'ymin'}], '...parameters'}
-
+    print(data)
     return data
 
 
-def query_meta(meta, api_reference):
+fake = [
+    {
+        'tag_label': 'label_low',
+        'type_label': 'rect',
+        'color': '#F0F0F0',
+        'flag': 1,
+        'accept_report_flag': False,
+        'position': '0.34,0.35,0.45,0.53',
+        'conf': 0.45,
+        'accept_edit': True,
+    },
+    {
+        'tag_label': 'label_hight',
+        'type_label': 'rect',
+        'color': '#4285F4',
+        'flag': 1,
+        'accept_report_flag': False,
+        'position': '0.54,0.35,0.75,0.63',
+        'conf': 0.95,
+        'accept_edit': False,
+    }
+]
+
+
+def query_meta_reference(meta, api_reference):
+    data = {}
+    
+    if len(api_reference.all()) and not meta.is_reference_api:
+        data['predict'] = fake
+        # data['predict'] = []
+        data['predict'] = sum([
+            get_fake_api(meta, api_ref) for api_ref in api_reference.all()
+        ], [])
+
+        if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
+            data['status'] = 'FAILED'
+        else:
+            #meta.is_reference_api = 1
+            #meta.save(update_fields=['is_reference_api'])
+            data['status'] = 'OK'
+    else:
+        data['status'] = 'OK'
+    
+    return data
+
+def query_meta(meta):
 
     data = {
         'id': meta.id,
@@ -60,45 +104,8 @@ def query_meta(meta, api_reference):
                 'accept_report_flag': bb.accept_report_flag,
                 'position': bb.position,
             } for bb in meta.boxes_position.all()
-        ]
+        ],
+        'status': 'OK',
     }
-
-    if not meta.is_reference_api:
-
-        data ['predict'] = [
-            {
-                'tag_label': 'label_low',
-                'type_label': 'rect',
-                'color': '#F0F0F0',
-                'flag': 1,
-                'accept_report_flag': False,
-                'position': '0.34,0.35,0.45,0.53',
-                'conf': 0.45,
-                'accept_edit': True,
-            },
-            {
-                'tag_label': 'label_hight',
-                'type_label': 'rect',
-                'color': '#4285F4',
-                'flag': 1,
-                'accept_report_flag': False,
-                'position': '0.54,0.35,0.75,0.63',
-                'conf': 0.95,
-                'accept_edit': False,
-            }
-        ]
-
-        data['predict'] = []
-
-        data['predict'] = sum([
-            get_fake_api(meta, api_ref) for api_ref in api_reference.all()
-        ], [])
-        
-        if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
-            data['status'] = 'FAILED'
-        else:
-            #meta.is_reference_api = 1
-            #meta.save(update_fields=['is_reference_api'])
-            data['status'] = 'OK'
 
     return data
