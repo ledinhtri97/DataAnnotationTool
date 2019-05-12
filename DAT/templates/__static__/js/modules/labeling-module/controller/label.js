@@ -205,6 +205,12 @@ const createItemToList = function(canvas, object){
 		var e_hidden = document.getElementById(object.labelControl.getId()+"_hidden");
 		e_hidden && e_hidden.click();
 	}
+	else {
+		setTimeout(function(){
+			var e_hidden = document.getElementById(object.labelControl.getId()+"_hidden");
+			e_hidden && e_hidden.click();
+		}, 5000);
+	}
 }
 
 export {LabelControl, createItemToList};

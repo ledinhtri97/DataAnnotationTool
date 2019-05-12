@@ -79,7 +79,7 @@ class DrawStatus{
 			this.idTool = __idTool__;
 			this.namelabel = namelabel;
 		}
-		var currentTool = document.getElementById(this.idTool);
+		var currentTool = document.getElementById(this.idTool+'_label');
 		document.getElementById("label").textContent = this.namelabel;
 		if (currentTool) currentTool.style['backgroundColor'] = "#ADE4FF";
 	}
@@ -87,7 +87,7 @@ class DrawStatus{
 	stopDrawStatus(){
 		this.isDrawing = false;
 		this.isWaiting = false;
-		var currentTool = document.getElementById(this.idTool);
+		var currentTool = document.getElementById(this.idTool+'_label');
 		document.getElementById("label").textContent = "NO LABEL";
 		if (currentTool) currentTool.style['backgroundColor'] = "#FFFFFF";
 	}

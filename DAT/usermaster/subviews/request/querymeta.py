@@ -1,5 +1,6 @@
 import requests
-
+#widget = Widget.objects.get(id=18)
+#next_widget = Widget.objects.filter(id__gt=widget.id).order_by('id').first()
 def get_fake_api(meta, api_ref):
 
     files = {'image': open(meta.get_full_origin(), 'rb')}
@@ -74,9 +75,9 @@ def query_meta_reference(meta, api_reference):
     if len(api_reference.all()) and not meta.is_reference_api:
         data['predict'] = fake
         # data['predict'] = []
-        data['predict'] = sum([
-            get_fake_api(meta, api_ref) for api_ref in api_reference.all()
-        ], [])
+        # data['predict'] = sum([
+        #     get_fake_api(meta, api_ref) for api_ref in api_reference.all()
+        # ], [])
 
         if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
             data['status'] = 'FAILED'
