@@ -14,7 +14,8 @@ class WorkSpaceUserForm(forms.ModelForm):
       def generate_settings(self, users):
      
             setts = json.dumps({
-                  'show_popup': 'false',
+                  'show_popup': 'true',
+                  'show_label': 'true',
                   'auto_hidden': 'false',
                   'ask_dialog': 'true',
                   'color_background': 'true',

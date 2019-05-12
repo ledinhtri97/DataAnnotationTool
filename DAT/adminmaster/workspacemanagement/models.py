@@ -10,7 +10,7 @@ class WorkSpaceUserModel(models.Model):
    
    user = models.ManyToManyField('auth.user', blank=True)
 
-   dataset = models.OneToOneField(DataSetModel,  on_delete=models.CASCADE)
+   dataset = models.OneToOneField(DataSetModel, on_delete=models.CASCADE)
 
    api_reference = models.ManyToManyField(ApiReferenceModel, blank=True)
 
