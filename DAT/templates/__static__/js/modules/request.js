@@ -1,4 +1,4 @@
-import {initMaintask} from "./labeling-module/controller/renderInit";
+import {initCanvas, initPredict} from "./labeling-module/controller/renderInit";
 import ReactDOM from "react-dom";
 import React, {Component} from "react";
 import Cookie from 'js-cookie';
@@ -7,6 +7,7 @@ import {outWorkSpace, ask_before_out} from "./dat-utils"
 import {drawPoly} from "../labeling"
 
 var label = document.getElementById("label");
+const ROUND = 100000;
 
 const nomoredata_handle =  function(){
 
@@ -33,17 +34,17 @@ const rqsavenext = function(meta_id, canvas){
 				item.name,
 				item.type_label,
 				item.flag,
-				item.left / canvas.getWidth(),
-				item.top / canvas.getHeight(),
-				(item.left + item.width) / canvas.getWidth(),
-				(item.top + item.height) / canvas.getHeight()
+				Math.round(item.left * ROUND / canvas.getWidth()) / ROUND,
+				Math.round(item.top * ROUND / canvas.getHeight()) / ROUND,
+				Math.round((item.left + item.width) * ROUND / canvas.getWidth()) / ROUND,
+				Math.round((item.top + item.height) * ROUND / canvas.getHeight()) / ROUND,
 				].join(',') + '\n';
 			}
 			else if(item.type == 'polygon'){
 				var bb = [item.name, item.type_label, item.flag];
 				for (var p of item.points){
-					bb.push(p.x / canvas.getWidth());
-					bb.push(p.y / canvas.getHeight());
+					bb.push(Math.round(p.x * ROUND / canvas.getWidth()) / ROUND);
+					bb.push(Math.round(p.y * ROUND / canvas.getHeight()) / ROUND);
 				}
 				myData += bb.join(',') + '\n';
 			}
@@ -72,13 +73,24 @@ const rqsavenext = function(meta_id, canvas){
 
 			canvas.clear();
 
-			initMaintask(canvas, metadata);
+			initCanvas(canvas, metadata);
 			
 			if(label.textContent != "NO LABEL"){
-				
 				reset_when_go();
 				drawPoly.startDraw();
 			}
+			
+			fetch('/gvlab-dat/workspace/api_reference/'+metadata.id+'/api-get-data/', {})
+			.then(response => {
+				if(response.status !== 200){
+					return "FAILED";
+				}
+					return response.json();
+				}
+			).then(meta => {
+			if(meta === "FAILED") return;
+				initPredict(canvas, meta);
+			});
 
 		}
 	}).catch(function(ex) {
@@ -105,13 +117,24 @@ const rqnext = function(meta_id, canvas){
 
 			canvas.clear();
 
-			initMaintask(canvas, metadata);
+			initCanvas(canvas, metadata);
 			
 			if(label.textContent!="NO LABEL"){
-				
 				reset_when_go();
 				drawPoly.startDraw();
 			}
+
+			fetch('/gvlab-dat/workspace/api_reference/'+metadata.id+'/api-get-data/', {})
+			.then(response => {
+				if(response.status !== 200){
+					return "FAILED";
+				}
+					return response.json();
+				}
+			).then(meta => {
+			if(meta === "FAILED") return;
+				initPredict(canvas, meta);
+			});
 
 		}
 
