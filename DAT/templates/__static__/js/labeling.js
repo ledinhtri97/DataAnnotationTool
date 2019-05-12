@@ -9,7 +9,7 @@ import ToolListItems from './materialui/labeling-ui/listitem/toolListItems';
 
 import {outWorkSpace} from "./modules/dat-utils";
 import {rqnext, rqsavenext} from  "./modules/request"
-import {initMaintask} from "./modules/labeling-module/controller/renderInit"
+import {initCanvas, initPredict} from "./modules/labeling-module/controller/renderInit"
 import {init_event} from "./modules/labeling-module/event"
 import {PopupControllers} from "./modules/labeling-module/controller/popup";
 import {DrawPolygon} from "./modules/labeling-module/drawer/polygon"
@@ -37,8 +37,6 @@ const group_control =  document.getElementById("group_control");
 const meta_id = document.getElementById("meta_id");
 const skip_next = document.getElementById("skip_next");
 const save_next = document.getElementById("save_next");
-const stop_draw = document.getElementById("stop_draw");
-const stop_mode = document.getElementById("stop_mode");
 const drawStatus = new DrawStatus();
 const drawPoly = new DrawPolygon(canvas);
 const popupControllers = new PopupControllers(canvas); 
@@ -57,17 +55,36 @@ if(labeling){
 
 		if(meta === "FAILED") return;
 
-		initMaintask(canvas, meta);
+		initCanvas(canvas, meta);
+		
+		fetch('/gvlab-dat/workspace/api_reference/'+meta_id.textContent+'/api-get-data/', {})
+		.then(response => {
+			if(response.status !== 200){
+				return "FAILED";
+			}
+				return response.json();
+			}
+		).then(meta => {
+		if(meta === "FAILED") return;
+			setTimeout(function(){initPredict(canvas, meta)}, 100);
+		});
+
 		init_event(canvas, popupControllers, meta.label_select);
 
 		const tools_list_items = document.getElementById("tools_list_items");
-		tools_list_items && ReactDOM.render(<ToolListItems label_select={meta.label_select} drawPoly={drawPoly}/>, 
+		tools_list_items && ReactDOM.render(<ToolListItems 
+			label_select={meta.label_select} 
+			drawPoly={drawPoly} 
+			drawStatus={drawStatus}
+			quickSettings={quickSettings}/>, 
 			tools_list_items);
 
 		const keyboard = document.getElementById("keyboard");
 		keyboard && ReactDOM.render(<TemporaryDrawerInstruction label_select={meta.label_select}/>, keyboard);
 
 	});
+
+	
 }
 
 //=====================CONTROLER=======================//
@@ -90,18 +107,6 @@ if(skip_next) {
 
 if(save_next) {
 	save_next.addEventListener('click', () => controllerRequest('rqsavenext'));
-}
-
-if(stop_draw){
-	stop_draw.addEventListener('click', (event) => {
-		if(drawStatus.getIsDrawing()){
-			document.getElementById("stop_mode").textContent = "Stop labeling mode";
-			drawPoly.endDraw();
-		}
-		else{
-			document.getElementById("stop_mode").textContent = "You are not in labeling mode";
-		}
-	}, false);
 }
 
 export {quickSettings, drawStatus, drawPoly, controllerRequest}
