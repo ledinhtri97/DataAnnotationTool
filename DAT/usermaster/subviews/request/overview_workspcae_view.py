@@ -19,14 +19,14 @@ class OverViewWorkspaceView(generics.RetrieveAPIView):
 def get_meta_overview(request, mtid):
 
     label_select = request.GET.get('label_select', '')
+    #only_view = request.GET.get('only_view', '')
 
     meta = MetaDataModel.objects.filter(id=mtid).first()
-    workspace = WorkSpaceUserModel.objects.filter(dataset=meta.dataset).first()
-
+    
     data = {}
 
     if meta:
-        data = query_meta(meta, workspace.api_reference)
+        data = query_meta(meta)
         
         if label_select == 'true':
             data['label_select'] = [
@@ -43,7 +43,9 @@ def get_meta_overview(request, mtid):
     return JsonResponse(data=data)
 
 def get_data_overview_workspace(request, wsid):
-    workspace = WorkSpaceUserModel.objects.filter(id=wsid).first()
+
+    workspace = WorkSpaceUserModel.objects.get(dataset=wsid)
+    
     data = {}
     if workspace:
         dataset = workspace.dataset
@@ -61,29 +63,30 @@ def get_data_overview_workspace(request, wsid):
 
         #if normal user blabla else if admin blabla
         data = {
+            'url_join': '/gvlab-dat/workspace/ws-{}/'.format(dataset.id),
             'total': {
                 'submitted': metadatas.filter(is_annotated=True).count(),
                 'remaining': remaining,
                 'skipped': metadatas.exclude(skipped_by_user__isnull=True).count(),
-                'labels_created': metadatas.filter(boxes_position__flag=-1).count(),
+                'labels_created': metadatas.filter(boxes_position__flag='-1').count(),
                 'complete': round((total - remaining) * 100 / total, 2),
             },
             'user': {
                 'submitted': metadatas.filter(submitted_by_user=user).count(),
                 'available': not_submitted + needreview,
                 'skipped': metadatas.filter(skipped_by_user=user).count(),
-                'labels_created': metadatas.filter(submitted_by_user=user, boxes_position__flag=-1).count(),
+                'labels_created': metadatas.filter(submitted_by_user=user, boxes_position__flag='-1').count(),
                 'flag_false_predict': {
-                    'mark': metadatas.filter(submitted_by_user=user, boxes_position__flag=0).count(),
-                    'accepted': metadatas.filter(submitted_by_user=user, boxes_position__flag=0, boxes_position__accept_report_flag=1).count(),
+                    'mark': metadatas.filter(submitted_by_user=user, boxes_position__flag='0').count(),
+                    'accepted': metadatas.filter(submitted_by_user=user, boxes_position__flag='0', boxes_position__accept_report_flag=1).count(),
                 }
             },
             'objects': [
                 {
                     'name': label.tag_label,
                     'total': metadatas.filter(boxes_position__label=label).count(),
-                    'user': metadatas.filter(submitted_by_user=user, boxes_position__label=label, boxes_position__flag=-1).count(),
-                    'predict': metadatas.filter(boxes_position__label=label, boxes_position__flag=1).count(),
+                    'user': metadatas.filter(submitted_by_user=user, boxes_position__label=label, boxes_position__flag='-1').count(),
+                    'predict': 0,
                 } for label in dataset.labels.all()
             ],
             'submitted': [
@@ -110,10 +113,10 @@ def get_data_overview_workspace(request, wsid):
                     'url_meta': meta.get_url_api(),
                     'meta_name': meta.get_abs_origin(),
                     'last_date_update': meta.history.first().history_date,
-                    'flag_count': 'sss',
+                    'flag_count': meta.boxes_position.filter(flag='0').count(),
                     'label_count': meta.boxes_position.count(),
                     'view': meta.is_allow_view,
-                } for meta in metadatas.filter(submitted_by_user=user, boxes_position__flag=0).all()
+                } for meta in metadatas.filter(submitted_by_user=user, boxes_position__flag='0').distinct()
             ],
             'notice_review': [
                 {
@@ -128,5 +131,8 @@ def get_data_overview_workspace(request, wsid):
             ],
         }
         
+        for obj in data['objects']:
+            obj['predict'] = obj['total'] - obj['user']
+
     return JsonResponse(data=data)
 
