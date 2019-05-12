@@ -68,6 +68,11 @@ class Labeling extends React.Component {
 		something: null,
 	};
 
+	contextMenu = function(e) {
+    	e.preventDefault();
+    	return false;
+	};
+
 	render() {
 
 		const { classes } = this.props;
@@ -76,15 +81,17 @@ class Labeling extends React.Component {
 			<main className={classes.content}>
 			
 			<div className={classes.firstcontainer}>
-				<div className={classes.secondcontainer} id="cvcontainer">
+				<div className={classes.secondcontainer} id="cvcontainer" onContextMenu={this.contextMenu}>
 					<canvas id="canvas" className={classes.canvas}></canvas>
 					<div id="group_control" style={{display: 'none', position: 'absolute',}}>
 						{<label id="label_popup" className={classes.label}></label>}
 						{<label id="accuracy_popup" className={classes.label}></label>}
 					</div>
+					<div id="image_zoom" style={{display: 'none', position: 'absolute',}}></div>
 				</div>
 				<div className={classes.hidden}>
 					<span id="show_popup"></span>
+					<span id="show_label"></span>
 					<span id="auto_hidden"></span>
 					<span id="ask_dialog"></span>
 					<span id="color_background"></span>
