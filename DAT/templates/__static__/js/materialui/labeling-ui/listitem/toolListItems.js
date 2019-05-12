@@ -64,10 +64,8 @@ class ToolListItems extends React.Component {
         messageInfo: {},
     };
 
-    handleClick = message => () => {
-        if(message == 'stop'){
-            message = document.getElementById("stop_mode").textContent;
-        }
+    handleClick = (message) => {
+
         this.queue.push({message, key: new Date().getTime(),});
 
         if (this.state.open) {
@@ -95,14 +93,35 @@ class ToolListItems extends React.Component {
     };
 
     render() {
-        const { classes, label_select, drawPoly } = this.props;
+        const { classes, label_select, drawPoly, drawStatus, quickSettings } = this.props;
         const { messageInfo } = this.state;
         const tool = this;
 
         return(
             <div>
 
-            <div id="stop_draw" onClick={tool.handleClick('stop')}>
+            <div id="stop_draw" onClick={function(e){
+
+                var isDrawing = drawStatus.getIsDrawing();
+                var isWaiting = drawStatus.getIsWaiting();
+                
+                if(quickSettings.getAtt('show_popup')){
+                    if(isDrawing){
+                        tool.handleClick("Stop labeling mode");
+                    }
+                    else{
+                        tool.handleClick("You are not in labeling mode");
+                    } 
+                }
+
+                if(isDrawing && isWaiting){
+                    drawPoly.endDraw();
+                }
+                else{
+                    drawPoly.quickDraw();
+                }
+                
+            }}>
             <ListItem button>
             <Tooltip title="Stop Drawing" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
             <ListItemIcon className={classes.icon}>
@@ -117,12 +136,15 @@ class ToolListItems extends React.Component {
                 label_select.map(function(lb, key) {
                     var labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
                     var labeltype = lb.type_label.charAt(0).toUpperCase() + lb.type_label.slice(1);
-                    var message = "Drawing " + labelname + " by " + (lb.type_label =='rect' ? "rectangle" : "polygon") + " shape";
                     return (
-                        <div id={lb.id} key={key} onClick={function(e){
-                                tool.handleClick(message);
+                        <div id={lb.id+'_label'} key={key} onClick={function(e){
                                 drawPoly.setType(lb.type_label);
                                 drawPoly.startDraw(lb.id, lb.tag_label);
+                                
+                                if(quickSettings.getAtt('show_popup')){
+                                    tool.handleClick("Drawing " + labelname + " by " + (lb.type_label =='rect' ? "rectangle" : "polygon") + " shape");
+                                }
+                                
                             }}>
                         <ListItem button>
                         <Tooltip title={labelname + " | " + labeltype} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
