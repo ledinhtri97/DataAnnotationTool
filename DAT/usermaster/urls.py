@@ -14,7 +14,7 @@ from usermaster.subviews.request import overview_workspcae_view as owv
 urlpatterns = [
     
     path('', WorkspaceView.as_view(), name='workspace'),
-    
+
     path('contribute/', ContributeView.as_view(), name='contribute'),
     path('contribute-upload/<int:contributeid>/', contribute_view.index, name='contribute_upload'),
 

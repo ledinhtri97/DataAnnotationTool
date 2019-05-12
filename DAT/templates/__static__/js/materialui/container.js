@@ -210,6 +210,18 @@ class MenuAppBar extends React.Component {
 			window.location.href = url_home;
 		}
 	};
+
+	handlePassword = () => {
+		this.setState({ anchorEl: null });
+		var meta_id = document.getElementById("meta_id");
+		var url_changepass = document.getElementById("url_changepass").textContent;
+		if(meta_id){
+			outWorkSpace(meta_id.textContent, url_changepass);
+		}
+		else{
+			window.location.href = url_changepass;
+		}
+	};
 	
 	handleLogout = () => {
 		this.setState({ anchorEl: null });
@@ -303,6 +315,7 @@ class MenuAppBar extends React.Component {
 			>
 		{/*<MenuItem onClick={this.handleClose}>Profile</MenuItem>*/}
 		<MenuItem onClick={this.handleWorkspace}>Main Workspace</MenuItem>
+		<MenuItem onClick={this.handlePassword}>Change Password</MenuItem>
 		<MenuItem onClick={this.handleLogout}>Log out</MenuItem>
 		</Menu>
 		</div>

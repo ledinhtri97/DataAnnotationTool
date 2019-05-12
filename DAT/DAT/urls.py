@@ -16,12 +16,14 @@
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from usermaster.subviews.change_pass import change_password
 
 urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     path('', include('home.urls')),
     path('datadmin/', include('adminmaster.urls')),
     path('workspace/', include('usermaster.urls')),
+    path('change_password/', change_password, name='change_password'),
     path('progressbarupload/', include('progressbarupload.urls')),
 ]
 
