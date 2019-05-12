@@ -4,7 +4,9 @@ from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
 from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from django.http import JsonResponse
 from django.conf import settings
-from .querymeta import query_meta
+from .querymeta import query_meta, query_meta_reference
+
+from apimodel.models import ApiReferenceModel
 
 def get_query_meta_general(dataset_id=None, user=None):
   base_request = MetaDataModel.objects.filter(
@@ -65,12 +67,11 @@ def next_index(request, metaid):
   current_meta_data.save(update_fields=['onviewing_user'])
   #print(current_meta_data.skipped_by_user)
   meta = get_query_meta_general(dataset_id, user)
-  workspace = WorkSpaceUserModel.objects.get(dataset=meta.dataset)
-
+  
   data = {}
 
   if meta:
-    data = query_meta(meta, workspace.api_reference)
+    data = query_meta(meta)
 
   return JsonResponse(data=data)
 
@@ -86,7 +87,7 @@ def savenext_index(request, metaid):
     for bb in current_meta_data.boxes_position.all():
       print('old: ', bb)
       bb.delete()
-
+    #print(body_unicode)
     for bb in body_unicode.split('\n')[:-1]:
       bb = bb.split(',')
       new_bb, created = BoundingBoxModel.objects.get_or_create(
@@ -109,19 +110,26 @@ def savenext_index(request, metaid):
     current_meta_data.save(update_fields=['is_annotated', 'onviewing_user'])
   
   meta = get_query_meta_general(dataset_id, user)
-  workspace = WorkSpaceUserModel.objects.get(dataset=meta.dataset)
+  
 
   data = {}
   print('meta: ', meta)
   if meta:
-    data = query_meta(meta, workspace.api_reference)
+    data = query_meta(meta)
 
   return JsonResponse(data=data)
   
+
+def api_reference_index(request, metaid):
+  meta = MetaDataModel.objects.get(id=metaid)
+  workspace = WorkSpaceUserModel.objects.get(dataset=meta.dataset)
+  api = ApiReferenceModel.objects.all()
+  data = query_meta_reference(meta, workspace.api_reference)
+  return JsonResponse(data=data)
 
 def outws_index(request, metaid):
   current_meta_data = MetaDataModel.objects.get(id=metaid)
   current_meta_data.onviewing_user =  None
   current_meta_data.save(update_fields=['onviewing_user'])
-  return JsonResponse({})
-  return JsonResponse(data=data)
+
+  return JsonResponse(data={})
