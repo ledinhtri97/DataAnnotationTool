@@ -126,7 +126,8 @@ class LabelControl{
 					lbc.obj.points.forEach(function(point, index) {
 
 						var circle = configureCircle(point.x, point.y, index);
-						circle.radius = 10;
+						circle.radius = 8;
+						
 						circle.on('moving', function(){
 							var p = circle;
 							var i = parseInt(p.name);

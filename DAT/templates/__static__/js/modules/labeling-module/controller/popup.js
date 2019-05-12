@@ -14,7 +14,7 @@ class PopupControllers{
 
 		var group_control = document.getElementById("group_control");
 		var canPopup = !drawStatus.getIsDrawing() || (drawStatus.getIsWaiting() && drawStatus.getIsDrawing())
-		if(quickSettings.getAtt('show_popup') && group_control && canPopup) {
+		if(quickSettings.getAtt('show_label') && group_control && canPopup) {
 			
 			var cvcontainer = document.getElementById("cvcontainer");
 			var cv_element = document.getElementById("canvas");

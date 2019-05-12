@@ -78,7 +78,7 @@ class Workspaces extends React.Component {
 
 	handleOverview =  (overview_url) => {
 		window.location.href = overview_url;
-	}
+	};
 
 	handleStartLabeling = (startlabeling_url) => {
 		window.location.href = startlabeling_url;

@@ -47,7 +47,7 @@ const create_shape = (bb, canvas) => {
 	return shape;
 }
 
-const initMaintask = function(canvas, meta, only_view=false) {
+const initCanvas = function(canvas, meta, only_view=false) {
 	fabric.Image.fromURL(
 		meta.url_meta,
 		function(img) {
@@ -60,32 +60,41 @@ const initMaintask = function(canvas, meta, only_view=false) {
 
 			canvas.renderAll();
 
-			if(meta.status === 'OK'){
-				meta.boxes_position.forEach(function(bb){
-		            var shape = create_shape(bb, canvas);
-		            canvas.add(shape);
-		            canvas.renderAll();
-		            if(!only_view) createItemToList(canvas, shape);
-	            });
-
-	            meta.predict.forEach(function(bb){
-		            var shape = create_shape(bb, canvas);
-		            shape.accuracy = bb.conf
-		            shape.accept_edit = bb.accept_edit;
-		            canvas.add(shape);
-
-		            if (!shape.accept_edit) {
-		            	var flag = configureFlag(shape);
-		            	canvas.add(flag);
-		            }
+			setTimeout(function(){
+				if(meta.status === 'OK' && meta.boxes_position){
+					meta.boxes_position.forEach(function(bb){
+			            var shape = create_shape(bb, canvas);
+			            canvas.add(shape);
+			            if(!only_view) {
+			            	createItemToList(canvas, shape);
+			            	var e_hidden = document.getElementById(shape.labelControl.getId()+"_hidden");
+							e_hidden && e_hidden.click();
+			            };
+		            });
 
 		            canvas.renderAll();
-		            if(!only_view) createItemToList(canvas, shape);
-	            });  
-			}
-			
+				}
+			}, 200)
 		}
 	);
 };
 
-export {initMaintask}
+const initPredict = function(canvas, meta){
+
+	meta.predict && meta.status === 'OK' && meta.predict.forEach(function(bb){
+		var shape = create_shape(bb, canvas);
+		shape.accuracy = bb.conf
+		shape.accept_edit = bb.accept_edit;
+		canvas.add(shape);
+		if (!shape.accept_edit) {
+			var flag = configureFlag(shape);
+			canvas.add(flag);
+		}
+		canvas.renderAll();
+		createItemToList(canvas, shape);
+		var e_hidden = document.getElementById(shape.labelControl.getId()+"_hidden");
+		e_hidden && e_hidden.click();
+	});  
+}
+
+export {initCanvas, initPredict}
