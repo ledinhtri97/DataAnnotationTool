@@ -14,7 +14,6 @@ var Direction = {
 };
 
 var bigplus = [];
-var storageObj = {};
 var zoomLevel = 0;
 var zoomLevelMin = 0;
 var zoomLevelMax = 3;
@@ -35,9 +34,6 @@ const isLabel = function(obj){
 
 const reset_when_go =  function(){
 	bigplus.splice(0, bigplus.length);
-	for (var i in storageObj){
-		delete storageObj[i];
-	}
 }
 
 
@@ -56,30 +52,15 @@ const controll_bigplus = function(__canvas__, pointer){
 		else{
 			bigplus[0].set({ y1: pointer.y, y2: pointer.y });
 			bigplus[1].set({ x1: pointer.x, x2: pointer.x });
-		}		
+		}
 	}
 	else{
 		if(bigplus.length != 0){
-			__canvas__.getObjects().forEach(function(obj, index){
-				if(isLabel(obj)){
-					storageObj[index] = obj;
-				}
-			});
 			__canvas__.remove(bigplus[0]);
 			__canvas__.remove(bigplus[1]);
-
-			for(var i in storageObj){
-				var xxx = document.getElementById("itembb_"+i);
-				var renewiitem = __canvas__.getObjects().indexOf(storageObj[i]);
-				if(xxx && renewiitem!=-1){
-					xxx.id = "itembb_"+renewiitem;
-				}
-			}
-
 			reset_when_go();
 		}
 	}
-	__canvas__.renderAll();
 }
 
 const init_event = function(__canvas__, popupControllers, label_select){
@@ -99,6 +80,13 @@ const init_event = function(__canvas__, popupControllers, label_select){
 			drawStatus.setPopuHover(false);
 			controll_bigplus(__canvas__, pointer);
 		});
+
+		try {
+			__canvas__.renderAll();
+		} catch(e) {
+			// statements
+			console.log(e);
+		}
 	}
 
 	window.onload = function() {
@@ -135,6 +123,8 @@ const init_event = function(__canvas__, popupControllers, label_select){
 			});
 			__canvas__.renderAll();
 			namelabelGlobal = null;
+		}
+		else if(key == 90) {		
 		}
 	};
 
@@ -232,22 +222,23 @@ const init_event = function(__canvas__, popupControllers, label_select){
 		else if(key == 113) {
 			//quit draw -> q key
 			if(drawStatus.getIsDrawing() && drawStatus.getIsWaiting()){
-				document.getElementById("stop_mode").textContent = "Stop labeling mode";
-				drawPoly.endDraw();
+				var e_stop = document.getElementById("stop_draw");
+				e_stop && e_stop.click();
 			}
-			else{
-				document.getElementById("stop_mode").textContent = "You are not in labeling mode";
+			else {
+				drawPoly.quickDraw();
 			}
 		}
 		else {
 			if(label_select){
-				
 				label_select.forEach(function(lb, index) {					
 					var isd = drawStatus.getIsDrawing();
 					var isw = drawStatus.getIsWaiting();
 					if((!isd || (isd && isw)) && (key == 49+index)){
-						drawPoly.setType(lb.type_label);
-						drawPoly.startDraw(lb.id, lb.tag_label);
+						var e_label = document.getElementById(lb.id+'_label');
+						e_label && e_label.click();
+						// drawPoly.setType(lb.type_label);
+						// drawPoly.startDraw(lb.id, lb.tag_label);
 					}
 				});
 			}
@@ -347,16 +338,17 @@ const init_event = function(__canvas__, popupControllers, label_select){
 		'mouse:move': function(e){
 
 			var pointer = __canvas__.getPointer(e.e, true);
-			controll_bigplus(__canvas__, pointer);
-
-			var label = document.getElementById("label");
-			if (spaceKeyDown && mouseDownPoint) {
+			if(pointer){
+				if (spaceKeyDown && mouseDownPoint) {
 				var mouseMovePoint = new fabric.Point(pointer.x, pointer.y);
 				__canvas__.relativePan(mouseMovePoint.subtract(mouseDownPoint));
 				mouseDownPoint = mouseMovePoint;
 				keepPositionInBounds(__canvas__);
-			}		
-			__canvas__.renderAll();
+				
+				}
+				controll_bigplus(__canvas__, pointer);
+				__canvas__.renderAll();
+			}
 		},
 		'object:modified': function(e){
 			var obj = e.target;
@@ -386,9 +378,10 @@ const init_event = function(__canvas__, popupControllers, label_select){
 
 	const MouseWheelHandler = function(options){
 		if(group_control) {
-					group_control.style["display"] = "none";
-				}
+			group_control.style["display"] = "none";
+		}
 		var delta = getWheelDelta(options);
+
 		if (delta != 0) {
 			drawStatus.setIsZoom(true);
 			var pointer = __canvas__.getPointer(options.e, true);
@@ -435,6 +428,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 			keepPositionInBounds(__canvas__);
 		}
 		if(zoomLevel == 0){
+
 			drawStatus.setIsZoom(false);
 		}
 	}
