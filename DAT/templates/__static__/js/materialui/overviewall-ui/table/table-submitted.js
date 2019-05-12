@@ -19,7 +19,7 @@ import dateFormat from 'dateformat';
 
 import AlertDialogView from "./dialog-view";
 import {fabric} from 'fabric';
-import {initMaintask} from '../../../modules/labeling-module/controller/renderInit';
+import {initCanvas} from '../../../modules/labeling-module/controller/renderInit';
 
 const styles = theme => ({
   root: {
@@ -67,7 +67,7 @@ class SubmittedTable extends React.Component {
 
   handleView = (url_meta) => {
     var dialog_view = document.getElementById("dialog_view");
-    fetch(url_meta+'?only_view=true', {})
+    fetch(url_meta, {})
       .then(response => {
           if(response.status !== 200){
             return "FAILED";
@@ -89,7 +89,7 @@ class SubmittedTable extends React.Component {
               uniScaleTransform: true,
             });
 
-            initMaintask(canvas, meta, true);
+            initCanvas(canvas, meta, true);
         }
       });
   };
