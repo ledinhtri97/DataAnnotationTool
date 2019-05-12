@@ -47,6 +47,7 @@ const styles = theme =>({
 
 const MAP_SWITCH = {
 	'show_popup' : 'Show Popup',
+	'show_label' : 'Show Label',
 	'auto_hidden' : 'Auto Hidden',
 	'ask_dialog': 'Ask Dialog',
 	'color_background': 'Light / Dark Background',
@@ -64,6 +65,7 @@ class TemporaryDrawerSettings extends React.Component {
 			left: false,
 			checked: {
 				'show_popup': false,
+				'show_label': false,
 				'auto_hidden': false,
 				'ask_dialog': true,
 				'color_background': true,
@@ -86,6 +88,7 @@ class TemporaryDrawerSettings extends React.Component {
 			this.setState({
 				checked: {
 					'show_popup': str2var(sett.show_popup),
+					'show_label': str2var(sett.show_label),
 					'auto_hidden': str2var(sett.auto_hidden),
 					'ask_dialog': str2var(sett.ask_dialog),
 					'color_background': str2var(sett.color_background),
@@ -95,6 +98,7 @@ class TemporaryDrawerSettings extends React.Component {
 			});
 
 			document.getElementById("show_popup").textContent = sett.show_popup;
+			document.getElementById("show_label").textContent = sett.show_popup;
 			document.getElementById("auto_hidden").textContent = sett.auto_hidden;
 			document.getElementById("ask_dialog").textContent = sett.ask_dialog;
 			document.getElementById("color_background").textContent = sett.color_background;
@@ -213,7 +217,7 @@ class TemporaryDrawerSettings extends React.Component {
 			
 			<Divider />
 
-			{['show_popup', 'auto_hidden', 'ask_dialog', 'color_background'].map((id, key) => (
+			{['show_popup', 'show_label', 'auto_hidden', 'ask_dialog', 'color_background'].map((id, key) => (
 				<ListItem button key={key}>
 				<ListItemText primary={MAP_SWITCH[id]} />
 				<Switch
