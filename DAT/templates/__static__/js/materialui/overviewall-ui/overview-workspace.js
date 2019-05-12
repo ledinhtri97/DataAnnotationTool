@@ -94,7 +94,11 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     width: '20em',
     float: 'right',
-    marginRight: '2rem',
+    marginRight: '3rem',
+  },
+  labeling:{
+    margin: theme.spacing.unit,
+    float: 'right',
   },
   tableLabels: {
     width: '80%',
@@ -110,6 +114,7 @@ class OverviewWorkspace extends React.Component {
     super(props);
     this.state = {
       value: 0,
+      url_join: '/gvlab-dat/workspace/ws-0/',
       total: {
           submitted: 0,
           remaining: 0,
@@ -163,6 +168,7 @@ class OverviewWorkspace extends React.Component {
       ).then(__data__ => {
           if (__data__ === "FAILED") return;
           this.setState({
+            url_join: __data__.url_join,
             total: __data__.total,
             user: __data__.user,
             objects: __data__.objects,
@@ -179,6 +185,10 @@ class OverviewWorkspace extends React.Component {
     this.getData();
   };
 
+  handleStartLabeling = () => {
+    window.location.href = this.state.url_join;
+  };
+
   render() {
     const { classes } = this.props;
     const {total, user, objects, submitted, skipped, flaged, notice_review} = this.state
@@ -187,6 +197,10 @@ class OverviewWorkspace extends React.Component {
       <div className={classes.root}>
       <Button variant="outlined" color="primary" className={classes.extractButton}>
           Extract Report To Admin
+      </Button>
+      <Button onClick={this.handleStartLabeling}
+        variant="contained" color="primary" className={classes.labeling}>
+          Labeling
       </Button>
       <div className={classes.root2}>
         <div>
