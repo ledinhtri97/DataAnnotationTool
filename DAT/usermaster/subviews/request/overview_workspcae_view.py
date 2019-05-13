@@ -132,7 +132,7 @@ def get_data_overview_workspace(request, wsid):
         }
         
         for obj in data['objects']:
-            obj['predict'] = obj['total'] - metadatas.filter(boxes_position__flag='-1').count(),
+            obj['predict'] = obj['total']-metadatas.filter(boxes_position__flag='-1').count(),
 
     return JsonResponse(data=data)
 
