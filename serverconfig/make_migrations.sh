@@ -9,11 +9,11 @@ touch ../DAT/adminmaster/datamanagement/migrations/__init__.py
 mkdir ../DAT/adminmaster/workspacemanagement/migrations
 touch ../DAT/adminmaster/workspacemanagement/migrations/__init__.py
 
-mkdir ../DAT/adminmaster/apimodel/migrations
-touch ../DAT/adminmaster/apimodel/migrations/__init__.py
+mkdir ../DAT/apimodel/migrations
+touch ../DAT/apimodel/migrations/__init__.py
 
-mkdir ../DAT/adminmaster/home/migrations
-touch ../DAT/adminmaster/home/migrations/__init__.py
+mkdir ../DAT/home/migrations
+touch ../DAT/home/migrations/__init__.py
 
-mkdir ../DAT/adminmaster/usermaster/migrations
-touch ../DAT/adminmaster/usermaster/migrations/__init__.py
+mkdir ../DAT/usermaster/migrations
+touch ../DAT/usermaster/migrations/__init__.py
