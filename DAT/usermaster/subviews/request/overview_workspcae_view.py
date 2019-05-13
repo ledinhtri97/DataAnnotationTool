@@ -86,7 +86,7 @@ def get_data_overview_workspace(request, wsid):
                     'name': label.tag_label,
                     'total': metadatas.filter(boxes_position__label=label).count(),
                     'user': metadatas.filter(submitted_by_user=user, boxes_position__label=label, boxes_position__flag='-1').count(),
-                    'predict': 0,
+                    'predict': metadatas.filter(boxes_position__label=label).count() - metadatas.filter(boxes_position__label=label, boxes_position__flag='-1').count(),
                 } for label in dataset.labels.all()
             ],
             'submitted': [
@@ -131,8 +131,6 @@ def get_data_overview_workspace(request, wsid):
             ],
         }
         
-        for obj in data['objects']:
-            obj['predict'] = obj['total'] - metadatas.filter(boxes_position__flag='-1').count(),
-
+    print(data['objects'])
     return JsonResponse(data=data)
 
