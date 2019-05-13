@@ -7,9 +7,10 @@ def get_fake_api(meta, api_ref):
     data = [{}]
     
     try:
-        #print("try 1:", api_ref.local_api_url)
+        print("try 1:", api_ref.local_api_url)
         r = requests.post(api_ref.local_api_url, files=files,
                           verify=False)
+        print("go to link", api_ref.local_api_url)
     except:
         try:
             if api_ref.public_api_url != "https://api_name_public/":
@@ -73,11 +74,11 @@ def query_meta_reference(meta, api_reference):
     data = {}
     
     if len(api_reference.all()) and not meta.is_reference_api:
-        data['predict'] = fake
-        # data['predict'] = []
-        # data['predict'] = sum([
-        #     get_fake_api(meta, api_ref) for api_ref in api_reference.all()
-        # ], [])
+        #data['predict'] = fake
+        #data['predict'] = []
+        data['predict'] = sum([
+            get_fake_api(meta, api_ref) for api_ref in api_reference.all()
+        ], [])
 
         if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
             data['status'] = 'FAILED'
