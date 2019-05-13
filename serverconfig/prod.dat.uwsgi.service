@@ -1,5 +1,5 @@
 [Unit]
-Description=uWSGI instance to serve updateMe project
+Description=uWSGI instance to serve DAT project
 After=network.target
 
 [Service]
