@@ -46,7 +46,7 @@ function ProgressesTable(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <CustomTableCell>/</CustomTableCell>
+            <CustomTableCell>IMAGE</CustomTableCell>
             <CustomTableCell align="right" className={classes.title}>Total Progress</CustomTableCell>
             <CustomTableCell align="right" className={classes.title}>Your Progress</CustomTableCell>
           </TableRow>
@@ -54,19 +54,19 @@ function ProgressesTable(props) {
         <TableBody>
 
           <TableRow className={classes.row}>
-            <CustomTableCell>Submitted (images)</CustomTableCell>
+            <CustomTableCell>Submitted</CustomTableCell>
             <CustomTableCell align="right">{total.submitted}</CustomTableCell>
             <CustomTableCell align="right">{user.submitted}</CustomTableCell>
           </TableRow>
 
           <TableRow className={classes.row}>
-            <CustomTableCell>Available (images)</CustomTableCell>
+            <CustomTableCell>Available</CustomTableCell>
             <CustomTableCell align="right">{total.remaining}</CustomTableCell>
             <CustomTableCell align="right">{user.available}</CustomTableCell>
           </TableRow>
 
           <TableRow className={classes.row}>
-            <CustomTableCell>Skipped (images)</CustomTableCell>
+            <CustomTableCell>Skipped</CustomTableCell>
             <CustomTableCell align="right">{total.skipped}</CustomTableCell>
             <CustomTableCell align="right">{user.skipped}</CustomTableCell>
           </TableRow>
