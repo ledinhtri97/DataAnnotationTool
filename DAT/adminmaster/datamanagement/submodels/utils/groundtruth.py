@@ -30,20 +30,17 @@ class GroundTruther(object):
     name_file = self.outputModel.name.replace(' ', '_') + '.csv'
     
     with open(os.path.join(path_file_groundtruth, name_file), mode='w') as csv_file:
-      fieldnames = ['meta_path', 'label', 'bounding_boxes']
+      fieldnames = ['meta_path', 'label', 'position']
       writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
       writer.writeheader()
-
       for meta in self.metas:
-        meta_path = meta.get_abs_origin()
-        groundtruths = meta.boxes_position.split('\n')
-        for each_gt in groundtruths:
-          separate = each_gt.split(',')
-          label = separate[0]
-          if (label!=''):
-            bounding_boxes = ' '.join(separate[1:])
-            writer.writerow({'meta_path':meta_path, 'label':label, 'bounding_boxes':bounding_boxes})
-    
+        meta_path = meta.get_rel_path()
+        for bb in meta.boxes_position.all():
+          label = bb.label.tag_label
+          position = bb.position
+          writer.writerow(
+              {'meta_path': meta_path, 'label': label, 'position': position})
+
     return path_file_groundtruth
 
   def with_VOC_format(self):
@@ -68,35 +65,33 @@ class GroundTruther(object):
       ET.SubElement(size, "depth").text = "3"
       return root
     
-    def create_object_annotation(root, voc_label):
+    def create_object_annotation(root, namelabel, position):
       obj = ET.SubElement(root, "object")
-      ET.SubElement(obj, "name").text = voc_label[0]
+      ET.SubElement(obj, "name").text = namelabel
       ET.SubElement(obj, "pose").text = "Unspecified"
       ET.SubElement(obj, "truncated").text = str(0)
       ET.SubElement(obj, "difficult").text = str(0)
       bbox = ET.SubElement(obj, "bndbox")
-      ET.SubElement(bbox, "xmin").text = str(voc_label[1])
-      ET.SubElement(bbox, "ymin").text = str(voc_label[2])
-      ET.SubElement(bbox, "xmax").text = str(voc_label[3])
-      ET.SubElement(bbox, "ymax").text = str(voc_label[4])
+      ET.SubElement(bbox, "xmin").text = str(position[0])
+      ET.SubElement(bbox, "ymin").text = str(position[1])
+      ET.SubElement(bbox, "xmax").text = str(position[2])
+      ET.SubElement(bbox, "ymax").text = str(position[3])
       return root
     
     for meta in self.metas:
-      groundtruths = meta.boxes_position.split('\n')
-      
       file_prefix = meta.name.split('.')[0]
       img = Image.open(meta.get_full_origin())
       w, h = img.size
       folder = '/'.join(meta.full_path.split('/')[1:])
       root = create_root(meta.name, folder, w, h)
       
-      for each_gt in groundtruths:
-        separate = each_gt.split(',')
-        label = separate[0]
-        bbs = separate[1:]
-        if (label != '' and len(bbs)==4): #have label and rectangle
-          root = create_object_annotation(root, separate)
-      
+      for meta in self.metas:
+        meta_path = meta.get_rel_path()
+        for bb in meta.boxes_position.all():
+          if bb.label.type_label == 'rect':
+            root = create_object_annotation(
+                root, bb.label.tag_label, bb.position.split(','))
+
       tree = ET.ElementTree(root)
       tree.write("{}/{}.xml".format(DESTINATION_DIR, file_prefix)) 
 
