@@ -133,7 +133,7 @@ class OutputDataAdmin(admin.ModelAdmin):
    fieldsets = [
       (None, 
             {
-               'fields': ['name']
+                'fields': ['name', 'owner']
             }
       ),
       ('Settings Field',
@@ -155,7 +155,6 @@ class OutputDataAdmin(admin.ModelAdmin):
          return self.readonly_fields + ['data_set',]
       return self.readonly_fields
 
-
 class LabelDataForm(forms.ModelForm):
    class Meta:
       model = LabelDataModel
@@ -167,7 +166,6 @@ class LabelDataForm(forms.ModelForm):
       if(not commit):
          instance_label.save()
       return instance_label
-
 
 class LabelDataAdmin(admin.ModelAdmin):
    #class Meta will not accept this form custom > find out why
