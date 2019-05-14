@@ -75,7 +75,7 @@ def query_meta_reference(meta, api_reference):
     
     if len(api_reference.all()) and not meta.is_reference_api:
         #data['predict'] = fake
-        #data['predict'] = []
+        # data['predict'] = []
         data['predict'] = sum([
             get_fake_api(meta, api_ref) for api_ref in api_reference.all()
         ], [])
@@ -95,7 +95,7 @@ def query_meta(meta):
 
     data = {
         'id': meta.id,
-        'name': meta.get_abs_origin(),
+        'name': meta.get_rel_path(),
         'url_meta': meta.get_url_meta(),
         'boxes_position': [
             {
