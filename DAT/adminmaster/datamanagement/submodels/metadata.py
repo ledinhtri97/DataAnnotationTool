@@ -36,7 +36,7 @@ class MetaDataModel(models.Model):
 
     history = HistoricalRecords()
 
-    def get_abs_origin(self):
+    def get_rel_path(self):
         return os.path.relpath(
             os.path.join(self.full_path, self.name), 
             os.path.join(settings.BASE_DIR, settings.STORAGE_DIR))
@@ -51,7 +51,7 @@ class MetaDataModel(models.Model):
         return '/gvlab-dat/workspace/metaview/{}/api-get-data/'.format(self.id)
     
     def get_url_meta(self):
-        return "/gvlab-dat/dataset/{}".format(self.get_abs_origin())
+        return "/gvlab-dat/dataset/{}".format(self.get_rel_path())
     
     def __str__(self):
-        return self.get_abs_origin()
+        return self.get_rel_path()
