@@ -23,6 +23,7 @@ import Filter6 from '@material-ui/icons/Filter6';
 import Filter7 from '@material-ui/icons/Filter7';
 import Filter8 from '@material-ui/icons/Filter8';
 import Filter9 from '@material-ui/icons/Filter9';
+import Filter from '@material-ui/icons/Filter';
 
 const MAP_ICON_LABEL = [
 <Filter1/>,
@@ -33,7 +34,8 @@ const MAP_ICON_LABEL = [
 <Filter6/>,
 <Filter7/>,
 <Filter8/>,
-<Filter9/>
+<Filter9/>,
+<Filter/>,
 ];
 
 const styles = theme => ({
@@ -136,6 +138,7 @@ class ToolListItems extends React.Component {
                 label_select.map(function(lb, key) {
                     var labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
                     var labeltype = lb.type_label.charAt(0).toUpperCase() + lb.type_label.slice(1);
+                    var _key_ = Math.min(key, 9);
                     return (
                         <div id={lb.id+'_label'} key={key} onClick={function(e){
                                 drawPoly.setType(lb.type_label);
@@ -149,7 +152,7 @@ class ToolListItems extends React.Component {
                         <ListItem button>
                         <Tooltip title={labelname + " | " + labeltype} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
                         <ListItemIcon className={classes.icon}>
-                        {MAP_ICON_LABEL[key]}
+                        {MAP_ICON_LABEL[_key_]}
                         </ListItemIcon>
                         </Tooltip>
                         <ListItemText primary={labelname + " | " + labeltype} />

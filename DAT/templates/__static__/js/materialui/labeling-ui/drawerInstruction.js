@@ -26,6 +26,7 @@ import Filter6 from '@material-ui/icons/Filter6';
 import Filter7 from '@material-ui/icons/Filter7';
 import Filter8 from '@material-ui/icons/Filter8';
 import Filter9 from '@material-ui/icons/Filter9';
+import Filter from '@material-ui/icons/Filter';
 
 const styles = theme =>({
 	list: {
@@ -88,7 +89,8 @@ const MAP_LABEL_INS = [
 <IconButton><Filter6/></IconButton>,
 <IconButton><Filter7/></IconButton>,
 <IconButton><Filter8/></IconButton>,
-<IconButton><Filter9/></IconButton>
+<IconButton><Filter9/></IconButton>,
+<IconButton><Filter/></IconButton>,
 ];
 
 class TemporaryDrawerInstruction extends React.Component {
@@ -123,11 +125,12 @@ class TemporaryDrawerInstruction extends React.Component {
 			<List>
 			{
 				label_select.map(function(lb, key) {
+					var _key_ = Math.min(key, 9);
 					var labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
                     var labeltype = lb.type_label.charAt(0).toUpperCase() + lb.type_label.slice(1);
 					return (
 						<ListItem button key={key} className={classes.listItem}>
-						<ListItemIcon>{MAP_LABEL_INS[key]}</ListItemIcon>
+						<ListItemIcon>{MAP_LABEL_INS[_key_]}</ListItemIcon>
 						<Typography variant="caption" color="inherit" className={classes.caption}>{labelname + " | " + labeltype}</Typography>
 						</ListItem>
 						);}
