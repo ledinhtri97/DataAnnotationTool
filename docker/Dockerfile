@@ -11,6 +11,7 @@ COPY ./requirements.txt $WORKSPACE
 COPY ./package.json $WORKSPACE
 
 RUN pip install -r $WORKSPACE/requirements.txt
+RUN sed -i 's/from django.core.urlresolvers import reverse/from django.urls import reverse/g' /usr/local/lib/python3.7/site-packages/progressbarupload/templatetags/progress_bar.py
 
 # ---------------------------
 # | Install Node 10.x & NPM |
