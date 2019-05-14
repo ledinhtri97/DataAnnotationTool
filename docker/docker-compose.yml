@@ -1,0 +1,29 @@
+version: '3'
+services:
+  dat_gvlab_dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        - NODE_BUILD_TYPE=dev   # dev or prod
+        - DJANGO_SETTINGS=DAT.settings.dev
+    image: dat_gvlab_dev
+    ports:
+      - "8787:8787"
+      - "8989:8989"
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - ./_DATABASE_:/workspace/DAT/_DATABASE_
+      - ./MIGRATIONS/adminmaster/contributemanagement/migrations:/workspace/DAT/adminmaster/contributemanagement/migrations
+      - ./MIGRATIONS/adminmaster/datamanagement/migrations:/workspace/DAT/adminmaster/datamanagement/migrations
+      - ./MIGRATIONS/adminmaster/workspacemanagement/migrations:/workspace/DAT/adminmaster/workspacemanagement/migrations
+      - ./MIGRATIONS/apimodel/migrations:/workspace/DAT/apimodel/migrations      
+    ipc: host
+    network_mode: "host"
+    restart: always     # or "unless-stopped"
+
+    environment:
+      PYTHONIOENCODING: utf-8
+
+    command: bash -c "jupyter lab --ip=0.0.0.0 --port=8989 --no-browser --allow-root --NotebookApp.token= --NotebookApp.terminado_settings='{\"shell_command\":[\"/bin/bash\"]}'"
