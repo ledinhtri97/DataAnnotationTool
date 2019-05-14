@@ -9,8 +9,9 @@ services:
         - DJANGO_SETTINGS=DAT.settings.dev
     image: dat_gvlab_dev
     ports:
-      - "8787:8787"
-      - "8989:8989"
+      - "8787:8787" # django
+      - "8989:8989" # jupyter lab
+      - "8990:8990" # vscode
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"

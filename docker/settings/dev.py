@@ -22,7 +22,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'docker_dat_gvlab_dev',
-        'USER': 'gvlab_dev',
+        'USER': 'docker_gvlab_dev',
         'PASSWORD': 'gvlab@2019',
         'HOST': 'localhost',
         'PORT': '5432',
