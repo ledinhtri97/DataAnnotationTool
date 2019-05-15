@@ -208,7 +208,9 @@ const createItemToList = function(canvas, object){
 	else {
 		setTimeout(function(){
 			var e_hidden = document.getElementById(object.labelControl.getId()+"_hidden");
-			e_hidden && e_hidden.click();
+			if(!object.getIsEdit()){
+				e_hidden && e_hidden.click();
+			}
 		}, 5000);
 	}
 }
