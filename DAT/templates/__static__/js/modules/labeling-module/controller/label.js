@@ -95,7 +95,12 @@ class LabelControl{
 		var lbc = this;
 		var current_element = document.getElementById(this.id);
 
-		lbc.edit = __default__ ? !lbc.edit : __default__;
+		if(__default__){
+			lbc.edit = !lbc.edit;
+		}
+		else {
+			lbc.edit = false;
+		}
 		
 		if(current_element){
 			this.obj.selectable = lbc.edit;
@@ -104,15 +109,14 @@ class LabelControl{
 				if(this.obj.type == 'rect'){
 					this.obj.set('stroke', Color.RED);
 					__canvas__.setActiveObject(this.obj);
+					setTimeout(function() { //auto set block edit after 10s
+							lbc.obj.selectable = lbc.edit = false;
+							lbc.obj.set('stroke', lbc.obj.basicColor);
+							__canvas__.renderAll();
+						}
+					}, 10000);
 				}
 				drawPoly.endDraw();
-				setTimeout(function() { //auto set block edit after 10s
-					if(lbc.edit){
-						lbc.obj.selectable = lbc.edit = false;
-						lbc.obj.set('stroke', lbc.obj.basicColor);
-						__canvas__.renderAll();
-					}
-				}, 10000);
 			}
 			else{
 				lbc.obj.set('stroke', lbc.obj.basicColor);
@@ -123,9 +127,15 @@ class LabelControl{
 				this.obj.selectable = false;
 				if(lbc.edit){
 
-					// lbc.obj.set('stroke', Color.RED);
-
 					lbc.obj.points.forEach(function(point, index) {
+
+						if(lbc.obj.circles.length > 0){
+							lbc.obj.circles.forEach(function(c){
+							__canvas__.remove(c);
+							});
+							lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
+							__canvas__.renderAll();
+						}
 
 						var circle = configureCircle(point.x, point.y, index);
 						circle.radius = 8;

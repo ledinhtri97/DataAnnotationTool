@@ -161,7 +161,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				}
 				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 
-				if(labelControl && !labelControl.getIsEdit()){
+				if(labelControl){
 					if(objectGlobal.object && objectGlobal.object.hidden){
 						var e_hidden = document.getElementById(labelControl.getId()+"_hidden");
 						e_hidden && e_hidden.click();
