@@ -125,17 +125,15 @@ class LabelControl{
 			if (this.obj.type == 'polygon'){
 				this.obj.selectable = false;
 				if(lbc.edit){
+					if(lbc.obj.circles.length > 0){
+						lbc.obj.circles.forEach(function(c){
+							__canvas__.remove(c);
+						});
+						lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
+						__canvas__.renderAll();
+					}
 
 					lbc.obj.points.forEach(function(point, index) {
-
-						if(lbc.obj.circles.length > 0){
-							lbc.obj.circles.forEach(function(c){
-							__canvas__.remove(c);
-							});
-							lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
-							__canvas__.renderAll();
-						}
-
 						var circle = configureCircle(point.x, point.y, index);
 						circle.radius = 8;
 						
@@ -218,7 +216,7 @@ const createItemToList = function(canvas, object){
 	else {
 		setTimeout(function(){
 			var e_hidden = document.getElementById(object.labelControl.getId()+"_hidden");
-			if(!object.getIsEdit()){
+			if(!object.labelControl.getIsEdit()){
 				e_hidden && e_hidden.click();
 			}
 		}, 5000);
