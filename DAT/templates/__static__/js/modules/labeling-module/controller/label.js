@@ -110,10 +110,9 @@ class LabelControl{
 					this.obj.set('stroke', Color.RED);
 					__canvas__.setActiveObject(this.obj);
 					setTimeout(function() { //auto set block edit after 10s
-							lbc.obj.selectable = lbc.edit = false;
-							lbc.obj.set('stroke', lbc.obj.basicColor);
-							__canvas__.renderAll();
-						}
+						lbc.obj.selectable = lbc.edit = false;
+						lbc.obj.set('stroke', lbc.obj.basicColor);
+						__canvas__.renderAll();
 					}, 10000);
 				}
 				drawPoly.endDraw();
