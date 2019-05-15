@@ -107,9 +107,11 @@ class LabelControl{
 				}
 				drawPoly.endDraw();
 				setTimeout(function() { //auto set block edit after 10s
-					lbc.obj.selectable = lbc.edit = false;
-					lbc.obj.set('stroke', lbc.obj.basicColor);
-					__canvas__.renderAll();
+					if(lbc.edit){
+						lbc.obj.selectable = lbc.edit = false;
+						lbc.obj.set('stroke', lbc.obj.basicColor);
+						__canvas__.renderAll();
+					}
 				}, 10000);
 			}
 			else{
@@ -149,7 +151,6 @@ class LabelControl{
 						__canvas__.remove(c);
 					});
 					lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
-					__canvas__.renderAll();
 				}
 			}
 			__canvas__.renderAll();

@@ -161,12 +161,14 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				}
 				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 
-				if(labelControl){
+				if(labelControl && !labelControl.getIsEdit()){
 					if(objectGlobal.object && objectGlobal.object.hidden){
 						var e_hidden = document.getElementById(labelControl.getId()+"_hidden");
 						e_hidden && e_hidden.click();
 					}
-					labelControl.__editITEM__();
+					setTimeout(function(){
+						labelControl.__editITEM__();
+					}, 100);
 				}
 			}
 		}
