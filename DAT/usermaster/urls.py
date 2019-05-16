@@ -3,6 +3,10 @@ from django.conf import settings
 
 from usermaster.subviews.workspaces import WorkspaceView, get_data_settings, saveseting_index
 from usermaster.subviews.labeling import LabelingView
+
+# 190516:
+from usermaster.subviews.medical_labeling import MedicalLabelingView
+
 from usermaster.subviews.contribute import ContributeView
 from usermaster.subviews.request import labeling_view
 
@@ -19,6 +23,10 @@ urlpatterns = [
     path('contribute-upload/<int:contributeid>/', contribute_view.index, name='contribute_upload'),
 
     path('ws-<int:id>/', LabelingView.as_view(), name='maintask'),
+
+    # 190516:    
+    path('mws-<int:id>/', MedicalLabelingView.as_view(), name='medicaltask'),
+
     path('api_reference/<int:metaid>/'+settings.SLUG_API_URL,
          labeling_view.api_reference_index, name='api_reference'),
     path('next/<int:metaid>/', labeling_view.next_index, name='next'),
