@@ -71,9 +71,10 @@ if(labeling){
 
 		if(meta === "FAILED") return;
 
+		/*
         for(var c_idx=0; c_idx<num_canvas; c_idx++) {
             initCanvas(canvas_arr[c_idx], meta, false, image_convert_medical);
-        }
+        }*/
 		
 		fetch('/gvlab-dat/workspace/api_reference/'+meta_id.textContent+'/api-get-data/', {})
 		.then(response => {

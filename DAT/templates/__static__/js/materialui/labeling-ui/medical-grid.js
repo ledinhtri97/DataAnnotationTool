@@ -4,6 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+//https://github.com/cornerstonejs/react-cornerstone-viewport/blob/master/example/src/App.js
+import './initCornerstone';
+import cornerstone from 'cornerstone-core';
+import CornerstoneViewport from 'react-cornerstone-viewport'
+import cornerstoneTools from 'cornerstone-tools';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -19,7 +25,7 @@ const styles = theme => ({
 
 class MedicalGrid extends React.Component {
   state = {
-    spacing: '8',
+    spacing: '8',    
   };
 
   handleChange = key => (event, value) => {
@@ -32,10 +38,24 @@ class MedicalGrid extends React.Component {
     const { classes } = this.props;
     const { spacing } = this.state;
 
+    const exampleData = {
+        stack: {
+            currentImageIdIndex: 0,
+            imageIds: [
+            "dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm",
+            "dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.12.dcm"
+            ],
+        }
+    }
+
     return (
         <Grid item xs={6} className={classes.griditem}>
-            <div style={{float: this.props.data.float}}>
-                <canvas id={this.props.data.canvas_id}></canvas> 
+            <div style={{float: this.props.data.float, height: '280px', width: '500px'}}>
+                {/*<canvas id={this.props.data.canvas_id}></canvas>*/}
+                <CornerstoneViewport viewportData={exampleData}
+                    cornerstone={cornerstone} 
+                    cornerstoneTools={cornerstoneTools}
+                    style={{width: "100%"}}/>
             </div>   
         </Grid>
     );
