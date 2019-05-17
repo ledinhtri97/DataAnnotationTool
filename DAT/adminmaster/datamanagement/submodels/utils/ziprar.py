@@ -15,11 +15,11 @@ charos = '\\' if os.name=='nt' else '/'
 class ZipRarExtractor(object):
     def __init__(self, inputDataModels):
         print(inputDataModels)
-        self.inputDataModels = inputDataModels
+        self.inputDataModels = [inputDataModels] if "all" not in dir(inputDataModels) else inputDataModels.all()
 
     def do_extract_all(self):
-        # print(self.inputDataModels, "=======================")
-        for input_file in self.inputDataModels.all():
+        #print(self.inputDataModels, "=======================")
+        for input_file in self.inputDataModels:
             
             file_zip = input_file.get_zipname()
             # print(file_zip)
