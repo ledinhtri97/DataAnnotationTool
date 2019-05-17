@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+
+import MedicalGrid from './medical-grid';
+import Grid from '@material-ui/core/Grid';
+import { isAbsolute } from 'path';
+
 const styles = theme => ({
 	appBarSpacer: theme.mixins.toolbar,
 	content: {
@@ -43,12 +48,35 @@ const styles = theme => ({
     	display: 'none',
     },
 	
+	gridcontainer: {
+		position: "absolute",
+		top: 0,
+	},
 });
 
 class MedicalLabeling extends React.Component {
 
 	state = {
 		something: null,
+		data: 
+		[
+			{
+				"canvas_id": "canvas_0",
+				"float": "right"
+			},
+			{
+				"canvas_id": "canvas_1",
+				"float": "left"
+			},
+			{
+				"canvas_id": "canvas_2",
+				"float": "right"
+			},
+			{
+				"canvas_id": "canvas_3",
+				"float": "left"
+			}
+		]
 	};
 
 	contextMenu = function(e) {
@@ -65,10 +93,16 @@ class MedicalLabeling extends React.Component {
 			
 			<div className={classes.firstcontainer}>
 				<div className={classes.secondcontainer} id="cvcontainer" onContextMenu={this.contextMenu}>
-					<canvas id="canvas_0" className={classes.canvas}></canvas>
+					{/*<canvas id="canvas_0" className={classes.canvas}></canvas>
                     <canvas id="canvas_1" className={classes.canvas}></canvas>
                     <canvas id="canvas_2" className={classes.canvas}></canvas>
-                    <canvas id="canvas_3" className={classes.canvas}></canvas>
+					<canvas id="canvas_3" className={classes.canvas}></canvas>*/}
+
+					<Grid container className={classes.root} className={classes.gridcontainer} spacing={Number('8')}>
+						{this.state.data.map((canvas_obj, i) => <MedicalGrid key = {i} 
+						data = {canvas_obj} />)}
+					</Grid>
+
 					<div id="group_control" style={{display: 'none', position: 'absolute',}}>
 						{<label id="label_popup" className={classes.label}></label>}
 						{<label id="accuracy_popup" className={classes.label}></label>}

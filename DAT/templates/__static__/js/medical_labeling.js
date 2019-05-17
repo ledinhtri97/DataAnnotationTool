@@ -38,6 +38,17 @@ settings && ReactDOM.render(<TemporaryDrawerSettings canvas={canvas}/>, settings
 
 //===================DEFAULT-INIT======================//
 
+function image_convert_medical(img){
+	var parent = document.getElementById("cvcontainer");
+	if(parent){
+		var scale = Math.min( 
+			parent.clientWidth / img.width / 2, 
+			parent.clientHeight / img.height / 2 
+			);
+		return [img.width*scale, img.height*scale]
+	}
+}
+
 const group_control =  document.getElementById("group_control");
 const meta_id = document.getElementById("meta_id");
 const skip_next = document.getElementById("skip_next");
@@ -61,7 +72,7 @@ if(labeling){
 		if(meta === "FAILED") return;
 
         for(var c_idx=0; c_idx<num_canvas; c_idx++) {
-            initCanvas(canvas_arr[c_idx], meta);
+            initCanvas(canvas_arr[c_idx], meta, false, image_convert_medical);
         }
 		
 		fetch('/gvlab-dat/workspace/api_reference/'+meta_id.textContent+'/api-get-data/', {})

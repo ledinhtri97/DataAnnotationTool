@@ -47,11 +47,11 @@ const create_shape = (bb, canvas) => {
 	return shape;
 }
 
-const initCanvas = function(canvas, meta, only_view=false) {
+const initCanvas = function(canvas, meta, only_view=false, convert_func=image_convert) {
 	fabric.Image.fromURL(
 		meta.url_meta,
 		function(img) {
-			var wh = image_convert(img)
+			var wh = convert_func(img)
 			img.scaleToWidth(wh[0]);
 			img.scaleToHeight(wh[1]);
 			canvas.setWidth(wh[0]);
