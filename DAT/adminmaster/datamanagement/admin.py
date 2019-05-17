@@ -121,10 +121,12 @@ class InputDataAdmin(admin.ModelAdmin):
                 'cache-control': "no-cache",
                 'postman-token': "ec4b1786-44e2-eaf3-07db-35e849d18fb2"
             }
-            orthanc_url = 'https://172.28.183.160:10001/orthanc/instances/'
+            orthanc_url = 'https://172.28.183.160:10001/orthanc/instances/'  #### HARD CODE
             for idx, filename in enumerate(glob(os.path.join(dir_path, '**/*'), recursive=True)):
                 if os.path.isfile(filename):
                     response = requests.request("POST", orthanc_url, files=[('file', open(filename, 'rb'))], headers=headers, verify=False)    
+
+            shutil.rmtree(obj.get_output_path(), ignore_errors=True)
 
         return result
 
