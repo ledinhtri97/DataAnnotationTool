@@ -11,7 +11,7 @@ const styles = theme => ({
 	content: {
 		
 		flexGrow: 1,
-		padding: theme.spacing.unit * 2,
+		padding: '0px', //padding: theme.spacing.unit * 2,
 		width: '100%',
 		height: '100%',
 		overflow: 'auto',
@@ -21,11 +21,11 @@ const styles = theme => ({
 	},
 	firstcontainer:{
 		width: '100%',
-		height: '95%',
+		height: '100%',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingTop: "50px",
+		paddingTop: "0px",
 	},
 	secondcontainer:{
 		width: '100%',
@@ -62,19 +62,19 @@ class MedicalLabeling extends React.Component {
 		[
 			{
 				"canvas_id": "canvas_0",
-				"float": "right"
+				"float_position": "right"
 			},
 			{
 				"canvas_id": "canvas_1",
-				"float": "left"
+				"float_position": "left"
 			},
 			{
 				"canvas_id": "canvas_2",
-				"float": "right"
+				"float_position": "right"
 			},
 			{
 				"canvas_id": "canvas_3",
-				"float": "left"
+				"float_position": "left"
 			}
 		]
 	};
@@ -98,7 +98,7 @@ class MedicalLabeling extends React.Component {
                     <canvas id="canvas_2" className={classes.canvas}></canvas>
 					<canvas id="canvas_3" className={classes.canvas}></canvas>*/}
 
-					<Grid container className={classes.root} className={classes.gridcontainer} spacing={Number('8')}>
+					<Grid container id="medicalGridContainer" className={classes.root} className={classes.gridcontainer} spacing={Number('8')}>
 						{this.state.data.map((canvas_obj, i) => <MedicalGrid key = {i} 
 						data = {canvas_obj} />)}
 					</Grid>
