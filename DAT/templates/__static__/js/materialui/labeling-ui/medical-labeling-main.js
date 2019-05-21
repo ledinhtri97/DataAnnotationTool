@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MedicalGrid from './medical-grid';
 import Grid from '@material-ui/core/Grid';
 import { isAbsolute } from 'path';
+import { privateEncrypt } from 'crypto';
 
 const styles = theme => ({
 	appBarSpacer: theme.mixins.toolbar,
@@ -82,6 +83,36 @@ class MedicalLabeling extends React.Component {
 	contextMenu = function(e) {
     	e.preventDefault();
     	return false;
+	};
+
+	componentDidMount() {
+		let canvas = document.getElementById("canvas_0").getElementsByTagName("canvas")[0];
+		let ctx = canvas.getContext('2d');
+		let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		console.log(imgData);
+		
+		wait_opencvjs_to_exec(function(data) {
+			let src = cv.imread(data.canvas); // read canvas element or id
+			let dst = new cv.Mat();
+			console.log(src);
+
+			let s = new cv.Scalar(255, 0, 0, 255);
+			cv.copyMakeBorder(src, dst, 10, 10, 10, 10, cv.BORDER_CONSTANT, s);
+			cv.imshow(data.canvas, dst);
+			src.delete();
+			dst.delete();
+			
+		}, {canvas: canvas});
+
+		/*let src = cv.imread(canvas); // read canvas element or id
+		let dst = new cv.Mat();*/
+		
+		/*// You can try more different parameters
+		let s = new cv.Scalar(255, 0, 0, 255);
+		cv.copyMakeBorder(src, dst, 10, 10, 10, 10, cv.BORDER_CONSTANT, s);
+		cv.imshow(canvas, dst);
+		src.delete();
+		dst.delete();*/
 	};
 
 	render() {

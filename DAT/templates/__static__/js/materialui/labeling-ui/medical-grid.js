@@ -53,15 +53,15 @@ class MedicalGrid extends React.Component {
     var grid_height = medicalGridContainer.clientHeight / 2;
 
     return (
-        <Grid item xs={6} className={classes.griditem} style={{padding: "1px"}}>
-            <div style={{float: this.props.data.float_position, height: grid_height+'px', width: grid_width+'px'}}>
-                {/*<canvas id={this.props.data.canvas_id}></canvas>*/}
-                <CornerstoneViewport viewportData={exampleData}
-                    cornerstone={cornerstone} 
-                    cornerstoneTools={cornerstoneTools}
-                    style={{width: "100%"}}/>
-            </div>   
-        </Grid>
+          <Grid item xs={6} className={classes.griditem} style={{padding: "1px"}}>
+              <div id={this.props.data.canvas_id} style={{float: this.props.data.float_position, height: grid_height+'px', width: grid_width+'px'}}>
+                  {/*<canvas id={this.props.data.canvas_id}></canvas>*/}
+                  <CornerstoneViewport viewportData={exampleData}
+                      cornerstone={cornerstone} 
+                      cornerstoneTools={cornerstoneTools}
+                      style={{width: "100%"}}/>
+              </div>   
+          </Grid>
     );
   }
 }

@@ -20,6 +20,7 @@ import QuickSettings from './modules/labeling-module/settings'
 const labeling = document.getElementById("labeling");
 labeling && ReactDOM.render(<MedicalLabeling />, labeling);
 
+/*
 var canvas_arr = [];
 const num_canvas = 4;
 for(var c_idx=0; c_idx<num_canvas; c_idx++) {
@@ -32,6 +33,7 @@ for(var c_idx=0; c_idx<num_canvas; c_idx++) {
     });
     canvas_arr.push(canvas);
 }
+*/
 
 var header_menu = document.getElementsByTagName("header")[0];
 header_menu.style.display = 'none';
@@ -57,8 +59,8 @@ const meta_id = document.getElementById("meta_id");
 const skip_next = document.getElementById("skip_next");
 const save_next = document.getElementById("save_next");
 const drawStatus = new DrawStatus();
-const drawPoly = new DrawPolygon(canvas_arr[0]);
-const popupControllers = new PopupControllers(canvas_arr[0]); 
+//const drawPoly = new DrawPolygon(canvas_arr[0]);
+//const popupControllers = new PopupControllers(canvas_arr[0]); 
 const quickSettings = new QuickSettings();
 
 if(labeling){
@@ -88,18 +90,18 @@ if(labeling){
 			}
 		).then(meta => {
 		if(meta === "FAILED") return;
-			setTimeout(function(){initPredict(canvas_arr[0], meta)}, 100);
+			//setTimeout(function(){initPredict(canvas_arr[0], meta)}, 100);
 		});
 
-		init_event(canvas_arr[0], popupControllers, meta.label_select);
+		//init_event(canvas_arr[0], popupControllers, meta.label_select);
 
-		const tools_list_items = document.getElementById("tools_list_items");
+		/*const tools_list_items = document.getElementById("tools_list_items");
 		tools_list_items && ReactDOM.render(<ToolListItems 
 			label_select={meta.label_select} 
 			drawPoly={drawPoly} 
 			drawStatus={drawStatus}
 			quickSettings={quickSettings}/>, 
-			tools_list_items);
+			tools_list_items);*/
 
 		const keyboard = document.getElementById("keyboard");
 		keyboard && ReactDOM.render(<TemporaryDrawerInstruction label_select={meta.label_select}/>, keyboard);
