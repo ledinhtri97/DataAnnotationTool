@@ -5,13 +5,14 @@ import { withStyles } from '@material-ui/core/styles';
 import MedicalGrid from './medical-grid';
 import Grid from '@material-ui/core/Grid';
 import { isAbsolute } from 'path';
+import { privateEncrypt } from 'crypto';
 
 const styles = theme => ({
 	appBarSpacer: theme.mixins.toolbar,
 	content: {
 		
 		flexGrow: 1,
-		padding: theme.spacing.unit * 2,
+		padding: '0px', //padding: theme.spacing.unit * 2,
 		width: '100%',
 		height: '100%',
 		overflow: 'auto',
@@ -21,11 +22,11 @@ const styles = theme => ({
 	},
 	firstcontainer:{
 		width: '100%',
-		height: '95%',
+		height: '100%',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingTop: "50px",
+		paddingTop: "0px",
 	},
 	secondcontainer:{
 		width: '100%',
@@ -62,19 +63,19 @@ class MedicalLabeling extends React.Component {
 		[
 			{
 				"canvas_id": "canvas_0",
-				"float": "right"
+				"float_position": "right"
 			},
 			{
 				"canvas_id": "canvas_1",
-				"float": "left"
+				"float_position": "left"
 			},
 			{
 				"canvas_id": "canvas_2",
-				"float": "right"
+				"float_position": "right"
 			},
 			{
 				"canvas_id": "canvas_3",
-				"float": "left"
+				"float_position": "left"
 			}
 		]
 	};
@@ -82,6 +83,36 @@ class MedicalLabeling extends React.Component {
 	contextMenu = function(e) {
     	e.preventDefault();
     	return false;
+	};
+
+	componentDidMount() {
+		let canvas = document.getElementById("canvas_0").getElementsByTagName("canvas")[0];
+		let ctx = canvas.getContext('2d');
+		let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		console.log(imgData);
+		
+		wait_opencvjs_to_exec(function(data) {
+			let src = cv.imread(data.canvas); // read canvas element or id
+			let dst = new cv.Mat();
+			console.log(src);
+
+			let s = new cv.Scalar(255, 0, 0, 255);
+			cv.copyMakeBorder(src, dst, 10, 10, 10, 10, cv.BORDER_CONSTANT, s);
+			cv.imshow(data.canvas, dst);
+			src.delete();
+			dst.delete();
+			
+		}, {canvas: canvas});
+
+		/*let src = cv.imread(canvas); // read canvas element or id
+		let dst = new cv.Mat();*/
+		
+		/*// You can try more different parameters
+		let s = new cv.Scalar(255, 0, 0, 255);
+		cv.copyMakeBorder(src, dst, 10, 10, 10, 10, cv.BORDER_CONSTANT, s);
+		cv.imshow(canvas, dst);
+		src.delete();
+		dst.delete();*/
 	};
 
 	render() {
@@ -98,7 +129,7 @@ class MedicalLabeling extends React.Component {
                     <canvas id="canvas_2" className={classes.canvas}></canvas>
 					<canvas id="canvas_3" className={classes.canvas}></canvas>*/}
 
-					<Grid container className={classes.root} className={classes.gridcontainer} spacing={Number('8')}>
+					<Grid container id="medicalGridContainer" className={classes.root} className={classes.gridcontainer} spacing={Number('8')}>
 						{this.state.data.map((canvas_obj, i) => <MedicalGrid key = {i} 
 						data = {canvas_obj} />)}
 					</Grid>

@@ -51,7 +51,7 @@ const initCanvas = function(canvas, meta, only_view=false, convert_func=image_co
 	fabric.Image.fromURL(
 		meta.url_meta,
 		function(img) {
-			var wh = convert_func(img)
+			var wh = convert_func(img);
 			img.scaleToWidth(wh[0]);
 			img.scaleToHeight(wh[1]);
 			canvas.setWidth(wh[0]);
