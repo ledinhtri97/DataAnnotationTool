@@ -85,39 +85,15 @@ class MedicalLabeling extends React.Component {
     	return false;
 	};
 
-	componentDidMount() {
-		let canvas = document.getElementById("canvas_0").getElementsByTagName("canvas")[0];
-		let ctx = canvas.getContext('2d');
-		let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-		console.log(imgData);
-		
-		wait_opencvjs_to_exec(function(data) {
-			let src = cv.imread(data.canvas); // read canvas element or id
-			let dst = new cv.Mat();
-			console.log(src);
-
-			let s = new cv.Scalar(255, 0, 0, 255);
-			cv.copyMakeBorder(src, dst, 10, 10, 10, 10, cv.BORDER_CONSTANT, s);
-			cv.imshow(data.canvas, dst);
-			src.delete();
-			dst.delete();
-			
-		}, {canvas: canvas});
-
-		/*let src = cv.imread(canvas); // read canvas element or id
-		let dst = new cv.Mat();*/
-		
-		/*// You can try more different parameters
-		let s = new cv.Scalar(255, 0, 0, 255);
-		cv.copyMakeBorder(src, dst, 10, 10, 10, 10, cv.BORDER_CONSTANT, s);
-		cv.imshow(canvas, dst);
-		src.delete();
-		dst.delete();*/
-	};
-
 	render() {
 
 		const { classes } = this.props;
+		
+		/*
+		// container.js
+		const medical_mapping_chart_list = document.getElementById("medical_mapping_chart_list");
+		ReactDOM.render(<MedicalMappingChartList />, medical_mapping_chart_list);
+		*/
 		
 		return (
 			<main className={classes.content}>
@@ -151,6 +127,7 @@ class MedicalLabeling extends React.Component {
 				</div>
 			</div>
 			</main>
+
 			);
 	}
 }
