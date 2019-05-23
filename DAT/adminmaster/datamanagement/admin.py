@@ -1,5 +1,12 @@
-from django.contrib import admin
+import os
+import shutil
+import django.utils.safestring as safestring
+
+from glob import glob
 from django import forms
+from django.conf import settings
+from django.contrib import admin
+
 from .models import DataSetModel
 from .submodels.metadata import MetaDataModel
 from .submodels.inputdata import InputDataModel
@@ -15,14 +22,8 @@ from .submodels.medical_studies import MedicalStudiesModel
 from .submodels.medical_phase import MedicalPhaseModel
 from .submodels.medical_instance import MedicalInstanceModel
 from .submodels.medical_studies import MedicalStudiesModel
-import os
-import shutil
-from django.conf import settings
-import django.utils.safestring as safestring
-
-import requests
-import base64
-from glob import glob
+from .submodels.medical_dataset import MedicalDataSetModel
+from ..dicom_api import DICOMRESTApi
 
 
 class DataSetForm(forms.ModelForm):
@@ -37,8 +38,6 @@ class DataSetForm(forms.ModelForm):
         zipRarer = ZipRarExtractor(self.cleaned_data['input_file'])
         zipRarer.do_extract_all()
         """End of extract, Done!"""
-
-        
 
     def scanner_database(self, instance_dataset):
         """
@@ -142,123 +141,58 @@ class InputDataAdmin(admin.ModelAdmin):
         return result
 
     def _create_patients(self):
-        local_patients = MedicalPatientModel.objects.all()
-        
-        # compare 2 list ids of patients
-        local_patients_ids = [p.patient_uid for p in local_patients]
         remote_patient_ids = self.dicomApi.get_patients()        
-
+        
         for ind, remote_patient_id in enumerate(remote_patient_ids):
             remote_patient = self.dicomApi.get_patient(remote_patient_id)
+            
+            # create local patients
+            patient, is_created = MedicalPatientModel.objects.get_or_create({
+                'patient_name': remote_patient['MainDicomTags']['PatientName'],
+                'patient_birthdate': remote_patient['MainDicomTags']['PatientBirthDate'],
+                'patient_sex': remote_patient['MainDicomTags']['PatientSex'],
+                'patient_uid': remote_patient['MainDicomTags']['PatientID']
+            })
 
-            if True:
-                # create local patients
-                patient, is_created = MedicalPatientModel.objects.get_or_create({
-                    'patient_name': remote_patient['MainDicomTags']['PatientName'],
-                    'patient_birthdate': remote_patient['MainDicomTags']['PatientBirthDate'],
-                    'patient_sex': remote_patient['MainDicomTags']['PatientSex'],
-                    'patient_uid': remote_patient['MainDicomTags']['PatientID']
+            # create studies
+            for remote_study_id in remote_patient['Studies']:
+                remote_study = self.dicomApi.get_study(remote_study_id)
+                study, is_created = MedicalStudiesModel.objects.get_or_create({
+                    'studies_uid': remote_study_id,
+                    'studies_last_update': remote_study['LastUpdate'],
+                    'patient_id': patient
                 })
-
-                # create studies
-                for remote_study_id in remote_patient['Studies']:
-                    remote_study = self.dicomApi.get_study(remote_study_id)
-                    study, is_created = MedicalStudiesModel.objects.get_or_create({
-                        'studies_uid': remote_study_id,
-                        'studies_last_update': remote_study['LastUpdate'],
-                        'patient_id': patient
+                
+                # for each study create one dataset
+                if is_created:
+                    dataset, _ = MedicalDataSetModel.objects.get_or_create({
+                        'name': '_'.join(patient.patient_name, patient.patient_birthdate, remote_study['MainDicomTags']['StudyID']),
+                        'patient_id': patient,
+                        'study_id': study
                     })
 
-                    # create series
-                    for remote_seri_id in remote_study['Series']:
-                        remote_seri = self.dicomApi.get_seri(remote_seri_id)
-                        
-                        phase = MedicalPhaseModel.objects.get(phase_name=remote_seri['MainDicomTags']['SeriesDescription'])
-                        seri, is_created = MedicalSeriesModel.objects.get_or_create({
-                            'series_name': remote_seri['MainDicomTags']['SeriesDescription'],
-                            'series_instance_uid': remote_seri['ID'],
-                            'studies_id': study,
-                            'series_instance_number': remote_seri['MainDicomTags']['SeriesNumber'],
-                            'phase_id': phase
+                # create series
+                for remote_seri_id in remote_study['Series']:
+                    remote_seri = self.dicomApi.get_seri(remote_seri_id)
+                    
+                    phase = MedicalPhaseModel.objects.get(phase_name=remote_seri['MainDicomTags']['SeriesDescription'])
+                    seri, is_created = MedicalSeriesModel.objects.get_or_create({
+                        'series_name': remote_seri['MainDicomTags']['SeriesDescription'],
+                        'series_instance_uid': remote_seri['ID'],
+                        'studies_id': study,
+                        'series_instance_number': remote_seri['MainDicomTags']['SeriesNumber'],
+                        'phase_id': phase
+                    })
+
+                    # create instance
+                    for remote_instance_id in remote_seri['Instances']:
+                        remote_instance = self.dicomApi.get_instance(remote_instance_id)
+                        instance, is_created = MedicalInstanceModel.objects.get_or_create({
+                            'index_in_series': remote_instance['IndexInSeries'],
+                            'instance_uid': remote_instance['ID'],
+                            'seri_id': seri
                         })
 
-                        # create instance
-                        for remote_instance_id in remote_seri['Instances']:
-                            remote_instance = self.dicomApi.get_instance(remote_instance_id)
-                            instance, is_created = MedicalInstanceModel.objects.get_or_create({
-                                'index_in_series': remote_instance['IndexInSeries'],
-                                'instance_uid': remote_instance['ID'],
-                                'seri_id': seri
-                            })
-
-            else:
-                local_patient = local_patients[ind]
-                local_studies = MedicalStudiesModel.objects.select_related('patient_id')
-                remote_studies = self.dicomApi.get_studies()
-                remote_study_ids = [s['']]
-                print('Implement later')
-                # for remote_study in remote_studies:
-                #     if remote_study not in local_studies:
-                #         remote
-
-
-class DICOMRESTApi():
-    def __init__(self, url, username='orthanc', password='orthanc'):
-        self.url = url
-        self.headers = {}
-        token = username + ':' + password
-        self.headers['authorization'] = 'Basic ' + base64.b64encode(token.encode('utf-8')).decode()
-
-    def get_patients(self):
-        patients = []
-        req = requests.get(os.path.join(self.url, 'patients'))
-        if req.status_code == 200:
-            patients = req.json()
-
-        return patients
-
-    def get_patient(self, id):
-        patient = None
-        req = requests.get(os.path.join(self.url, 'patients', id))
-        if req.status_code == 200:
-            patient = req.json()
-
-        return patient
-
-    def send_dicom_file(self, filename):
-        return requests.post(self.url, files=[('file', open(filename, 'rb'))], headers=self.headers, verify=False)    
-
-    def get_study(self, id):
-        study = None
-        req = requests.get(os.path.join(self.url, 'studies', id))
-        if req.status_code == 200:
-            study = req.json()
-
-        return study
-
-    def get_studies(self):
-        studies = []
-        req = requests.get(os.path.join(self.url, 'studies'))
-        if req.status_code == 200:
-            studies = req.json()
-
-        return studies
-    
-    def get_seri(self, id):
-        seri = None
-        req = requests.get(os.path.join(self.url, 'series', id))
-        if req.status_code == 200:
-            seri = req.json()
-
-        return seri
-
-    def get_instance(self, id):
-        instance = None
-        req = requests.get(os.path.join(self.url, 'instances', id))
-        if req.status_code == 200:
-            instance = req.json()
-
-        return instance
 
 class OutputDataForm(forms.ModelForm):
     class Meta:
@@ -377,6 +311,43 @@ class MedicalStudiesModelAdmin(admin.ModelAdmin):
     list_display = ('__str__',)
     save_on_top = True
 
+
+class MedicalDataSetForm(forms.ModelForm):
+
+    class Meta:
+        model = MedicalDataSetModel
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(MedicalDataSetForm, self).__init__(*args, **kwargs)
+        self.fields['non_contrast_phase'].queryset = MedicalSeriesModel.objects.filter(
+                                        studies_id=self.instance.study_id.id)
+        self.fields['arterial_phase'].queryset = MedicalSeriesModel.objects.filter(
+                                        studies_id=self.instance.study_id.id)
+        self.fields['venous_phase'].queryset = MedicalSeriesModel.objects.filter(
+                                        studies_id=self.instance.study_id.id)
+        self.fields['delay_phase'].queryset = MedicalSeriesModel.objects.filter(
+                                        studies_id=self.instance.study_id.id)
+
+class MedicalDataSetModelAdmin(admin.ModelAdmin):
+    readonly_fields = ('name', 'study_id')  
+    list_display = ('__str__',)
+    save_on_top = True
+
+    form = MedicalDataSetForm
+
+    def save_model(self, request, obj, form, change):
+        result = super(MedicalDataSetModelAdmin, self).save_model(request, obj, form, change)
+        for seri_phase in [obj.non_contrast_phase, obj.arterial_phase, obj.venous_phase, obj.delay_phase]:
+            if seri_phase:
+                instances = MedicalInstanceModel.objects.filter(seri_id=seri_phase.id)
+                for instance in instances:
+                    instance.dataset_id = obj
+                    instance.save()
+
+        return result
+
+
 # Register your models here.
 admin.site.register(DataSetModel, DataSetAdmin)
 admin.site.register(InputDataModel, InputDataAdmin)
@@ -389,3 +360,4 @@ admin.site.register(MedicalSeriesModel, MedicalSeriesModelAdmin)
 admin.site.register(MedicalPhaseModel, MedicalPhaseModelAdmin)
 admin.site.register(MedicalInstanceModel, MedicalInstanceModelAdmin)
 admin.site.register(MedicalStudiesModel, MedicalStudiesModelAdmin)
+admin.site.register(MedicalDataSetModel, MedicalDataSetModelAdmin)
