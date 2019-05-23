@@ -14,9 +14,10 @@ from usermaster.subviews.request import contribute_view
 from usermaster.subviews import apiview
 from usermaster.subviews.request.overview_all_view import OverViewAllView
 from usermaster.subviews.request import overview_workspcae_view as owv
+from usermaster.subviews.request import medical_labeling_view
+
 
 urlpatterns = [
-    
     path('', WorkspaceView.as_view(), name='workspace'),
 
     path('contribute/', ContributeView.as_view(), name='contribute'),
@@ -29,6 +30,11 @@ urlpatterns = [
 
     path('api_reference/<int:metaid>/'+settings.SLUG_API_URL,
          labeling_view.api_reference_index, name='api_reference'),
+
+    # add medical api
+    path('medical/instance/dataset/<int:datasetid>/',
+         medical_labeling_view.get_list_instance, name='get_list_instance'),
+ 
     path('next/<int:metaid>/', labeling_view.next_index, name='next'),
     path('savenext/<int:metaid>/', labeling_view.savenext_index, name='savenext'),
     
