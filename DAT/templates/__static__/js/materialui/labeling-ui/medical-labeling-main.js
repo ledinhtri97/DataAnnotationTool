@@ -100,11 +100,6 @@ class MedicalLabeling extends React.Component {
 			
 			<div className={classes.firstcontainer}>
 				<div className={classes.secondcontainer} id="cvcontainer" onContextMenu={this.contextMenu}>
-					{/*<canvas id="canvas_0" className={classes.canvas}></canvas>
-                    <canvas id="canvas_1" className={classes.canvas}></canvas>
-                    <canvas id="canvas_2" className={classes.canvas}></canvas>
-					<canvas id="canvas_3" className={classes.canvas}></canvas>*/}
-
 					<Grid container id="medicalGridContainer" className={classes.root} className={classes.gridcontainer} spacing={Number('8')}>
 						{this.state.data.map((canvas_obj, i) => <MedicalGrid key = {i} 
 						data = {canvas_obj} />)}
@@ -114,7 +109,6 @@ class MedicalLabeling extends React.Component {
 						{<label id="label_popup" className={classes.label}></label>}
 						{<label id="accuracy_popup" className={classes.label}></label>}
 					</div>
-					<div id="image_zoom" style={{display: 'none', position: 'absolute',}}></div>
 				</div>
 				<div className={classes.hidden}>
 					<span id="show_popup"></span>

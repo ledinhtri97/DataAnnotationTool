@@ -35,8 +35,8 @@ for(var c_idx=0; c_idx<num_canvas; c_idx++) {
 }
 */
 
-var header_menu = document.getElementsByTagName("header")[0];
-header_menu.style.display = 'none';
+/*var header_menu = document.getElementsByTagName("header")[0];
+header_menu.style.display = 'none';*/
 
 /*const settings = document.getElementById("settings");
 settings && ReactDOM.render(<TemporaryDrawerSettings canvas={canvas}/>, settings);*/
