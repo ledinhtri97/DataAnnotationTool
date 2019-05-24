@@ -35,7 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 
+    'django_extensions',
     'colorfield',
     'progressbarupload',
     'rest_framework',
@@ -60,6 +62,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'DAT.urls'
@@ -167,3 +172,11 @@ FLAG_CUDA = False
 SLUG_API_URL = 'api-get-data/'
 
 NUM_USER_SKIP_AVAILABLE = 2
+
+GRAPH_MODELS = {
+    'all_applications': True,
+    'group_models': True,
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
