@@ -122,7 +122,8 @@ const styles = theme =>({
     },
     labeling:{
     	width: '100%',
-    	height: '100%',
+		height: '100%',
+		backgroundColor: 'black', // black background for medical labeling UI
     },
     span:{
     	display: 'inline-flex',
