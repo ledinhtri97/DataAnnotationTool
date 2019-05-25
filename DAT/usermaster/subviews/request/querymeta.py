@@ -8,19 +8,21 @@ def get_fake_api(meta, api_ref):
     
     try:
         print("try 1:", api_ref.local_api_url)
-        r = requests.post(api_ref.local_api_url, files=files,
-                          verify=False)
+        r = requests.post(api_ref.local_api_url, files=files,verify=False)
         print("go to link", api_ref.local_api_url)
-    except:
-        try:
-            if api_ref.public_api_url != "https://api_name_public/":
-                print(api_ref.public_api_url)
-                r = requests.post(api_ref.public_api_url,
-                                  files=files, verify=False)
-            print("try 2:", r)
-        except Exception as e:
-            r = None
-            data = [{'error': str(e)}]
+    except Exception as e:
+        r = None
+        print(e)
+        data = [{'error': 'Failed to connect'}]
+        # try:
+        #     if api_ref.public_api_url != "https://api_name_public/":
+        #         print(api_ref.public_api_url)
+        #         r = requests.post(api_ref.public_api_url,
+        #                           files=files, verify=False)
+        #     print("try 2:", r)
+        # except Exception as e:
+        #     r = None
+        #     data = [{'error': str(e)}]
     if r:
         try:
             json_data = r.json()
@@ -40,7 +42,7 @@ def get_fake_api(meta, api_ref):
 
         except Exception as e:
             print(e)
-            data = [{'error': json_data}]
+            data = [{'error': 'Failed to connect'}]
         #{'data':{'boxes':[{'conf', 'label', 'xmax', 'ymax', 'xmin', 'ymin'}], '...parameters'}
     print(data)
     return data

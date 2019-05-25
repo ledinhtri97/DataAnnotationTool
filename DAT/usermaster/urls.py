@@ -7,7 +7,7 @@ from usermaster.subviews.contribute import ContributeView
 from usermaster.subviews.request import labeling_view
 
 from usermaster.subviews.request import contribute_view
-from usermaster.subviews import apiview
+# from usermaster.subviews import apiview
 from usermaster.subviews.request.overview_all_view import OverViewAllView
 from usermaster.subviews.request import overview_workspcae_view as owv
 

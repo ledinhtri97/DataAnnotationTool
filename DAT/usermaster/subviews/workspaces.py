@@ -33,12 +33,18 @@ class WorkspaceView(generics.RetrieveAPIView):
 
 
 def get_data_settings(request):
-  setts = UserSettingsModel.objects.filter(user=request.user).first()
-  return JsonResponse(data=json.loads(setts.settings))
+  data = {}
+  try:
+    setts = UserSettingsModel.objects.get(user=request.user)
+    data = json.loads(setts.settings)
+  except Exception as e:
+    data['Error'] = 'Data is not available'
+    data['Messenger'] = str(e)
+  
+  return JsonResponse(data=data)
 
 def saveseting_index(request):
   if request.method == 'POST':
-
     try:
 
       __body__ = json.loads(request.body.decode('utf-8'))
