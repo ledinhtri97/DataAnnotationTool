@@ -17,6 +17,10 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from usermaster.subviews.change_pass import change_password
+from django.contrib import admin
+
+admin.site.site_title = "Data Annotation Tool - GVLab"
+admin.site.site_header = "Data Annotation Tool - GVLab - Adminsite"
 
 urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
