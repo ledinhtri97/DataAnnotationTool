@@ -97,6 +97,7 @@ class TemporaryDrawerSettings extends React.Component {
 				size_icon: str2var(sett.size_icon),
 			});
 
+
 			document.getElementById("show_popup").textContent = sett.show_popup;
 			document.getElementById("show_label").textContent = sett.show_label;
 			document.getElementById("auto_hidden").textContent = sett.auto_hidden;
