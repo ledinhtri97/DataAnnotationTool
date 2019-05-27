@@ -147,6 +147,7 @@ const rqsavesettings = function(){
 		'sett': {
 			'show_popup': document.getElementById('show_popup').textContent,
 			'auto_hidden': document.getElementById('auto_hidden').textContent,
+			'show_label': document.getElementById("show_label").textContent,
 			'ask_dialog': document.getElementById('ask_dialog').textContent,
 			'color_background': document.getElementById('color_background').textContent,
 			'size_icon': document.getElementById('size_icon').textContent,
