@@ -44,7 +44,7 @@ import historyListItems from './labeling-ui/listitem/historyListItems';
 
 import {outWorkSpace} from "../modules/dat-utils"
 
-const drawerWidth = 240;
+const drawerWidth = 500;
 
 const styles = theme =>({
 	root: {
@@ -122,7 +122,8 @@ const styles = theme =>({
     },
     labeling:{
     	width: '100%',
-    	height: '100%',
+		height: '100%',
+		backgroundColor: 'black', // black background for medical labeling UI
     },
     span:{
     	display: 'inline-flex',
@@ -163,7 +164,7 @@ const styles = theme =>({
 
 // {/*<IconButton className={classes.menuButton} color="inherit" aria-label="Menu">*/}
 
-class MenuAppBar extends React.Component {
+class MedicalMenuAppBar extends React.Component {
 	
 	state = {
 		anchorEl: null,
@@ -245,148 +246,55 @@ class MenuAppBar extends React.Component {
 		const ON_CONTRIBUTE = document.getElementById("contribute") != null;
 		return (	
 			<div className={classes.root}>
-			<CssBaseline />
-			<AppBar position={(ON_HOMEPAGE || ON_CONTRIBUTE) ? "static" : "absolute"}
-			className={classNames(classes.root_appbar, ON_WORKING && classes.appBar, ON_WORKING && this.state.open && classes.appBarShift)}>
-			<Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
-			<IconButton
-			color="inherit"
-			aria-label="Open drawer"
-			onClick={this.handleDrawerOpen}
-			className={classNames(classes.menuButton, ON_WORKING && this.state.open && classes.menuButtonHidden,)}>
-			{ON_WORKING && (<MenuIcon />)}
-			</IconButton>
-			<IconButton aria-haspopup="true" color="inherit" onClick={this.handleWorkspace}>
-			<Home />
-			</IconButton>
-			<Typography variant="h6" color="inherit" className={classes.grow}>Data Annotation Tool - GVLab</Typography>
-			<div>
-			{
-				ON_WORKING && (
-					<React.Fragment>
-					<Button id="label" variant="contained" color="primary" className={classes.button}>NO LABEL</Button>
-					<Tooltip 
-					title="Skip and next" 
-					TransitionComponent={Zoom} 
-					placement="bottom" 
-					classes={{tooltip: classes.lightTooltip}}>
-					<IconButton id="skip_next" aria-haspopup="true" color="inherit">
-					<SkipNext />
-					</IconButton>
-					</Tooltip>
-					<Tooltip 
-					title="Save and continue" 
-					TransitionComponent={Zoom} 
-					placement="bottom" 
-					classes={{tooltip: classes.lightTooltip}}>
-					<IconButton id="save_next" aria-haspopup="true" color="inherit">
-					<Beenhere />
-					<KeyboardArrowRight />
-					</IconButton>
-					</Tooltip>
-					</React.Fragment>)
-			}
-			<Chip label={document.getElementById("username").textContent} className={classNames(classes.chip, ON_WORKING && classes.padcontroller)} />
-			{ON_WORKING && <span id="keyboard" className={classes.span} />}
-			<Tooltip 
-			title="Account" 
-			TransitionComponent={Zoom} 
-			placement="bottom" 
-			classes={{tooltip: classes.lightTooltip}}>
-			<IconButton 
-			aria-owns={open ? 'menu-appbar' : undefined} 
-			aria-haspopup="true" onClick={this.handleMenu} color="inherit">
-			<AccountCircle />
-			</IconButton>
-			</Tooltip>
-			<Menu
-			id="menu-appbar"
-			anchorEl={anchorEl}
-			anchorOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
-			}}
-			transformOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
-			}}
-			open={open}
-			onClose={this.handleClose}
-			>
-		{/*<MenuItem onClick={this.handleClose}>Profile</MenuItem>*/}
-		<MenuItem onClick={this.handleWorkspace}>Main Workspace</MenuItem>
-		<MenuItem onClick={this.handlePassword}>Change Password</MenuItem>
-		<MenuItem onClick={this.handleLogout}>Log out</MenuItem>
-		</Menu>
-		</div>
-		</Toolbar>
-		</AppBar>
+			<CssBaseline />			   
 
-		{ON_WORKING && (<Drawer
-			variant="permanent"
-			classes={{
-				paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-			}}
-			open={this.state.open}
-			>
-			<div className={classes.toolbarIcon}>
+            {ON_WORKING && (<Drawer
+                variant="permanent"
+                classes={{
+                    paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+                }}
+                open={this.state.open}
+                >
+                    <div className={classes.toolbarIcon}>
+                        <span id="settings" title="Settings" className={classes.span} />                        
+                        <IconButton onClick={this.handleDrawerClose}
+                            className={classNames(ON_WORKING && !this.state.open && classes.menuButtonHidden,)}
+                            >
+                            <ChevronLeftIcon />
+                        </IconButton>
+                    </div>
 
-			<span id="settings" title="Settings" className={classes.span} />
-			
-			<IconButton onClick={this.handleDrawerClose}>
-			<ChevronLeftIcon />
-			</IconButton>
-			</div>
+                    <IconButton
+                        color="inherit"
+                        aria-label="Open drawer"
+                        onClick={this.handleDrawerOpen}
+                        className={classNames(ON_WORKING && this.state.open && classes.menuButtonHidden,)}>
+                        {ON_WORKING && (<MenuIcon />)}
+                    </IconButton>
 
+                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleExpandInDrawer('panel1')}>
+                        <ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
+                            <ListItem button className={classes.tabExpandTitle}>
+                            <ListItemText primary="Tools"/>
+                            </ListItem>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails className={classes.tabExpandDetail}>
+                            <Divider />
+                            <List className={classes.listItem} id="tools_list_items"></List>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
 
-			<ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleExpandInDrawer('panel1')}>
-			<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
-			<ListItem button className={classes.tabExpandTitle}>
-			<ListItemText primary="Tools"/>
-			</ListItem>
-			</ExpansionPanelSummary>
-			<ExpansionPanelDetails className={classes.tabExpandDetail}>
-			<Divider />
-			<List className={classes.listItem} id="tools_list_items"></List>
-			</ExpansionPanelDetails>
-			</ExpansionPanel>
+                </Drawer>
+            )}
 
-			<ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleExpandInDrawer('panel2')}>
-			<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
-			<ListItem button className={classes.tabExpandTitle}>
-			<ListItemText primary="Labels"/>
-			</ListItem>
-			</ExpansionPanelSummary>
-			<ExpansionPanelDetails className={classes.tabExpandDetail}>
-			<Divider />
-			<List className={classes.listItem} id="label_list_items"></List>
-			</ExpansionPanelDetails>
-			</ExpansionPanel>
-
-
-			<ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleExpandInDrawer('panel3')}>
-			<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
-			<ListItem button className={classes.tabExpandTitle}>
-			<ListItemText primary="General" />
-			</ListItem>
-			</ExpansionPanelSummary>
-			<ExpansionPanelDetails className={classes.tabExpandDetail}>
-			<Divider />
-			<List className={classes.listItem} id="general_list_items"></List>
-			</ExpansionPanelDetails>
-			</ExpansionPanel>
-
-			</Drawer>
-			)}
-
-		{ON_WORKING && <div id="labeling" className={classes.labeling}></div>}
-		</div>	
+            {ON_WORKING && <div id="labeling" className={classes.labeling}></div>}
+            </div>	
 		);
 }
 }
 
-MenuAppBar.propTypes = {
+MedicalMenuAppBar.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MenuAppBar);
+export default withStyles(styles)(MedicalMenuAppBar);

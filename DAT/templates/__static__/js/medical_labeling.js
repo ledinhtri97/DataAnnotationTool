@@ -15,45 +15,9 @@ import {PopupControllers} from "./modules/labeling-module/controller/popup";
 import {DrawPolygon} from "./modules/labeling-module/drawer/polygon"
 import {Color} from "./modules/labeling-module/style/color";
 import DrawStatus from './modules/labeling-module/drawstatus';
-import QuickSettings from './modules/labeling-module/settings'
-
-const labeling = document.getElementById("labeling");
-labeling && ReactDOM.render(<MedicalLabeling />, labeling);
-
-/*
-var canvas_arr = [];
-const num_canvas = 4;
-for(var c_idx=0; c_idx<num_canvas; c_idx++) {
-    const canvas = new fabric.Canvas('canvas_'+c_idx.toString(), {
-        hoverCursor: 'pointer',
-        selection: true,
-        selectionBorderColor: Color.GREEN,
-        backgroundColor: null,
-        uniScaleTransform: true,
-    });
-    canvas_arr.push(canvas);
-}
-*/
-
-var header_menu = document.getElementsByTagName("header")[0];
-header_menu.style.display = 'none';
-
-/*const settings = document.getElementById("settings");
-settings && ReactDOM.render(<TemporaryDrawerSettings canvas={canvas}/>, settings);*/
+// import QuickSettings from './modules/labeling-module/settings'
 
 //===================DEFAULT-INIT======================//
-
-function image_convert_medical(img){
-	var parent = document.getElementById("cvcontainer");
-	if(parent){
-		var scale = Math.min( 
-			parent.clientWidth / img.width / 2, 
-			parent.clientHeight / img.height / 2 
-			);
-		return [img.width*scale, img.height*scale]
-	}
-}
-
 const group_control =  document.getElementById("group_control");
 const meta_id = document.getElementById("meta_id");
 const skip_next = document.getElementById("skip_next");
@@ -61,58 +25,57 @@ const save_next = document.getElementById("save_next");
 const drawStatus = new DrawStatus();
 //const drawPoly = new DrawPolygon(canvas_arr[0]);
 //const popupControllers = new PopupControllers(canvas_arr[0]); 
-const quickSettings = new QuickSettings();
+// const quickSettings = new QuickSettings();
 
-if(labeling){
+//===================RENDER LABELING UI======================//
 
-	fetch('/gvlab-dat/workspace/metaview/'+meta_id.textContent+'/api-get-data/?label_select=true', {})
-	.then(response => {
-		if(response.status !== 200){
-			return "FAILED";
-		}
-			return response.json();
-		}
-	).then(meta => {
-
-		if(meta === "FAILED") return;
-
-		/*
-        for(var c_idx=0; c_idx<num_canvas; c_idx++) {
-            initCanvas(canvas_arr[c_idx], meta, false, image_convert_medical);
-        }*/
-		
-		fetch('/gvlab-dat/workspace/api_reference/'+meta_id.textContent+'/api-get-data/', {})
-		.then(response => {
-			if(response.status !== 200){
-				return "FAILED";
-			}
-				return response.json();
-			}
-		).then(meta => {
-		if(meta === "FAILED") return;
-			//setTimeout(function(){initPredict(canvas_arr[0], meta)}, 100);
-		});
-
-		//init_event(canvas_arr[0], popupControllers, meta.label_select);
-
-		/*const tools_list_items = document.getElementById("tools_list_items");
-		tools_list_items && ReactDOM.render(<ToolListItems 
-			label_select={meta.label_select} 
-			drawPoly={drawPoly} 
-			drawStatus={drawStatus}
-			quickSettings={quickSettings}/>, 
-			tools_list_items);*/
-
-		const keyboard = document.getElementById("keyboard");
-		keyboard && ReactDOM.render(<TemporaryDrawerInstruction label_select={meta.label_select}/>, keyboard);
-
-	});
-
+const labeling = document.getElementById("labeling");
+if (labeling) {
+	const dataset_id = meta_id.textContent;
+	///////fetch('/gvlab-dat/workspace/medical/instance/dataset/'+dataset_id+'/', {})
 	
+	/*
+	console.log("call XML Thanh");
+	var xhr = new XMLHttpRequest();
+	xhr.addEventListener("readystatechange", function () {
+		if (this.readyState === 4) {
+			console.log(this.responseText);
+		}
+	});
+	xhr.open("GET", "http://172.28.182.130:8788/gvlab-dat/workspace/medical/instance/dataset/1/");
+	//////xhr.send(data);
+	xhr.send();
+	console.log("Done!");	
+	*/
+	fetch('http://172.28.182.130:8788/gvlab-dat/workspace/medical/instance/dataset/1/', {
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+	})
+	.then(response => {
+		return response.json();
+	}).then(result => {
+		var data = [];
+		for(let i in result) {
+			const phase_name = result[i].phase_name;
+			const instance_url = result[i].instance_url;
+			data.push(instance_url);
+		}
+
+		/*data = [
+			"dicomweb://172.28.182.130/orthanc/instances/638355d5-1eff8f5a-fbe9c2c9-11d4ace7-86efaea2/file",
+			"dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm",
+		]*/
+
+		console.log("DEBUG BY ADDING CUSTOM DATA");
+		data.push("dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm");
+
+		ReactDOM.render(<MedicalLabeling data={data}/>, labeling);
+	});
 }
 
 //=====================CONTROLER=======================//
-
 
 const controllerRequest = (callback_cl) => {
 
