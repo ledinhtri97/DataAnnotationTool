@@ -123,32 +123,29 @@ class ZipRarExtractor(object):
 
     def extractrar(self, loc, outloc):
         '''
-        using the rarfile tool extract here .
+        using the rarfile | patoolib tool extract here .
         this function is valid if the file type is rar only
         '''
         # check the file is rar or not
+
         if os.name == 'nt':
             patoolib.extract_archive(loc, outdir=outloc)
         else:
+            rarfile.UNRAR_TOOL = '/usr/bin/unrar'
             if(rarfile.is_rarfile(loc)):
                 with rarfile.RarFile(loc, "r") as rar_ref:
-                    # iterate over zip info list.
+                    
                     for item in rar_ref.infolist():
-                        print(item)
                         rar_ref.extract(item, outloc)
-                    # once extraction is complete
-                    # get the name of the rar files inside the rar.
-                    rar_files = [file for file in rar_ref.infolist() 
-                        if file.filename.endswith('.rar')]
-                    # iterate
-                    for file in rar_files:
-                        # iterate to get the name.
-                        new_loc = os.path.join(outloc, file.filename)
-                        # new location
-                        # print(new_loc)
-                        # start extarction.
-                        # check_archrive_file(new_loc)
-                    # close.
+                    
+                    # rar_files = [file for file in rar_ref.infolist() 
+                    #     if file.filename.endswith('.rar')]
+                        
+                    # for file in rar_files:
+                    #     new_loc = os.path.join(outloc, file.filename)    
+                    #     print(new_loc)
+                    #     check_archrive_file(new_loc)
+
                     rar_ref.close()
             else:
                 print("File "+loc+" is not a rar file")
