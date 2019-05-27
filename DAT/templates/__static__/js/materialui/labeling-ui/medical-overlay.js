@@ -93,7 +93,7 @@ class GVMedicalOverlay extends React.Component {
         }
     }
     
-    mouse_down = (event) => {        
+    mouse_down = (event) => {  
         if (event.nativeEvent.which === 3) { // no processing on right click
             return;
         }
@@ -102,11 +102,54 @@ class GVMedicalOverlay extends React.Component {
             this.data.zoom_from_x = event.nativeEvent.offsetX;
             this.data.zoom_from_y = event.nativeEvent.offsetY;
             this.data.is_chosen_zoom_from = true;
+        } else if (!this.data.is_zoom_in) {
+            // apply region growing algorithm
+            const x = event.nativeEvent.offsetX;
+            const y = event.nativeEvent.offsetY;
+            const result = this.props.tunnel_region_growing(x, y);
+
+            var pixel_xy = result.region;
+            var cvmask = result.mask;
+
+            var overlay_canvas = document.getElementById(this.props.canvas_id);
+            var context = overlay_canvas.getContext("2d");
+            var image_data = context.getImageData(0, 0, overlay_canvas.width, overlay_canvas.height);
+            var pix = image_data.data;
+            var to_loc1d = (x, y) => (y*overlay_canvas.width+x)*4;
+
+            // modify image data
+            if (cvmask) {
+                console.log("Using cvmask!");
+                for(var p=0; p<cvmask.rows*cvmask.cols; p++) {
+                    if (cvmask.data[p] > 0) {
+                        var loc1d = p * 4;
+                        pix[loc1d] = 255;
+                        pix[loc1d+1] = 165;
+                        pix[loc1d+2] = 0;
+                        pix[loc1d+3] = 127;     // alpha: opaque=255, transparent=0
+                    }
+                }
+                cvmask.delete();
+            } else {
+                for(var p=0; p<pixel_xy.length; p++) {
+                    var pos = pixel_xy[p];
+                    var loc1d = to_loc1d(pos.x, pos.y);
+                    pix[loc1d] = 255;
+                    pix[loc1d+1] = 165;
+                    pix[loc1d+2] = 0;
+                    pix[loc1d+3] = 127;     // alpha: opaque=255, transparent=0
+                }
+            }
+
+            context.putImageData(image_data, 0, 0);
+            console.log("done");
+
         }
     }
     
     mouse_up = (event) => {
-        if (event.nativeEvent.which === 3) { // no processing on right click
+        if (event.nativeEvent.which === 3) {
+            // no processing on left or right click, we did it on mouse_down
             return;
         } 
         
