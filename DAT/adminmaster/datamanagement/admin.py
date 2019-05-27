@@ -3,9 +3,12 @@ import shutil
 import django.utils.safestring as safestring
 
 from glob import glob
+from datetime import datetime
 from django import forms
 from django.conf import settings
 from django.contrib import admin
+from django.utils import timezone
+from dateutil.parser import parse
 
 from .models import DataSetModel
 from .submodels.metadata import MetaDataModel
@@ -147,52 +150,69 @@ class InputDataAdmin(admin.ModelAdmin):
             remote_patient = self.dicomApi.get_patient(remote_patient_id)
             
             # create local patients
-            patient, is_created = MedicalPatientModel.objects.get_or_create({
-                'patient_name': remote_patient['MainDicomTags']['PatientName'],
-                'patient_birthdate': remote_patient['MainDicomTags']['PatientBirthDate'],
-                'patient_sex': remote_patient['MainDicomTags']['PatientSex'],
-                'patient_uid': remote_patient['MainDicomTags']['PatientID']
-            })
+            patient_birthdate = parse(remote_patient['MainDicomTags']['PatientBirthDate'])
+            patient, is_created = MedicalPatientModel.objects.get_or_create(
+                patient_name=remote_patient['MainDicomTags']['PatientName'],
+                patient_birthdate=patient_birthdate,
+                patient_sex=remote_patient['MainDicomTags']['PatientSex'],
+                patient_uid=remote_patient['MainDicomTags']['PatientID']
+            )       
 
             # create studies
             for remote_study_id in remote_patient['Studies']:
                 remote_study = self.dicomApi.get_study(remote_study_id)
-                study, is_created = MedicalStudiesModel.objects.get_or_create({
-                    'studies_uid': remote_study_id,
-                    'studies_last_update': remote_study['LastUpdate'],
-                    'patient_id': patient
-                })
+                
+                last_update = parse(remote_study['LastUpdate'])
+                
+                study, is_created = MedicalStudiesModel.objects.get_or_create(
+                    studies_uid=remote_study_id,
+                    studies_last_update=last_update,
+                    patient_id=patient
+                )
                 
                 # for each study create one dataset
                 if is_created:
-                    dataset, _ = MedicalDataSetModel.objects.get_or_create({
-                        'name': '_'.join(patient.patient_name, patient.patient_birthdate, remote_study['MainDicomTags']['StudyID']),
-                        'patient_id': patient,
-                        'study_id': study
-                    })
+                    name_comps = [patient.patient_name,
+                                  patient.patient_birthdate.isoformat(),
+                                  remote_study['MainDicomTags']['StudyID']]
+                    dataset, _ = MedicalDataSetModel.objects.get_or_create(
+                        name='_'.join(name_comps),
+                        study_id=study
+                    )
 
                 # create series
                 for remote_seri_id in remote_study['Series']:
-                    remote_seri = self.dicomApi.get_seri(remote_seri_id)
+                    remote_seri = self.dicomApi.get_seri(remote_seri_id)                    
+                    series_name = ''
+
+                    try:
+                        series_name = remote_seri['MainDicomTags']['SeriesDescription']
+                        phase = MedicalPhaseModel.objects.get(phase_name=series_name)
+                    except Exception as e:
+                        phase = MedicalPhaseModel.objects.get(phase_number=1)
+                        print(e)
                     
-                    phase = MedicalPhaseModel.objects.get(phase_name=remote_seri['MainDicomTags']['SeriesDescription'])
-                    seri, is_created = MedicalSeriesModel.objects.get_or_create({
-                        'series_name': remote_seri['MainDicomTags']['SeriesDescription'],
-                        'series_instance_uid': remote_seri['ID'],
-                        'studies_id': study,
-                        'series_instance_number': remote_seri['MainDicomTags']['SeriesNumber'],
-                        'phase_id': phase
-                    })
+                    try:
+                        series_number = int(remote_seri['MainDicomTags'].get('SeriesNumber', 0))
+                    except:
+                        series_number = 0
+
+                    seri, is_created = MedicalSeriesModel.objects.get_or_create(
+                        series_name=series_name,
+                        series_instance_uid=remote_seri['ID'],
+                        studies_id=study,
+                        series_instance_number=series_number,
+                        phase_id=phase
+                    )
 
                     # create instance
                     for remote_instance_id in remote_seri['Instances']:
                         remote_instance = self.dicomApi.get_instance(remote_instance_id)
-                        instance, is_created = MedicalInstanceModel.objects.get_or_create({
-                            'index_in_series': remote_instance['IndexInSeries'],
-                            'instance_uid': remote_instance['ID'],
-                            'seri_id': seri
-                        })
-
+                        instance, is_created = MedicalInstanceModel.objects.get_or_create(
+                            index_in_series=remote_instance['IndexInSeries'],
+                            instance_uid=remote_instance['ID'],
+                            seri_id=seri
+                        )
 
 class OutputDataForm(forms.ModelForm):
     class Meta:

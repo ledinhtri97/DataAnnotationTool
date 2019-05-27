@@ -23,6 +23,19 @@ def get_list_instance(request, datasetid):
 
 	response = []
 	dcm_file_url = os.path.join(settings.DICOM_SERVER['BASE_URL'], 'instances', '{}', 'file')
+	
+	# support cornerstone viewport
+	replace_str = None
+	
+	if 'http://' in dcm_file_url:
+		replace_str = 'http'
+	elif 'https://' in dcm_file_url:
+		replace_str = 'https'
+	
+	if replace_str:
+		dcm_file_url = dcm_file_url.replace(replace_str, 'dicomweb')
+	dcm_file_url = dcm_file_url.replace(':8042', '/orthanc')
+	
 	for instance in instances:
 		for phase_name, phase_id in phases.items():
 			

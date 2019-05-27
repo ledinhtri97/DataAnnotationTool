@@ -27,7 +27,8 @@ class DICOMRESTApi():
         return patient
 
     def send_dicom_file(self, filename):
-        return requests.post(self.url, files=[('file', open(filename, 'rb'))], headers=self.headers, verify=False)    
+        url = os.path.join(self.url, 'instances')
+        return requests.post(url, files=[('file', open(filename, 'rb'))], headers=self.headers, verify=False)    
 
     def get_study(self, id):
         study = None
