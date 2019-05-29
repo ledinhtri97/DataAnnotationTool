@@ -3,6 +3,7 @@ from django.conf import settings
 
 from usermaster.subviews.workspaces import WorkspaceView, get_data_settings, saveseting_index
 from usermaster.subviews.labeling import LabelingView
+from usermaster.subviews.medical_workspaces import MedicalWorkspaceView
 
 # 190516:
 from usermaster.subviews.medical_labeling import MedicalLabelingView
@@ -13,12 +14,13 @@ from usermaster.subviews.request import labeling_view
 from usermaster.subviews.request import contribute_view
 from usermaster.subviews import apiview
 from usermaster.subviews.request.overview_all_view import OverViewAllView
-from usermaster.subviews.request import overview_workspcae_view as owv
+from usermaster.subviews.request import overview_workspace_view as owv
 from usermaster.subviews.request import medical_labeling_view
 
 
 urlpatterns = [
-    path('', WorkspaceView.as_view(), name='workspace'),
+#     path('', WorkspaceView.as_view(), name='workspace'),
+    path('', MedicalWorkspaceView.as_view(), name='workspace'),
 
     path('contribute/', ContributeView.as_view(), name='contribute'),
     path('contribute-upload/<int:contributeid>/', contribute_view.index, name='contribute_upload'),

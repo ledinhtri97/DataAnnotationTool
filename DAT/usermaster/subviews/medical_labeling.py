@@ -1,12 +1,14 @@
-from adminmaster.datamanagement.models import DataSetModel
-from adminmaster.datamanagement.models import MetaDataModel
-from adminmaster.workspacemanagement.models import UserSettingsModel
+import json
 
 from rest_framework import generics
 from rest_framework.response import Response
 from django.http import JsonResponse
-import json
-from .request import labeling_view
+
+from .request import medical_labeling_view
+from adminmaster.datamanagement.models import DataSetModel
+from adminmaster.datamanagement.models import MetaDataModel
+from adminmaster.workspacemanagement.models import UserSettingsModel
+
 
 class MedicalLabelingView(generics.RetrieveUpdateAPIView):
 
@@ -17,7 +19,7 @@ class MedicalLabelingView(generics.RetrieveUpdateAPIView):
   def get_queryset(self):
     dataset_id = self.request.parser_context['kwargs']['id']
     user = self.request.user
-    meta_data = labeling_view.get_query_meta_general(dataset_id, user)
+    meta_data = medical_labeling_view.get_query_meta_general(dataset_id, user)
 
     return meta_data
 

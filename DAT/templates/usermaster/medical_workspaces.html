@@ -1,0 +1,29 @@
+{% extends "usermaster/base.html" %}
+{% block title %}Workspace{% endblock %}
+{% block content %}
+	<div id="workspaces">{% load static %}<img 
+      style="display: block; margin: auto; margin-top: 5rem; width:40%; height:40%;"
+      src="{% static 'images/simple-loader.gif' %}" alt=""></div>
+	<div id="home" style="display:none;">
+		{
+			"workspaces":[
+				{% for wp in data %}
+				{
+					"name": "{{wp.name}}",
+					"iddataset": {{wp.id}},
+					"total":{{wp.num_allmeta}},
+					"anno":{{wp.num_annotated_meta}},
+					"url_join":"{% url 'medicaltask' id=wp.id%}",
+					"url_overview":"{% url 'overview-workspace' wsid=wp.id%}"
+				},
+				{% endfor%}
+				{}
+			]
+		}
+	</div>
+{% endblock content%}
+
+{%block loadjs%} 
+{% load static %}
+<script src="{% static 'js/build/workspaces.js' %}"></script>  
+{% endblock loadjs %}
