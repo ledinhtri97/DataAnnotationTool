@@ -249,6 +249,155 @@ class GVCornerStone2 extends React.Component {
         });        
     }
 
+    // 20190527
+    tunnel_region_growing = (canvas_x, canvas_y, delta) => {
+        delta = (typeof delta == "undefined")?15:delta;
+
+        // get pixel intensity on canvas
+        let canvas = document.getElementById(this.canvas_id);
+        var context = canvas.getContext("2d");
+
+        // Get the CanvasPixelArray from the given coordinates and dimensions.
+        var image_data = context.getImageData(0, 0, canvas.width, canvas.height);
+        var pix = image_data.data;
+
+        var to_loc1d = (x, y) => (y*canvas.width+x)*4;
+        var is_valid_xy = (x, y) => x>=0 && y>=0 && x<canvas.width && y<canvas.height;
+
+        const loc_1d = to_loc1d(canvas_x, canvas_y);
+        const red = pix[loc_1d];
+        const green = pix[loc_1d+1];
+        const blue = pix[loc_1d+2];
+
+        var neighbors = [];
+        neighbors.push({x: canvas_x, y: canvas_y});
+        var traversed_loc1d = [];
+        var cvmask = (typeof cv !== 'undefined')?new cv.Mat(canvas.height, canvas.width, cv.CV_8U, new cv.Scalar(0)):null;
+
+        var region = [];
+        var loop_counting = 0;
+        while (neighbors.length != 0) {
+            var pixel = neighbors.shift();
+            var n_xy1d = to_loc1d(pixel.x, pixel.y);
+            var n_red = pix[n_xy1d];
+            var n_green = pix[n_xy1d+1];
+            var n_blue = pix[n_xy1d+2];
+            if (Math.abs(red-n_red)<delta && Math.abs(green-n_green)<delta && Math.abs(blue-n_blue)<delta) {
+                // 3x3 region
+                var current_region = [
+                    /*{x: pixel.x, y: pixel.y-1}, // top
+                    {x: pixel.x-1, y: pixel.y-1}, // top left
+                    {x: pixel.x+1, y: pixel.y-1}, // top right
+                    {x: pixel.x-1, y: pixel.y}, // left*/
+                    {x: pixel.x, y: pixel.y},   // center
+                    /*{x: pixel.x+1, y: pixel.y}, // right
+                    {x: pixel.x-1, y: pixel.y+1}, // bottom left 
+                    {x: pixel.x, y: pixel.y+1}, // bottom
+                    {x: pixel.x+1, y: pixel.y+1}, // bottom right*/
+                ];
+
+                for (var cr=0; cr<current_region.length; cr++) {
+                    var current_pos = current_region[cr];
+                    var pos_1d = to_loc1d(current_pos.x, current_pos.y);
+                    if (is_valid_xy(current_pos.x, current_pos.y)) {
+                        region.push({x: current_pos.x, y: current_pos.y});
+                        traversed_loc1d.push(pos_1d);
+                        cvmask.data[pos_1d/4] = 255;
+                    }
+                }
+
+                const adj_delta = 1;
+                var adj_positions = [
+                    {x: pixel.x, y: pixel.y-adj_delta}, // top
+                    {x: pixel.x-adj_delta, y: pixel.y-adj_delta}, // top left
+                    {x: pixel.x+adj_delta, y: pixel.y-adj_delta}, // top right
+                    {x: pixel.x-adj_delta, y: pixel.y}, // left
+                    {x: pixel.x+adj_delta, y: pixel.y}, // right
+                    {x: pixel.x-adj_delta, y: pixel.y+adj_delta}, // bottom left 
+                    {x: pixel.x, y: pixel.y+adj_delta}, // bottom
+                    {x: pixel.x+adj_delta, y: pixel.y+adj_delta}, // bottom right
+                ];
+
+                for (var ap=0; ap<adj_positions.length; ap++) {
+                    var pos = adj_positions[ap];
+                    var pos_1d = to_loc1d(pos.x, pos.y);
+
+                    var is_traversed = false;
+                    if (cvmask) {
+                        is_traversed = (cvmask.data[pos_1d/4]>0)?true:false;
+                    } else {
+                        is_traversed = (traversed_loc1d.indexOf(pos_1d)<0 || traversed_loc1d.indexOf(pos_1d)>=traversed_loc1d.length)?false:true;
+                    }
+
+                    if (is_valid_xy(pos.x, pos.y) && !is_traversed) {
+                        neighbors.push({x: pos.x, y: pos.y});
+                        traversed_loc1d.push(pos_1d);
+                        if (cvmask) {
+                            // https://docs.opencv.org/trunk/de/d06/tutorial_js_basic_ops.html
+                            cvmask.data[pos_1d/4] = 255;
+                        }
+                    }
+                }
+              /*
+              region.push({x: pixel.x, y: pixel.y});
+              // add 8-adjacent pixels
+              var adj_positions = [
+                  {x: pixel.x, y: pixel.y-1}, // top
+                  {x: pixel.x-1, y: pixel.y-1}, // top left
+                  {x: pixel.x+1, y: pixel.y-1}, // top right
+                  {x: pixel.x-1, y: pixel.y}, // left
+                  {x: pixel.x+1, y: pixel.y}, // right
+                  {x: pixel.x-1, y: pixel.y+1}, // bottom left 
+                  {x: pixel.x, y: pixel.y+1}, // bottom
+                  {x: pixel.x+1, y: pixel.y+1}, // bottom right
+              ];
+              for (var ap=0; ap<adj_positions.length; ap++) {
+                  var pos = adj_positions[ap];
+                  var pos_1d = to_loc1d(pos.x, pos.y);
+
+                  var is_traversed = false;
+                  if (cvmask) {
+                    is_traversed = (cvmask.data[pos_1d/4]>0)?true:false;
+                  } else {
+                    is_traversed = (traversed_loc1d.indexOf(pos_1d)<0 || traversed_loc1d.indexOf(pos_1d)>=traversed_loc1d.length)?false:true;
+                  }
+
+                  if (pos_1d>=0 && pos_1d<pix.length && !is_traversed) {
+                      neighbors.push({x: pos.x, y: pos.y});
+                      traversed_loc1d.push(pos_1d);
+                      if (cvmask) {
+                        // https://docs.opencv.org/trunk/de/d06/tutorial_js_basic_ops.html
+                        cvmask.data[pos_1d/4] = 255;
+                      }
+                  }
+              }  
+              */     
+            }
+            loop_counting += 1;
+        }
+
+        if (cvmask) {
+            let M = cv.Mat.ones(5, 5, cv.CV_8U);
+            let anchor = new cv.Point(-1, -1);
+            //cv.erode(cvmask, cvmask, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            cv.morphologyEx(cvmask, cvmask, cv.MORPH_OPEN, M, anchor, 1,
+                cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+
+            return {
+                region: region,
+                mask: cvmask,
+            };
+
+            /*console.log(cv.findNonZero(cvmask))
+            cvmask.delete();*/
+        }
+
+        return {
+            region: region,
+            mask: null,
+        }
+    }
+
     render() {
         this.load_dicom_and_visualize();
         const xs_value = (this.state.total_items == 1) ? 12 : 6;
@@ -265,7 +414,8 @@ class GVCornerStone2 extends React.Component {
                             canvas_id={"overlay-"+this.canvas_id}
                             original_canvas_id={this.canvas_id}
                             visualize={this.visualize}
-                            tunnel_set_total_items={this.tunnel_set_total_items}/>
+                            tunnel_set_total_items={this.tunnel_set_total_items}
+                            tunnel_region_growing={this.tunnel_region_growing}/>
                         <canvas className="cornerstone-canvas" 
                             width={canvas_width+"px"} 
                             height={canvas_height+"px"} 
