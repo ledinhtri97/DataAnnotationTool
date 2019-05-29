@@ -1,50 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import SkipNext from '@material-ui/icons/SkipNext';
-import Beenhere from '@material-ui/icons/Beenhere';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-
-import Chip from '@material-ui/core/Chip';
 import classNames from 'classnames';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import Home from '@material-ui/icons/Home';
+import ChevronRight from '@material-ui/icons/ChevronRight';
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
-
-import Tooltip from '@material-ui/core/Tooltip';
-import Zoom from '@material-ui/core/Zoom';
-
-
-import generalListItems from './labeling-ui/listitem/generalListItems';
-import historyListItems from './labeling-ui/listitem/historyListItems';
-//import toolListItems from './labeling-ui/listitem/toolListItems';
 
 import {outWorkSpace} from "../modules/dat-utils"
 
-const drawerWidth = 500;
+const drawerWidth = 300;
 
 const styles = theme =>({
 	root: {
@@ -255,32 +230,30 @@ class MedicalMenuAppBar extends React.Component {
                 }}
                 open={this.state.open}
                 >
-                    <div className={classes.toolbarIcon}>
-                        <span id="settings" title="Settings" className={classes.span} />                        
+                    <div className={classes.toolbarIcon} >
+                        <span id="settings" title="Settings" className={classNames(classes.span && !this.state.open && classes.menuButtonHidden,)} />                        
                         <IconButton onClick={this.handleDrawerClose}
-                            className={classNames(ON_WORKING && !this.state.open && classes.menuButtonHidden,)}
-                            >
+                            className={classNames(!this.state.open && classes.menuButtonHidden,)}>
                             <ChevronLeftIcon />
                         </IconButton>
+						<IconButton
+							color="inherit"
+							aria-label="Open drawer"
+							onClick={this.handleDrawerOpen}
+							className={classNames(this.state.open && classes.menuButtonHidden,)}>
+							<ChevronRight />
+						</IconButton>
                     </div>
 
-                    <IconButton
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={this.handleDrawerOpen}
-                        className={classNames(ON_WORKING && this.state.open && classes.menuButtonHidden,)}>
-                        {ON_WORKING && (<MenuIcon />)}
-                    </IconButton>
-
-                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleExpandInDrawer('panel1')}>
+                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleExpandInDrawer('panel1')} style={{margin: 0}}>
                         <ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
                             <ListItem button className={classes.tabExpandTitle}>
-                            <ListItemText primary="Tools"/>
+                            <ListItemText primary="Labels"/>
                             </ListItem>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails className={classes.tabExpandDetail}>
                             <Divider />
-                            <List className={classes.listItem} id="tools_list_items"></List>
+                            <List className={classes.listItem} id="labels_list_items"></List>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
 

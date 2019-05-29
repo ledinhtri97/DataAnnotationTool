@@ -1,53 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {fabric} from 'fabric';
-
 import MedicalLabeling from "./materialui/labeling-ui/medical-labeling-main";
-import TemporaryDrawerInstruction from "./materialui/labeling-ui/drawerInstruction"
-//import TemporaryDrawerSettings from "./materialui/labeling-ui/drawerSettings";
-import ToolListItems from './materialui/labeling-ui/listitem/toolListItems';
-
-import {outWorkSpace} from "./modules/dat-utils";
 import {rqnext, rqsavenext} from  "./modules/request"
-import {initCanvas, initPredict} from "./modules/labeling-module/controller/renderInit"
-import {init_event} from "./modules/labeling-module/event"
-import {PopupControllers} from "./modules/labeling-module/controller/popup";
-import {DrawPolygon} from "./modules/labeling-module/drawer/polygon"
+
+import MedicalLabelListItems from './materialui/labeling-ui/listitem/medicalLabelListItems';
+import {fabric} from 'fabric';
 import {Color} from "./modules/labeling-module/style/color";
 import DrawStatus from './modules/labeling-module/drawstatus';
-// import QuickSettings from './modules/labeling-module/settings'
+import QuickSettings from './modules/labeling-module/settings'
+import {MedicalLabelState} from "./modules/labeling-module/drawer/medical_label"
 
 //===================DEFAULT-INIT======================//
 const group_control =  document.getElementById("group_control");
 const meta_id = document.getElementById("meta_id");
 const skip_next = document.getElementById("skip_next");
 const save_next = document.getElementById("save_next");
-const drawStatus = new DrawStatus();
-//const drawPoly = new DrawPolygon(canvas_arr[0]);
-//const popupControllers = new PopupControllers(canvas_arr[0]); 
-// const quickSettings = new QuickSettings();
 
+const canvas = new fabric.Canvas('canvas', {
+	hoverCursor: 'pointer',
+	selection: true,
+	selectionBorderColor: Color.GREEN,
+	backgroundColor: null,
+	uniScaleTransform: true,
+});
+
+const drawStatus = new DrawStatus();
+const medical_label_state = new MedicalLabelState();
+const quickSettings = new QuickSettings();
 //===================RENDER LABELING UI======================//
 
 const labeling = document.getElementById("labeling");
 if (labeling) {
 	const dataset_id = meta_id.textContent;
-	///////fetch('/gvlab-dat/workspace/medical/instance/dataset/'+dataset_id+'/', {})
-	
-	/*
-	console.log("call XML Thanh");
-	var xhr = new XMLHttpRequest();
-	xhr.addEventListener("readystatechange", function () {
-		if (this.readyState === 4) {
-			console.log(this.responseText);
-		}
-	});
-	xhr.open("GET", "http://172.28.182.130:8788/gvlab-dat/workspace/medical/instance/dataset/1/");
-	//////xhr.send(data);
-	xhr.send();
-	console.log("Done!");	
-	*/
-	fetch('http://172.28.182.130:8788/gvlab-dat/workspace/medical/instance/dataset/1/', {
+	fetch('http://172.28.182.108:8787/gvlab-dat/workspace/medical/instance/dataset/2/', {
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
@@ -56,12 +41,14 @@ if (labeling) {
 	.then(response => {
 		return response.json();
 	}).then(result => {
-		var data = [];
-		for(let i in result) {
+		var urls = [];
+		var active_idx_views = [];
+		
+		/*for(let i in result) {
 			const phase_name = result[i].phase_name;
 			const instance_url = result[i].instance_url;
-			data.push(instance_url);
-		}
+			urls.push(instance_url);
+		}*/
 
 		/*data = [
 			"dicomweb://172.28.182.130/orthanc/instances/638355d5-1eff8f5a-fbe9c2c9-11d4ace7-86efaea2/file",
@@ -69,10 +56,46 @@ if (labeling) {
 		]*/
 
 		console.log("DEBUG BY ADDING CUSTOM DATA");
-		data.push("dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm");
+		urls.push([
+			"dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm",
+			"dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm"
+		]);
+		urls.push([
+			"dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm",
+			"dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm"
+		]);
+		active_idx_views.push(0);
+		active_idx_views.push(0);
 
-		ReactDOM.render(<MedicalLabeling data={data}/>, labeling);
+		console.log("urls");
+		console.log(urls);
+
+		ReactDOM.render(<MedicalLabeling 
+			urls={urls} 
+			active_idx_views={active_idx_views}
+			medical_label_state={medical_label_state}/>, labeling);
 	});
+
+	fetch('/gvlab-dat/workspace/metaview/'+meta_id.textContent+'/api-get-data/?label_select=true', {})
+	.then(response => {
+		if(response.status !== 200){
+			return "FAILED";
+		}
+			return response.json();
+		}
+	).then(meta => {
+		console.log("meta");
+		console.log(meta);
+
+		const labels_list_items = document.getElementById("labels_list_items");
+		labels_list_items && ReactDOM.render(<MedicalLabelListItems 
+			label_select={meta.label_select} 
+			medical_label_state={medical_label_state} 
+			drawStatus={drawStatus}
+			quickSettings={quickSettings}/>, 
+			labels_list_items);		
+	});
+
 }
 
 //=====================CONTROLER=======================//

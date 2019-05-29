@@ -60,11 +60,17 @@ class MedicalLabeling extends React.Component {
 	state = {
 		urls: [],
 	};
+
+	medical_label_state = null;
+	active_idx_views = [0, 0, 0, 0];
+
 	constructor(props) {
 		super(props);
 		this.state = {
-			urls: this.props.data,
+			urls: this.props.urls,
 		};
+		this.medical_label_state = props.medical_label_state;
+		this.active_idx_views = props.active_idx_views;
     }
 
 	contextMenu = function(e) {
@@ -84,16 +90,24 @@ class MedicalLabeling extends React.Component {
 		*/
 		
 		const total_items = urls.length;
+		const medical_label_state = this.medical_label_state;
+		const active_idx_views = this.active_idx_views;
 
 		return (
 			<main className={classes.content}>
 				<div className={classes.firstcontainer}>
 					<div className={classes.secondcontainer} id="cvcontainer" onContextMenu={this.contextMenu}>
 						<Grid container id="medicalGridContainer" className={classes.root} className={classes.gridcontainer}>
-							{urls.map( function(url, i) {
+							{urls.map( function(url_list, i) {
 								return (
-									<GVCornerStone2 key={i} idx={i} total_items={total_items} url={url} />
-									)
+									<GVCornerStone2 
+										key={i} 
+										idx={i} 
+										total_items={total_items} 
+										urls={url_list} 
+										active_idx={active_idx_views[i]}
+										medical_label_state={medical_label_state} />
+								)
 							} )
 						}	
 						</Grid>
