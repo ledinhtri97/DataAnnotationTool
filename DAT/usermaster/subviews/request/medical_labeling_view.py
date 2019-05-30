@@ -80,7 +80,7 @@ def handle_metadata_before_release(meta_data, user):
       meta_data.onviewing_user = user
       meta_data.save(update_fields=['onviewing_user'])
     except:
-      meta_orther = MetaDataModel.objects.get(onviewing_user=user)
+      meta_orther = MedicalInstanceModel.objects.get(onviewing_user=user)
       meta_orther.onviewing_user = None
       meta_orther.save(update_fields=['onviewing_user'])
       
