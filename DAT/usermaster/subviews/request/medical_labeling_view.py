@@ -12,7 +12,7 @@ from adminmaster.datamanagement.submodels.medical_instance import MedicalInstanc
 
 # Should use REST here for clean code
 def get_list_instance(request, datasetid):
-    instances = MedicalInstanceModel.objects.filter(dataset_id=datasetid)
+    instances = MedicalInstanceModel.objects.filter(dataset_id=datasetid).order_by('index_in_series')
     dataset = MedicalDataSetModel.objects.get(id=datasetid)
     phases_name = ['non_contrast_phase', 'arterial_phase', 'venous_phase', 'delay_phase']
     phases = {}
@@ -40,9 +40,11 @@ def get_list_instance(request, datasetid):
     
     for instance in instances:
         for phase_name, phase_id in phases.items():
-            
             if phase_id == instance.seri_id.id:
-                response[phase_name].append(dcm_file_url.format(instance.instance_uid))
+                response[phase_name].append({
+                        'slice_id': instance.index_in_series,
+                        'url': dcm_file_url.format(instance.instance_uid)
+                    })
 
     # serialize data
     return JsonResponse(data=response, safe=False)
