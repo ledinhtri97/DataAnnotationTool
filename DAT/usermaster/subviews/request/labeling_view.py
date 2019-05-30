@@ -10,16 +10,17 @@ from apimodel.models import ApiReferenceModel
 
 def get_query_meta_general(dataset_id=None, user=None):
 	base_request = MetaDataModel.objects.filter(
-	dataset_id=dataset_id, is_annotated=False, is_allow_view=True)
+            dataset_id=dataset_id, is_annotated=False, is_allow_view=True)
 
 	try:
 		query_meta_data = base_request.filter(onviewing_user=user)
-		#print("try: ", query_meta_data)
+		# print("try: ", query_meta_data)
 		if(query_meta_data.count() == 0):
-			query_meta_data = base_request.exclude(skipped_by_user=user)
+			# print('a', query_meta_data)
+			query_meta_data = base_request.filter(onviewing_user__isnull=True).exclude(
+				skipped_by_user=user)
 
 			#print("try-again: ", query_meta_data, '\n', query_meta_data.first())
-
 	except Exception as e:
 		print(e)
 		query_meta_data = base_request.filter(onviewing_user__isnull=True)
