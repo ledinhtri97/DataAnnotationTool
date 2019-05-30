@@ -21,14 +21,15 @@ class MedicalLabelingView(generics.RetrieveUpdateAPIView):
     user = self.request.user
     meta_data = medical_labeling_view.get_query_meta_general(dataset_id, user)
 
-    return meta_data
+    return meta_data, dataset_id
 
   def retrieve(self, request, *args, **kwargs):
     
-    meta_data = self.get_queryset()
+    meta_data, dataset_id = self.get_queryset()
 
     data = {
-      'id': meta_data.id,
+      'id': dataset_id
+      # 'id': meta_data.id
     }
 
     return Response(data=data)
