@@ -103,6 +103,7 @@ class GVMedicalOverlay extends React.Component {
         this.full_screen_button_id = this.full_screen_button_id + props.canvas_id;
         this.restore_screen_button_id = this.restore_screen_button_id + props.canvas_id;
         this.canvas_createjs_id = this.canvas_createjs_id + props.canvas_id;
+        props.tunnel_set_medical_overlay(this);
         console.log("Overlay rerender!");
     }
 
@@ -147,6 +148,8 @@ class GVMedicalOverlay extends React.Component {
         const state = this.props.tunnel_retrieve_state();
         const vis_meta = this.props.tunnel_retrieve_vis_meta();
         const label_id = this.props.medical_label_state.getLabelId();
+
+        console.log("Draw mask for " + this.props.medical_label_state.getTagLabel() + " (" + label_id + ")" + " | state.active_idx: " + state.active_idx);
 
         if (medical_images[state.active_idx].labeling_mask == null || !(label_id in medical_images[state.active_idx].labeling_mask)) {
             return;

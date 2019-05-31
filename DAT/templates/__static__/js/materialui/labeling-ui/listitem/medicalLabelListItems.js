@@ -8,6 +8,8 @@ import OfflineBolt from '@material-ui/icons/OfflineBolt';
 import ThumbDownAlt from '@material-ui/icons/ThumbDownAlt';
 import Cancel from '@material-ui/icons/Cancel';
 import RemoveRedEye from '@material-ui/icons/RemoveRedEye';
+import ArrowForward from '@material-ui/icons/ArrowForward';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -101,6 +103,32 @@ class MedicalLabelListItems extends React.Component {
         return(
             <div>
 
+            <div id="next_slice" onClick={function(e){
+                medical_label_state.notify_next_slice();
+            }}>
+                <ListItem button>
+                    <Tooltip title="Next slice" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+                        <ListItemIcon className={classes.icon}>
+                            <ArrowForward />
+                        </ListItemIcon>
+                    </Tooltip>
+                    <ListItemText primary="Next slice"/>
+                </ListItem>
+            </div>
+
+            <div id="prev_slice" onClick={function(e){
+                medical_label_state.notify_prev_slice();
+            }}>
+                <ListItem button>
+                    <Tooltip title="Previous slice" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+                        <ListItemIcon className={classes.icon}>
+                            <ArrowBack />
+                        </ListItemIcon>
+                    </Tooltip>
+                    <ListItemText primary="Previous slice"/>
+                </ListItem>
+            </div>
+
             <div id="stop_draw" onClick={function(e){
 
                 var isDrawing = drawStatus.getIsDrawing();
@@ -147,6 +175,8 @@ class MedicalLabelListItems extends React.Component {
                                 medical_label_state.setTagLabel(lb.tag_label);
                                 medical_label_state.setColor(lb.color);
                                 
+                                medical_label_state.notify_label_selected();
+
                                 /*if(quickSettings.getAtt('show_popup')){
                                     tool.handleClick("Drawing " + labelname + " by " + (lb.type_label =='rect' ? "rectangle" : "polygon") + " shape");
                                 }*/                                

@@ -49,22 +49,42 @@ if (labeling) {
 		console.log(result);
 
 		if (typeof result.non_contrast_phase != "undefined") {
-			urls.push(result.non_contrast_phase);
+			var extracted_urls = [];
+			for (var k=0; k<result.non_contrast_phase.length; k++) {
+				const slice_obj = result.non_contrast_phase[k];
+				extracted_urls.push(slice_obj.url);
+			}
+			urls.push(extracted_urls);
 			active_idx_views.push(0);
 		}
 
 		if (typeof result.arterial_phase != "undefined") {
-			urls.push(result.arterial_phase);
+			var extracted_urls = [];
+			for (var k=0; k<result.arterial_phase.length; k++) {
+				const slice_obj = result.arterial_phase[k];
+				extracted_urls.push(slice_obj.url);
+			}
+			urls.push(extracted_urls);
 			active_idx_views.push(0);
 		}
 
 		if (typeof result.venous_phase != "undefined") {
-			urls.push(result.venous_phase);
+			var extracted_urls = [];
+			for (var k=0; k<result.venous_phase.length; k++) {
+				const slice_obj = result.venous_phase[k];
+				extracted_urls.push(slice_obj.url);
+			}
+			urls.push(extracted_urls);
 			active_idx_views.push(0);
 		}
 
 		if (typeof result.delay_phase != "undefined") {
-			urls.push(result.delay_phase);
+			var extracted_urls = [];
+			for (var k=0; k<result.delay_phase.length; k++) {
+				const slice_obj = result.delay_phase[k];
+				extracted_urls.push(slice_obj.url);
+			}
+			urls.push(extracted_urls);
 			active_idx_views.push(0);
 		}
 		

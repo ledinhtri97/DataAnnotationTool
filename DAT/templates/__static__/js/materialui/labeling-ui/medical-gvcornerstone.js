@@ -125,6 +125,7 @@ class GVCornerStone2 extends React.Component {
     };
 
     visualize_callback = null;
+    medical_overlay_obj = null;
 
     constructor(props) {
         super(props);
@@ -152,6 +153,41 @@ class GVCornerStone2 extends React.Component {
             zoom_xmax: 1.0,
             zoom_ymax: 1.0,
         };
+
+        props.medical_label_state.register_label_selected_callback(this.canvas_id, this.label_selected_callback);
+        props.medical_label_state.register_next_slice_callback(this.canvas_id, this.next_slice_callback);
+        props.medical_label_state.register_prev_slice_callback(this.canvas_id, this.prev_slice_callback);
+    }
+
+    label_selected_callback = () => {
+        if (this.medical_overlay_obj != null) {
+            this.medical_overlay_obj.draw_mask();
+        }        
+    }
+
+    next_slice_callback = () => {
+        const current_active_idx = this.state.active_idx;
+        const total_slices = this.medical_images.length;
+        var new_active_idx = (current_active_idx+1<total_slices)?current_active_idx+1:current_active_idx;
+        if (new_active_idx != current_active_idx) {
+            this.setState({
+                active_idx: new_active_idx
+            });
+        } else {
+            // do nothing
+        }
+    }
+
+    prev_slice_callback = () => {
+        const current_active_idx = this.state.active_idx;
+        var new_active_idx = (current_active_idx-1>=0)?current_active_idx-1:current_active_idx;
+        if (new_active_idx != current_active_idx) {
+            this.setState({
+                active_idx: new_active_idx
+            });
+        } else {
+            // do nothing
+        }
     }
 
     // init activity
@@ -260,6 +296,10 @@ class GVCornerStone2 extends React.Component {
         this.setState({
             total_items: new_total_items,
         });        
+    }
+
+    tunnel_set_medical_overlay = (overlay_obj) => {
+        this.medical_overlay_obj = overlay_obj;
     }
 
     tunnel_register_visualize_callback = (mycallback) => {
@@ -400,7 +440,13 @@ class GVCornerStone2 extends React.Component {
             };*/
 
             const label_id = self.props.medical_label_state.labelId;
+
+            if (self.medical_images[self.state.active_idx].labeling_mask[label_id] != null) {
+                const old_mask = self.medical_images[self.state.active_idx].labeling_mask[label_id];
+                cv.add(old_mask, cvmask, cvmask);                
+            }
             self.medical_images[self.state.active_idx].labeling_mask[label_id] = cvmask;
+
             return cvmask.clone();
         }, {
             x_percent: x_percent,
@@ -412,6 +458,7 @@ class GVCornerStone2 extends React.Component {
 
     componentDidMount = () => {
         this.load_dicom_and_visualize();
+        this.visualize_callback = this.medical_overlay_obj.draw_mask;
     }
 
     componentDidUpdate = (prevProps, prevState, snapshot) => {
@@ -442,6 +489,7 @@ class GVCornerStone2 extends React.Component {
                             tunnel_retrieve_vis_meta={this.tunnel_retrieve_vis_meta}
                             tunnel_set_zoom_area={this.tunnel_set_zoom_area}
                             tunnel_register_visualize_callback={this.tunnel_register_visualize_callback}
+                            tunnel_set_medical_overlay={this.tunnel_set_medical_overlay}
                             total_items={this.state.total_items}
                             medical_label_state={this.props.medical_label_state}/>
                         <canvas className="cornerstone-canvas" 

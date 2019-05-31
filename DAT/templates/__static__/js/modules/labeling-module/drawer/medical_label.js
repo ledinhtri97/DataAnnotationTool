@@ -12,9 +12,46 @@ class MedicalLabelState {
     tagLabel = "";
     color = "#FFFF00";
 
-	constructor() {
+    label_selected_callback = {};
+    next_slice_callback = {};
+    prev_slice_callback = {};
+
+	constructor(props) {
         // do nothing?!
 	}
+
+    register_label_selected_callback = (key, myfunc) => {
+        this.label_selected_callback[key] = myfunc;
+    }
+
+    register_next_slice_callback = (key, myfunc) => {
+        this.next_slice_callback[key] = myfunc;
+    }
+
+    register_prev_slice_callback = (key, myfunc) => {
+        this.prev_slice_callback[key] = myfunc;
+    }
+
+    notify_label_selected = () => {
+        for (var key in this.label_selected_callback){
+            const cfunc = this.label_selected_callback[key];
+            cfunc();
+        }
+    }
+
+    notify_next_slice = () => {
+        for (var key in this.next_slice_callback){
+            const cfunc = this.next_slice_callback[key];
+            cfunc();
+        }
+    }
+
+    notify_prev_slice = () => {
+        for (var key in this.prev_slice_callback){
+            const cfunc = this.prev_slice_callback[key];
+            cfunc();
+        }
+    }
 
 	setType(value){
 		this.typeLabel = value;

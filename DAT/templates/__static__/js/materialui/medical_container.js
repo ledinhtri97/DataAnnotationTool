@@ -248,7 +248,7 @@ class MedicalMenuAppBar extends React.Component {
                     <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleExpandInDrawer('panel1')} style={{margin: 0}}>
                         <ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
                             <ListItem button className={classes.tabExpandTitle}>
-                            <ListItemText primary="Labels"/>
+                            <ListItemText primary="Menu"/>
                             </ListItem>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails className={classes.tabExpandDetail}>
