@@ -21,7 +21,7 @@
 <script>
 	function wait_opencvjs_to_exec(my_func, param) {
 		if (typeof cv !== 'undefined' && typeof cv.getBuildInformation !== 'undefined') {
-			my_func(param);
+			return my_func(param);
 		} else {
 			setTimeout(function(){ wait_opencvjs_to_exec(my_func, param); }, 1000);
 		}

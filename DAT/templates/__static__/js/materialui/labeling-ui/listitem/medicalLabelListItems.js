@@ -7,6 +7,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import OfflineBolt from '@material-ui/icons/OfflineBolt';
 import ThumbDownAlt from '@material-ui/icons/ThumbDownAlt';
 import Cancel from '@material-ui/icons/Cancel';
+import RemoveRedEye from '@material-ui/icons/RemoveRedEye';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -123,12 +124,12 @@ class MedicalLabelListItems extends React.Component {
                 
             }}>
             <ListItem button>
-            <Tooltip title="Stop Drawing" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+            <Tooltip title="Show all labels" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
             <ListItemIcon className={classes.icon}>
-            <Cancel />
+            <RemoveRedEye />
             </ListItemIcon>
             </Tooltip>
-            <ListItemText primary="Stop Drawing"/>
+            <ListItemText primary="Show all labels"/>
             </ListItem>
             </div>
             

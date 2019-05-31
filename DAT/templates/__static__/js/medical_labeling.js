@@ -9,6 +9,7 @@ import {Color} from "./modules/labeling-module/style/color";
 import DrawStatus from './modules/labeling-module/drawstatus';
 import QuickSettings from './modules/labeling-module/settings'
 import {MedicalLabelState} from "./modules/labeling-module/drawer/medical_label"
+import { type } from 'os';
 
 //===================DEFAULT-INIT======================//
 const group_control =  document.getElementById("group_control");
@@ -32,7 +33,7 @@ const quickSettings = new QuickSettings();
 const labeling = document.getElementById("labeling");
 if (labeling) {
 	const dataset_id = meta_id.textContent;
-	fetch('http://172.28.182.108:8787/gvlab-dat/workspace/medical/instance/dataset/2/', {
+	fetch('/gvlab-dat/workspace/medical/instance/dataset/' + dataset_id + '/', {
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
@@ -44,17 +45,30 @@ if (labeling) {
 		var urls = [];
 		var active_idx_views = [];
 		
-		/*for(let i in result) {
-			const phase_name = result[i].phase_name;
-			const instance_url = result[i].instance_url;
-			urls.push(instance_url);
-		}*/
+		console.log("result");
+		console.log(result);
 
-		/*data = [
-			"dicomweb://172.28.182.130/orthanc/instances/638355d5-1eff8f5a-fbe9c2c9-11d4ace7-86efaea2/file",
-			"dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm",
-		]*/
+		if (typeof result.non_contrast_phase != "undefined") {
+			urls.push(result.non_contrast_phase);
+			active_idx_views.push(0);
+		}
 
+		if (typeof result.arterial_phase != "undefined") {
+			urls.push(result.arterial_phase);
+			active_idx_views.push(0);
+		}
+
+		if (typeof result.venous_phase != "undefined") {
+			urls.push(result.venous_phase);
+			active_idx_views.push(0);
+		}
+
+		if (typeof result.delay_phase != "undefined") {
+			urls.push(result.delay_phase);
+			active_idx_views.push(0);
+		}
+		
+		/*
 		console.log("DEBUG BY ADDING CUSTOM DATA");
 		urls.push([
 			"dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm",
@@ -63,9 +77,7 @@ if (labeling) {
 		urls.push([
 			"dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm",
 			"dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm"
-		]);
-		active_idx_views.push(0);
-		active_idx_views.push(0);
+		]);*/
 
 		console.log("urls");
 		console.log(urls);

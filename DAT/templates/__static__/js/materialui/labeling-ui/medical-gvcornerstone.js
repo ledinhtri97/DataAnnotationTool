@@ -9,7 +9,10 @@ import cornerstone from 'cornerstone-core';
 import CornerstoneViewport from 'react-cornerstone-viewport'
 import cornerstoneTools from 'cornerstone-tools';
 
+import MedicalImageProcessingBox from './medical-image-processing-box';
 import GVMedicalOverlay from './medical-overlay';
+
+const ipbox = new MedicalImageProcessingBox();
 
 const styles = theme => ({
 });
@@ -37,10 +40,9 @@ function voxel_to_pixel(cornerstone_image, lookup_table, canvas_width, canvas_he
     var tmp_ctx = tmp_canvas.getContext("2d");        
     var imageData = tmp_ctx.createImageData(width, height);
 
-    const is_use_loopup_table = typeof lookup_table != "undefined";
-
+    const is_use_loopup_table = lookup_table != null;
     if (is_use_loopup_table) {
-        console.log("Using lookup table!");
+        //console.log("Using lookup table!");
     }
 
     for (var i = 0; i < imageData.data.length; i += 4) {
@@ -60,74 +62,17 @@ function voxel_to_pixel(cornerstone_image, lookup_table, canvas_width, canvas_he
     tmp_ctx.putImageData(imageData, 0, 0); // (image-data, x, y)
 
     let voxel_mat = cv.imread(tmp_canvas); // 512 x 512
+    let intensity_image_ori_size = voxel_mat.clone();
 
-    width = voxel_mat.cols;
-    height = voxel_mat.rows;    
-
-    // calculate ideal ratio which is fit with the canvas size
-    var final_scale = 1.0;
-    var scale_by_width = canvas_width / width;
-    var scale_by_height = canvas_height / height;
-    if (width*scale_by_width <= canvas_width && height*scale_by_width <= canvas_height) {
-        final_scale = scale_by_width;
-    } else {
-        final_scale = scale_by_height;
-    }
-
-    var xmin = x_min; 
-    var ymin = y_min; 
-    var xmax = x_max; 
-    var ymax = y_max;
-
-    console.log("xyxy 1: " + xmin + " " + ymin + " " + xmax + " " + ymax);
-
-    if (xmin != 0 || ymin != 0 || xmax != 1 || ymax != 1) {
-        // adjust
-        if (xmax < xmin) {
-            var tmp = xmin;
-            xmin = xmax;
-            xmax = tmp;
-        }
-
-        if (ymax < ymin) {
-            var tmp = ymin;
-            ymin = ymax;
-            ymax = tmp;
-        }
-        
-        console.log("xyxy 2: " + xmin + " " + ymin + " " + xmax + " " + ymax);
-
-        xmin = (xmin<0)?0:xmin;
-        ymin = (ymin<0)?0:ymin;
-        xmax = (xmax>1)?1:xmax;
-        ymax = (ymax>1)?1:ymax;
-
-        console.log("xyxy 3: " + xmin + " " + ymin + " " + xmax + " " + ymax);
-
-        // crop by xmin, ymin, xmax, ymax
-        let rect = new cv.Rect(xmin*voxel_mat.cols, ymin*voxel_mat.rows, xmax*voxel_mat.cols-xmin*voxel_mat.cols, ymax*voxel_mat.rows-ymin*voxel_mat.rows);
-        voxel_mat = voxel_mat.roi(rect);
-
-        // re-calculate final_scale
-        final_scale = 1.0;
-        scale_by_width = canvas_width / voxel_mat.cols;
-        scale_by_height = canvas_height / voxel_mat.rows;
-        if (voxel_mat.cols*scale_by_width <= canvas_width && voxel_mat.rows*scale_by_width <= canvas_height) {
-            final_scale = scale_by_width;
-        } else {
-            final_scale = scale_by_height;
-        }
-
-    }
-
-    if (final_scale != 1.0) {
-        let dsize = new cv.Size(voxel_mat.cols*final_scale, voxel_mat.rows*final_scale);
-        cv.resize(voxel_mat, voxel_mat, dsize, 0, 0, cv.INTER_AREA);
-    }
+    voxel_mat = MedicalImageProcessingBox.ROI(voxel_mat, x_min, y_min, x_max, y_max);
+    voxel_mat = MedicalImageProcessingBox.fit(voxel_mat, canvas_width, canvas_height);
 
     let imgData = new ImageData(new Uint8ClampedArray(voxel_mat.data, voxel_mat.cols, voxel_mat.rows), voxel_mat.cols, voxel_mat.rows);
     voxel_mat.delete();
-    return imgData;
+    return {
+        image_data: imgData,
+        intensity_image_ori_size: intensity_image_ori_size,
+    };
 }
 
 function calc_mean_std_from_voxel_array(voxel_array_1d, slope, intercept) {
@@ -157,8 +102,9 @@ class GVCornerStone2 extends React.Component {
     medical_images = [{
         url: "",
         cornerstone_image: null,
-        mapping_table: null,    // mapping between housnfield & intensity
-        labeling_mask: null,    // cv.Mat()
+        lookup_table: null,    // mapping between housnfield & intensity
+        intensity_image: null,
+        labeling_mask: {},    // dict of cv.Mat()
     }];
 
     vis_meta = {
@@ -171,11 +117,14 @@ class GVCornerStone2 extends React.Component {
     state = {
         total_items: 1,
         active_idx: 0,
+        lookup_table: null,
         zoom_xmin: 0.0,
         zoom_ymin: 0.0,
         zoom_xmax: 1.0,
         zoom_ymax: 1.0,
     };
+
+    visualize_callback = null;
 
     constructor(props) {
         super(props);
@@ -188,7 +137,8 @@ class GVCornerStone2 extends React.Component {
             this.medical_images.push({
                 url: this.props.urls[i],
                 cornerstone_image: default_medical_instance.cornerstone_image,
-                mapping_table: default_medical_instance.mapping_table,
+                lookup_table: default_medical_instance.lookup_table,
+                intensity_image: default_medical_instance.intensity_image,
                 labeling_mask: default_medical_instance.labeling_mask
             });
         }
@@ -196,6 +146,7 @@ class GVCornerStone2 extends React.Component {
         this.state = {
             total_items: this.props.total_items,
             active_idx: this.props.active_idx,
+            lookup_table: this.medical_images[this.props.active_idx].lookup_table,
             zoom_xmin: 0.0,
             zoom_ymin: 0.0,
             zoom_xmax: 1.0,
@@ -207,25 +158,32 @@ class GVCornerStone2 extends React.Component {
     load_dicom_and_visualize = () => {
         var dicom_url = this.medical_images[this.state.active_idx].url;
         if (dicom_url != "") {
-            cornerstone.loadAndCacheImage(dicom_url).then(image => {
-                this.medical_images[this.state.active_idx].cornerstone_image = image;
+            if (this.medical_images[this.state.active_idx].cornerstone_image == null) {
+                console.log("Load " + dicom_url + " via network!")
+                cornerstone.loadAndCacheImage(dicom_url).then(image => { // async calling
+                    this.medical_images[this.state.active_idx].cornerstone_image = image;
+                    this.visualize();
+                });
+            } else {
+                console.log("Use cached medical image!");
+                console.log(this.medical_images[this.state.active_idx].cornerstone_image);
                 this.visualize();
-            });
+            }            
         } else {
             this.medical_images[this.state.active_idx].cornerstone_image = null;
         }
     }
 
     visualize = () => {
-        /* default params */
-        const cornerstone_image = this.medical_images[this.state.active_idx].cornerstone_image;
-        const canvas_id = this.canvas_id;
-
+        var cornerstone_image = this.medical_images[this.state.active_idx].cornerstone_image;
         if (cornerstone_image == null) {
             return;
         }
 
-        wait_opencvjs_to_exec(function(data) {
+        console.log("Call visualize(): Zoom: [" + this.state.zoom_xmin + ", " + 
+            this.state.zoom_ymin + ", " + this.state.zoom_xmax + ", " + this.state.zoom_ymax + "]");
+
+        const result = wait_opencvjs_to_exec(function(data) {
             const image = data.cornerstone_image;
             const min_voxel_value = image.minPixelValue;
             const max_voxel_value = image.maxPixelValue;
@@ -233,17 +191,9 @@ class GVCornerStone2 extends React.Component {
             const intercept = image.intercept;
             let canvas = document.getElementById(data.canvas_id);
 
-            // generate lookup table
-            var lookup_table = {}
-            for(var i=min_voxel_value; i<max_voxel_value; i++) {
-                if (data.canvas_id == "canvas_1") {
-                    lookup_table[i*slope+intercept] = Math.log(Math.ceil(i/max_voxel_value*255)+1)/Math.log(256)*255; // apply log function
-                } else {
-                    lookup_table[i*slope+intercept] = Math.ceil(i/max_voxel_value*255);
-                }   
-            }      
-
-            let imgData = voxel_to_pixel(data.cornerstone_image, lookup_table, canvas.width, canvas.height, data.xmin, data.ymin, data.xmax, data.ymax);        
+            const lookup_table = data.lookup_table;
+            let vtp_result = voxel_to_pixel(data.cornerstone_image, lookup_table, canvas.width, canvas.height, data.xmin, data.ymin, data.xmax, data.ymax);        
+            let imgData = vtp_result.image_data;
             const ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -254,7 +204,13 @@ class GVCornerStone2 extends React.Component {
             // fill in CT image
             ctx.putImageData(imgData, canvas.width/2-imgData.width/2, canvas.height/2-imgData.height/2);
 
-            console.log("Going to update vis meta");
+            //console.log("Going to update vis meta");
+
+            if (data.self.medical_images[data.self.state.active_idx].intensity_image != null) {
+                data.self.medical_images[data.self.state.active_idx].intensity_image.delete();
+                data.self.medical_images[data.self.state.active_idx].intensity_image = null;
+            }
+            data.self.medical_images[data.self.state.active_idx].intensity_image = vtp_result.intensity_image_ori_size;
 
             data.self.vis_meta.viewing_image_width_px = imgData.width;
             data.self.vis_meta.viewing_image_height_px = imgData.height;
@@ -268,9 +224,12 @@ class GVCornerStone2 extends React.Component {
             ctx.fillStyle = "orange";
             ctx.fillText("Hounsfield: " + hounsfield_info.mean.toFixed(0) + " ± " + hounsfield_info.std.toFixed(0), Math.ceil(canvas.width*0.03), Math.ceil(canvas.height*0.08));
             */
+            return "OK";
+
             }, {
-                canvas_id: canvas_id,
+                canvas_id: this.canvas_id,
                 cornerstone_image: cornerstone_image,
+                lookup_table: this.state.lookup_table,
                 xmin: this.state.zoom_xmin,
                 ymin: this.state.zoom_ymin,
                 xmax: this.state.zoom_xmax,
@@ -278,6 +237,14 @@ class GVCornerStone2 extends React.Component {
                 self: this,
             }
         );
+
+        if (this.visualize_callback != null) {
+            this.visualize_callback();
+        }
+    }
+
+    tunnel_retrieve_medical_images = () => {
+        return this.medical_images;
     }
 
     tunnel_retrieve_state = () => {
@@ -293,6 +260,10 @@ class GVCornerStone2 extends React.Component {
         this.setState({
             total_items: new_total_items,
         });        
+    }
+
+    tunnel_register_visualize_callback = (mycallback) => {
+        this.visualize_callback = mycallback;
     }
 
     tunnel_set_zoom_area = (xmin, ymin, xmax, ymax) => {
@@ -328,126 +299,133 @@ class GVCornerStone2 extends React.Component {
     }
 
     // 20190527
-    tunnel_region_growing = (canvas_x, canvas_y, delta) => {
-        delta = (typeof delta == "undefined")?15:delta;
+    tunnel_region_growing = (x_percent, y_percent, delta) => {
+        return wait_opencvjs_to_exec(function(data) {
+            const x_percent = data.x_percent;
+            const y_percent = data.y_percent;
+            var delta = data.delta;
+            const self = data.self;
 
-        // get pixel intensity on canvas
-        let canvas = document.getElementById(this.canvas_id);
-        var context = canvas.getContext("2d");
+            delta = (typeof delta == "undefined")?15:delta;
 
-        // Get the CanvasPixelArray from the given coordinates and dimensions.
-        var image_data = context.getImageData(0, 0, canvas.width, canvas.height);
-        var pix = image_data.data;
-
-        var to_loc1d = (x, y) => (y*canvas.width+x)*4;
-        var is_valid_xy = (x, y) => x>=0 && y>=0 && x<canvas.width && y<canvas.height;
-
-        const loc_1d = to_loc1d(canvas_x, canvas_y);
-        const red = pix[loc_1d];
-        const green = pix[loc_1d+1];
-        const blue = pix[loc_1d+2];
-
-        var neighbors = [];
-        neighbors.push({x: canvas_x, y: canvas_y});
-        var traversed_loc1d = [];
-        var cvmask = (typeof cv !== 'undefined')?new cv.Mat(canvas.height, canvas.width, cv.CV_8U, new cv.Scalar(0)):null;
-
-        var region = [];
-        var loop_counting = 0;
-        while (neighbors.length != 0) {
-            var pixel = neighbors.shift();
-            var n_xy1d = to_loc1d(pixel.x, pixel.y);
-            var n_red = pix[n_xy1d];
-            var n_green = pix[n_xy1d+1];
-            var n_blue = pix[n_xy1d+2];
-            if (Math.abs(red-n_red)<delta && Math.abs(green-n_green)<delta && Math.abs(blue-n_blue)<delta) {
-                // 3x3 region
-                var current_region = [
-                    /*{x: pixel.x, y: pixel.y-1}, // top
-                    {x: pixel.x-1, y: pixel.y-1}, // top left
-                    {x: pixel.x+1, y: pixel.y-1}, // top right
-                    {x: pixel.x-1, y: pixel.y}, // left*/
-                    {x: pixel.x, y: pixel.y},   // center
-                    /*{x: pixel.x+1, y: pixel.y}, // right
-                    {x: pixel.x-1, y: pixel.y+1}, // bottom left 
-                    {x: pixel.x, y: pixel.y+1}, // bottom
-                    {x: pixel.x+1, y: pixel.y+1}, // bottom right*/
-                ];
-
-                for (var cr=0; cr<current_region.length; cr++) {
-                    var current_pos = current_region[cr];
-                    var pos_1d = to_loc1d(current_pos.x, current_pos.y);
-                    if (is_valid_xy(current_pos.x, current_pos.y)) {
-                        region.push({x: current_pos.x, y: current_pos.y});
-                        traversed_loc1d.push(pos_1d);
-                        cvmask.data[pos_1d/4] = 255;
+            const cvimg = self.medical_images[self.state.active_idx].intensity_image;
+            const x_abs = Math.floor(x_percent*cvimg.cols);
+            const y_abs = Math.floor(y_percent*cvimg.rows);
+    
+            console.log(x_percent);
+            console.log(y_percent);
+    
+            var pix = cvimg.data;
+    
+            var to_loc1d = (x, y) => (y*cvimg.cols+x)*4;
+            var is_valid_xy = (x, y) => x>=0 && y>=0 && x<cvimg.cols && y<cvimg.rows;
+    
+            const loc_1d = to_loc1d(x_abs, y_abs);
+            const red = pix[loc_1d];
+            const green = pix[loc_1d+1];
+            const blue = pix[loc_1d+2];
+    
+            var neighbors = [];
+            neighbors.push({x: x_abs, y: y_abs});
+            var cvmask = new cv.Mat(cvimg.rows, cvimg.cols, cv.CV_8U, new cv.Scalar(0));
+    
+            //var region = [];
+            var loop_counting = 0;
+            while (neighbors.length != 0) {
+                var pixel = neighbors.shift();
+                var n_xy1d = to_loc1d(pixel.x, pixel.y);
+                var n_red = pix[n_xy1d];
+                var n_green = pix[n_xy1d+1];
+                var n_blue = pix[n_xy1d+2];
+                if (Math.abs(red-n_red)<delta && Math.abs(green-n_green)<delta && Math.abs(blue-n_blue)<delta) {
+                    // 3x3 region
+                    var current_region = [
+                        /*{x: pixel.x, y: pixel.y-1}, // top
+                        {x: pixel.x-1, y: pixel.y-1}, // top left
+                        {x: pixel.x+1, y: pixel.y-1}, // top right
+                        {x: pixel.x-1, y: pixel.y}, // left*/
+                        {x: pixel.x, y: pixel.y},   // center
+                        /*{x: pixel.x+1, y: pixel.y}, // right
+                        {x: pixel.x-1, y: pixel.y+1}, // bottom left 
+                        {x: pixel.x, y: pixel.y+1}, // bottom
+                        {x: pixel.x+1, y: pixel.y+1}, // bottom right*/
+                    ];
+    
+                    for (var cr=0; cr<current_region.length; cr++) {
+                        var current_pos = current_region[cr];
+                        var pos_1d = to_loc1d(current_pos.x, current_pos.y);
+                        if (is_valid_xy(current_pos.x, current_pos.y)) {
+                            //region.push({x: current_pos.x, y: current_pos.y});
+                            cvmask.data[pos_1d/4] = 255;
+                        }
                     }
-                }
-
-                const adj_delta = 1;
-                var adj_positions = [
-                    {x: pixel.x, y: pixel.y-adj_delta}, // top
-                    {x: pixel.x-adj_delta, y: pixel.y-adj_delta}, // top left
-                    {x: pixel.x+adj_delta, y: pixel.y-adj_delta}, // top right
-                    {x: pixel.x-adj_delta, y: pixel.y}, // left
-                    {x: pixel.x+adj_delta, y: pixel.y}, // right
-                    {x: pixel.x-adj_delta, y: pixel.y+adj_delta}, // bottom left 
-                    {x: pixel.x, y: pixel.y+adj_delta}, // bottom
-                    {x: pixel.x+adj_delta, y: pixel.y+adj_delta}, // bottom right
-                ];
-
-                for (var ap=0; ap<adj_positions.length; ap++) {
-                    var pos = adj_positions[ap];
-                    var pos_1d = to_loc1d(pos.x, pos.y);
-
-                    var is_traversed = false;
-                    if (cvmask) {
-                        is_traversed = (cvmask.data[pos_1d/4]>0)?true:false;
-                    } else {
-                        is_traversed = (traversed_loc1d.indexOf(pos_1d)<0 || traversed_loc1d.indexOf(pos_1d)>=traversed_loc1d.length)?false:true;
-                    }
-
-                    if (is_valid_xy(pos.x, pos.y) && !is_traversed) {
-                        neighbors.push({x: pos.x, y: pos.y});
-                        traversed_loc1d.push(pos_1d);
-                        if (cvmask) {
+    
+                    const adj_delta = 1;
+                    var adj_positions = [
+                        {x: pixel.x, y: pixel.y-adj_delta}, // top
+                        {x: pixel.x-adj_delta, y: pixel.y-adj_delta}, // top left
+                        {x: pixel.x+adj_delta, y: pixel.y-adj_delta}, // top right
+                        {x: pixel.x-adj_delta, y: pixel.y}, // left
+                        {x: pixel.x+adj_delta, y: pixel.y}, // right
+                        {x: pixel.x-adj_delta, y: pixel.y+adj_delta}, // bottom left 
+                        {x: pixel.x, y: pixel.y+adj_delta}, // bottom
+                        {x: pixel.x+adj_delta, y: pixel.y+adj_delta}, // bottom right
+                    ];
+    
+                    for (var ap=0; ap<adj_positions.length; ap++) {
+                        var pos = adj_positions[ap];
+                        var pos_1d = to_loc1d(pos.x, pos.y);
+    
+                        var is_traversed = (cvmask.data[pos_1d/4]>0)?true:false;
+    
+                        if (is_valid_xy(pos.x, pos.y) && !is_traversed) {
+                            neighbors.push({x: pos.x, y: pos.y});
                             // https://docs.opencv.org/trunk/de/d06/tutorial_js_basic_ops.html
                             cvmask.data[pos_1d/4] = 255;
                         }
                     }
                 }
+                loop_counting += 1;
             }
-            loop_counting += 1;
-        }
-
-        if (cvmask) {
+    
             let M = cv.Mat.ones(5, 5, cv.CV_8U);
             let anchor = new cv.Point(-1, -1);
             //cv.erode(cvmask, cvmask, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
             cv.morphologyEx(cvmask, cvmask, cv.MORPH_OPEN, M, anchor, 1,
                 cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
 
-            return {
+            /*return {
                 region: region,
                 mask: cvmask,
-            };
+            };*/
 
-            /*console.log(cv.findNonZero(cvmask))
-            cvmask.delete();*/
-        }
-
-        return {
-            region: region,
-            mask: null,
-        }
+            const label_id = self.props.medical_label_state.labelId;
+            self.medical_images[self.state.active_idx].labeling_mask[label_id] = cvmask;
+            return cvmask.clone();
+        }, {
+            x_percent: x_percent,
+            y_percent: y_percent,
+            delta: delta,
+            self: this
+        });
     }
 
-    render() {
+    componentDidMount = () => {
         this.load_dicom_and_visualize();
+    }
+
+    componentDidUpdate = (prevProps, prevState, snapshot) => {
+        this.load_dicom_and_visualize();
+    }
+
+    render() {        
         const xs_value = (this.state.total_items == 1) ? 12 : 6;
         var medicalGridContainer = document.getElementById("labeling");
         const canvas_width = ((this.state.total_items == 1)?medicalGridContainer.clientWidth:medicalGridContainer.clientWidth/2)*0.98;
         const canvas_height = ((this.state.total_items == 1)?medicalGridContainer.clientHeight:medicalGridContainer.clientHeight/2)*0.98;
+        
+        console.log("medical-gvcornerstone > render()");
+        
         return (
             <Grid item xs={xs_value} style={{padding: "1px"}} className="griditem_container" id={"griditem_container-"+this.canvas_id}>
                 <div style={{height: canvas_height+'px', width: canvas_width+'px'}}>
@@ -460,8 +438,10 @@ class GVCornerStone2 extends React.Component {
                             tunnel_set_total_items={this.tunnel_set_total_items}
                             tunnel_region_growing={this.tunnel_region_growing}
                             tunnel_retrieve_state={this.tunnel_retrieve_state}
+                            tunnel_retrieve_medical_images={this.tunnel_retrieve_medical_images}
                             tunnel_retrieve_vis_meta={this.tunnel_retrieve_vis_meta}
                             tunnel_set_zoom_area={this.tunnel_set_zoom_area}
+                            tunnel_register_visualize_callback={this.tunnel_register_visualize_callback}
                             total_items={this.state.total_items}
                             medical_label_state={this.props.medical_label_state}/>
                         <canvas className="cornerstone-canvas" 
