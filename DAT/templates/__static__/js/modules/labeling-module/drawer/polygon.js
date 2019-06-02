@@ -379,15 +379,7 @@ class DrawPolygon{
 		}
 	}
 
-	setType(value){
-		this.typePoly = value;
-	}
-
-	getType() {
-		return this.typePoly;
-	}
-
-	startDraw(id, namelabel){
+	startDraw(id, namelabel, typelabel){
 		this.endDraw();
 
 		this.canvas.getObjects().forEach(function(obj){
@@ -398,7 +390,10 @@ class DrawPolygon{
 
 		this.canvas.defaultCursor = 'crosshair';
 
-		drawStatus.startDrawStatus(id, namelabel);
+		if(typelabel){
+			this.typePoly = typelabel	
+		}
+		drawStatus.startDrawStatus(id, namelabel, typelabel);
 		
 		this.polygon.drawPolygon();
 		this.canvas.on('mouse:down', this.mouseDown);
@@ -424,7 +419,7 @@ class DrawPolygon{
 		drawer.lineArray.forEach(function(line){
 			drawer.canvas.remove(line);
 		});
-		if (drawer.getType() == 'rect'){
+		if (drawer.typePoly == 'rect'){
 			drawer.canvas.remove(drawer.rectangle);
 		}
 		drawer.activeLine = null;

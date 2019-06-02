@@ -239,8 +239,6 @@ const init_event = function(__canvas__, popupControllers, label_select){
 					if((!isd || (isd && isw)) && (key == 49+index)){
 						var e_label = document.getElementById(lb.id+'_label');
 						e_label && e_label.click();
-						// drawPoly.setType(lb.type_label);
-						// drawPoly.startDraw(lb.id, lb.tag_label);
 					}
 				});
 			}

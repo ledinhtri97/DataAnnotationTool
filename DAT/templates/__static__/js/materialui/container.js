@@ -264,6 +264,7 @@ class MenuAppBar extends React.Component {
 			{
 				ON_WORKING && (
 					<React.Fragment>
+					<Button id="type_label" variant="contained" color="primary" className={classes.button}>TYPE LABEL</Button>
 					<Button id="label" variant="contained" color="primary" className={classes.button}>NO LABEL</Button>
 					<Tooltip 
 					title="Skip and next" 
@@ -364,28 +365,26 @@ class MenuAppBar extends React.Component {
 			</ExpansionPanelDetails>
 			</ExpansionPanel>
 
-
-			<ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleExpandInDrawer('panel3')}>
-			<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
-			<ListItem button className={classes.tabExpandTitle}>
-			<ListItemText primary="General" />
-			</ListItem>
-			</ExpansionPanelSummary>
-			<ExpansionPanelDetails className={classes.tabExpandDetail}>
-			<Divider />
-			<List className={classes.listItem} id="general_list_items"></List>
-			</ExpansionPanelDetails>
-			</ExpansionPanel>
-
-
 			</Drawer>
 			)}
 
 		{ON_WORKING && <div id="labeling" className={classes.labeling}></div>}
 		</div>	
 		);
+	}
 }
-}
+
+// <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleExpandInDrawer('panel3')}>
+// <ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
+// <ListItem button className={classes.tabExpandTitle}>
+// <ListItemText primary="General" />
+// </ListItem>
+// </ExpansionPanelSummary>
+// <ExpansionPanelDetails className={classes.tabExpandDetail}>
+// <Divider />
+// <List className={classes.listItem} id="general_list_items"></List>
+// </ExpansionPanelDetails>
+// </ExpansionPanel>
 
 MenuAppBar.propTypes = {
 	classes: PropTypes.object.isRequired,

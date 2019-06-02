@@ -141,8 +141,7 @@ class ToolListItems extends React.Component {
                     var _key_ = Math.min(key, 9);
                     return (
                         <div id={lb.id+'_label'} key={key} onClick={function(e){
-                                drawPoly.setType(lb.type_label);
-                                drawPoly.startDraw(lb.id, lb.tag_label);
+                                drawPoly.startDraw(lb.id, lb.tag_label, lb.type_label);
                                 
                                 if(quickSettings.getAtt('show_popup')){
                                     tool.handleClick("Drawing " + labelname + " by " + (lb.type_label =='rect' ? "rectangle" : "polygon") + " shape");
@@ -155,7 +154,7 @@ class ToolListItems extends React.Component {
                         {MAP_ICON_LABEL[_key_]}
                         </ListItemIcon>
                         </Tooltip>
-                        <ListItemText primary={labelname + " | " + labeltype} />
+                        <ListItemText primary={labelname} />
                         </ListItem>
                         <div id={lb.id+'_color'} className={classes.hidden}>{lb.color}</div>
                         </div>

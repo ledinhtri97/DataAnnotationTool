@@ -6,6 +6,7 @@ class DrawStatus{
 		this.isZoom = false;
 		this.idTool = '';
 		this.namelabel = 'NO LABEL';
+		this.typelabel = 'TYPE LABEL'
 		this.zoomSpaceKey = false;
 		this.popupHover = false;
 	}
@@ -72,14 +73,16 @@ class DrawStatus{
 		return this.zoomSpaceKey;
 	}
 
-	startDrawStatus(__idTool__, namelabel){
+	startDrawStatus(__idTool__, namelabel, typelabel){
 		this.isDrawing = true;
 		this.isWaiting = true;
-		if(__idTool__ && namelabel) {
+		if(__idTool__ && namelabel && typelabel) {
 			this.idTool = __idTool__;
 			this.namelabel = namelabel;
+			this.typelabel = typelabel;
 		}
 		var currentTool = document.getElementById(this.idTool+'_label');
+		document.getElementById("type_label").textContent = "SHAPE : " + this.typelabel;
 		document.getElementById("label").textContent = this.namelabel;
 		if (currentTool) currentTool.style['backgroundColor'] = "#ADE4FF";
 	}
@@ -88,6 +91,7 @@ class DrawStatus{
 		this.isDrawing = false;
 		this.isWaiting = false;
 		var currentTool = document.getElementById(this.idTool+'_label');
+		document.getElementById("type_label").textContent = "TYPE LABEL";
 		document.getElementById("label").textContent = "NO LABEL";
 		if (currentTool) currentTool.style['backgroundColor'] = "#FFFFFF";
 	}
