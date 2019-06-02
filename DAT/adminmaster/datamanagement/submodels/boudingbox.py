@@ -27,8 +27,7 @@ class BoundingBoxModel(models.Model):
 
     label = models.ForeignKey(LabelDataModel, on_delete=models.CASCADE)
 
-    position = models.CharField(
-        max_length=1000, blank=True, null=True, verbose_name="position label")
+    position = models.TextField(blank=True, null=True, verbose_name="position label")
 
     flag = models.CharField(
         max_length=20,
