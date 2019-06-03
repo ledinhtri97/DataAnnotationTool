@@ -12,6 +12,7 @@ class MedicalLabelState {
     tagLabel = "";
     color = "#FFFF00";
 
+    all_labels = null;
     label_selected_callback = {};
     next_slice_callback = {};
     prev_slice_callback = {};
@@ -51,6 +52,10 @@ class MedicalLabelState {
             const cfunc = this.prev_slice_callback[key];
             cfunc();
         }
+    }
+
+    setAllLabels(value) {
+        this.all_labels = value;
     }
 
 	setType(value){

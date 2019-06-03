@@ -104,7 +104,7 @@ class GVCornerStone2 extends React.Component {
         cornerstone_image: null,
         lookup_table: null,    // mapping between housnfield & intensity
         intensity_image: null,
-        labeling_mask: {},    // dict of cv.Mat()
+        labeling_mask: null,    // dict of cv.Mat()
     }];
 
     vis_meta = {
@@ -240,7 +240,7 @@ class GVCornerStone2 extends React.Component {
             // fill in CT image
             ctx.putImageData(imgData, canvas.width/2-imgData.width/2, canvas.height/2-imgData.height/2);
 
-            //console.log("Going to update vis meta");
+            //console.log("[" + data.canvas_id + "] " + "Going to update vis meta");
 
             if (data.self.medical_images[data.self.state.active_idx].intensity_image != null) {
                 data.self.medical_images[data.self.state.active_idx].intensity_image.delete();
@@ -439,13 +439,22 @@ class GVCornerStone2 extends React.Component {
                 mask: cvmask,
             };*/
 
-            const label_id = self.props.medical_label_state.labelId;
+            const label_id = self.props.medical_label_state.labelId.toString();
 
-            if (self.medical_images[self.state.active_idx].labeling_mask[label_id] != null) {
-                const old_mask = self.medical_images[self.state.active_idx].labeling_mask[label_id];
-                cv.add(old_mask, cvmask, cvmask);                
+            if (self.medical_images[self.state.active_idx].labeling_mask == null) {
+                var js_obj = {};
+                js_obj[label_id] = cvmask;
+                self.medical_images[self.state.active_idx].labeling_mask = js_obj;
+            } else {
+                if (label_id in self.medical_images[self.state.active_idx].labeling_mask) {
+                    const old_mask = self.medical_images[self.state.active_idx].labeling_mask[label_id];
+                    cv.add(old_mask, cvmask, cvmask);        
+                    old_mask.delete();        
+                    self.medical_images[self.state.active_idx].labeling_mask[label_id] = cvmask;
+                } else {
+                    self.medical_images[self.state.active_idx].labeling_mask[label_id] = cvmask;
+                }
             }
-            self.medical_images[self.state.active_idx].labeling_mask[label_id] = cvmask;
 
             return cvmask.clone();
         }, {
@@ -457,11 +466,12 @@ class GVCornerStone2 extends React.Component {
     }
 
     componentDidMount = () => {
-        this.load_dicom_and_visualize();
         this.visualize_callback = this.medical_overlay_obj.draw_mask;
+        this.load_dicom_and_visualize();
     }
 
     componentDidUpdate = (prevProps, prevState, snapshot) => {
+        this.visualize_callback = this.medical_overlay_obj.draw_mask;
         this.load_dicom_and_visualize();
     }
 

@@ -8,6 +8,7 @@ import OfflineBolt from '@material-ui/icons/OfflineBolt';
 import ThumbDownAlt from '@material-ui/icons/ThumbDownAlt';
 import Cancel from '@material-ui/icons/Cancel';
 import RemoveRedEye from '@material-ui/icons/RemoveRedEye';
+import RemoveCircle from '@material-ui/icons/RemoveCircle';
 import ArrowForward from '@material-ui/icons/ArrowForward';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -66,6 +67,12 @@ class MedicalLabelListItems extends React.Component {
         open: false,
         messageInfo: {},
     };
+
+    constructor(props) {
+        super(props);
+        props.medical_label_state.setAllLabels(props.label_select);
+        props.medical_label_state.setLabelId(-1);
+    }
 
     handleClick = (message) => {
 
@@ -129,27 +136,9 @@ class MedicalLabelListItems extends React.Component {
                 </ListItem>
             </div>
 
-            <div id="stop_draw" onClick={function(e){
-
-                var isDrawing = drawStatus.getIsDrawing();
-                var isWaiting = drawStatus.getIsWaiting();
-                
-                if(quickSettings.getAtt('show_popup')){
-                    if(isDrawing){
-                        tool.handleClick("Stop labeling mode");
-                    }
-                    else{
-                        tool.handleClick("You are not in labeling mode");
-                    } 
-                }
-
-                if(isDrawing && isWaiting){
-                    //drawPoly.endDraw();
-                }
-                else{
-                    //drawPoly.quickDraw();
-                }
-                
+            <div id="show_all_labels" onClick={function(e){
+                medical_label_state.setLabelId(-1);
+                medical_label_state.notify_label_selected();
             }}>
             <ListItem button>
             <Tooltip title="Show all labels" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
@@ -158,6 +147,20 @@ class MedicalLabelListItems extends React.Component {
             </ListItemIcon>
             </Tooltip>
             <ListItemText primary="Show all labels"/>
+            </ListItem>
+            </div>
+
+            <div id="hide_all_labels" onClick={function(e){
+                medical_label_state.setLabelId(0);
+                medical_label_state.notify_label_selected();
+            }}>
+            <ListItem button>
+            <Tooltip title="Hide all labels" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+            <ListItemIcon className={classes.icon}>
+            <RemoveCircle />
+            </ListItemIcon>
+            </Tooltip>
+            <ListItemText primary="Hide all labels"/>
             </ListItem>
             </div>
             
@@ -179,7 +182,7 @@ class MedicalLabelListItems extends React.Component {
 
                                 /*if(quickSettings.getAtt('show_popup')){
                                     tool.handleClick("Drawing " + labelname + " by " + (lb.type_label =='rect' ? "rectangle" : "polygon") + " shape");
-                                }*/                                
+                                }*/
                             }}
                             style={{backgroundColor: lb.color+"99"}}>
                         <ListItem button>

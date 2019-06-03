@@ -144,50 +144,74 @@ class GVMedicalOverlay extends React.Component {
         var context = overlay_canvas.getContext("2d");
         context.clearRect(0, 0, overlay_canvas.width, overlay_canvas.height);
 
+        //var createjs_canvas = document.getElementById(this.canvas_createjs_id);
+        //createjs_canvas.getContext("2d").clearRect(0, 0, createjs_canvas.width, createjs_canvas.height);
+
         const medical_images = this.props.tunnel_retrieve_medical_images();
         const state = this.props.tunnel_retrieve_state();
         const vis_meta = this.props.tunnel_retrieve_vis_meta();
         const label_id = this.props.medical_label_state.getLabelId();
 
-        console.log("Draw mask for " + this.props.medical_label_state.getTagLabel() + " (" + label_id + ")" + " | state.active_idx: " + state.active_idx);
+        //console.log("[" + this.props.canvas_id + "] Draw mask for " + this.props.medical_label_state.getTagLabel() + " (" + label_id + ")" + " | state.active_idx: " + state.active_idx);
 
-        if (medical_images[state.active_idx].labeling_mask == null || !(label_id in medical_images[state.active_idx].labeling_mask)) {
+        //if (medical_images[state.active_idx].labeling_mask == null || !(label_id in medical_images[state.active_idx].labeling_mask)) {
+        if (medical_images[state.active_idx].labeling_mask == null) {
+            console.log("Labeling Mask is null! Label ID: " + label_id + ". medical_images[state.active_idx].labeling_mask:");
+            console.log(medical_images[state.active_idx].labeling_mask);
             return;
         }
 
-        var cvmask = medical_images[state.active_idx].labeling_mask[label_id].clone();
-
-        cvmask = MedicalImageProcessingBox.ROI(cvmask, 
-            state.zoom_xmin, 
-            state.zoom_ymin,
-            state.zoom_xmax,
-            state.zoom_ymax);
-
-        cvmask = MedicalImageProcessingBox.fit(cvmask, overlay_canvas.width, overlay_canvas.height);
-        
-        const shift_x_px = (vis_meta.viewing_canvas_width_px - vis_meta.viewing_image_width_px)/2;
-        const shift_y_px = (vis_meta.viewing_canvas_height_px - vis_meta.viewing_image_height_px)/2;
-        var image_data = context.getImageData(shift_x_px, shift_y_px, vis_meta.viewing_image_width_px, vis_meta.viewing_image_height_px);
-        var pix = image_data.data;
-        var to_loc1d = (x, y) => (y*image_data.width+x)*4;
-
-        const segment_color_hex = this.props.medical_label_state.getColor().substr(1,6);
-        var segment_r = parseInt(segment_color_hex.substr(0, 2), 16);
-        var segment_g = parseInt(segment_color_hex.substr(2, 2), 16);
-        var segment_b = parseInt(segment_color_hex.substr(4), 16);
-
-        // modify image data
-        for(var p=0; p<cvmask.rows*cvmask.cols; p++) {
-            if (cvmask.data[p] > 0) {
-                var loc1d = p * 4;
-                pix[loc1d] = segment_r;
-                pix[loc1d+1] = segment_g;
-                pix[loc1d+2] = segment_b;
-                pix[loc1d+3] = 127;     // alpha: opaque=255, transparent=0
+        this.props.medical_label_state.all_labels.map(function(lb, key) {
+            if (lb.id != label_id && label_id>=0) {
+                return;
             }
-        }
-        cvmask.delete();
-        context.putImageData(image_data, shift_x_px, shift_y_px);
+
+            const lb_id = lb.id;
+
+            if (medical_images[state.active_idx].labeling_mask==null || !(lb_id in medical_images[state.active_idx].labeling_mask)) {
+                return;
+            }
+
+            var cvmask = medical_images[state.active_idx].labeling_mask[lb_id].clone();
+            cvmask = MedicalImageProcessingBox.ROI(cvmask, 
+                state.zoom_xmin, 
+                state.zoom_ymin,
+                state.zoom_xmax,
+                state.zoom_ymax);
+    
+            cvmask = MedicalImageProcessingBox.fit(cvmask, overlay_canvas.width, overlay_canvas.height);
+
+            const shift_x_px = (vis_meta.viewing_canvas_width_px - vis_meta.viewing_image_width_px)/2;
+            const shift_y_px = (vis_meta.viewing_canvas_height_px - vis_meta.viewing_image_height_px)/2;
+            var image_data = context.getImageData(shift_x_px, shift_y_px, vis_meta.viewing_image_width_px, vis_meta.viewing_image_height_px);
+            var pix = image_data.data;
+            var to_loc1d = (x, y) => (y*image_data.width+x)*4;
+    
+            const segment_color_hex = lb.color.substr(1,6);
+            var segment_r = parseInt(segment_color_hex.substr(0, 2), 16);
+            var segment_g = parseInt(segment_color_hex.substr(2, 2), 16);
+            var segment_b = parseInt(segment_color_hex.substr(4), 16);
+    
+            // modify image data
+            for(var p=0; p<cvmask.rows*cvmask.cols; p++) {
+                if (cvmask.data[p] > 0) {
+                    var loc1d = p * 4;
+                    if (pix[loc1d+3]==0) {
+                        pix[loc1d] = segment_r;
+                        pix[loc1d+1] = segment_g;
+                        pix[loc1d+2] = segment_b;
+                        pix[loc1d+3] = 127;     // alpha: opaque=255, transparent=0
+                    } else {
+                        pix[loc1d] = (pix[loc1d]+segment_r)/2;
+                        pix[loc1d+1] = (pix[loc1d+1]+segment_g)/2;
+                        pix[loc1d+2] = (pix[loc1d+2]+segment_b)/2;
+                        pix[loc1d+3] = 127;     // alpha: opaque=255, transparent=0
+                    }                    
+                }
+            }
+            cvmask.delete();
+            context.putImageData(image_data, shift_x_px, shift_y_px);
+        });
     }
 
     mouse_move = (event) => {
