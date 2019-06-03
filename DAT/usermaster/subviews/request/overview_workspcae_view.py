@@ -90,7 +90,7 @@ def get_data_overview_workspace(request, wsid):
                 'submitted': [
                     {
                         'url_meta': meta.get_url_api(),
-                        'meta_name': meta.get_rel_path(),
+                        'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
                         'label_count': meta.boxes_position.count(),
                         'view': meta.is_allow_view,
@@ -99,7 +99,7 @@ def get_data_overview_workspace(request, wsid):
                 'skipped': [
                     {
                         'url_meta': meta.get_url_api(),
-                        'meta_name': meta.get_rel_path(),
+                        'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
                         'reason_skipped': 'sss',
                         'label_count': meta.boxes_position.count(),
@@ -109,7 +109,7 @@ def get_data_overview_workspace(request, wsid):
                 'flaged': [
                     {
                         'url_meta': meta.get_url_api(),
-                        'meta_name': meta.get_rel_path(),
+                        'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
                         'flag_count': meta.boxes_position.filter(flag='0').count(),
                         'label_count': meta.boxes_position.count(),
@@ -119,7 +119,7 @@ def get_data_overview_workspace(request, wsid):
                 'notice_review': [
                     {
                         'url_meta': meta.get_url_api(),
-                        'meta_name': meta.get_rel_path(),
+                        'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
                         'message': 'sss',
                         'flag_count': 'sss',

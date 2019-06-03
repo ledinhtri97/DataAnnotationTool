@@ -41,9 +41,13 @@ class AlertDialogView extends React.Component {
     this.setState({ open: false });
   };
 
-  render() {
-    const { classes, name } = this.props;
+  handleEdit = (metaid) => {
+    window.location.href = '/gvlab-dat/workspace/edit_metaid-'+metaid;
+  };
 
+  render() {
+    const { classes, name, metaid } = this.props;
+    const self_view = this;
     return (
         <Dialog
           classes={{
@@ -66,6 +70,9 @@ class AlertDialogView extends React.Component {
               <canvas id="canvas" className={classes.canvas}></canvas>
           </DialogContent>
           <DialogActions>
+            <Button onClick={function(e){self_view.handleEdit(metaid)}} color="primary">
+              Edit
+            </Button>
             <Button onClick={this.handleClose} color="primary">
               Close
             </Button>

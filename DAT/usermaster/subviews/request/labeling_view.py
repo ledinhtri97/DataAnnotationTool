@@ -63,12 +63,50 @@ def next_index(request, metaid):
 		current_meta_data.is_allow_view = False
 		current_meta_data.save(update_fields=['is_allow_view'])
 		
-		current_meta_data.save(update_fields=['onviewing_user'])
+	current_meta_data.save(update_fields=['onviewing_user'])
 		#print(current_meta_data.skipped_by_user)
-		meta = get_query_meta_general(dataset_id, user)
+	meta = get_query_meta_general(dataset_id, user)
 	
-		if meta:
-			data = query_meta(meta)
+	if meta:
+		data = query_meta(meta)
+
+	print("next:", data)
+	return JsonResponse(data=data)
+
+
+def save_index(request, metaid):
+	data = {}
+
+	if request.method == 'POST':
+
+		current_meta_data = MetaDataModel.objects.get(id=metaid)
+		body_unicode = request.body.decode('utf-8')
+		dataset_id = current_meta_data.dataset.id
+		user = request.user
+
+		for bb in current_meta_data.boxes_position.all():
+			print('old: ', bb)
+			bb.delete()
+			print('new: ', bb)
+		#print(body_unicode)
+		for bb in body_unicode.split('\n')[:-1]:
+			bb = bb.split(',')
+			new_bb, created = BoundingBoxModel.objects.get_or_create(
+				label=LabelDataModel.objects.get(tag_label=bb[0], type_label=bb[1]),
+				flag=bb[2],
+				position=','.join(bb[3:]),
+			)
+			if created:
+				#created new --
+				current_meta_data.boxes_position.add(new_bb)
+			else:
+				#existed
+				print('existed\n', current_meta_data.boxes_position.all())
+
+		current_meta_data.submitted_by_user.add(user)
+		current_meta_data.is_annotated = 1
+
+		current_meta_data.save(update_fields=['is_annotated', 'onviewing_user'])
 
 	return JsonResponse(data=data)
 

@@ -30,3 +30,26 @@ class LabelingView(generics.RetrieveUpdateAPIView):
     }
 
     return Response(data=data)
+
+
+class EditLabelingView(generics.RetrieveUpdateAPIView):
+
+  lookup_field = 'metaid'
+  template_name = 'usermaster/edit.html'
+
+  def retrieve(self, request, *args, **kwargs):
+    metaid = request.parser_context['kwargs']['metaid']
+    user = request.user
+    
+    try:
+      meta = MetaDataModel.objects.get(id=metaid, submitted_by_user=user)
+      data = {
+        'id': metaid,
+      }
+    except Exception as e:
+      print(e)
+      data = {
+        'id': '',
+      }
+
+    return Response(data=data)

@@ -9,22 +9,8 @@ import {drawPoly} from "../labeling"
 var label = document.getElementById("label");
 const ROUND = 100000;
 
-const nomoredata_handle =  function(){
-
-	var url_workspace = document.getElementById("url_workspace").textContent;
-	
-	var meta_id = document.getElementById("meta_id");
-
-	window.removeEventListener("beforeunload", ask_before_out);
-	
-	alert("Look like have no more data!!! return to workspace");
-	
-	outWorkSpace(meta_id.textContent, url_workspace);
-}
-
-const rqsavenext = function(meta_id, canvas){
-
-	var myData = ""
+const collect_boudingbox = function(canvas){
+	var myData = "";
 
 	for(var i = 0; i < canvas.getObjects().length; i+=1){
 		var item = canvas.item(i);
@@ -50,6 +36,26 @@ const rqsavenext = function(meta_id, canvas){
 			}
 		}
 	}
+
+	return myData;
+}
+
+const nomoredata_handle =  function(){
+
+	var url_workspace = document.getElementById("url_workspace").textContent;
+	
+	var meta_id = document.getElementById("meta_id");
+
+	window.removeEventListener("beforeunload", ask_before_out);
+	
+	alert("Look like have no more data!!! return to workspace");
+	
+	outWorkSpace(meta_id.textContent, url_workspace);
+}
+
+const rqsavenext = function(meta_id, canvas){
+
+	var myData = collect_boudingbox(canvas);	
 
 	fetch("/gvlab-dat/workspace/savenext/"+meta_id+"/", {
 		method: "POST",
@@ -141,6 +147,30 @@ const rqnext = function(meta_id, canvas){
 	});
 }
 
+const rqsave = function(meta_id, canvas){
+
+	var myData = collect_boudingbox(canvas);	
+
+	fetch("/gvlab-dat/workspace/save/"+meta_id+"/", {
+		method: "POST",
+		credentials: "same-origin",
+		headers: {
+			"X-CSRFToken": Cookie.get("csrftoken"),
+			"Accept": "application/json",
+			"Content-Type": "application/json"
+		},
+		body: myData
+	})
+	.then(response => {
+		if(response.status == 200){
+			alert("Saved successfully");
+		}
+		else{
+			alert("Save failed");
+		}
+	});
+}
+
 const rqsavesettings = function(){
 
 	var myData = {
@@ -191,4 +221,4 @@ const rqacceptcontrib = function(accept_url, contribute_url){
 	});
 }
 
-export {rqsavenext, rqnext, rqsavesettings, rqacceptcontrib};
+export {rqsave, rqsavenext, rqnext, rqsavesettings, rqacceptcontrib};

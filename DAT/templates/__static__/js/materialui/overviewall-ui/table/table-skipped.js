@@ -79,7 +79,7 @@ class SkippedTable extends React.Component {
           if(dialog_view){
             ReactDOM.unmountComponentAtNode(dialog_view);
             ReactDOM.render(
-              <AlertDialogView name={meta.name}/>, dialog_view
+              <AlertDialogView name={meta.name} metaid={meta.id}/>, dialog_view
             );
 
             const canvas = new fabric.Canvas('canvas', {
@@ -107,7 +107,7 @@ class SkippedTable extends React.Component {
 
             <TableHead>
             <TableRow>
-            <TableCell className={classes.table_title}>Meta Name</TableCell>
+            <TableCell className={classes.table_title}>Meta Id</TableCell>
             <TableCell className={classes.table_title}>Last Date Update</TableCell>
             <TableCell className={classes.table_title}>Reason Skipped</TableCell>
             <TableCell align="center" className={classes.table_title}>Labeled Count</TableCell>
@@ -120,7 +120,7 @@ class SkippedTable extends React.Component {
                 return (
                 <TableRow key={key}>
                 <TableCell component="th" scope="row" className={classes.table_content}>
-                {skd.meta_name}
+                {skd.meta_id}
                 </TableCell>
                 <TableCell className={classes.table_content}>
                 {dateFormat(new Date(skd.last_date_update), "dddd, mmmm dS, yyyy, h:MM:ss TT").toString()}

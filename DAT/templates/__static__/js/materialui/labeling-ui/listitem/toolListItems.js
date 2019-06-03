@@ -104,8 +104,8 @@ class ToolListItems extends React.Component {
 
             <div id="stop_draw" onClick={function(e){
 
-                var isDrawing = drawStatus.getIsDrawing();
-                var isWaiting = drawStatus.getIsWaiting();
+                let isDrawing = drawStatus.getIsDrawing();
+                let isWaiting = drawStatus.getIsWaiting();
                 
                 if(quickSettings.getAtt('show_popup')){
                     if(isDrawing){
@@ -141,12 +141,15 @@ class ToolListItems extends React.Component {
                     var _key_ = Math.min(key, 9);
                     return (
                         <div id={lb.id+'_label'} key={key} onClick={function(e){
-                                drawPoly.startDraw(lb.id, lb.tag_label, lb.type_label);
-                                
-                                if(quickSettings.getAtt('show_popup')){
-                                    tool.handleClick("Drawing " + labelname + " by " + (lb.type_label =='rect' ? "rectangle" : "polygon") + " shape");
+
+                                let isd = drawStatus.getIsDrawing();
+                                let isw = drawStatus.getIsWaiting();
+                                if(!isd || (isd && isw)){
+                                    drawPoly.startDraw(lb.id, lb.tag_label, lb.type_label);
+                                    if(quickSettings.getAtt('show_popup')){
+                                        tool.handleClick("Drawing " + labelname + " by " + (lb.type_label =='rect' ? "rectangle" : "polygon") + " shape");
+                                    }
                                 }
-                                
                             }}>
                         <ListItem button>
                         <Tooltip title={labelname + " | " + labeltype} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>

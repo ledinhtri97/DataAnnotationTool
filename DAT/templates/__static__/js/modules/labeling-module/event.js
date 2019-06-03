@@ -224,7 +224,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 		else if(key == 113) {
 			//quit draw -> q key
 			if(drawStatus.getIsDrawing() && drawStatus.getIsWaiting()){
-				var e_stop = document.getElementById("stop_draw");
+				let e_stop = document.getElementById("stop_draw");
 				e_stop && e_stop.click();
 			}
 			else {
@@ -234,12 +234,8 @@ const init_event = function(__canvas__, popupControllers, label_select){
 		else {
 			if(label_select){
 				label_select.forEach(function(lb, index) {					
-					var isd = drawStatus.getIsDrawing();
-					var isw = drawStatus.getIsWaiting();
-					if((!isd || (isd && isw)) && (key == 49+index)){
-						var e_label = document.getElementById(lb.id+'_label');
-						e_label && e_label.click();
-					}
+					let e_label = document.getElementById(lb.id+'_label');
+					e_label && e_label.click();
 				});
 			}
 		}

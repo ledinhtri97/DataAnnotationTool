@@ -1,0 +1,23 @@
+{% extends "usermaster/base.html" %}
+{% block title %}Workspace{% endblock %}
+{% block loadhead%}
+<style type="text/css" media="screen">
+	#containerapp{
+		width: 100%;
+		height: 100%;
+	}
+</style>
+{% endblock %}
+{% block content %}
+
+<div style="display: none;">
+	<div id="meta_id">{{id}}</div>
+	<div id="on_edit"></div>
+	{% csrf_token %}
+</div>
+{% endblock content %}
+
+{%block loadjs%}
+{% load static %}
+<script src="{% static 'js/build/labeling.js' %}"></script>  
+{% endblock loadjs %}

@@ -66,6 +66,36 @@ class NoticeReviewTable extends React.Component {
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
 
+  handleView = (url_meta) => {
+    var dialog_view = document.getElementById("dialog_view");
+    fetch(url_meta, {})
+      .then(response => {
+          if(response.status !== 200){
+            return "FAILED";
+          }
+          return response.json();
+        }
+      ).then(meta => {
+          if(meta === "FAILED") return;
+          
+          if(dialog_view){
+            ReactDOM.unmountComponentAtNode(dialog_view);
+            ReactDOM.render(
+              <AlertDialogView name={meta.name} metaid={meta.id}/>, dialog_view
+            );
+
+            const canvas = new fabric.Canvas('canvas', {
+              hoverCursor: 'pointer',
+              selection: true,
+              backgroundColor: null,
+              uniScaleTransform: true,
+            });
+
+            initCanvas(canvas, meta, true);
+        }
+      });
+  };
+
   render() {
     const self_table = this;
     const { classes, notice_review } = this.props;
@@ -79,7 +109,7 @@ class NoticeReviewTable extends React.Component {
 
             <TableHead>
             <TableRow>
-            <TableCell className={classes.table_title}>Meta Name</TableCell>
+            <TableCell className={classes.table_title}>Meta Id</TableCell>
             <TableCell className={classes.table_title}>Message</TableCell>
             <TableCell className={classes.table_title}>Last Date Update</TableCell>
             <TableCell align="center" className={classes.table_title}>Flag Count</TableCell>
@@ -93,7 +123,7 @@ class NoticeReviewTable extends React.Component {
                 return (
                 <TableRow key={key}>
                 <TableCell component="th" scope="row" className={classes.table_content}>
-                {ntv.meta_name}
+                {ntv.meta_id}
                 </TableCell>
                 <TableCell component="th" scope="row" align="center" className={classes.table_content}>{ntv.message}</TableCell>
                 <TableCell className={classes.table_content}>

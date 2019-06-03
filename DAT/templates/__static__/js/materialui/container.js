@@ -243,6 +243,7 @@ class MenuAppBar extends React.Component {
 		const ON_HOMEPAGE =  document.getElementById("home") != null;
 		const ON_WORKING = document.getElementById("meta_id") != null;
 		const ON_CONTRIBUTE = document.getElementById("contribute") != null;
+		const ON_EDIT = document.getElementById("on_edit") != null;
 		return (	
 			<div className={classes.root}>
 			<CssBaseline />
@@ -262,7 +263,7 @@ class MenuAppBar extends React.Component {
 			<Typography variant="h6" color="inherit" className={classes.grow}>Data Annotation Tool - GVLab</Typography>
 			<div>
 			{
-				ON_WORKING && (
+				ON_WORKING && !ON_EDIT && (
 					<React.Fragment>
 					<Button id="type_label" variant="contained" color="primary" className={classes.button}>TYPE LABEL</Button>
 					<Button id="label" variant="contained" color="primary" className={classes.button}>NO LABEL</Button>
@@ -283,6 +284,22 @@ class MenuAppBar extends React.Component {
 					<IconButton id="save_next" aria-haspopup="true" color="inherit">
 					<Beenhere />
 					<KeyboardArrowRight />
+					</IconButton>
+					</Tooltip>
+					</React.Fragment>)
+			}
+			{
+				ON_EDIT && (
+					<React.Fragment>
+					<Button id="type_label" variant="contained" color="primary" className={classes.button}>TYPE LABEL</Button>
+					<Button id="label" variant="contained" color="primary" className={classes.button}>NO LABEL</Button>
+					<Tooltip 
+					title="Save" 
+					TransitionComponent={Zoom} 
+					placement="bottom" 
+					classes={{tooltip: classes.lightTooltip}}>
+					<IconButton id="only_save" aria-haspopup="true" color="inherit">
+					<Beenhere />
 					</IconButton>
 					</Tooltip>
 					</React.Fragment>)
@@ -331,15 +348,12 @@ class MenuAppBar extends React.Component {
 			open={this.state.open}
 			>
 			<div className={classes.toolbarIcon}>
-
 			<span id="settings" title="Settings" className={classes.span} />
 			
-
 			<IconButton onClick={this.handleDrawerClose}>
 			<ChevronLeftIcon />
 			</IconButton>
 			</div>
-
 
 			<ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleExpandInDrawer('panel1')}>
 			<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
