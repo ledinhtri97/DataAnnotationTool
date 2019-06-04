@@ -192,6 +192,7 @@ class DrawPolygon{
 				if(drawer.pointArray.length == 0){
 					circle.set({
 						fill:'#FF0000',
+						radius: 8,
 					})
 				}
 

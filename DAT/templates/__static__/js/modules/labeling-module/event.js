@@ -233,9 +233,11 @@ const init_event = function(__canvas__, popupControllers, label_select){
 		}
 		else {
 			if(label_select){
-				label_select.forEach(function(lb, index) {					
-					let e_label = document.getElementById(lb.id+'_label');
-					e_label && e_label.click();
+				label_select.forEach(function(lb, index) {
+					if(key == 49+index){			
+						let e_label = document.getElementById(lb.id+'_label');
+						e_label && e_label.click();
+					}
 				});
 			}
 		}
