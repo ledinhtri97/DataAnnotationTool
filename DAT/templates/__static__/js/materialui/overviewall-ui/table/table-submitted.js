@@ -107,7 +107,8 @@ class SubmittedTable extends React.Component {
 
             <TableHead>
             <TableRow>
-            <TableCell className={classes.table_title}>Meta Id</TableCell>
+            <TableCell className={classes.table_title}>Thumbnail</TableCell>
+            <TableCell className={classes.table_title}>Meta Id</TableCell>            
             <TableCell className={classes.table_title}>Last Date Update</TableCell>
             <TableCell align="center" className={classes.table_title}>Labeled Count</TableCell>
             <TableCell align="center" className={classes.table_title}>View</TableCell>
@@ -118,6 +119,9 @@ class SubmittedTable extends React.Component {
               {submitted.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(function(smd, key) {
                 return (
                 <TableRow key={key}>
+                <TableCell className={classes.table_content}>
+					<img style={{ height: '100px'}} src={smd.url_image}/>
+                </TableCell>
                 <TableCell className={classes.table_content}>{smd.meta_id}</TableCell>
                 <TableCell className={classes.table_content}>
                 {dateFormat(new Date(smd.last_date_update), "dddd, mmmm dS, yyyy, h:MM:ss TT").toString()}

@@ -27,7 +27,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'hpcc.hcmut.edu.vn', '172.28.182.130'
 # Application definition
 
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
+    # 'whitenoise.runserver_nostatic',
 
     'django.contrib.admin',
     'django.contrib.auth',
