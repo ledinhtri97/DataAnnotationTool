@@ -107,6 +107,7 @@ class SkippedTable extends React.Component {
 
             <TableHead>
             <TableRow>
+            <TableCell className={classes.table_title}>Thumbnail</TableCell>
             <TableCell className={classes.table_title}>Meta Id</TableCell>
             <TableCell className={classes.table_title}>Last Date Update</TableCell>
             <TableCell className={classes.table_title}>Reason Skipped</TableCell>
@@ -119,6 +120,9 @@ class SkippedTable extends React.Component {
               {skipped.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(function(skd, key) {
                 return (
                 <TableRow key={key}>
+                <TableCell className={classes.table_content}>
+                  <img style={{ height: '100px'}} src={skd.url_image}/>
+                </TableCell>                
                 <TableCell component="th" scope="row" className={classes.table_content}>
                 {skd.meta_id}
                 </TableCell>
