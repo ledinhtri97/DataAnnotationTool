@@ -107,6 +107,10 @@ class GVCornerStone2 extends React.Component {
         labeling_mask: null,    // dict of cv.Mat()
     }];
 
+    labeling_mask_layers = [
+        [{ label_id: -1,  mask: null }]
+    ]; // these value will be reset in contructor
+
     vis_meta = {
         viewing_image_width_px: -1,
         viewing_image_height_px: -1,
@@ -134,6 +138,7 @@ class GVCornerStone2 extends React.Component {
 
         var default_medical_instance = this.medical_images[0];
         this.medical_images = [];
+        this.labeling_mask_layers = []; // reset to empty list
         for(var i=0; i<this.props.urls.length; i++) {
             this.medical_images.push({
                 url: this.props.urls[i],
@@ -142,6 +147,8 @@ class GVCornerStone2 extends React.Component {
                 intensity_image: default_medical_instance.intensity_image,
                 labeling_mask: default_medical_instance.labeling_mask
             });
+
+            this.labeling_mask_layers.push([]);
         }
 
         this.state = {
@@ -291,6 +298,46 @@ class GVCornerStone2 extends React.Component {
         return this.vis_meta;
     }
 
+    tunnel_retrieve_labeling_mask_layers = () => {
+        return this.labeling_mask_layers
+    }
+
+    tunnel_remove_labeling_mask_layers = (mask_idx) => { // this method will be called from overlay
+        const mask_layers = this.labeling_mask_layers[this.state.active_idx];
+        const mask_info = mask_layers[mask_idx];
+        const label_id = mask_info.label_id;
+        
+        if (mask_info.mask != null) {
+            mask_info.mask.delete(); // deallocate cv.Mat() object
+        }
+        this.labeling_mask_layers[this.state.active_idx].splice(mask_idx, 1);
+
+        // re-calculate the updated mask
+        var new_cvmask = null;
+        for(var i=0; i<mask_layers.length; i++) {
+            const mask = mask_layers[i];
+            if (mask.label_id == label_id) {
+                if (new_cvmask == null) {
+                    new_cvmask = mask.mask.clone();
+                } else {
+                    cv.add(new_cvmask, mask.mask, new_cvmask);  
+                }
+            }
+        }
+
+        const current_final_mask = this.medical_images[this.state.active_idx].labeling_mask[label_id.toString()];
+        if (current_final_mask != null) {
+            current_final_mask.delete();
+        }
+        if (new_cvmask == null) {
+            delete this.medical_images[this.state.active_idx].labeling_mask[label_id.toString()];
+        } else {
+            this.medical_images[this.state.active_idx].labeling_mask[label_id.toString()] = new_cvmask;
+        }
+
+        this.medical_overlay_obj.draw_mask();
+    }
+
     tunnel_set_total_items = (new_total_items) => {
         new_total_items = (typeof new_total_items != "undefined") ? new_total_items : this.original_total_items;
         this.setState({
@@ -433,13 +480,13 @@ class GVCornerStone2 extends React.Component {
             //cv.erode(cvmask, cvmask, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
             cv.morphologyEx(cvmask, cvmask, cv.MORPH_OPEN, M, anchor, 1,
                 cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
-
-            /*return {
-                region: region,
-                mask: cvmask,
-            };*/
-
+            
             const label_id = self.props.medical_label_state.labelId.toString();
+
+            self.labeling_mask_layers[self.state.active_idx].push({
+                label_id: label_id, // str
+                mask: cvmask.clone(), // cv.Mat()
+            });
 
             if (self.medical_images[self.state.active_idx].labeling_mask == null) {
                 var js_obj = {};
@@ -497,6 +544,8 @@ class GVCornerStone2 extends React.Component {
                             tunnel_retrieve_state={this.tunnel_retrieve_state}
                             tunnel_retrieve_medical_images={this.tunnel_retrieve_medical_images}
                             tunnel_retrieve_vis_meta={this.tunnel_retrieve_vis_meta}
+                            tunnel_retrieve_labeling_mask_layers={this.tunnel_retrieve_labeling_mask_layers}
+                            tunnel_remove_labeling_mask_layers={this.tunnel_remove_labeling_mask_layers}
                             tunnel_set_zoom_area={this.tunnel_set_zoom_area}
                             tunnel_register_visualize_callback={this.tunnel_register_visualize_callback}
                             tunnel_set_medical_overlay={this.tunnel_set_medical_overlay}
