@@ -107,6 +107,7 @@ class FlagFalsePredictTable extends React.Component {
 
             <TableHead>
             <TableRow>
+            <TableCell className={classes.table_title}>Thumbnail</TableCell>
             <TableCell className={classes.table_title}>Meta Id</TableCell>
             <TableCell className={classes.table_title}>Last Date Update</TableCell>
             <TableCell className={classes.table_title}>Flag Count</TableCell>
@@ -119,6 +120,9 @@ class FlagFalsePredictTable extends React.Component {
               {flaged.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(function(fld, key) {
                 return (
                 <TableRow key={key}>
+                <TableCell className={classes.table_content}>
+                  <img style={{ height: '100px'}} src={fld.url_image}/>
+                </TableCell>
                 <TableCell component="th" scope="row" className={classes.table_content}>
                 {fld.meta_id}
                 </TableCell>

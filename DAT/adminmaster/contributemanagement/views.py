@@ -1,4 +1,3 @@
-
 from rest_framework import generics
 from rest_framework.response import Response
 from adminmaster.contributemanagement.models import ContributeModel
@@ -15,7 +14,7 @@ class ContributeView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         contrib_id = self.request.parser_context['kwargs']['id_contribute']
-        contribute = ContributeModel.objects.filter(id=contrib_id).first()
+        contribute = ContributeModel.objects.get(id=contrib_id)
 
         review = {
             "name": contribute.name,
@@ -106,7 +105,7 @@ class ItemContributeView(generics.RetrieveAPIView):
 
 
 def contribute_accept(request, id_file):
-    input_ins = InputDataModel.objects.filter(id=id_file).first()
+    input_ins = InputDataModel.objects.get(id=id_file)
     input_ins.useful = 1
     input_ins.save(update_fields=['useful'])
     print(input_ins)

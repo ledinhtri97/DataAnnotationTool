@@ -4,7 +4,6 @@ from simple_history.models import HistoricalRecords
 from .dataset import DataSetModel
 from django.conf import settings
 from django.utils.html import format_html
-import django.utils.safestring as safestring
 
 class OutputDataModel(models.Model):
 

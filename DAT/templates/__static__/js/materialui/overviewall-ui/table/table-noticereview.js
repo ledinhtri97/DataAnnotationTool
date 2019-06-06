@@ -109,6 +109,7 @@ class NoticeReviewTable extends React.Component {
 
             <TableHead>
             <TableRow>
+            <TableCell className={classes.table_title}>Thumbnail</TableCell>
             <TableCell className={classes.table_title}>Meta Id</TableCell>
             <TableCell className={classes.table_title}>Message</TableCell>
             <TableCell className={classes.table_title}>Last Date Update</TableCell>
@@ -122,6 +123,9 @@ class NoticeReviewTable extends React.Component {
               {notice_review.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(function(ntv, key) {
                 return (
                 <TableRow key={key}>
+                <TableCell className={classes.table_content}>
+                  <img style={{ height: '100px'}} src={ntv.url_image}/>
+                </TableCell>
                 <TableCell component="th" scope="row" className={classes.table_content}>
                 {ntv.meta_id}
                 </TableCell>
