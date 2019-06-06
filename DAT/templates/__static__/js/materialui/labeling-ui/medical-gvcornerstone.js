@@ -302,16 +302,8 @@ class GVCornerStone2 extends React.Component {
         return this.labeling_mask_layers
     }
 
-    tunnel_remove_labeling_mask_layers = (mask_idx) => { // this method will be called from overlay
+    recalculate_labeling_mask = (label_id) => {
         const mask_layers = this.labeling_mask_layers[this.state.active_idx];
-        const mask_info = mask_layers[mask_idx];
-        const label_id = mask_info.label_id;
-        
-        if (mask_info.mask != null) {
-            mask_info.mask.delete(); // deallocate cv.Mat() object
-        }
-        this.labeling_mask_layers[this.state.active_idx].splice(mask_idx, 1);
-
         // re-calculate the updated mask
         var new_cvmask = null;
         for(var i=0; i<mask_layers.length; i++) {
@@ -325,16 +317,36 @@ class GVCornerStone2 extends React.Component {
             }
         }
 
-        const current_final_mask = this.medical_images[this.state.active_idx].labeling_mask[label_id.toString()];
-        if (current_final_mask != null) {
-            current_final_mask.delete();
-        }
-        if (new_cvmask == null) {
-            delete this.medical_images[this.state.active_idx].labeling_mask[label_id.toString()];
-        } else {
-            this.medical_images[this.state.active_idx].labeling_mask[label_id.toString()] = new_cvmask;
-        }
+        label_id = label_id.toString();
 
+        if (this.medical_images[this.state.active_idx].labeling_mask == null) {
+            var js_obj = {};
+            js_obj[label_id] = new_cvmask;
+            this.medical_images[this.state.active_idx].labeling_mask = js_obj;
+        } else {
+            if (label_id in this.medical_images[this.state.active_idx].labeling_mask) {
+                const old_mask = this.medical_images[this.state.active_idx].labeling_mask[label_id];
+                if (old_mask != null) { old_mask.delete(); }
+            }
+
+            if (new_cvmask == null) {
+                delete this.medical_images[this.state.active_idx].labeling_mask[label_id];
+            } else {
+                this.medical_images[this.state.active_idx].labeling_mask[label_id] = new_cvmask;
+            }
+        }
+    }
+
+    tunnel_remove_labeling_mask_layers = (mask_idx) => { // this method will be called from overlay
+        const mask_layers = this.labeling_mask_layers[this.state.active_idx];
+        const mask_info = mask_layers[mask_idx];
+        const label_id = mask_info.label_id;
+        
+        if (mask_info.mask != null) {
+            mask_info.mask.delete(); // deallocate cv.Mat() object
+        }
+        this.labeling_mask_layers[this.state.active_idx].splice(mask_idx, 1);
+        this.recalculate_labeling_mask(label_id);
         this.medical_overlay_obj.draw_mask();
     }
 
@@ -386,10 +398,12 @@ class GVCornerStone2 extends React.Component {
     }
 
     // 20190527
-    tunnel_region_growing = (x_percent, y_percent, delta) => {
+    tunnel_region_growing = (x_percent, y_percent, delta, mask_idx) => {
+        mask_idx = (typeof mask_idx == "undefined")?-1:mask_idx;
         return wait_opencvjs_to_exec(function(data) {
             const x_percent = data.x_percent;
             const y_percent = data.y_percent;
+            const mask_idx = data.mask_idx;
             var delta = data.delta;
             const self = data.self;
 
@@ -481,13 +495,36 @@ class GVCornerStone2 extends React.Component {
             cv.morphologyEx(cvmask, cvmask, cv.MORPH_OPEN, M, anchor, 1,
                 cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
             
-            const label_id = self.props.medical_label_state.labelId.toString();
+            const label_id = (mask_idx>=0)?self.labeling_mask_layers[self.state.active_idx][mask_idx].label_id:self.props.medical_label_state.labelId.toString();
 
-            self.labeling_mask_layers[self.state.active_idx].push({
-                label_id: label_id, // str
-                mask: cvmask.clone(), // cv.Mat()
-            });
+            if (mask_idx >= 0) {
+                // update
+                console.log("mask_idx: " + mask_idx);
+                if (self.labeling_mask_layers[self.state.active_idx][mask_idx].mask != null) {
+                    self.labeling_mask_layers[self.state.active_idx][mask_idx].mask.delete();
+                }
+                self.labeling_mask_layers[self.state.active_idx][mask_idx] = {
+                    x_percent: x_percent,
+                    y_percent: y_percent,
+                    label_id: label_id, // str
+                    mask: cvmask.clone(), // cv.Mat()
+                    delta: delta,
+                };
+                console.log(self.labeling_mask_layers[self.state.active_idx]);
+            } else {
+                self.labeling_mask_layers[self.state.active_idx].push({
+                    x_percent: x_percent,
+                    y_percent: y_percent,
+                    label_id: label_id, // str
+                    mask: cvmask.clone(), // cv.Mat()
+                    delta: delta
+                });
+                console.log(self.labeling_mask_layers[self.state.active_idx]);
+            }
 
+            self.recalculate_labeling_mask(label_id);
+
+            /*
             if (self.medical_images[self.state.active_idx].labeling_mask == null) {
                 var js_obj = {};
                 js_obj[label_id] = cvmask;
@@ -502,12 +539,14 @@ class GVCornerStone2 extends React.Component {
                     self.medical_images[self.state.active_idx].labeling_mask[label_id] = cvmask;
                 }
             }
+            */
 
-            return cvmask.clone();
+            /////return cvmask.clone();
         }, {
             x_percent: x_percent,
             y_percent: y_percent,
             delta: delta,
+            mask_idx: mask_idx,
             self: this
         });
     }

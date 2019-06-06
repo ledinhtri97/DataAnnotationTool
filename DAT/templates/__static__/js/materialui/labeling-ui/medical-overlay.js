@@ -202,19 +202,23 @@ class GVMedicalOverlay extends React.Component {
                 var text_node = document.createTextNode(mask_label_tag_name);
                 div_node.appendChild(text_node);
                 
+                const mask_idx = ml;
+
                 var track_bar_node = document.createElement("span");
-                track_bar_node.innerHTML = '&nbsp;&nbsp;<input type="range" id="trackbar" value="15" min="5" max="25" step="1" width="30%"> <span name="intensity_threshold">15</span>';
+                var delta_string = (mask_info.delta.toString().length==2)?mask_info.delta.toString():"&nbsp;&nbsp;"+mask_info.delta.toString();
+                track_bar_node.innerHTML = '&nbsp;&nbsp;<input type="range" id="trackbar" value="' + mask_info.delta + '" min="1" max="25" step="1" width="30%"> <span name="intensity_threshold">' + delta_string + '</span>';
                 track_bar_node.getElementsByTagName("input")[0].addEventListener('input', function() {
                     const value = this.value;
                     var value_str = (value.toString().length==2)?value.toString():"&nbsp;&nbsp;"+value.toString();
                     this.parentNode.getElementsByTagName("span")[0].innerHTML = value_str;
                 });
                 track_bar_node.getElementsByTagName("input")[0].addEventListener('change', function() {
-                    console.log(this.value);
+                    self.props.tunnel_region_growing(mask_info.x_percent, mask_info.y_percent, parseInt(this.value), mask_idx);
+                    self.draw_mask();
                 });
                 div_node.appendChild(track_bar_node);
 
-                const mask_idx = ml;
+                
                 var remove_icon_node = document.createElement("span");
                 remove_icon_node.style.cursor = "pointer";
                 remove_icon_node.innerHTML = '&nbsp;&nbsp;<i class="fa fa-times-circle-o fa-2" aria-hidden="true"></i>';
