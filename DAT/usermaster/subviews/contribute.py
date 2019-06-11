@@ -22,15 +22,19 @@ class ContributeView(generics.RetrieveAPIView):
 		user = self.request.user
 		inputs = InputDataModel.objects.filter(owner=user)
 		for ip in inputs.all():
-			contrib_temp = ContributeModel.objects.get(user=user, input=ip)
-			if contrib_temp:
-				user_contrib.append({
-					'contribute_name': contrib_temp.name,
-					'activate': contrib_temp.available,
-					'file_name': ip.get_zipname(),
-					'date_upload': ip.history.last().history_date,
-					'validate': ip.useful,
-				})
+			try:
+				contrib_temp = ContributeModel.objects.get(user=user, input=ip)
+				if contrib_temp:
+					user_contrib.append({
+						'contribute_name': contrib_temp.name,
+						'activate': contrib_temp.available,
+						'file_name': ip.get_zipname(),
+						'date_upload': ip.history.last().history_date,
+						'validate': ip.useful,
+					})
+			except Exception as e:
+				print(e)
+			
 		#print(user_contrib)
 		return user_contrib
 
