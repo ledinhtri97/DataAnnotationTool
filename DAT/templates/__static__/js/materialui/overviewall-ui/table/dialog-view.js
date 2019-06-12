@@ -42,7 +42,10 @@ class AlertDialogView extends React.Component {
   };
 
   handleEdit = (metaid) => {
-    window.location.href = '/gvlab-dat/workspace/edit_metaid-'+metaid;
+    window.open(
+      '/gvlab-dat/workspace/edit_metaid-'+metaid,
+      '_blank' // <- This is what makes it open in a new window.
+    );
   };
 
   render() {
