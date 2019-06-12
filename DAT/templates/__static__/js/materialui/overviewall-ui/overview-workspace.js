@@ -178,7 +178,7 @@ class OverviewWorkspace extends React.Component {
             notice_review: __data__.notice_review,
           });
       });     
-    }, 300);
+    }, 100);
   };
 
   componentDidMount(){

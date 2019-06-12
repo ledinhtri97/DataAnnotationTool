@@ -9,6 +9,6 @@ overviewall && ReactDOM.render(<OverviewAll />, overviewall);
 const overview_workspace = document.getElementById("overview_workspace");
 setTimeout(function() {
 	overview_workspace && ReactDOM.render(<OverviewWorkspace />, overview_workspace);
-	}, 300
+	}, 200
 );
 

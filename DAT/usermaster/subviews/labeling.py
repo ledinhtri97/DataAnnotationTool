@@ -10,51 +10,54 @@ from .request import labeling_view
 
 class LabelingView(generics.RetrieveUpdateAPIView):
 
-  lookup_field = 'id'
-  template_name = 'usermaster/labeling.html'
+    lookup_field = 'id'
+    template_name = 'usermaster/labeling.html'
 
-  #@Overwrite
-  def get_queryset(self):
-    dataset_id = self.request.parser_context['kwargs']['id']
-    user = self.request.user
-    meta_data = labeling_view.get_query_meta_general(dataset_id, user)
+     #@Overwrite
+    def get_queryset(self):
+        dataset_id = self.request.parser_context['kwargs']['id']
+        user = self.request.user
+        meta_data = labeling_view.get_query_meta_general(dataset_id, user)
 
-    return meta_data
+        return meta_data
 
-  def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
     
-    meta_data = self.get_queryset()
+        meta_data = self.get_queryset()
 
-    if meta_data:
-      data = {
-        'id': meta_data.id,
-      }
-    else:
-      data = {
-        'id': '-1',
-      }
+        if meta_data:
+            data = {
+                'id': meta_data.id,
+            }
+        else:
+            data = {
+                'id': '-1',
+            }
 
-    return Response(data=data)
+        return Response(data=data)
 
 
 class EditLabelingView(generics.RetrieveUpdateAPIView):
 
-  lookup_field = 'metaid'
-  template_name = 'usermaster/edit.html'
+    lookup_field = 'metaid'
+    template_name = 'usermaster/edit.html'
 
-  def retrieve(self, request, *args, **kwargs):
-    metaid = request.parser_context['kwargs']['metaid']
-    user = request.user
-    
-    try:
-      meta = MetaDataModel.objects.get(id=metaid, submitted_by_user=user)
-      data = {
-        'id': metaid,
-      }
-    except Exception as e:
-      print(e)
-      data = {
-        'id': '',
-      }
+    def retrieve(self, request, *args, **kwargs):
+        metaid = request.parser_context['kwargs']['metaid']
+        user = request.user
+        
+        try:
+            if user.is_superuser:
+                meta = MetaDataModel.objects.get(id=metaid)
+            else:
+                meta = MetaDataModel.objects.get(id=metaid, submitted_by_user=user)
+            data = {
+                'id': metaid,
+            }
+        except Exception as e:
+            print(e)
+            data = {
+                'id': '',
+            }
 
-    return Response(data=data)
+        return Response(data=data)

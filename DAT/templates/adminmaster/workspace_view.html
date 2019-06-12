@@ -1,1 +1,16 @@
-aa
+{% extends "adminmaster/base.html" %}
+{% block title %}Workspace Manager{% endblock %}
+{% block content %}
+	<div id="admin_workspace">{% load static %}<img 
+      style="display: block; margin: auto; margin-top: 5rem; width:40%; height:40%;"
+      src="{% static 'images/simple-loader.gif' %}" alt="">
+  	</div>
+	{% csrf_token %}
+	<div id="id_workspace" style="display:none;">{{id_ws}}</div>
+	<div id="dialog_view" style="display:none;"></div>
+{% endblock content%}
+
+{%block loadjs%} 
+{% load static %}
+<script src="{% static 'js/build/admin_workspace.js' %}"></script> 
+{% endblock loadjs %}

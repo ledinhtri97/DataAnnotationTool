@@ -12,4 +12,4 @@ const labeling = document.getElementById("labeling");
 
 setTimeout(function() {
 	footer && !labeling && ReactDOM.render(<Footer />, footer);	
-}, 1500)
+}, 1000)
