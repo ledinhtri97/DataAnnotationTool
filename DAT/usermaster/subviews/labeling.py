@@ -25,9 +25,14 @@ class LabelingView(generics.RetrieveUpdateAPIView):
     
     meta_data = self.get_queryset()
 
-    data = {
-      'id': meta_data.id,
-    }
+    if meta_data:
+      data = {
+        'id': meta_data.id,
+      }
+    else:
+      data = {
+        'id': '-1',
+      }
 
     return Response(data=data)
 
