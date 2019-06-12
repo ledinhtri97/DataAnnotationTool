@@ -8,6 +8,7 @@ import Fullscreen from '@material-ui/icons/Fullscreen';
 import FullscreenExit from '@material-ui/icons/FullscreenExit';
 import Layers from '@material-ui/icons/Layers';
 import LayersClear from '@material-ui/icons/LayersClear';
+import ShowChart from '@material-ui/icons/ShowChart';
 
 import MedicalImageProcessingBox from './medical-image-processing-box';
 
@@ -95,11 +96,90 @@ class GVMedicalOverlay extends React.Component {
     show_mask_editor_button_id = "show_mask_editor_button_id_";
     close_mask_editor_button_id = "close_mask_editor_button_id_";
     mask_layers_editor_id = "mask_layers_editor_id_";
+    show_chart_button_id = "show_chart_button_id_";
+    chart_editor_id = "chart_editor_id_";
+    chart_canvas_id = "chart_canvas_id_";
+    chart_js_obj = null;
+
+    chartColors = {
+        red: 'rgb(255, 99, 132)',
+        orange: 'rgb(255, 159, 64)',
+        yellow: 'rgb(255, 205, 86)',
+        green: 'rgb(75, 192, 192)',
+        blue: 'rgb(54, 162, 235)',
+        purple: 'rgb(153, 102, 255)',
+        grey: 'rgb(201, 203, 207)'
+    };
+    is_rendered_chart = false;
 
     canvas_createjs_id = "canvas_createjs_id_";
 
     last_action = "";
     last_labeling_mask = null;
+
+    chart_js_obj = null;
+    chart_js_config = {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Intensity',
+                backgroundColor: Chart.helpers.color(this.chartColors.grey).alpha(0.5).rgbString(),
+                borderColor: this.chartColors.grey,
+                fill: false,
+                data: [{
+                    x: 0,
+                    y: 0
+                }, {
+                    x: 2000,
+                    y: 255
+                }],
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: {
+                duration: 0
+            },
+            title: {
+                display: false,
+                text: 'Chart.js'
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                intersect: true,
+                mode: 'x',
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Hounsfield',
+                        fontColor: "white",
+                    },
+                    ticks: {
+                        fontColor: "white",
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Intensity',
+                        fontColor: "white",
+                    },
+                    ticks: {
+                        fontColor: "white",
+                        min: 0,
+                        //max: 255
+                    }
+                }]
+            }
+        }
+    };
 
     constructor(props) {
         super(props);
@@ -111,6 +191,9 @@ class GVMedicalOverlay extends React.Component {
         this.show_mask_editor_button_id += props.canvas_id;
         this.close_mask_editor_button_id += props.canvas_id;
         this.mask_layers_editor_id += props.canvas_id;
+        this.show_chart_button_id += props.canvas_id;
+        this.chart_editor_id += props.canvas_id;
+        this.chart_canvas_id += props.canvas_id;
         props.tunnel_set_medical_overlay(this);
         console.log("Overlay rerender!");
     }
@@ -444,6 +527,42 @@ class GVMedicalOverlay extends React.Component {
         document.getElementById(this.mask_layers_editor_id).style.display = "none";
     }
 
+    show_or_close_chart = () => {        
+        if (document.getElementById(this.show_chart_button_id).getElementsByTagName("svg")[0].style.color != "rgba(255, 255, 0, 0.867)") {
+            // show chart
+            document.getElementById(this.show_chart_button_id).getElementsByTagName("svg")[0].style.color = "#ffff00dd";
+            document.getElementById(this.chart_editor_id).style.display = "block";
+
+            if (!this.is_rendered_chart) {
+                var ctx = document.getElementById(this.chart_canvas_id).getContext('2d');
+                const medical_images = this.props.tunnel_retrieve_medical_images();
+                const state = this.props.tunnel_retrieve_state();
+                const cornerstone_image = medical_images[state.active_idx].cornerstone_image;
+                const min_hounsfield = cornerstone_image.minPixelValue*cornerstone_image.slope + cornerstone_image.intercept;
+                const max_hounsfield = cornerstone_image.maxPixelValue*cornerstone_image.slope + cornerstone_image.intercept;
+
+                this.chart_js_config.data.datasets[0].data[0].x = min_hounsfield;
+                this.chart_js_config.data.datasets[0].data[1].x = max_hounsfield;
+
+                this.chart_js_config.options.scales.xAxes[0].ticks.min = min_hounsfield;
+                this.chart_js_config.options.scales.xAxes[0].ticks.max = max_hounsfield;
+                this.chart_js_config.options.scales.xAxes[0].ticks.stepSize = Math.floor(max_hounsfield/5);
+
+                this.chart_js_obj = new Chart(ctx, this.chart_js_config);
+                this.is_rendered_chart = true;
+                this.chart_data.x_range = Math.abs(max_hounsfield - min_hounsfield);
+                this.chart_data.min_hounsfield = min_hounsfield;
+                this.chart_data.max_hounsfield = max_hounsfield;
+            } else {
+                // do nothing!
+            }
+        } else {
+            // close chart
+            document.getElementById(this.show_chart_button_id).getElementsByTagName("svg")[0].style.color = "#ffffffdd";
+            document.getElementById(this.chart_editor_id).style.display = "none";
+        }        
+    }
+
     reset_data = () => {
         this.data = {
             is_zoom_in: false,
@@ -475,6 +594,14 @@ class GVMedicalOverlay extends React.Component {
         };
     }
 
+    /*on_key_pressed = (e) => {
+        console.log("e.nativeEvent.keyCode");
+        console.log(e.nativeEvent.keyCode);
+        if (e.nativeEvent.keyCode == 192) { // ~ key
+            console.log("Pressed ~");
+        }
+    }*/
+
     handleClick = (e) => {
         if (e.nativeEvent.which === 1) {
             console.log("Left Click");
@@ -498,13 +625,171 @@ class GVMedicalOverlay extends React.Component {
     }
 
     componentDidMount() {
-        //this.draw_mask();
+        this.show_mask_editor();
+    }
+
+    chart_data = {
+        down_x: -1,
+        down_y: -1,
+        down_point_close_idx: -1,
+        up_x: -1,
+        up_y: -1,
+        x_range: -1,
+        y_range: 256,
+        min_hounsfield: -1,
+        max_hounsfield: -1,
+    }
+
+    canvas_px_to_chart_value = (x, y) => {
+        let scaleRef, valueX, valueY;                            
+        for (var scaleKey in this.chart_js_obj.scales) {
+            scaleRef = this.chart_js_obj.scales[scaleKey];
+            if (scaleRef.isHorizontal() && scaleKey == 'x-axis-0') {
+                valueX = scaleRef.getValueForPixel(x);
+            } else if (scaleKey == 'y-axis-0') {
+                valueY = scaleRef.getValueForPixel(y);
+            }
+        }
+        return {
+            x: valueX,
+            y: valueY
+        }
+    }
+
+    find_closest_point = (chart_x, chart_y) => {
+        var min_dist = -1;
+        var point_idx = -1;
+        for (var i=0; i<this.chart_js_obj.data.datasets[0].data.length; i++) {
+            var point = this.chart_js_obj.data.datasets[0].data[i];
+            const dist_x = Math.abs(point.x-chart_x)/this.chart_data.x_range;
+            const dist_y = Math.abs(point.y-chart_y)/this.chart_data.y_range;
+            if (dist_x<0.05 && dist_y<0.05) {
+                if (min_dist<0 || dist_x+dist_y<min_dist) {
+                    min_dist = dist_x + dist_y;
+                    point_idx = i;
+                }
+            }
+        }
+        return {
+            min_dist: min_dist,
+            idx: point_idx
+        }
+    }
+
+    chart_canvas_mouse_down = (e) => {
+        this.chart_data.down_x = e.nativeEvent.offsetX;
+        this.chart_data.down_y = e.nativeEvent.offsetY;
+
+        const chart_point = this.canvas_px_to_chart_value(this.chart_data.down_x, this.chart_data.down_y);
+        const result = this.find_closest_point(chart_point.x, chart_point.y);
+        this.chart_data.down_point_close_idx = result.idx;
+    }
+
+    chart_canvas_mouse_move = (e) => {
+        const move_x = e.nativeEvent.offsetX;
+        const move_y = e.nativeEvent.offsetY;
+        const is_click = Math.abs(move_x-this.chart_data.down_x)<5 && Math.abs(move_y-this.chart_data.down_y)<5;
+        if (!is_click && this.chart_data.down_point_close_idx >= 0) {
+            this.chart_js_obj.data.datasets[0].data.splice(this.chart_data.down_point_close_idx, 1);
+            this.chart_data.down_point_close_idx = -1;
+
+            const chart_point = this.canvas_px_to_chart_value(move_x, move_y);
+            const x_min = this.chart_data.min_hounsfield;
+            const x_max = this.chart_data.max_hounsfield;
+            const y_min = 0;
+            const y_max = 255;
+            chart_point.x = (chart_point.x<x_min)?x_min:chart_point.x;
+            chart_point.y = (chart_point.y<y_min)?y_min:chart_point.y;
+            chart_point.x = (chart_point.x>x_max)?x_max:chart_point.x;
+            chart_point.y = (chart_point.y>y_max)?y_max:chart_point.y;
+
+            this.chart_js_obj.data.datasets.forEach((dataset) => {
+                dataset.data.push({
+                    x: chart_point.x,
+                    y: chart_point.y,
+                });
+                dataset.data.sort(function(a, b){
+                    if (a.x < b.x) return -1;
+                    if (a.x > b.x) return 1;
+                    return 0;
+                });
+            });
+            this.chart_js_obj.update();
+            const result = this.find_closest_point(chart_point.x, chart_point.y);
+            this.chart_data.down_point_close_idx = result.idx;            
+        }
+    }
+
+    chart_canvas_mouse_up = (e) => {
+        this.chart_data.up_x = e.nativeEvent.offsetX;
+        this.chart_data.up_y = e.nativeEvent.offsetY;
+
+        const is_click = Math.abs(this.chart_data.up_x-this.chart_data.down_x)<5 && Math.abs(this.chart_data.up_y-this.chart_data.down_y)<5;
+        if (is_click) {
+            if (e.nativeEvent.which === 3) { // right click
+                // remove point instead of adding new point
+                const chart_point = this.canvas_px_to_chart_value(this.chart_data.down_x, this.chart_data.down_y);
+                var to_remove_idx = [];
+                for (var i=0; i<this.chart_js_obj.data.datasets[0].data.length; i++) {
+                    var point = this.chart_js_obj.data.datasets[0].data[i];
+                    if (Math.abs(point.x-chart_point.x)/this.chart_data.x_range<0.05 && Math.abs(point.y-chart_point.y)/this.chart_data.y_range<0.05) {
+                        const idx = i;
+                        to_remove_idx.push(idx);
+                    }
+                }
+
+                for (var i=to_remove_idx.length-1; i>=0; i--) {
+                    this.chart_js_obj.data.datasets[0].data.splice(to_remove_idx[i], 1);
+                }
+                this.chart_js_obj.update();
+            } else {
+                // https://steemit.com/utopian-io/@loshcat/chart-js-tutorial-1-click-to-add-datapoints
+                var chart_point = this.canvas_px_to_chart_value(this.chart_data.down_x, this.chart_data.down_y);
+                //const x_min = this.chart_js_obj.scales['x-axis-0'].min;
+                ///const x_max = this.chart_js_obj.scales['x-axis-0'].max;
+                const x_min = this.chart_data.min_hounsfield;
+                const x_max = this.chart_data.max_hounsfield;
+                const y_min = 0;
+                const y_max = 255;
+                chart_point.x = (chart_point.x<x_min)?x_min:chart_point.x;
+                chart_point.y = (chart_point.y<y_min)?y_min:chart_point.y;
+                chart_point.x = (chart_point.x>x_max)?x_max:chart_point.x;
+                chart_point.y = (chart_point.y>y_max)?y_max:chart_point.y;
+
+                this.chart_js_obj.data.datasets.forEach((dataset) => {
+                    dataset.data.push({
+                        x: chart_point.x,
+                        y: chart_point.y,
+                    });
+                    dataset.data.sort(function(a, b){
+                        if (a.x < b.x) return -1;
+                        if (a.x > b.x) return 1;
+                        return 0;
+                    });
+                });
+                this.chart_js_obj.update();
+            }
+        }
+
+        if (this.chart_data.down_point_close_idx >= 0) {
+            this.chart_data.down_point_close_idx = -1;
+        }
+
     }
 
     render() {
         const { classes, width, height, canvas_id } = this.props;
         const total_images = this.props.tunnel_retrieve_medical_images().length;
         const active_idx = this.props.tunnel_retrieve_state().active_idx;
+
+        var width_chart = Math.floor(width * 0.5);
+        var height_chart = Math.floor(height * 0.5);
+
+        if (width_chart > height_chart) {
+            width_chart = Math.floor(height_chart * 1.5);
+        } else {
+            height_chart = Math.floor(width_chart * 1.5);
+        }
 
         console.log("medical-overlay > render()");
 
@@ -535,14 +820,40 @@ class GVMedicalOverlay extends React.Component {
                         style={{display: "none"}}><FullscreenExit className={classes.icon} fontSize="large"/></IconButton>
                     
                     <IconButton onClick={this.show_mask_editor} id={this.show_mask_editor_button_id} className={classes.icon_button}
-                        style={{display: "block"}}><Layers className={classes.icon} fontSize="large"/></IconButton>
-                    <IconButton onClick={this.close_mask_editor} id={this.close_mask_editor_button_id} className={classes.icon_button}
                         style={{display: "none"}}><Layers className={classes.icon} fontSize="large"/></IconButton>
+                    <IconButton onClick={this.close_mask_editor} id={this.close_mask_editor_button_id} className={classes.icon_button}
+                        style={{display: "block"}}><Layers className={classes.icon} fontSize="large"/></IconButton>
+                    <IconButton onClick={this.show_or_close_chart} id={this.show_chart_button_id} className={classes.icon_button}
+                        style={{display: "block"}}><ShowChart className={classes.icon} fontSize="large"/></IconButton>
                 </div>
 
                 <div id={this.mask_layers_editor_id} 
-                    style={{position: "absolute", right: "0px", top: "0px", zIndex: "100", margin: "0.5em", display: "none"}}
+                    style={{position: "absolute", 
+                        right: "0px", 
+                        top: "0px", 
+                        zIndex: "100", 
+                        margin: "0.5em",
+                        maxHeight: "100%",
+                        overflow: "auto"}}
                     className={classes.pos_text_info}>
+                </div>
+
+                <div id={this.chart_editor_id} 
+                    style={{position: "absolute", 
+                    left: "8%", 
+                    top: "0px", 
+                    zIndex: "100", 
+                    margin: "0.5em",
+                    maxHeight: "100%",
+                    overflow: "auto",
+                    display: "none"}}
+                    className={classes.pos_text_info}>
+                    <canvas id={this.chart_canvas_id}
+                        width={width_chart+"px"} 
+                        height={height_chart+"px"}
+                        onMouseMove={this.chart_canvas_mouse_move}
+                        onMouseUp={this.chart_canvas_mouse_up}
+                        onMouseDown={this.chart_canvas_mouse_down}/>
                 </div>
 
             </div>
