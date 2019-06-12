@@ -17,11 +17,15 @@ class OverViewWorkspaceView(generics.RetrieveAPIView):
 
 
 def get_meta_overview(request, mtid):
-    meta = MetaDataModel.objects.filter(id=mtid).first()
+    meta = MetaDataModel.objects.get(id=mtid)
     dataset = DataSetModel.objects.get(id=meta.dataset.id)
     data = {}
     try:
-        allow = WorkSpaceUserModel.objects.get(dataset=dataset, user=request.user)
+        if request.user.is_superuser:
+            allow = True
+        else:
+            allow = WorkSpaceUserModel.objects.get(dataset=dataset, user=request.user)
+
         if allow and meta:
             data = query_meta(meta)
             label_select = request.GET.get('label_select', '')
@@ -37,7 +41,8 @@ def get_meta_overview(request, mtid):
     except Exception as e:
         data['Error'] = 'Data is not available'
         data['Messenger'] = str(e)
-    
+        print(e)
+
     return JsonResponse(data=data)
 
 def get_data_overview_workspace(request, wsid):
@@ -103,7 +108,7 @@ def get_data_overview_workspace(request, wsid):
                         'url_meta': meta.get_url_api(),
                         'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
-                        'reason_skipped': 'sss',
+                        'reason_skipped': 'Unknown',
                         'label_count': meta.boxes_position.count(),
                         'view': meta.is_allow_view,
                     } for meta in metadatas.filter(skipped_by_user=user).all()

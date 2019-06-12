@@ -72,7 +72,7 @@ function ProgressesTable(props) {
           </TableRow>
 
           <TableRow className={classes.row}>
-            <CustomTableCell>Lable Created</CustomTableCell>
+            <CustomTableCell>Label Created</CustomTableCell>
             <CustomTableCell align="right">{total.labels_created}</CustomTableCell>
             <CustomTableCell align="right">{user.labels_created}</CustomTableCell>
           </TableRow>
