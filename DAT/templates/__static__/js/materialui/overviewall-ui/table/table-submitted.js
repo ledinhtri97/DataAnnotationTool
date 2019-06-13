@@ -120,7 +120,7 @@ class SubmittedTable extends React.Component {
                 return (
                 <TableRow key={key}>
                 <TableCell className={classes.table_content}>
-					<img style={{ height: '100px'}} src={smd.url_image}/>
+					<img style={{ height: '100px'}} src={smd.url_thumb}/>
                 </TableCell>
                 <TableCell className={classes.table_content}>{smd.meta_id}</TableCell>
                 <TableCell className={classes.table_content}>
