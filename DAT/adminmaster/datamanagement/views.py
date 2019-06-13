@@ -28,7 +28,7 @@ def create_thumbnail_index(request, id_dataset):
             except FileExistsError:
                 # print("Directory ", folder,  " already exists")
                 pass
-            if im.mode in ('RGBA', 'LA'):
+            if im.mode in ('RGBA', 'LA', 'P'):
                 im = im.convert("RGB")
                 im.save(thumb + ".thumbnail", "PNG")
             else:
