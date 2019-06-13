@@ -15,13 +15,17 @@ def create_thumbnail_index(request, id_dataset):
         thumb_height = 100
 
         for meta in metadata.all():
+
+            
             path_mt = meta.get_full_origin()
             file, ext = os.path.splitext(path_mt)
-            im = Image.open(path_mt)
-            
-            im.thumbnail((im.size[0]*100/im.size[1], 100), Image.ANTIALIAS)
             thumb = file.replace('storage_data', 'thumbnail')
-            
+
+            if(os.path.isfile(thumb + ".thumbnail")):
+                continue
+
+            im = Image.open(path_mt)
+            im.thumbnail((im.size[0]*100/im.size[1], 100), Image.ANTIALIAS)
             try:
                 folder = os.path.dirname(thumb)
                 os.makedirs(folder)
