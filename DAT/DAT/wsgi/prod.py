@@ -20,3 +20,4 @@ application = WhiteNoise(application, root=settings.STATIC_ROOT, prefix=settings
 application.add_files(settings.STORAGE_ROOT, prefix=settings.STORAGE_URL)
 application.add_files(settings.OUTPUT_ROOT, prefix=settings.OUTPUT_URL)
 application.add_files(settings.UPLOAD_ROOT, prefix=settings.UPLOAD_URL)
+application.add_files(settings.THUMBNAIL_ROOT, prefix=settings.THUMBNAIL_URL)

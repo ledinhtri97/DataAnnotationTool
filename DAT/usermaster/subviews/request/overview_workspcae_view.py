@@ -94,7 +94,7 @@ def get_data_overview_workspace(request, wsid):
                 ],
                 'submitted': [
                     {
-                        'url_image': meta.get_url_meta(),
+                        'url_thumb': meta.get_url_thumbnail(),
                         'url_meta': meta.get_url_api(),
                         'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
@@ -104,7 +104,7 @@ def get_data_overview_workspace(request, wsid):
                 ],
                 'skipped': [
                     {
-                        'url_image': meta.get_url_meta(),
+                        'url_thumb': meta.get_url_thumbnail(),
                         'url_meta': meta.get_url_api(),
                         'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
@@ -115,7 +115,7 @@ def get_data_overview_workspace(request, wsid):
                 ],
                 'flaged': [
                     {
-                        'url_image': meta.get_url_meta(),
+                        'url_thumb': meta.get_url_thumbnail(),
                         'url_meta': meta.get_url_api(),
                         'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
@@ -126,7 +126,7 @@ def get_data_overview_workspace(request, wsid):
                 ],
                 'notice_review': [
                     {
-                        'url_image': meta.get_url_meta(),
+                        'url_thumb': meta.get_url_thumbnail(),
                         'url_meta': meta.get_url_api(),
                         'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,

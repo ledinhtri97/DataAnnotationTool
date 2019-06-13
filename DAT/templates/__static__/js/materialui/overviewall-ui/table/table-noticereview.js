@@ -124,7 +124,7 @@ class NoticeReviewTable extends React.Component {
                 return (
                 <TableRow key={key}>
                 <TableCell className={classes.table_content}>
-                  <img style={{ height: '100px'}} src={ntv.url_image}/>
+                  <img style={{ height: '100px'}} src={ntv.url_thumb}/>
                 </TableCell>
                 <TableCell component="th" scope="row" className={classes.table_content}>
                 {ntv.meta_id}

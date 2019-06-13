@@ -23,6 +23,7 @@ log/
 run/
 storage_data/
 upload_data/
+thumbnail/
 _DATASET_/
 .ipynb_checkpoints/
 

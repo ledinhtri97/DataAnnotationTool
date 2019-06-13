@@ -121,7 +121,7 @@ class SkippedTable extends React.Component {
                 return (
                 <TableRow key={key}>
                 <TableCell className={classes.table_content}>
-                  <img style={{ height: '100px'}} src={skd.url_image}/>
+                  <img style={{ height: '100px'}} src={skd.url_thumb}/>
                 </TableCell>                
                 <TableCell component="th" scope="row" className={classes.table_content}>
                 {skd.meta_id}

@@ -44,8 +44,13 @@ class MetaDataModel(models.Model):
     def get_full_origin(self):
         return os.path.join(self.full_path, self.name)
 
-    def get_full_path__annotated_path(self):
-        return 'fullpath/anno'
+    def get_thumbnail_path(self):
+        file, ext = os.path.splitext(self.get_full_origin())
+        thumb = file.replace('storage_data', 'thumbnail') + ".thumbnail"
+
+        return os.path.relpath(
+            os.path.join(thumb),
+            os.path.join(settings.BASE_DIR, settings.THUMBNAIL_DIR))
     
     def get_url_api(self):
         return '/gvlab-dat/workspace/metaview/{}/api-get-data/'.format(self.id)
@@ -53,5 +58,8 @@ class MetaDataModel(models.Model):
     def get_url_meta(self):
         return "/gvlab-dat/dataset/{}".format(self.get_rel_path())
     
+    def get_url_thumbnail(self):
+        return "/gvlab-dat/imagethumb/{}".format(self.get_thumbnail_path())
+
     def __str__(self):
         return self.get_rel_path()

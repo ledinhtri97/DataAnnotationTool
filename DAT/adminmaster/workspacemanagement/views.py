@@ -55,7 +55,7 @@ def wsm_index(request, id_workspace):
             for meta in submitted.distinct():
                 data['metadata']['submitted'].append(
                     {
-                        'url_image': meta.get_url_meta(),
+                        'url_thumb': meta.get_url_thumbnail(),
                         'url_meta': meta.get_url_api(),
                         'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
@@ -67,7 +67,7 @@ def wsm_index(request, id_workspace):
             for meta in skipped.distinct():
                 data['metadata']['skipped'].append(
                     {
-                        'url_image': meta.get_url_meta(),
+                        'url_thumb': meta.get_url_thumbnail(),
                         'url_meta': meta.get_url_api(),
                         'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
@@ -80,7 +80,7 @@ def wsm_index(request, id_workspace):
             for meta in submitted.filter(boxes_position__flag='0').distinct():
                 data['metadata']['flaged'].append(
                     {
-                        'url_image': meta.get_url_meta(),
+                        'url_thumb': meta.get_url_thumbnail(),
                         'url_meta': meta.get_url_api(),
                         'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
@@ -93,7 +93,7 @@ def wsm_index(request, id_workspace):
         for meta in metadata.filter(is_notice_view=1).all():
             data['metadata']['notice_review'].append(
                 {
-                    'url_image': meta.get_url_meta(),
+                    'url_thumb': meta.get_url_thumbnail(),
                     'url_meta': meta.get_url_api(),
                     'meta_id': meta.id,
                     'last_date_update': meta.history.first().history_date,

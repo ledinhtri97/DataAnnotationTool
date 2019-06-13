@@ -139,6 +139,12 @@ OUTPUT_URL = '/gvlab-dat/export-groundtruth/'
 
 OUTPUT_ROOT = os.path.join(BASE_DIR, OUTPUT_DIR)
 
+THUMBNAIL_DIR = os.path.join('_DATABASE_', 'thumbnail')
+
+THUMBNAIL_URL = '/gvlab-dat/imagethumb/'
+
+THUMBNAIL_ROOT = os.path.join(BASE_DIR, THUMBNAIL_DIR)
+
 MODELS_DIR = os.path.join('_DATABASE_', 'storage_models')
 
 REST_FRAMEWORK = {

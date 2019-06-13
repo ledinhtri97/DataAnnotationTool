@@ -36,4 +36,5 @@ urlpatterns = [
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.STORAGE_URL, document_root=settings.STORAGE_ROOT) + \
     static(settings.OUTPUT_URL, document_root=settings.OUTPUT_ROOT) + \
-    static(settings.UPLOAD_URL, document_root=settings.UPLOAD_ROOT)
+    static(settings.UPLOAD_URL, document_root=settings.UPLOAD_ROOT) + \
+    static(settings.THUMBNAIL_URL, document_root=settings.THUMBNAIL_ROOT)

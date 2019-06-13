@@ -68,7 +68,7 @@ class DataSetForm(forms.ModelForm):
 class DataSetAdmin(admin.ModelAdmin):
 	#class Meta will not accept this form custom > find out why
 	form = DataSetForm
-
+	list_display = ('name', 'create_thumbnail',)
 	readonly_fields = ['id', 'dir_path']  # , 'dir_path'
 
 	fieldsets = [
