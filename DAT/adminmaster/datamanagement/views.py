@@ -36,6 +36,6 @@ def create_thumbnail_index(request, id_dataset):
 
     except Exception as e:
         print(e)
-        return JsonResponse(data={'e':str(e)})
+        return JsonResponse(data={'e': str(e), 'mode': str(im.mode)})
 
     return JsonResponse(data=data)
