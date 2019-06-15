@@ -20,6 +20,7 @@ class WorkspaceView(generics.RetrieveAPIView):
         return Response(data=__data__)
 
 
+
 def wsm_index(request, id_workspace):
     data = {
         'namews': '',
@@ -77,10 +78,11 @@ def wsm_index(request, id_workspace):
                     }
                 )
 
-            for meta in submitted.filter(boxes_position__flag='0').distinct():
+            for meta in submitted.filter(boxes_position__flag='0', is_notice_view=0).distinct():
                 data['metadata']['flaged'].append(
                     {
                         'url_thumb': meta.get_url_thumbnail(),
+                        'url_accept': meta.get_url_accept(),
                         'url_meta': meta.get_url_api(),
                         'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,

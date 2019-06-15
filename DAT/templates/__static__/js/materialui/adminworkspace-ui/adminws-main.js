@@ -82,6 +82,7 @@ class AdminWorkspace extends React.Component {
                       submitted={metadata.submitted} 
                       skipped={metadata.skipped} 
                       flaged={metadata.flaged} 
+                      isAdmin={true}
                       notice_review={metadata.notice_review}/>
 
                 </div>
