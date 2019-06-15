@@ -7,6 +7,16 @@ import os
 from django.http import JsonResponse
 from PIL import Image
 
+
+def flagfalse_index(request, id_mtid):
+    data = {}
+    print(id_mtid)
+    meta = MetaDataModel.objects.get(id=id_mtid)
+    meta.is_notice_view = 1
+    meta.save(update_fields=['is_notice_view'])
+
+    return JsonResponse(data=data)
+
 def create_thumbnail_index(request, id_dataset):
     data = {}
     

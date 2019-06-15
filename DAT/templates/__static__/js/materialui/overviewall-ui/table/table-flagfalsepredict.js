@@ -17,6 +17,7 @@ import Button from '@material-ui/core/Button';
 import dateFormat from 'dateformat';
 
 import AlertDialogView from "./dialog-view";
+import AlertDialogAccept from "./dialog-accept";
 import {fabric} from 'fabric';
 import {initCanvas} from '../../../modules/labeling-module/controller/renderInit';
 
@@ -94,9 +95,30 @@ class FlagFalsePredictTable extends React.Component {
       });
   };
 
+  handleAccept = (url_meta) => {
+    var dialog_view = document.getElementById("dialog_view");
+    fetch(url_meta, {})
+      .then(response => {
+          if(response.status !== 200){
+            return "FAILED";
+          }
+          return response.json();
+        }
+      ).then(meta => {
+        if(meta === "FAILED") return;
+          
+        if(dialog_view){
+            ReactDOM.unmountComponentAtNode(dialog_view);
+            ReactDOM.render(
+              <AlertDialogAccept accept={true}/>, dialog_view
+            );
+        }
+      });
+  };
+
   render() {
     const self_table = this;
-    const { classes, flaged } = this.props;
+    const { classes, flaged, isAdmin } = this.props;
     const { rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, flaged.length - page * rowsPerPage);
 
@@ -113,6 +135,7 @@ class FlagFalsePredictTable extends React.Component {
             <TableCell className={classes.table_title}>Flag Count</TableCell>
             <TableCell align="center" className={classes.table_title}>Labeled Count</TableCell>
             <TableCell align="center" className={classes.table_title}>View</TableCell>
+            {isAdmin && <TableCell align="center" className={classes.table_title}>Accept</TableCell>}
             </TableRow>
             </TableHead>
 
@@ -140,7 +163,15 @@ class FlagFalsePredictTable extends React.Component {
                 </Button> : <Button variant="outlined" color="primary" className={classes.button}>
                 Blocked
                 </Button>
+                
                 }
+                </TableCell>
+                <TableCell>
+                {isAdmin && <Button 
+                onClick={function(e){self_table.handleAccept(fld.url_accept)}}
+                variant="outlined" color="primary" className={classes.button}>
+                Accept
+                </Button>}
                 </TableCell>
                 </TableRow>
               )})}

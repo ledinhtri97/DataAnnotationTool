@@ -60,6 +60,9 @@ class MetaDataModel(models.Model):
     
     def get_url_thumbnail(self):
         return "/gvlab-dat/imagethumb/{}".format(self.get_thumbnail_path())
+    
+    def get_url_accept(self):
+        return "/gvlab-dat/datadmin/dataman/flagfalse-accept/mt-{}".format(self.id)
 
     def __str__(self):
         return self.get_rel_path()
