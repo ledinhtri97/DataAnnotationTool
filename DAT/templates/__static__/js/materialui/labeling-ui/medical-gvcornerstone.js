@@ -49,7 +49,8 @@ function voxel_to_pixel(cornerstone_image, lookup_table, canvas_width, canvas_he
         const voxel_idx = Math.ceil((i/4));
         var pv;
         if (is_use_loopup_table) {
-            pv = lookup_table[voxel_data[voxel_idx]*slope+intercept]; // original voxel data (may contains negative values)
+            const voxel_origin = voxel_data[voxel_idx]*slope+intercept;
+            pv = (voxel_origin in lookup_table)?lookup_table[voxel_origin]:0; // original voxel data (may contains negative values)
         } else {
             pv = Math.ceil(voxel_data[voxel_idx]/max_voxel_value*255);
         }
@@ -365,6 +366,14 @@ class GVCornerStone2 extends React.Component {
         this.visualize_callback = mycallback;
     }
 
+    tunnel_set_lookup_table = (new_lookup_table) => {
+        var clone_lookup_table = Object.assign({}, new_lookup_table);
+        this.medical_images[this.state.active_idx].lookup_table = clone_lookup_table;
+        this.setState({
+            lookup_table: clone_lookup_table,
+        });
+    }
+
     tunnel_set_zoom_area = (xmin, ymin, xmax, ymax) => {
         /*
             xmin, ymin, xmax, ymax: relative coords (%)
@@ -588,6 +597,7 @@ class GVCornerStone2 extends React.Component {
                             tunnel_set_zoom_area={this.tunnel_set_zoom_area}
                             tunnel_register_visualize_callback={this.tunnel_register_visualize_callback}
                             tunnel_set_medical_overlay={this.tunnel_set_medical_overlay}
+                            tunnel_set_lookup_table={this.tunnel_set_lookup_table}
                             total_items={this.state.total_items}
                             medical_label_state={this.props.medical_label_state}/>
                         <canvas className="cornerstone-canvas" 

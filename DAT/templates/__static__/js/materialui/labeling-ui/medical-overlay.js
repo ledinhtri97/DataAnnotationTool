@@ -11,51 +11,7 @@ import LayersClear from '@material-ui/icons/LayersClear';
 import ShowChart from '@material-ui/icons/ShowChart';
 
 import MedicalImageProcessingBox from './medical-image-processing-box';
-
-/*
-function generateCanvas(id_canvas) {
-    if (id_canvas !== undefined) {
-        // argument passed and not undefined: do nothing
-    } else {
-        id_canvas = "imgCanvas";
-    }
-
-    number_of_canvas++;
-    var canvas = document.createElement('canvas');
-    
-    canvas.id = String(genId(5));
-    var bgCanvas = document.getElementById(id_canvas);
-    canvas.width = bgCanvas.width;
-    canvas.height = bgCanvas.height;
-    //canvas.style.zIndex = number_of_canvas;
-    canvas.style.zIndex = 10;
-    canvas.style.position = "absolute";
-    
-    // 180524
-    canvas.style.left = bgCanvas.style.left;
-    canvas.style.top = bgCanvas.style.top;
-    //canvas.style.left = 0;
-    //canvas.style.top = 0;
-
-    var container = $('#' + id_canvas).parent().get(0);
-    container.appendChild(canvas);
-
-    // set cursor crosshair
-    $(canvas).css('cursor', 'crosshair');
-
-    return canvas.id;    
-}
-
-function genId(str_len) {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  
-    for (var i = 0; i < str_len; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
-    return text;
-}
-*/
+import MedicalChartBox from './medical-chart-box';
 
 const styles = theme => ({
     createjs_canvas: {
@@ -119,13 +75,28 @@ class GVMedicalOverlay extends React.Component {
 
     chart_js_obj = null;
     chart_js_config = {
-        type: 'line',
+        
         data: {
-            datasets: [{
-                label: 'Intensity',
-                backgroundColor: Chart.helpers.color(this.chartColors.grey).alpha(0.5).rgbString(),
-                borderColor: this.chartColors.grey,
-                fill: false,
+            datasets: [
+            {
+                type: 'scatter',
+                backgroundColor: Chart.helpers.color(this.chartColors.yellow).alpha(0.5).rgbString(),
+                borderColor: this.chartColors.yellow,
+                pointRadius: 4,
+                showLine: false,
+                data: [{
+                    x: 0,
+                    y: 0
+                }, {
+                    x: 2000,
+                    y: 255
+                }],
+            } ,{
+                type: 'line',
+                backgroundColor: Chart.helpers.color(this.chartColors.yellow).alpha(0.5).rgbString(),
+                borderColor: this.chartColors.yellow,
+                fill: true,
+                pointRadius: 0,
                 data: [{
                     x: 0,
                     y: 0
@@ -149,7 +120,16 @@ class GVMedicalOverlay extends React.Component {
             },
             tooltips: {
                 intersect: true,
-                mode: 'x',
+                mode: 'single',
+                callbacks: {
+                    label: (tooltipItem, data) => {
+                        // data for manipulation
+                        return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].x.toFixed(2);
+                    },
+                    title: (tooltipItems, data) => {
+                        return "Hounsfield";
+                    }
+                },
             },
             scales: {
                 xAxes: [{
@@ -174,9 +154,15 @@ class GVMedicalOverlay extends React.Component {
                     ticks: {
                         fontColor: "white",
                         min: 0,
-                        //max: 255
+                        max: 255,
+                        stepSize: 70
                     }
                 }]
+            },
+            elements: {
+                line: {
+                    tension: 0 // disables bezier curves
+                }
             }
         }
     };
@@ -373,87 +359,27 @@ class GVMedicalOverlay extends React.Component {
     }
 
     mouse_move = (event) => {
-        const offsetX = event.nativeEvent.offsetX;
-        const offsetY = event.nativeEvent.offsetY;
-        const imgWidth = this.props.width;
-        const imgHeight = this.props.height;
-
-        const overlay_canvas_id = this.canvas_createjs_id;
-
-        if (this.data.is_ready_to_zoom_in) {
-            this.focus_on_mouse(overlay_canvas_id, offsetX, offsetY, imgWidth, imgHeight);
-        }
-
-        if (this.data.is_chosen_zoom_from) {
-            // draw rectangle from zoom_from to current mouse pointer
-            this.draw_rect(overlay_canvas_id, 
-                this.data.zoom_from_x, 
-                this.data.zoom_from_y, 
-                offsetX-this.data.zoom_from_x, 
-                offsetY-this.data.zoom_from_y);
-        }
+        MedicalChartBox.mouse_move(event, this);
     }
     
-    mouse_down = (event) => {  
-        if (event.nativeEvent.which === 3) { // no processing on right click
-            return;
-        }
-
-        if (this.data.is_ready_to_zoom_in) {
-            this.data.zoom_from_x = event.nativeEvent.offsetX;
-            this.data.zoom_from_y = event.nativeEvent.offsetY;
-            this.data.is_chosen_zoom_from = true;
-        //} else if (!this.data.is_zoom_in) {
-        } else {
-            // apply region growing algorithm
-            const x = event.nativeEvent.offsetX;
-            const y = event.nativeEvent.offsetY;
-            const vis_meta = this.props.tunnel_retrieve_vis_meta();
-            const image_layer_state = this.props.tunnel_retrieve_state();
-            const point2d = this.convert_canvas_coord_to_image_coord_percent(x, y, vis_meta, image_layer_state);
-            
-            if (point2d.x < 0 || point2d.y < 0 || point2d.x > 1 || point2d.y > 1) {
-                return;
-            }
-
-            this.props.tunnel_region_growing(point2d.x, point2d.y);
-            this.draw_mask();
-        }
+    mouse_down = (event) => {
+        MedicalChartBox.mouse_down(event, this);
     }
     
     mouse_up = (event) => {
-        if (event.nativeEvent.which === 3) {
-            // no processing on left or right click, we did it on mouse_down
-            return;
-        } 
-        
-        if (this.data.is_ready_to_zoom_in) {
-            // do zoom in action            
-            const x_from = this.data.zoom_from_x;
-            const y_from = this.data.zoom_from_y;
-            const x_to = event.nativeEvent.offsetX;
-            const y_to = event.nativeEvent.offsetY;
+        MedicalChartBox.mouse_up(event, this);
+    }
 
-            const vis_meta = this.props.tunnel_retrieve_vis_meta();
-            const image_layer_state = this.props.tunnel_retrieve_state();
+    chart_canvas_mouse_down = (event) => {
+        MedicalChartBox.chart_canvas_mouse_down(event, this);
+    }
 
-            const point_from = this.convert_canvas_coord_to_image_coord_percent(x_from, y_from, vis_meta, image_layer_state);
-            const point_to = this.convert_canvas_coord_to_image_coord_percent(x_to, y_to, vis_meta, image_layer_state);
+    chart_canvas_mouse_move = (event) => {
+        MedicalChartBox.chart_canvas_mouse_move(event, this);
+    }
 
-            this.props.tunnel_set_zoom_area(point_from.x, point_from.y, point_to.x, point_to.y);
-
-            this.reset_data();
-            this.data.is_zoom_in = true;
-
-            // clear createjs overlay
-            var overlay_canvas = document.getElementById(this.canvas_createjs_id);
-            overlay_canvas.getContext('2d').clearRect(0, 0, overlay_canvas.width, overlay_canvas.height);
-            
-            var mask_canvas = document.getElementById(this.props.canvas_id);
-            mask_canvas.getContext('2d').clearRect(0, 0, mask_canvas.width, mask_canvas.height);
-
-            this.props.tunnel_register_visualize_callback(this.draw_mask);
-        }
+    chart_canvas_mouse_up = (event) => {
+        MedicalChartBox.chart_canvas_mouse_up(event, this);
     }
 
     activate_zoom_in = () => {
@@ -541,6 +467,8 @@ class GVMedicalOverlay extends React.Component {
                 const min_hounsfield = cornerstone_image.minPixelValue*cornerstone_image.slope + cornerstone_image.intercept;
                 const max_hounsfield = cornerstone_image.maxPixelValue*cornerstone_image.slope + cornerstone_image.intercept;
 
+                this.chart_js_config.data.datasets[1].data[0].x = min_hounsfield;
+                this.chart_js_config.data.datasets[1].data[1].x = max_hounsfield;
                 this.chart_js_config.data.datasets[0].data[0].x = min_hounsfield;
                 this.chart_js_config.data.datasets[0].data[1].x = max_hounsfield;
 
@@ -574,25 +502,7 @@ class GVMedicalOverlay extends React.Component {
             zoom_to_y: -1
         };
         document.getElementById(this.canvas_createjs_id).style.cursor = "default";
-    }
-
-    convert_canvas_coord_to_image_coord_percent = (x, y, vis_meta, image_layer_state) => {
-        const shift_x_px = (vis_meta.viewing_canvas_width_px - vis_meta.viewing_image_width_px)/2;
-        const shift_y_px = (vis_meta.viewing_canvas_height_px - vis_meta.viewing_image_height_px)/2;
-
-        var xshift = (x - shift_x_px)/vis_meta.viewing_image_width_px;
-        var yshift = (y - shift_y_px)/vis_meta.viewing_image_height_px;
-
-        const ratio_w = image_layer_state.zoom_xmax - image_layer_state.zoom_xmin;
-        const ratio_h = image_layer_state.zoom_ymax - image_layer_state.zoom_ymin;
-
-        return {
-            x: image_layer_state.zoom_xmin + ratio_w*xshift,
-            y: image_layer_state.zoom_ymin + ratio_h*yshift,
-            shift_x_px: shift_x_px,
-            shift_y_px: shift_y_px,
-        };
-    }
+    }    
 
     /*on_key_pressed = (e) => {
         console.log("e.nativeEvent.keyCode");
@@ -632,149 +542,13 @@ class GVMedicalOverlay extends React.Component {
         down_x: -1,
         down_y: -1,
         down_point_close_idx: -1,
+        is_keeping_mouse_down: false,
         up_x: -1,
         up_y: -1,
         x_range: -1,
         y_range: 256,
         min_hounsfield: -1,
         max_hounsfield: -1,
-    }
-
-    canvas_px_to_chart_value = (x, y) => {
-        let scaleRef, valueX, valueY;                            
-        for (var scaleKey in this.chart_js_obj.scales) {
-            scaleRef = this.chart_js_obj.scales[scaleKey];
-            if (scaleRef.isHorizontal() && scaleKey == 'x-axis-0') {
-                valueX = scaleRef.getValueForPixel(x);
-            } else if (scaleKey == 'y-axis-0') {
-                valueY = scaleRef.getValueForPixel(y);
-            }
-        }
-        return {
-            x: valueX,
-            y: valueY
-        }
-    }
-
-    find_closest_point = (chart_x, chart_y) => {
-        var min_dist = -1;
-        var point_idx = -1;
-        for (var i=0; i<this.chart_js_obj.data.datasets[0].data.length; i++) {
-            var point = this.chart_js_obj.data.datasets[0].data[i];
-            const dist_x = Math.abs(point.x-chart_x)/this.chart_data.x_range;
-            const dist_y = Math.abs(point.y-chart_y)/this.chart_data.y_range;
-            if (dist_x<0.05 && dist_y<0.05) {
-                if (min_dist<0 || dist_x+dist_y<min_dist) {
-                    min_dist = dist_x + dist_y;
-                    point_idx = i;
-                }
-            }
-        }
-        return {
-            min_dist: min_dist,
-            idx: point_idx
-        }
-    }
-
-    chart_canvas_mouse_down = (e) => {
-        this.chart_data.down_x = e.nativeEvent.offsetX;
-        this.chart_data.down_y = e.nativeEvent.offsetY;
-
-        const chart_point = this.canvas_px_to_chart_value(this.chart_data.down_x, this.chart_data.down_y);
-        const result = this.find_closest_point(chart_point.x, chart_point.y);
-        this.chart_data.down_point_close_idx = result.idx;
-    }
-
-    chart_canvas_mouse_move = (e) => {
-        const move_x = e.nativeEvent.offsetX;
-        const move_y = e.nativeEvent.offsetY;
-        const is_click = Math.abs(move_x-this.chart_data.down_x)<5 && Math.abs(move_y-this.chart_data.down_y)<5;
-        if (!is_click && this.chart_data.down_point_close_idx >= 0) {
-            this.chart_js_obj.data.datasets[0].data.splice(this.chart_data.down_point_close_idx, 1);
-            this.chart_data.down_point_close_idx = -1;
-
-            const chart_point = this.canvas_px_to_chart_value(move_x, move_y);
-            const x_min = this.chart_data.min_hounsfield;
-            const x_max = this.chart_data.max_hounsfield;
-            const y_min = 0;
-            const y_max = 255;
-            chart_point.x = (chart_point.x<x_min)?x_min:chart_point.x;
-            chart_point.y = (chart_point.y<y_min)?y_min:chart_point.y;
-            chart_point.x = (chart_point.x>x_max)?x_max:chart_point.x;
-            chart_point.y = (chart_point.y>y_max)?y_max:chart_point.y;
-
-            this.chart_js_obj.data.datasets.forEach((dataset) => {
-                dataset.data.push({
-                    x: chart_point.x,
-                    y: chart_point.y,
-                });
-                dataset.data.sort(function(a, b){
-                    if (a.x < b.x) return -1;
-                    if (a.x > b.x) return 1;
-                    return 0;
-                });
-            });
-            this.chart_js_obj.update();
-            const result = this.find_closest_point(chart_point.x, chart_point.y);
-            this.chart_data.down_point_close_idx = result.idx;            
-        }
-    }
-
-    chart_canvas_mouse_up = (e) => {
-        this.chart_data.up_x = e.nativeEvent.offsetX;
-        this.chart_data.up_y = e.nativeEvent.offsetY;
-
-        const is_click = Math.abs(this.chart_data.up_x-this.chart_data.down_x)<5 && Math.abs(this.chart_data.up_y-this.chart_data.down_y)<5;
-        if (is_click) {
-            if (e.nativeEvent.which === 3) { // right click
-                // remove point instead of adding new point
-                const chart_point = this.canvas_px_to_chart_value(this.chart_data.down_x, this.chart_data.down_y);
-                var to_remove_idx = [];
-                for (var i=0; i<this.chart_js_obj.data.datasets[0].data.length; i++) {
-                    var point = this.chart_js_obj.data.datasets[0].data[i];
-                    if (Math.abs(point.x-chart_point.x)/this.chart_data.x_range<0.05 && Math.abs(point.y-chart_point.y)/this.chart_data.y_range<0.05) {
-                        const idx = i;
-                        to_remove_idx.push(idx);
-                    }
-                }
-
-                for (var i=to_remove_idx.length-1; i>=0; i--) {
-                    this.chart_js_obj.data.datasets[0].data.splice(to_remove_idx[i], 1);
-                }
-                this.chart_js_obj.update();
-            } else {
-                // https://steemit.com/utopian-io/@loshcat/chart-js-tutorial-1-click-to-add-datapoints
-                var chart_point = this.canvas_px_to_chart_value(this.chart_data.down_x, this.chart_data.down_y);
-                //const x_min = this.chart_js_obj.scales['x-axis-0'].min;
-                ///const x_max = this.chart_js_obj.scales['x-axis-0'].max;
-                const x_min = this.chart_data.min_hounsfield;
-                const x_max = this.chart_data.max_hounsfield;
-                const y_min = 0;
-                const y_max = 255;
-                chart_point.x = (chart_point.x<x_min)?x_min:chart_point.x;
-                chart_point.y = (chart_point.y<y_min)?y_min:chart_point.y;
-                chart_point.x = (chart_point.x>x_max)?x_max:chart_point.x;
-                chart_point.y = (chart_point.y>y_max)?y_max:chart_point.y;
-
-                this.chart_js_obj.data.datasets.forEach((dataset) => {
-                    dataset.data.push({
-                        x: chart_point.x,
-                        y: chart_point.y,
-                    });
-                    dataset.data.sort(function(a, b){
-                        if (a.x < b.x) return -1;
-                        if (a.x > b.x) return 1;
-                        return 0;
-                    });
-                });
-                this.chart_js_obj.update();
-            }
-        }
-
-        if (this.chart_data.down_point_close_idx >= 0) {
-            this.chart_data.down_point_close_idx = -1;
-        }
-
     }
 
     render() {
