@@ -35,6 +35,9 @@ const styles = theme => ({
 
 class GVMedicalOverlay extends React.Component {
 
+    state = {
+        idx: "1",
+    }
     data = {
         is_zoom_in: false,
         is_ready_to_zoom_in: false,
@@ -67,8 +70,11 @@ class GVMedicalOverlay extends React.Component {
         grey: 'rgb(201, 203, 207)'
     };
     is_rendered_chart = false;
+    width_chart = 0;
+    height_chart = 0;
 
     canvas_createjs_id = "canvas_createjs_id_";
+    input_text_slice_id = "input_text_slice_id_";
 
     last_action = "";
     last_labeling_mask = null;
@@ -138,10 +144,10 @@ class GVMedicalOverlay extends React.Component {
                     scaleLabel: {
                         display: true,
                         labelString: 'Hounsfield',
-                        fontColor: "white",
+                        fontColor: "yellow",
                     },
                     ticks: {
-                        fontColor: "white",
+                        fontColor: "yellow",
                     }
                 }],
                 yAxes: [{
@@ -149,10 +155,10 @@ class GVMedicalOverlay extends React.Component {
                     scaleLabel: {
                         display: true,
                         labelString: 'Intensity',
-                        fontColor: "white",
+                        fontColor: "yellow",
                     },
                     ticks: {
-                        fontColor: "white",
+                        fontColor: "yellow",
                         min: 0,
                         max: 255,
                         stepSize: 70
@@ -180,8 +186,14 @@ class GVMedicalOverlay extends React.Component {
         this.show_chart_button_id += props.canvas_id;
         this.chart_editor_id += props.canvas_id;
         this.chart_canvas_id += props.canvas_id;
+        this.input_text_slice_id += props.canvas_id;
         props.tunnel_set_medical_overlay(this);
         console.log("Overlay rerender!");
+
+        /*const active_idx = props.tunnel_retrieve_state().active_idx;
+        this.setState({
+            idx: active_idx+1+""
+        });*/
     }
 
     focus_on_mouse = (canvasId, offsetX, offsetY, imgWidth, imgHeight, color) => {
@@ -275,7 +287,7 @@ class GVMedicalOverlay extends React.Component {
 
                 var track_bar_node = document.createElement("span");
                 var delta_string = (mask_info.delta.toString().length==2)?mask_info.delta.toString():"&nbsp;&nbsp;"+mask_info.delta.toString();
-                track_bar_node.innerHTML = '&nbsp;&nbsp;<input type="range" id="trackbar" value="' + mask_info.delta + '" min="1" max="25" step="1" width="30%"> <span name="intensity_threshold">' + delta_string + '</span>';
+                track_bar_node.innerHTML = '&nbsp;&nbsp;<input type="range" id="trackbar" value="' + mask_info.delta + '" min="1" max="35" step="1" width="30%"> <span name="intensity_threshold">' + delta_string + '</span>';
                 track_bar_node.getElementsByTagName("input")[0].addEventListener('input', function() {
                     const value = this.value;
                     var value_str = (value.toString().length==2)?value.toString():"&nbsp;&nbsp;"+value.toString();
@@ -382,6 +394,14 @@ class GVMedicalOverlay extends React.Component {
         MedicalChartBox.chart_canvas_mouse_up(event, this);
     }
 
+    go_to_slice = (event) => {
+        if (event.key === 'Enter') {
+            if (!isNaN(this.state.idx) && this.state.idx.length > 0) { // input text is number
+                this.props.tunnel_go_to_slice_idx(parseInt(this.state.idx)-1);
+            }     
+        }     
+    }
+
     activate_zoom_in = () => {
         document.getElementById(this.canvas_createjs_id).style.cursor = "crosshair";
         this.data.is_ready_to_zoom_in = true;
@@ -436,6 +456,7 @@ class GVMedicalOverlay extends React.Component {
         document.getElementById(this.restore_screen_button_id).style.display = "none";
 
         this.props.tunnel_register_visualize_callback(this.draw_mask);
+        ///this.is_rendered_chart = false;
 
         return;
     }
@@ -538,6 +559,20 @@ class GVMedicalOverlay extends React.Component {
         this.show_mask_editor();
     }
 
+    componentDidUpdate = (prevProps, prevState, snapshot) => {
+        if (this.chart_js_obj) {
+            document.getElementById(this.chart_canvas_id).style.width = this.width_chart+"px";
+            document.getElementById(this.chart_canvas_id).style.height = this.height_chart+"px";
+        }
+
+        /*const active_idx = this.props.tunnel_retrieve_state().active_idx;
+        if (active_idx+1+"" != this.state.idx) {
+            this.setState({
+                idx: active_idx+1+""
+            });
+        }*/
+    }
+
     chart_data = {
         down_x: -1,
         down_y: -1,
@@ -555,14 +590,20 @@ class GVMedicalOverlay extends React.Component {
         const { classes, width, height, canvas_id } = this.props;
         const total_images = this.props.tunnel_retrieve_medical_images().length;
         const active_idx = this.props.tunnel_retrieve_state().active_idx;
+        /*if (active_idx+1+"" != this.state.idx) {
+            this.setState({
+                idx: active_idx+1+""
+            });
+        }*/
+        //////this.idx = active_idx+1+"";
 
-        var width_chart = Math.floor(width * 0.5);
-        var height_chart = Math.floor(height * 0.5);
+        this.width_chart = Math.floor(width * 0.5);
+        this.height_chart = Math.floor(height * 0.5);
 
-        if (width_chart > height_chart) {
-            width_chart = Math.floor(height_chart * 1.5);
+        if (this.width_chart > this.height_chart) {
+            this.width_chart = Math.floor(this.height_chart * 1.5);
         } else {
-            height_chart = Math.floor(width_chart * 1.5);
+            this.height_chart = Math.floor(this.width_chart * 1.5);
         }
 
         console.log("medical-overlay > render()");
@@ -582,7 +623,16 @@ class GVMedicalOverlay extends React.Component {
                     onMouseDown={this.mouse_down}
                     onContextMenu={this.handleClick}></canvas>
                 <div style={{position: "absolute", left: "0px", top: "0px", zIndex: "100", margin: "0.5em"}}>
-                    <div style={{marginBottom: "0.5em", textAlign: "center"}}><span className={classes.pos_text_info}>{active_idx+1} / {total_images}</span></div>
+                    <div style={{marginBottom: "0.5em", textAlign: "center"}}>
+                        <span className={classes.pos_text_info}>
+                        <input type="text" id={this.input_text_slice_id} 
+                            value={this.state.idx} 
+                            onChange={event => {this.setState({idx: event.target.value})}} 
+                            onKeyPress={this.go_to_slice}
+                            style={{
+                                width: "36px",
+                            }}/></span><span className={classes.pos_text_info}> / {total_images}</span>
+                    </div>
                     <IconButton onClick={this.activate_zoom_in} id={this.zoom_in_button_id} className={classes.icon_button}
                         style={{display: "block"}}><ZoomIn className={classes.icon} fontSize="large"/></IconButton>
                     <IconButton onClick={this.reset_zoom} id={this.zoom_reset_button_id} className={classes.icon_button}
@@ -623,8 +673,8 @@ class GVMedicalOverlay extends React.Component {
                     display: "none"}}
                     className={classes.pos_text_info}>
                     <canvas id={this.chart_canvas_id}
-                        width={width_chart+"px"} 
-                        height={height_chart+"px"}
+                        width={this.width_chart+"px"} 
+                        height={this.height_chart+"px"}
                         onMouseMove={this.chart_canvas_mouse_move}
                         onMouseUp={this.chart_canvas_mouse_up}
                         onMouseDown={this.chart_canvas_mouse_down}/>

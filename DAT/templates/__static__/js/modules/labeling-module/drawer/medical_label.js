@@ -16,6 +16,7 @@ class MedicalLabelState {
     label_selected_callback = {};
     next_slice_callback = {};
     prev_slice_callback = {};
+    go_to_slice_callback = {};
 
 	constructor(props) {
         // do nothing?!
@@ -31,6 +32,10 @@ class MedicalLabelState {
 
     register_prev_slice_callback = (key, myfunc) => {
         this.prev_slice_callback[key] = myfunc;
+    }
+
+    register_go_to_slice_callback = (key, myfunc) => {
+        this.go_to_slice_callback[key] = myfunc;
     }
 
     notify_label_selected = () => {
@@ -51,6 +56,13 @@ class MedicalLabelState {
         for (var key in this.prev_slice_callback){
             const cfunc = this.prev_slice_callback[key];
             cfunc();
+        }
+    }
+
+    notify_go_to_slice = (active_idx) => {
+        for (var key in this.go_to_slice_callback){
+            const cfunc = this.go_to_slice_callback[key];
+            cfunc(active_idx);
         }
     }
 

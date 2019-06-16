@@ -184,7 +184,7 @@ class MedicalLabelListItems extends React.Component {
                                     tool.handleClick("Drawing " + labelname + " by " + (lb.type_label =='rect' ? "rectangle" : "polygon") + " shape");
                                 }*/
                             }}
-                            style={{backgroundColor: lb.color+"99"}}>
+                            style={{backgroundColor: lb.color+"77"}}>
                         <ListItem button>
                         <Tooltip title={labelname + " | " + labeltype} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
                         <ListItemIcon className={classes.icon}>

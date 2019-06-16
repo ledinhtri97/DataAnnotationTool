@@ -165,6 +165,7 @@ class GVCornerStone2 extends React.Component {
         props.medical_label_state.register_label_selected_callback(this.canvas_id, this.label_selected_callback);
         props.medical_label_state.register_next_slice_callback(this.canvas_id, this.next_slice_callback);
         props.medical_label_state.register_prev_slice_callback(this.canvas_id, this.prev_slice_callback);
+        props.medical_label_state.register_go_to_slice_callback(this.canvas_id, this.go_to_slice_callback);
     }
 
     label_selected_callback = () => {
@@ -184,6 +185,10 @@ class GVCornerStone2 extends React.Component {
         } else {
             // do nothing
         }
+
+        this.medical_overlay_obj.setState({
+            idx: new_active_idx+1+"",
+        });
     }
 
     prev_slice_callback = () => {
@@ -196,6 +201,34 @@ class GVCornerStone2 extends React.Component {
         } else {
             // do nothing
         }
+
+        this.medical_overlay_obj.setState({
+            idx: new_active_idx+1+"",
+        });
+    }
+
+    go_to_slice_callback = (idx) => {
+        const current_active_idx = this.state.active_idx;
+        const total_slices = this.medical_images.length;
+        var new_active_idx = idx;
+        new_active_idx = (new_active_idx<0)?0:new_active_idx;
+        new_active_idx = (new_active_idx>=total_slices)?total_slices-1:new_active_idx;
+
+        if (new_active_idx != current_active_idx) {
+            this.setState({
+                active_idx: new_active_idx
+            });
+        } else {
+            // do nothing
+        }
+
+        this.medical_overlay_obj.setState({
+            idx: new_active_idx+1+"",
+        });
+    }
+
+    sync_go_to_slice = (idx) => {
+        this.props.medical_label_state.notify_go_to_slice(idx);
     }
 
     // init activity
@@ -210,7 +243,7 @@ class GVCornerStone2 extends React.Component {
                 });
             } else {
                 console.log("Use cached medical image!");
-                console.log(this.medical_images[this.state.active_idx].cornerstone_image);
+                //console.log(this.medical_images[this.state.active_idx].cornerstone_image);
                 this.visualize();
             }            
         } else {
@@ -599,6 +632,7 @@ class GVCornerStone2 extends React.Component {
                             tunnel_set_medical_overlay={this.tunnel_set_medical_overlay}
                             tunnel_set_lookup_table={this.tunnel_set_lookup_table}
                             total_items={this.state.total_items}
+                            tunnel_go_to_slice_idx={this.sync_go_to_slice}
                             medical_label_state={this.props.medical_label_state}/>
                         <canvas className="cornerstone-canvas" 
                             width={canvas_width+"px"} 
