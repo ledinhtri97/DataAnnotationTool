@@ -104,6 +104,9 @@ def save_index(request, metaid):
 				print('existed\n', current_meta_data.boxes_position.all())
 
 		current_meta_data.submitted_by_user.add(user)
+
+		current_meta_data.skipped_by_user.remove(user)
+		
 		current_meta_data.is_annotated = 1
 
 		current_meta_data.save(update_fields=['is_annotated', 'onviewing_user'])

@@ -62,6 +62,7 @@ const initCanvas = function(canvas, meta, only_view=false) {
 
 			setTimeout(function(){
 				if(meta.status === 'OK' && meta.boxes_position){
+					
 					meta.boxes_position.forEach(function(bb){
 			            var shape = create_shape(bb, canvas);
 			            canvas.add(shape);
@@ -74,7 +75,7 @@ const initCanvas = function(canvas, meta, only_view=false) {
 
 		            canvas.renderAll();
 				}
-			}, 200)
+			}, 500);
 		}
 	);
 };

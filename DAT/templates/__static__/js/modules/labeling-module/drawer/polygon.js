@@ -145,19 +145,20 @@ const configureFlag = function(master) {
 	var flag;
 	if (master.flag == 1) {
 		flag = configureRectangle(master.left-7, master.top-7, 14, 14);
-		flag.islabel = false;
-		flag.isflag = true;
-		flag.stroke = master.stroke;
-		flag.fill = Color.GREEN;
+		flag.set('islabel', false);
+		flag.set('isflag', true);
+		flag.set('stroke', master.stroke);
+		flag.set('fill', Color.GREEN);
 		master.shapeflag = flag;
 	}
 	else if (master.flag == 0) {
 		flag = configureCircle(master.left, master.top);
-		flag.radius = 9;
-		flag.islabel = false;
-		flag.isflag = true;
-		flag.stroke = master.stroke;
-		flag.fill = Color.RED;
+		flag.set('radius', 9);
+		flag.set('islabel', false);
+		flag.set('isflag', true);
+		flag.set('stroke', master.stroke);
+		flag.set('fill', Color.RED);
+
 		master.shapeflag = flag;
 	}
 	return flag;
@@ -263,7 +264,11 @@ class DrawPolygon{
 				drawer.canvas.selection = true;
 				
 				drawer.canvas.renderAll();
-				drawer.startDraw();
+
+				setTimeout(function(){
+					drawer.startDraw();
+				}, 500);
+				
 			}
 		};
 

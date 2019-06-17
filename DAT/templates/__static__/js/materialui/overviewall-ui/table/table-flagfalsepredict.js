@@ -144,7 +144,8 @@ class FlagFalsePredictTable extends React.Component {
                 return (
                 <TableRow key={key}>
                 <TableCell className={classes.table_content}>
-                  <img style={{ height: '100px'}} src={fld.url_thumb}/>
+                  <img style={{ height: '100px'}} src={fld.url_thumb} 
+                    onClick={function(e){ if(fld.view){self_table.handleView(fld.url_meta)}}}/>
                 </TableCell>
                 <TableCell component="th" scope="row" className={classes.table_content}>
                 {fld.meta_id}

@@ -165,18 +165,8 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 
 				if(labelControl){
-					if(objectGlobal.object && objectGlobal.object.hidden){
-						var e_hidden = document.getElementById(labelControl.getId()+"_hidden");
-						e_hidden && e_hidden.click();
-					}
-					
-					if(dialog){
-						ReactDOM.unmountComponentAtNode(dialog);
-						ReactDOM.render(<AlertDialogChangeClass
-							label_select={label_select}
-							labelControl={labelControl}
-							/>, dialog);
-					}
+					var changelb = document.getElementById(labelControl.getId()+"_changelabel");
+					changelb && changelb.click();
 				}
 			}
 
@@ -191,10 +181,10 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 
 				if(labelControl){
-					if(objectGlobal.object && objectGlobal.object.hidden){
-						var e_hidden = document.getElementById(labelControl.getId()+"_hidden");
-						e_hidden && e_hidden.click();
-					}
+					// if(objectGlobal.object && objectGlobal.object.hidden){
+					// 	var e_hidden = document.getElementById(labelControl.getId()+"_hidden");
+					// 	e_hidden && e_hidden.click();
+					// }
 					labelControl.__editITEM__();
 				}
 			}

@@ -60,8 +60,6 @@ const styles = theme => ({
 	
 });
 
-class HandleButtonClick{constructor(){}}
-
 class Labeling extends React.Component {
 
 	state = {
@@ -97,6 +95,9 @@ class Labeling extends React.Component {
 					<span id="color_background"></span>
 					<span id="size_icon"></span>
 					<span id="width_stroke"></span>
+				</div>
+				<div className={classes.hidden}>
+					<span id="label_select"></span>
 				</div>
 			</div>
 			</main>
