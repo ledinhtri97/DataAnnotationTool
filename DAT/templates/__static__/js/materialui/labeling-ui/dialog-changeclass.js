@@ -35,6 +35,7 @@ class AlertDialogChangeClass extends React.Component {
       
       if (res){
         this.setState({ open: false });
+        this.props.callSetName(values[0]); //dig
       }
       else{
         alert("Cannot change different type of shape");
@@ -48,7 +49,10 @@ class AlertDialogChangeClass extends React.Component {
   render() {
 
     const selfForm = this;
-    const { classes, label_select, labelControl } = this.props;
+    const { classes, labelControl} = this.props;
+
+    let lbs = document.getElementById('label_select');
+    let label_select = JSON.parse(lbs.textContent).label_select;
 
     return (
         <Dialog

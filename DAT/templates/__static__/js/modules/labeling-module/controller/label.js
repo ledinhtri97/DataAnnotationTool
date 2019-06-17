@@ -46,11 +46,13 @@ class LabelControl{
 
 	__changeClass__(tag_label, type_label, color){
 		if(this.obj.type_label == type_label){
-			this.obj.name = tag_label;
-			this.obj.stroke = color;
-			this.obj.basicColor = color;
+			this.obj.set('name', tag_label);
+			this.obj.set('stroke', color);
+			this.obj.set('basicColor', color);
 			this.obj.icon.set('fill', color);
 			this.canvas.renderAll();
+
+			this.__hiddenITEM__();
 			return true;
 		}
 		else{
@@ -111,11 +113,17 @@ class LabelControl{
 
 		if(__default__){
 			lbc.edit = !lbc.edit;
+			if(this.obj.hidden){
+				var e_hidden = document.getElementById(this.id+"_hidden");
+				e_hidden && e_hidden.click();
+			}
 		}
 		else {
 			lbc.edit = false;
 		}
+
 		
+
 		if(current_element){
 			this.obj.selectable = lbc.edit;
 
@@ -124,7 +132,8 @@ class LabelControl{
 					this.obj.set('stroke', Color.RED);
 					__canvas__.setActiveObject(this.obj);
 					setTimeout(function() { //auto set block edit after 10s
-						lbc.obj.selectable = lbc.edit = false;
+						lbc.obj.set('selectable', false);
+						lbc.obj.set('edit', false);
 						lbc.obj.set('stroke', lbc.obj.basicColor);
 						__canvas__.renderAll();
 					}, 10000);
@@ -137,7 +146,7 @@ class LabelControl{
 			}		
 
 			if (this.obj.type == 'polygon'){
-				this.obj.selectable = false;
+				this.obj.set('selectable', false);
 				if(lbc.edit){
 					if(lbc.obj.circles.length > 0){
 						lbc.obj.circles.forEach(function(c){
@@ -216,6 +225,10 @@ class LabelControl{
 
 	getNamelabel(){
 		return this.obj.name;
+	}
+
+	getShortNamelabel(){
+		return this.obj.name.length < 5 ? this.obj.name : this.obj.name.substring(0, 4)+'...';
 	}
 }
 

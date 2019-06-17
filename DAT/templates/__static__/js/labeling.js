@@ -66,7 +66,8 @@ if(labeling && meta_id && meta_id.textContent){
 					return response.json();
 				}
 			).then(meta => {
-			if(meta === "FAILED") return;
+				if(meta === "FAILED") return;
+				
 				setTimeout(function(){initPredict(canvas, meta)}, 100);
 			});
 
@@ -83,6 +84,11 @@ if(labeling && meta_id && meta_id.textContent){
 			const keyboard = document.getElementById("keyboard");
 			keyboard && ReactDOM.render(<TemporaryDrawerInstruction label_select={meta.label_select}/>, keyboard);
 
+			//meta.label_select
+			let label_select = document.getElementById('label_select');
+			if(label_select) {
+				label_select.textContent = JSON.stringify({label_select: meta.label_select});
+			};
 		});
 	} catch(e) {
 		// statements

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -12,10 +13,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Delete from '@material-ui/icons/Delete';
+import Edit from '@material-ui/icons/Edit';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import { withStyles } from '@material-ui/core/styles';
+
+import AlertDialogChangeClass from "./dialog-changeclass";
 
 const styles = theme => ({
   lightTooltip: {
@@ -58,17 +62,24 @@ class LabelItem extends React.Component {
 
   queue = [];
 
-  state = {
-    open: false,
-    messageInfo: {},
-    hidden: false,
+  constructor(props){
+    super(props);
+    this.state = {
+      namelabel: props.labelControl.getNamelabel(),
+      shortnamelabel: props.labelControl.getShortNamelabel(),
+    }
   };
+
+  callSetName = (name) => {
+    this.setState({ namelabel: name, shortnamelabel: name.length < 5 ? name : name.substring(0, 4)+'...'});
+  };
+
 
   render() {
 
+    const selfitem = this;
     const { classes } = this.props;
-    const { messageInfo } = this.state;
-    const tool = this;
+    const { namelabel, shortnamelabel } = this.state;
     const labelControl = this.props.labelControl;
 
     return(
@@ -77,12 +88,29 @@ class LabelItem extends React.Component {
         onMouseLeave={function(){labelControl.__outITEM__()}}
         >
       <ListItem className={classes.listItem}>
-      <Tooltip title={labelControl.getNamelabel()} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+      <Tooltip title={namelabel} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
       <ListItemIcon className={classes.icon}>
+      <IconButton className={classes.iconControll} aria-haspopup="true" color="secondary"
+        id={labelControl.getId()+"_changelabel"} onClick={function(e){
+        let dialog = document.getElementById("dialog");
+        if(dialog){
+          ReactDOM.unmountComponentAtNode(dialog);
+          ReactDOM.render(<AlertDialogChangeClass
+            callSetName={selfitem.callSetName}
+            labelControl={labelControl}
+            />, dialog);
+        }
+      }}>
       <FilterFrames />
+      </IconButton>
       </ListItemIcon>
       </Tooltip>
-      <ListItemText className={classes.textItem} primary={labelControl.getNamelabel()} />
+      <ListItemText className={classes.textItem} primary={shortnamelabel} />
+      <IconButton id={labelControl.getId()+"_edit"}
+        onClick={function(e){labelControl.__editITEM__()}}
+        className={classes.iconControll} aria-haspopup="true" color="primary">
+      <Edit className={classes.iconcc}/>
+      </IconButton>
       <FormControlLabel
         control={
           <Checkbox

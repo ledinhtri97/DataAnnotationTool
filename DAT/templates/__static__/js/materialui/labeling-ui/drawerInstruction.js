@@ -62,7 +62,7 @@ const MAP_ICON_INS = {
 	A: (<IconButton><SvgIcon><path d="M3,5C3,3.9 3.9,3 5,3H19C20.1,3 21,3.9 21,5V19C21,20.1 20.1,21 19,21H5C3.89,21 3,20.1 3,19V5M11,7C9.9,7 9,7.9 9,9V17H11V13H13V17H15V9C15,7.9 14.1,7 13,7H11M11,9H13V11H11V9Z" /></SvgIcon></IconButton> ),
 	F: (<IconButton><SvgIcon><path d="M9,7V17H11V13H14V11H11V9H15V7H9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
 	S: (<IconButton><SvgIcon><path d="M11,7A2,2 0 0,0 9,9V11A2,2 0 0,0 11,13H13V15H9V17H13A2,2 0 0,0 15,15V13A2,2 0 0,0 13,11H11V9H15V7H11M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
-	C: (<IconButton><SvgIcon><path d="M3,5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5M5,5V19H19V5H5M11,7H13A2,2 0 0,1 15,9V10H13V9H11V15H13V14H15V15A2,2 0 0,1 13,17H11A2,2 0 0,1 9,15V9A2,2 0 0,1 11,7Z" /></SvgIcon></IconButton> ),
+	C: (<IconButton><SvgIcon><path d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V14H13V15H11V9H13V10H15V9A2,2 0 0,0 13,7H11Z" /></SvgIcon></IconButton> ),
 	E: (<IconButton><SvgIcon><path d="M9,7V17H15V15H11V13H15V11H11V9H15V7H9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
 	H: (<IconButton><SvgIcon><path d="M9,7V17H11V13H13V17H15V7H13V11H11V7H9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
 	D: (<IconButton><SvgIcon><path d="M9,7V17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H9M11,9H13V15H11V9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" /></SvgIcon></IconButton> ),
@@ -70,7 +70,7 @@ const MAP_ICON_INS = {
 	SHIFT: (<IconButton><SvgIcon><path d="M19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21M12,7L7,12H10V16H14V12H17L12,7Z" /></SvgIcon></IconButton> ),
 };
 
-const MAP_TEXT_INS = {
+const MAP_TEXT_INS_EN = {
 	A: "Skip and next",
 	F: "Mark false predict label",
 	S: "Save and next",
@@ -80,6 +80,18 @@ const MAP_TEXT_INS = {
 	D: "Hover on shape and delete",
 	Q: "Quit drawing",
 	SHIFT: "Press Shift key in drawing mode or on shape to display all same shape available",
+};
+
+const MAP_TEXT_INS_VN = {
+	A: "Bỏ qua ảnh hiện tại và chuyển tiếp hình mới",
+	F: "Đánh dấu Sai / Đúng đối tượng nhãn dự đoán",
+	S: "Lưu lại ảnh đã vẽ và chuyển tiếp hình mới",
+	C: "Thay đổi loại nhãn đã vẽ",
+	E: "Di chuyển chuột lên nhãn và nhấn phím E để chỉnh sửa",
+	H: "Di chuyển chuột lên nhãn và nhấn phím H để ẩn / hiện",
+	D: "Di chuyển chuột lên nhãn và nhấn phím D để xóa",
+	Q: "Thoát chế độ vẽ nhãn",
+	SHIFT: "Giữ phím SHIFT trong chế độ vẽ nhãn một đối tượng hoặc di chuyển chuột lên một đối tượng để hiển thị tất cả các đối tượng cùng loại nhãn",
 };
 
 const MAP_LABEL_INS = [
@@ -116,7 +128,7 @@ class TemporaryDrawerInstruction extends React.Component {
 			{['A', 'F', 'S', 'C', 'E', 'H', 'D', 'Q'].map((text, index) => (
 				<ListItem button key={index} className={classes.listItem}>
 				<ListItemIcon>{MAP_ICON_INS[text]}</ListItemIcon>
-				<Typography variant="caption" color="inherit" className={classes.caption}>{MAP_TEXT_INS[text]}</Typography>
+				<Typography variant="caption" color="inherit" className={classes.caption}>{MAP_TEXT_INS_VN[text]}</Typography>
 				</ListItem>
 				))}
 			</List>
@@ -144,7 +156,7 @@ class TemporaryDrawerInstruction extends React.Component {
 			
 			<ListItem button className={classes.listItem}>
 			<ListItemIcon>{MAP_ICON_INS['SHIFT']}</ListItemIcon>
-			<Typography variant="caption" color="inherit" className={classes.caption}>{MAP_TEXT_INS['SHIFT']}</Typography>
+			<Typography variant="caption" color="inherit" className={classes.caption}>{MAP_TEXT_INS_VN['SHIFT']}</Typography>
 			</ListItem>
 
 			</div>
@@ -169,7 +181,7 @@ class TemporaryDrawerInstruction extends React.Component {
 			</div>
 			</Drawer>
 			</div>
-			);
+		);
 	}
 }
 // onClick={this.toggleDrawer('right', false)} //click on item to close

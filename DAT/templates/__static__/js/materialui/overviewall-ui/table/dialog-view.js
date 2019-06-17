@@ -30,6 +30,9 @@ const styles = theme => ({
   canvas:{
     boxShadow: "0 5px 10px rgba(0, 0, 0, 0.35),0 5px 7px rgba(0, 0, 0, 0.24)",
   },
+  leftAlign: {
+    justifyContent: 'flex-start',
+  }
 });
 
 class AlertDialogView extends React.Component {
@@ -72,7 +75,7 @@ class AlertDialogView extends React.Component {
             }}>   
               <canvas id="canvas" className={classes.canvas}></canvas>
           </DialogContent>
-          <DialogActions>
+          <DialogActions classes={{root: classes.leftAlign}}>
             <Button onClick={function(e){self_view.handleEdit(metaid)}} color="primary">
               Edit
             </Button>
@@ -84,7 +87,7 @@ class AlertDialogView extends React.Component {
     );
   }
 }
-
+//    
 AlertDialogView.propTypes = {
   classes: PropTypes.object.isRequired,
 };
