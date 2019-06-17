@@ -105,6 +105,13 @@ const styles = theme => ({
   },
   title: {
     paddingLeft: '3em',
+  },
+  loading: {
+    display: 'block',
+    margin: 'auto',
+    marginTop: '5rem',
+    width: '40%',
+    height:'40%',
   }
 });
 
@@ -113,7 +120,7 @@ class OverviewWorkspace extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      value: 0,
+      isdone: false,
       url_join: '/gvlab-dat/workspace/ws-0/',
       total: {
           submitted: 0,
@@ -176,6 +183,7 @@ class OverviewWorkspace extends React.Component {
             skipped: __data__.skipped,
             flaged: __data__.flaged,
             notice_review: __data__.notice_review,
+            isdone: true,
           });
       });     
     }, 100);
@@ -191,10 +199,12 @@ class OverviewWorkspace extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const {total, user, objects, submitted, skipped, flaged, notice_review} = this.state
+    const {isdone, total, user, objects, submitted, skipped, flaged, notice_review} = this.state
     
     return (
-      <div className={classes.root}>
+      <div>
+      { !isdone && <img className={classes.loading} src="/gvlab-dat/static/images/simple-loader.gif" alt="" /> }
+      { isdone && <div className={classes.root}>
       <Button variant="outlined" color="primary" className={classes.extractButton}>
           Extract Report To Admin
       </Button>
@@ -216,7 +226,8 @@ class OverviewWorkspace extends React.Component {
       <TabShowLabels submitted={submitted} skipped={skipped} flaged={flaged} notice_review={notice_review}/>
 
       </div>
-
+      }
+      </div>
     );
   }
 }
