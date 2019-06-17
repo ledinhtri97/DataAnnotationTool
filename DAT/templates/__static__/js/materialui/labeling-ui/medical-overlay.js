@@ -6,9 +6,12 @@ import ZoomIn from '@material-ui/icons/ZoomIn';
 import ZoomOut from '@material-ui/icons/ZoomOut';
 import Fullscreen from '@material-ui/icons/Fullscreen';
 import FullscreenExit from '@material-ui/icons/FullscreenExit';
+import AllOut from '@material-ui/icons/AllOut';
 import Layers from '@material-ui/icons/Layers';
 import LayersClear from '@material-ui/icons/LayersClear';
 import ShowChart from '@material-ui/icons/ShowChart';
+import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
 
 import MedicalImageProcessingBox from './medical-image-processing-box';
 import MedicalChartBox from './medical-chart-box';
@@ -30,6 +33,18 @@ const styles = theme => ({
     },
     pos_text_info: {
         color: "white",
+    },
+    lightTooltip: {
+        backgroundColor: theme.palette.common.white,
+        color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: theme.shadows[1],
+        fontSize: 11,
+    },
+    button: {
+        color: 'black',
+        background: '#FFFF0088',
+        padding: '0px',
+        margin: '5px',
     }
 });
 
@@ -56,6 +71,7 @@ class GVMedicalOverlay extends React.Component {
     close_mask_editor_button_id = "close_mask_editor_button_id_";
     mask_layers_editor_id = "mask_layers_editor_id_";
     show_chart_button_id = "show_chart_button_id_";
+    copy_chart_to_other_slices_button_id = "copy_chart_to_other_slices_button_id_";
     chart_editor_id = "chart_editor_id_";
     chart_canvas_id = "chart_canvas_id_";
     chart_js_obj = null;
@@ -187,6 +203,7 @@ class GVMedicalOverlay extends React.Component {
         this.chart_editor_id += props.canvas_id;
         this.chart_canvas_id += props.canvas_id;
         this.input_text_slice_id += props.canvas_id;
+        this.copy_chart_to_other_slices_button_id += props.canvas_id;
         props.tunnel_set_medical_overlay(this);
         console.log("Overlay rerender!");
 
@@ -480,36 +497,52 @@ class GVMedicalOverlay extends React.Component {
             document.getElementById(this.show_chart_button_id).getElementsByTagName("svg")[0].style.color = "#ffff00dd";
             document.getElementById(this.chart_editor_id).style.display = "block";
 
-            if (!this.is_rendered_chart) {
-                var ctx = document.getElementById(this.chart_canvas_id).getContext('2d');
-                const medical_images = this.props.tunnel_retrieve_medical_images();
-                const state = this.props.tunnel_retrieve_state();
-                const cornerstone_image = medical_images[state.active_idx].cornerstone_image;
-                const min_hounsfield = cornerstone_image.minPixelValue*cornerstone_image.slope + cornerstone_image.intercept;
-                const max_hounsfield = cornerstone_image.maxPixelValue*cornerstone_image.slope + cornerstone_image.intercept;
-
-                this.chart_js_config.data.datasets[1].data[0].x = min_hounsfield;
-                this.chart_js_config.data.datasets[1].data[1].x = max_hounsfield;
-                this.chart_js_config.data.datasets[0].data[0].x = min_hounsfield;
-                this.chart_js_config.data.datasets[0].data[1].x = max_hounsfield;
-
-                this.chart_js_config.options.scales.xAxes[0].ticks.min = min_hounsfield;
-                this.chart_js_config.options.scales.xAxes[0].ticks.max = max_hounsfield;
-                this.chart_js_config.options.scales.xAxes[0].ticks.stepSize = Math.floor(max_hounsfield/5);
-
-                this.chart_js_obj = new Chart(ctx, this.chart_js_config);
-                this.is_rendered_chart = true;
-                this.chart_data.x_range = Math.abs(max_hounsfield - min_hounsfield);
-                this.chart_data.min_hounsfield = min_hounsfield;
-                this.chart_data.max_hounsfield = max_hounsfield;
-            } else {
-                // do nothing!
-            }
+            this.init_chart_if_not_rendered();
         } else {
             // close chart
             document.getElementById(this.show_chart_button_id).getElementsByTagName("svg")[0].style.color = "#ffffffdd";
             document.getElementById(this.chart_editor_id).style.display = "none";
         }        
+    }
+
+    init_chart_if_not_rendered = () => {
+        if (!this.is_rendered_chart) {
+            var ctx = document.getElementById(this.chart_canvas_id).getContext('2d');
+            const medical_images = this.props.tunnel_retrieve_medical_images();
+            const state = this.props.tunnel_retrieve_state();
+            const cornerstone_image = medical_images[state.active_idx].cornerstone_image;
+            const min_hounsfield = cornerstone_image.minPixelValue*cornerstone_image.slope + cornerstone_image.intercept;
+            const max_hounsfield = cornerstone_image.maxPixelValue*cornerstone_image.slope + cornerstone_image.intercept;
+
+            this.chart_js_config.data.datasets[1].data[0].x = min_hounsfield;
+            this.chart_js_config.data.datasets[1].data[1].x = max_hounsfield;
+            this.chart_js_config.data.datasets[0].data[0].x = min_hounsfield;
+            this.chart_js_config.data.datasets[0].data[1].x = max_hounsfield;
+
+            this.chart_js_config.options.scales.xAxes[0].ticks.min = min_hounsfield;
+            this.chart_js_config.options.scales.xAxes[0].ticks.max = max_hounsfield;
+            this.chart_js_config.options.scales.xAxes[0].ticks.stepSize = Math.floor(max_hounsfield/5);
+
+            this.chart_js_obj = new Chart(ctx, this.chart_js_config);
+            this.is_rendered_chart = true;
+            this.chart_data.x_range = Math.abs(max_hounsfield - min_hounsfield);
+            this.chart_data.min_hounsfield = min_hounsfield;
+            this.chart_data.max_hounsfield = max_hounsfield;
+        } else {
+            // do nothing!
+        }
+    }
+
+    copy_chart_to_other_slices = () => {
+        this.props.tunnel_sync_copy_to_slice();
+    }
+
+    set_chart_for_liver = () => {
+        MedicalChartBox.set_chart_for_liver(this);
+    }
+
+    set_chart_for_lung = () => {
+        MedicalChartBox.set_chart_for_lung(this);
     }
 
     reset_data = () => {
@@ -634,21 +667,42 @@ class GVMedicalOverlay extends React.Component {
                             }}/></span><span className={classes.pos_text_info}> / {total_images}</span>
                     </div>
                     <IconButton onClick={this.activate_zoom_in} id={this.zoom_in_button_id} className={classes.icon_button}
-                        style={{display: "block"}}><ZoomIn className={classes.icon} fontSize="large"/></IconButton>
+                        style={{display: "block"}}>
+                        <Tooltip title="Zoom In" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <ZoomIn className={classes.icon} fontSize="large"/>
+                        </Tooltip></IconButton>
                     <IconButton onClick={this.reset_zoom} id={this.zoom_reset_button_id} className={classes.icon_button}
-                        style={{display: "block"}}><ZoomOut className={classes.icon} fontSize="large"/></IconButton>
+                        style={{display: "block"}}>
+                        <Tooltip title="Zoom Out" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <ZoomOut className={classes.icon} fontSize="large"/>
+                        </Tooltip></IconButton>
                     
                     <IconButton onClick={this.full_screen} id={this.full_screen_button_id} className={classes.icon_button}
-                        style={{display: "block"}}><Fullscreen className={classes.icon} fontSize="large"/></IconButton>
+                        style={{display: "block"}}>
+                        <Tooltip title="Fullscreen" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <Fullscreen className={classes.icon} fontSize="large"/>
+                        </Tooltip></IconButton>
                     <IconButton onClick={this.restore_screen} id={this.restore_screen_button_id} className={classes.icon_button}
-                        style={{display: "none"}}><FullscreenExit className={classes.icon} fontSize="large"/></IconButton>
+                        style={{display: "none"}}>
+                        <Tooltip title="Exit Fullscreen" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <FullscreenExit className={classes.icon} fontSize="large"/>
+                        </Tooltip></IconButton>
                     
                     <IconButton onClick={this.show_mask_editor} id={this.show_mask_editor_button_id} className={classes.icon_button}
-                        style={{display: "none"}}><Layers className={classes.icon} fontSize="large"/></IconButton>
+                        style={{display: "none"}}>
+                        <Tooltip title="Edit Labels" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <Layers className={classes.icon} fontSize="large"/>
+                        </Tooltip></IconButton>
                     <IconButton onClick={this.close_mask_editor} id={this.close_mask_editor_button_id} className={classes.icon_button}
-                        style={{display: "block"}}><Layers className={classes.icon} fontSize="large"/></IconButton>
+                        style={{display: "block"}}>
+                        <Tooltip title="Edit Labels" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <Layers className={classes.icon} fontSize="large"/>
+                        </Tooltip></IconButton>
                     <IconButton onClick={this.show_or_close_chart} id={this.show_chart_button_id} className={classes.icon_button}
-                        style={{display: "block"}}><ShowChart className={classes.icon} fontSize="large"/></IconButton>
+                        style={{display: "block"}}>
+                        <Tooltip title="Show Chart" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <ShowChart className={classes.icon} fontSize="large"/>
+                        </Tooltip></IconButton>
                 </div>
 
                 <div id={this.mask_layers_editor_id} 
@@ -678,6 +732,26 @@ class GVMedicalOverlay extends React.Component {
                         onMouseMove={this.chart_canvas_mouse_move}
                         onMouseUp={this.chart_canvas_mouse_up}
                         onMouseDown={this.chart_canvas_mouse_down}/>
+                    <span>
+                        <IconButton onClick={this.copy_chart_to_other_slices} 
+                            id={this.copy_chart_to_other_slices_button_id} 
+                            className={classes.icon_button}
+                            style={{display: "inherit"}}>
+                            <Tooltip title="Apply to other slices" placement="bottom" classes={{tooltip: classes.lightTooltip}}>
+                                <AllOut className={classes.icon} fontSize="large"/>
+                            </Tooltip>
+                        </IconButton>
+                    </span>
+                    <span>
+                        <Button variant="contained" color="secondary" 
+                            className={classes.button} 
+                            onClick={this.set_chart_for_liver}>Liver</Button>
+                    </span>
+                    <span>
+                        <Button variant="contained" color="secondary" 
+                            className={classes.button} 
+                            onClick={this.set_chart_for_lung}>Lung</Button>
+                    </span>
                 </div>
 
             </div>

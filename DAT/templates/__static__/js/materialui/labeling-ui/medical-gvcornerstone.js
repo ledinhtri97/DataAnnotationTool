@@ -10,6 +10,7 @@ import CornerstoneViewport from 'react-cornerstone-viewport'
 import cornerstoneTools from 'cornerstone-tools';
 
 import MedicalImageProcessingBox from './medical-image-processing-box';
+import MedicalChartBox from './medical-chart-box';
 import GVMedicalOverlay from './medical-overlay';
 
 const ipbox = new MedicalImageProcessingBox();
@@ -100,10 +101,14 @@ class GVCornerStone2 extends React.Component {
     original_total_items = 1;           // store original value, using when state.total_items is changed to show full-screen
     canvas_id = "canvas_0";            // default index
 
+    chart_data = {
+        control_points: null,
+        axis_ranges: null
+    }
+
     medical_images = [{
         url: "",
         cornerstone_image: null,
-        lookup_table: null,    // mapping between housnfield & intensity
         intensity_image: null,
         labeling_mask: null,    // dict of cv.Mat()
     }];
@@ -144,7 +149,6 @@ class GVCornerStone2 extends React.Component {
             this.medical_images.push({
                 url: this.props.urls[i],
                 cornerstone_image: default_medical_instance.cornerstone_image,
-                lookup_table: default_medical_instance.lookup_table,
                 intensity_image: default_medical_instance.intensity_image,
                 labeling_mask: default_medical_instance.labeling_mask
             });
@@ -152,10 +156,20 @@ class GVCornerStone2 extends React.Component {
             this.labeling_mask_layers.push([]);
         }
 
+        var gen_lookup_table = null;
+        if (this.chart_data.control_points != null && this.chart_data.axis_ranges != null) {
+            const result = MedicalChartBox.generate_line_data(this.chart_data.control_points, 
+                this.chart_data.axis_ranges.xmin, 
+                this.chart_data.axis_ranges.xmax, 
+                this.chart_data.axis_ranges.ymin,
+                this.chart_data.axis_ranges.ymax);            
+            gen_lookup_table = result.lookup_table;
+        }
+
         this.state = {
             total_items: this.props.total_items,
             active_idx: this.props.active_idx,
-            lookup_table: this.medical_images[this.props.active_idx].lookup_table,
+            lookup_table: gen_lookup_table,
             zoom_xmin: 0.0,
             zoom_ymin: 0.0,
             zoom_xmax: 1.0,
@@ -166,6 +180,8 @@ class GVCornerStone2 extends React.Component {
         props.medical_label_state.register_next_slice_callback(this.canvas_id, this.next_slice_callback);
         props.medical_label_state.register_prev_slice_callback(this.canvas_id, this.prev_slice_callback);
         props.medical_label_state.register_go_to_slice_callback(this.canvas_id, this.go_to_slice_callback);
+        props.medical_label_state.register_copy_chart_to_slice_callback(this.canvas_id, this.tunnel_set_lookup_table);
+        props.medical_label_state.register_medical_gvcornerstone(this.canvas_id, this)
     }
 
     label_selected_callback = () => {
@@ -229,6 +245,26 @@ class GVCornerStone2 extends React.Component {
 
     sync_go_to_slice = (idx) => {
         this.props.medical_label_state.notify_go_to_slice(idx);
+    }
+
+    sync_copy_to_slice = () => {
+        const chart_meta = this.chart_data.axis_ranges;
+        this.props.medical_label_state.notify_copy_chart_to_slice(this.canvas_id, 
+            this.state.lookup_table, 
+            this.chart_data.control_points, 
+            chart_meta.xmin, 
+            chart_meta.xmax, 
+            chart_meta.ymin, 
+            chart_meta.ymax);
+    }
+
+    update_chartjs_UI = (control_points, xmin, xmax, ymin, ymax) => {
+        if (this.medical_overlay_obj != null) {
+            var scatter_data = control_points;
+            var g_data = MedicalChartBox.generate_line_data(scatter_data, xmin, xmax, ymin, ymax);
+            var line_data = g_data.points;
+            MedicalChartBox.update_chartjs_UI(this.medical_overlay_obj, scatter_data, line_data);
+        }
     }
 
     // init activity
@@ -399,9 +435,23 @@ class GVCornerStone2 extends React.Component {
         this.visualize_callback = mycallback;
     }
 
-    tunnel_set_lookup_table = (new_lookup_table) => {
+    tunnel_set_lookup_table = (new_lookup_table, control_points, xmin, xmax, ymin, ymax) => {
         var clone_lookup_table = Object.assign({}, new_lookup_table);
-        this.medical_images[this.state.active_idx].lookup_table = clone_lookup_table;
+        // copy and save control points
+        var cp_copy = [];
+        for(var i=0; i<control_points.length; i++) {
+            cp_copy.push({
+                x: control_points[i].x,
+                y: control_points[i].y
+            });
+        }
+        this.chart_data.control_points = cp_copy;
+        this.chart_data.axis_ranges = {
+            xmin: xmin,
+            xmax: xmax,
+            ymin: ymin,
+            ymax: ymax
+        };
         this.setState({
             lookup_table: clone_lookup_table,
         });
@@ -565,25 +615,6 @@ class GVCornerStone2 extends React.Component {
             }
 
             self.recalculate_labeling_mask(label_id);
-
-            /*
-            if (self.medical_images[self.state.active_idx].labeling_mask == null) {
-                var js_obj = {};
-                js_obj[label_id] = cvmask;
-                self.medical_images[self.state.active_idx].labeling_mask = js_obj;
-            } else {
-                if (label_id in self.medical_images[self.state.active_idx].labeling_mask) {
-                    const old_mask = self.medical_images[self.state.active_idx].labeling_mask[label_id];
-                    cv.add(old_mask, cvmask, cvmask);        
-                    old_mask.delete();        
-                    self.medical_images[self.state.active_idx].labeling_mask[label_id] = cvmask;
-                } else {
-                    self.medical_images[self.state.active_idx].labeling_mask[label_id] = cvmask;
-                }
-            }
-            */
-
-            /////return cvmask.clone();
         }, {
             x_percent: x_percent,
             y_percent: y_percent,
@@ -633,6 +664,7 @@ class GVCornerStone2 extends React.Component {
                             tunnel_set_lookup_table={this.tunnel_set_lookup_table}
                             total_items={this.state.total_items}
                             tunnel_go_to_slice_idx={this.sync_go_to_slice}
+                            tunnel_sync_copy_to_slice={this.sync_copy_to_slice}
                             medical_label_state={this.props.medical_label_state}/>
                         <canvas className="cornerstone-canvas" 
                             width={canvas_width+"px"} 

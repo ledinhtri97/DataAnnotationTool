@@ -200,10 +200,51 @@ class MedicalChartBox {
             self.chart_data.down_point_close_idx = result.idx;            
 
             ////const lookup_table = MedicalChartBox.export_lookup_table_from_chart(self.chart_js_obj, self);
-            self.props.tunnel_set_lookup_table(g_data.lookup_table);
-            console.log("g_data.lookup_table:");
-            console.log(g_data.lookup_table);
+            self.props.tunnel_set_lookup_table(g_data.lookup_table, scatter_ds.data, x_start, x_stop, y_min, y_max);
+            
+            console.log("scatter_ds.data");
+            console.log(scatter_ds.data);
+
         }
+    }
+
+    static update_chartjs_UI = (self, scatter_data, line_data) => {
+        self.init_chart_if_not_rendered();
+        self.chart_js_obj.data.datasets[0].data = scatter_data;
+        self.chart_js_obj.data.datasets[1].data = line_data;
+        self.chart_js_obj.update();
+    }
+
+    static set_chart_for_liver = (self) => { // 60 +- 6
+        var scatter_data = [
+            { x: 30, y: 0 },
+            { x: 95, y: 250 },
+            { x: 170, y: 0 },
+        ];
+
+        const xmin = scatter_data[0].x;
+        const xmax = scatter_data[scatter_data.length-1].x;
+        const ymin = 0;
+        const ymax = 255;
+        var g_data = MedicalChartBox.generate_line_data(scatter_data, xmin, xmax, ymin, ymax);
+        self.props.tunnel_set_lookup_table(g_data.lookup_table, scatter_data, xmin, xmax, ymin, ymax);
+        MedicalChartBox.update_chartjs_UI(self, scatter_data, g_data.points);
+    }
+
+    static set_chart_for_lung = (self) => {
+        var scatter_data = [
+            { x: -1000, y: 0 },
+            { x: -700, y: 250 },
+            { x: -400, y: 0 },
+        ];
+
+        const xmin = scatter_data[0].x;
+        const xmax = scatter_data[scatter_data.length-1].x;
+        const ymin = 0;
+        const ymax = 255;
+        var g_data = MedicalChartBox.generate_line_data(scatter_data, xmin, xmax, ymin, ymax);
+        self.props.tunnel_set_lookup_table(g_data.lookup_table, scatter_data, xmin, xmax, ymin, ymax);
+        MedicalChartBox.update_chartjs_UI(self, scatter_data, g_data.points);
     }
 
     static generate_line_data = (scatter_points, x_min, x_max, y_min, y_max) => {
@@ -263,12 +304,6 @@ class MedicalChartBox {
         if (self.chart_data.down_point_close_idx >= 0) {
             self.chart_data.down_point_close_idx = -1;
         }
-
-        //const lookup_table = MedicalChartBox.export_lookup_table_from_chart(self.chart_js_obj, self);
-        //console.log("lookup_table");
-        //console.log(lookup_table);
-        //this.props.tunnel_set_lookup_table(lookup_table);
-
     }
 }
 
