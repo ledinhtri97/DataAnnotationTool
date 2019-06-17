@@ -44,6 +44,21 @@ class LabelControl{
 		this.canvas.renderAll();
 	}
 
+	__changeClass__(tag_label, type_label, color){
+		if(this.obj.type_label == type_label){
+			this.obj.name = tag_label;
+			this.obj.stroke = color;
+			this.obj.basicColor = color;
+			this.obj.icon.fill = color;
+			this.canvas.renderAll();
+
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
 	__overITEM__(){
 		var checkbox_hidden = document.getElementById(this.id+"_hidden");
 		if(checkbox_hidden){
@@ -186,6 +201,10 @@ class LabelControl{
 			this.canvas.renderAll();
 			current_element.parentElement.removeChild(current_element);
 		}
+	}
+
+	getValueClass(){
+		return this.obj.name+','+this.obj.type_label+','+this.obj.stroke;
 	}
 
 	getId(){
