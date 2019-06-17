@@ -28,17 +28,21 @@ class AlertDialogChangeClass extends React.Component {
 
   handleClose = (event) => {
     // alert(event.target.value);
-    let values = event.target.value.split(',');
+    if(event.target.value){
+      let values = event.target.value.split(',');
 
-    let res = this.props.labelControl.__changeClass__(values[0], values[1], values[2]);//lb.tag_label+','+lb.type_label+','+lb.color;
-    
-    if (res){
-      this.setState({ open: false });
+      let res = this.props.labelControl.__changeClass__(values[0], values[1], values[2]);//lb.tag_label+','+lb.type_label+','+lb.color;
+      
+      if (res){
+        this.setState({ open: false });
+      }
+      else{
+        alert("Cannot change different type of shape");
+      }
     }
     else{
-      alert("Cannot change different type of shape");
+      this.setState({ open: false });
     }
-    
   };
 
   render() {

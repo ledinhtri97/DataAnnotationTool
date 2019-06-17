@@ -35,7 +35,7 @@ class LabelControl{
 		this.canvas.remove(this.obj);
 
 		var new_poly = configurePoly(this.obj.points, this.obj.name, '1.0', this.obj.circles);
-		
+		new_poly.icon = this.obj.icon;
 		this.obj = new_poly;
 		this.obj.labelControl = this;
 
@@ -49,9 +49,8 @@ class LabelControl{
 			this.obj.name = tag_label;
 			this.obj.stroke = color;
 			this.obj.basicColor = color;
-			this.obj.icon.fill = color;
+			this.obj.icon.set('fill', color);
 			this.canvas.renderAll();
-
 			return true;
 		}
 		else{
@@ -168,7 +167,7 @@ class LabelControl{
 					});
 				}
 				else{
-					// lbc.obj.set('stroke', lbc.obj.basicColor);
+					lbc.obj.set('stroke', lbc.obj.basicColor);
 					lbc.obj.circles.forEach(function(c){
 						__canvas__.remove(c);
 					});
