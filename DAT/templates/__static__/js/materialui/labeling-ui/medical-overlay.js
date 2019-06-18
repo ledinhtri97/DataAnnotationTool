@@ -86,6 +86,7 @@ class GVMedicalOverlay extends React.Component {
     chart_editor_id = "chart_editor_id_";
     chart_canvas_id = "chart_canvas_id_";
     brush_button_id = "brush_button_id_";
+    brush_radius = 5;
     chart_js_obj = null;
 
     chartColors = {
@@ -258,6 +259,17 @@ class GVMedicalOverlay extends React.Component {
         stage.update();
     }
 
+    draw_brush = (canvasId, x, y, radius, color) => {
+        var stage = new createjs.Stage(canvasId);    
+        var brush = new createjs.Shape();
+        color = (typeof color == "undefined") ? "#ffff00" : color;
+        brush.graphics.setStrokeStyle(2)
+            .beginStroke(color)
+            .drawCircle(x, y, radius);
+        stage.addChild(brush);
+        stage.update();
+    }
+
     label_selected = () => {
         console.log('Overlay > label_selected()');
         const self = this;
@@ -271,6 +283,34 @@ class GVMedicalOverlay extends React.Component {
 
     start_labeling_by_brush = () => {
         console.log('Overlay > start_labeling_by_brush()');
+        if (!this._check_is_active(this.brush_button_id)) {
+            // start labeling with brush ...
+            if (this._check_is_active(this.show_chart_button_id)) {
+                this.show_or_close_chart(); // close the open chart
+            }
+
+            // change state
+            this._set_active(this.brush_button_id, true);
+        } else {
+            // stop labeling with brush ...
+            // change state
+            this._set_active(this.brush_button_id, false);
+            // clear canvas
+            var overlay_canvas = document.getElementById(this.canvas_createjs_id);
+            overlay_canvas.getContext('2d').clearRect(0, 0, overlay_canvas.width, overlay_canvas.height);
+        }
+    }
+
+    _check_is_active = (dom_id) => {
+        return document.getElementById(dom_id).getElementsByTagName("svg")[0].style.color == "rgba(255, 255, 0, 0.867)";
+    }
+
+    _set_active = (dom_id, is_active) => {
+        if (is_active) {
+            document.getElementById(this.brush_button_id).getElementsByTagName("svg")[0].style.color = "#ffff00dd"; // yellow
+        } else {
+            document.getElementById(this.brush_button_id).getElementsByTagName("svg")[0].style.color = "#ffffffdd"; // white
+        }
     }
 
     draw_mask = () => {

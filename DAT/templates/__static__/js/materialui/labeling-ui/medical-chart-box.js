@@ -70,6 +70,14 @@ class MedicalChartBox {
 
         const overlay_canvas_id = self.canvas_createjs_id;
 
+        if (self._check_is_active(self.brush_button_id)) {
+            self.draw_brush(overlay_canvas_id, 
+                offsetX, 
+                offsetY, 
+                self.brush_radius);
+            return;
+        }
+
         if (self.data.is_ready_to_zoom_in) {
             self.focus_on_mouse(overlay_canvas_id, offsetX, offsetY, imgWidth, imgHeight);
         }
@@ -293,7 +301,7 @@ class MedicalChartBox {
                 console.log(self.chart_data);
                 console.log("self.chart_js_obj.data.datasets[0].data");
                 console.log(self.chart_js_obj.data.datasets[0].data);
-                
+
                 // remove point instead of adding new point
                 const chart_point = MedicalChartBox.canvas_px_to_chart_value(self.chart_data.down_x, self.chart_data.down_y, self);
                 var to_remove_idx = [];
