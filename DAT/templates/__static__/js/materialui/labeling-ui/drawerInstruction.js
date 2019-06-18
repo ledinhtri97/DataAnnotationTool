@@ -86,7 +86,7 @@ const MAP_TEXT_INS_VN = {
 	A: "Bỏ qua ảnh hiện tại và chuyển tiếp hình mới",
 	F: "Đánh dấu Sai / Đúng đối tượng nhãn dự đoán",
 	S: "Lưu lại ảnh đã vẽ và chuyển tiếp hình mới",
-	C: "Thay đổi loại nhãn đã vẽ",
+	C: "Di chuyển chuột lên nhãn và nhấn phím C để thay đổi loại nhãn đã vẽ",
 	E: "Di chuyển chuột lên nhãn và nhấn phím E để chỉnh sửa",
 	H: "Di chuyển chuột lên nhãn và nhấn phím H để ẩn / hiện",
 	D: "Di chuyển chuột lên nhãn và nhấn phím D để xóa",
