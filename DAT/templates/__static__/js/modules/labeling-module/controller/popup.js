@@ -13,8 +13,8 @@ class PopupControllers{
 		this.objshape = __obj__.isIcon ? __obj__.object : __obj__;
 
 		var group_control = document.getElementById("group_control");
-		var canPopup = !drawStatus.getIsDrawing() || (drawStatus.getIsWaiting() && drawStatus.getIsDrawing())
-		if(quickSettings.getAtt('show_label') && group_control && canPopup) {
+		var canPopup = !drawStatus.getIsDrawing() || (drawStatus.getIsWaiting() && drawStatus.getIsDrawing());
+		if(quickSettings.getAtt('show_label') && group_control && canPopup && !drawStatus.getIsZoom()) {
 			
 			var cvcontainer = document.getElementById("cvcontainer");
 			var cv_element = document.getElementById("canvas");
