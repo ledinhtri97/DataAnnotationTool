@@ -12,6 +12,7 @@ import LayersClear from '@material-ui/icons/LayersClear';
 import ShowChart from '@material-ui/icons/ShowChart';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
+import Brush from '@material-ui/icons/Brush';
 
 import MedicalImageProcessingBox from './medical-image-processing-box';
 import MedicalChartBox from './medical-chart-box';
@@ -40,9 +41,16 @@ const styles = theme => ({
         boxShadow: theme.shadows[1],
         fontSize: 11,
     },
-    button: {
+    button_preset_chart: {
         color: 'black',
         background: '#FFFF0088',
+        padding: '0px',
+        margin: '5px',
+    },
+    button_copy_to_specific_slice: {
+        color: 'black',
+        background: '#FFFFFF88',
+        maxWidth: '32px',
         padding: '0px',
         margin: '5px',
     }
@@ -50,9 +58,12 @@ const styles = theme => ({
 
 class GVMedicalOverlay extends React.Component {
 
+    supported_phases = ["Non Contrast", "Arterial", "Venous", "Delay"];
+
     state = {
         idx: "1",
     }
+
     data = {
         is_zoom_in: false,
         is_ready_to_zoom_in: false,
@@ -74,6 +85,7 @@ class GVMedicalOverlay extends React.Component {
     copy_chart_to_other_slices_button_id = "copy_chart_to_other_slices_button_id_";
     chart_editor_id = "chart_editor_id_";
     chart_canvas_id = "chart_canvas_id_";
+    brush_button_id = "brush_button_id_";
     chart_js_obj = null;
 
     chartColors = {
@@ -204,6 +216,7 @@ class GVMedicalOverlay extends React.Component {
         this.chart_canvas_id += props.canvas_id;
         this.input_text_slice_id += props.canvas_id;
         this.copy_chart_to_other_slices_button_id += props.canvas_id;
+        this.brush_button_id += props.canvas_id;
         props.tunnel_set_medical_overlay(this);
         console.log("Overlay rerender!");
 
@@ -243,6 +256,21 @@ class GVMedicalOverlay extends React.Component {
             .setStrokeStyle(2).drawRect(x, y, w, h);
         stage.addChild(rect);
         stage.update();
+    }
+
+    label_selected = () => {
+        console.log('Overlay > label_selected()');
+        const self = this;
+        const label_id = this.props.medical_label_state.getLabelId();
+        if (label_id > 0) {
+            document.getElementById(this.brush_button_id).style.display = "block";
+        } else {
+            document.getElementById(this.brush_button_id).style.display = "none";
+        }
+    }
+
+    start_labeling_by_brush = () => {
+        console.log('Overlay > start_labeling_by_brush()');
     }
 
     draw_mask = () => {
@@ -537,12 +565,20 @@ class GVMedicalOverlay extends React.Component {
         this.props.tunnel_sync_copy_to_slice();
     }
 
+    copy_chart_to_one_slice = (phase_name) => {
+        this.props.tunnel_sync_copy_to_slice(phase_name[0]);
+    }
+
     set_chart_for_liver = () => {
         MedicalChartBox.set_chart_for_liver(this);
     }
 
     set_chart_for_lung = () => {
         MedicalChartBox.set_chart_for_lung(this);
+    }
+
+    set_chart_for_blood_vessel = () => {
+        MedicalChartBox.set_chart_for_blood_vessel(this);
     }
 
     reset_data = () => {
@@ -623,6 +659,7 @@ class GVMedicalOverlay extends React.Component {
         const { classes, width, height, canvas_id } = this.props;
         const total_images = this.props.tunnel_retrieve_medical_images().length;
         const active_idx = this.props.tunnel_retrieve_state().active_idx;
+        const self = this;
         /*if (active_idx+1+"" != this.state.idx) {
             this.setState({
                 idx: active_idx+1+""
@@ -656,6 +693,8 @@ class GVMedicalOverlay extends React.Component {
                     onMouseDown={this.mouse_down}
                     onContextMenu={this.handleClick}></canvas>
                 <div style={{position: "absolute", left: "0px", top: "0px", zIndex: "100", margin: "0.5em"}}>
+                    <div style={{marginBottom: "0.5em", textAlign: "left"}}><span className={classes.pos_text_info}>{this.props.phase_name}</span></div>
+
                     <div style={{marginBottom: "0.5em", textAlign: "center"}}>
                         <span className={classes.pos_text_info}>
                         <input type="text" id={this.input_text_slice_id} 
@@ -703,6 +742,12 @@ class GVMedicalOverlay extends React.Component {
                         <Tooltip title="Show Chart" placement="right" classes={{tooltip: classes.lightTooltip}}>
                             <ShowChart className={classes.icon} fontSize="large"/>
                         </Tooltip></IconButton>
+                    
+                    <IconButton onClick={this.start_labeling_by_brush} id={this.brush_button_id} className={classes.icon_button}
+                        style={{display: "none"}}>
+                        <Tooltip title="Labeling by brush" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <Brush className={classes.icon} fontSize="large"/>
+                        </Tooltip></IconButton>
                 </div>
 
                 <div id={this.mask_layers_editor_id} 
@@ -732,28 +777,50 @@ class GVMedicalOverlay extends React.Component {
                         onMouseMove={this.chart_canvas_mouse_move}
                         onMouseUp={this.chart_canvas_mouse_up}
                         onMouseDown={this.chart_canvas_mouse_down}/>
-                    <span>
-                        <IconButton onClick={this.copy_chart_to_other_slices} 
-                            id={this.copy_chart_to_other_slices_button_id} 
-                            className={classes.icon_button}
-                            style={{display: "inherit"}}>
-                            <Tooltip title="Apply to other slices" placement="bottom" classes={{tooltip: classes.lightTooltip}}>
-                                <AllOut className={classes.icon} fontSize="large"/>
-                            </Tooltip>
-                        </IconButton>
-                    </span>
-                    <span>
-                        <Button variant="contained" color="secondary" 
-                            className={classes.button} 
-                            onClick={this.set_chart_for_liver}>Liver</Button>
-                    </span>
-                    <span>
-                        <Button variant="contained" color="secondary" 
-                            className={classes.button} 
-                            onClick={this.set_chart_for_lung}>Lung</Button>
-                    </span>
-                </div>
+                    <div>                        
+                        <span>
+                            <Button variant="contained" color="secondary" 
+                                className={classes.button_preset_chart} 
+                                onClick={this.set_chart_for_liver}>Liver</Button>
+                        </span>
+                        <span>
+                            <Button variant="contained" color="secondary" 
+                                className={classes.button_preset_chart} 
+                                onClick={this.set_chart_for_lung}>Lung</Button>
+                        </span>
+                        <span>
+                            <Button variant="contained" color="secondary" 
+                                className={classes.button_preset_chart} 
+                                onClick={this.set_chart_for_blood_vessel}>Blood Vessel</Button>
+                        </span>
+                    </div>
 
+                    <div>
+                        <span>
+                            <IconButton onClick={this.copy_chart_to_other_slices} 
+                                id={this.copy_chart_to_other_slices_button_id} 
+                                className={classes.icon_button}
+                                style={{display: "inherit"}}>
+                                <Tooltip title="Apply to all slices in this view" placement="bottom" classes={{tooltip: classes.lightTooltip}}>
+                                    <AllOut className={classes.icon} fontSize="large"/>
+                                </Tooltip>
+                            </IconButton>
+                        </span>
+
+                        {
+                            this.supported_phases.map( function(phname, i) {
+                                if (phname[0] == self.props.phase_name[0]) {
+                                    return;
+                                }
+                                return (
+                                    <Button variant="contained" color="secondary" key={i} 
+                                        className={classes.button_copy_to_specific_slice} 
+                                        onClick={() => self.copy_chart_to_one_slice(phname)}>{phname[0]}</Button>
+                                )
+                            })
+                        }                        
+                    </div>
+                </div>
             </div>
         )
     }

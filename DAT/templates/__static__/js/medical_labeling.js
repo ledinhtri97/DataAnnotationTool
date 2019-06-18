@@ -44,6 +44,7 @@ if (labeling) {
 	}).then(result => {
 		var urls = [];
 		var active_idx_views = [];
+		var phase_names = [];
 		
 		console.log("result");
 		console.log(result);
@@ -56,6 +57,7 @@ if (labeling) {
 			}
 			urls.push(extracted_urls);
 			active_idx_views.push(0);
+			phase_names.push("Non Contrast");
 		}
 
 		if (typeof result.arterial_phase != "undefined") {
@@ -66,6 +68,7 @@ if (labeling) {
 			}
 			urls.push(extracted_urls);
 			active_idx_views.push(0);
+			phase_names.push("Arterial");
 		}
 
 		if (typeof result.venous_phase != "undefined") {
@@ -76,6 +79,7 @@ if (labeling) {
 			}
 			urls.push(extracted_urls);
 			active_idx_views.push(0);
+			phase_names.push("Venous");
 		}
 
 		if (typeof result.delay_phase != "undefined") {
@@ -86,6 +90,7 @@ if (labeling) {
 			}
 			urls.push(extracted_urls);
 			active_idx_views.push(0);
+			phase_names.push("Delay");
 		}
 		
 		/*
@@ -102,8 +107,12 @@ if (labeling) {
 		console.log("urls");
 		console.log(urls);
 
+		console.log("phase_names");
+		console.log(phase_names);
+
 		ReactDOM.render(<MedicalLabeling 
 			urls={urls} 
+			phase_names={phase_names}
 			active_idx_views={active_idx_views}
 			medical_label_state={medical_label_state}/>, labeling);
 	});
@@ -118,6 +127,7 @@ if (labeling) {
 	).then(meta => {
 		console.log("meta");
 		console.log(meta);
+		console.log('/gvlab-dat/workspace/metaview/'+meta_id.textContent+'/api-get-data/?label_select=true');
 
 		const labels_list_items = document.getElementById("labels_list_items");
 		labels_list_items && ReactDOM.render(<MedicalLabelListItems 

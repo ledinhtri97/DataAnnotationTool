@@ -187,7 +187,8 @@ class GVCornerStone2 extends React.Component {
     label_selected_callback = () => {
         if (this.medical_overlay_obj != null) {
             this.medical_overlay_obj.draw_mask();
-        }        
+        }
+        this.medical_overlay_obj.label_selected();
     }
 
     next_slice_callback = () => {
@@ -247,15 +248,31 @@ class GVCornerStone2 extends React.Component {
         this.props.medical_label_state.notify_go_to_slice(idx);
     }
 
-    sync_copy_to_slice = () => {
+    sync_copy_to_slice = (destination_phase_first_char) => {
         const chart_meta = this.chart_data.axis_ranges;
-        this.props.medical_label_state.notify_copy_chart_to_slice(this.canvas_id, 
-            this.state.lookup_table, 
-            this.chart_data.control_points, 
-            chart_meta.xmin, 
-            chart_meta.xmax, 
-            chart_meta.ymin, 
-            chart_meta.ymax);
+
+        if (!chart_meta) {
+            return;
+        }
+
+        if (destination_phase_first_char == undefined) {
+            this.props.medical_label_state.notify_copy_chart_to_slice(this.canvas_id, 
+                this.state.lookup_table, 
+                this.chart_data.control_points, 
+                chart_meta.xmin, 
+                chart_meta.xmax, 
+                chart_meta.ymin, 
+                chart_meta.ymax);
+        } else {
+            this.props.medical_label_state.notify_copy_chart_to_slice(null, 
+                this.state.lookup_table, 
+                this.chart_data.control_points, 
+                chart_meta.xmin, 
+                chart_meta.xmax, 
+                chart_meta.ymin, 
+                chart_meta.ymax,
+                destination_phase_first_char);
+        }        
     }
 
     update_chartjs_UI = (control_points, xmin, xmax, ymin, ymax) => {
@@ -665,7 +682,8 @@ class GVCornerStone2 extends React.Component {
                             total_items={this.state.total_items}
                             tunnel_go_to_slice_idx={this.sync_go_to_slice}
                             tunnel_sync_copy_to_slice={this.sync_copy_to_slice}
-                            medical_label_state={this.props.medical_label_state}/>
+                            medical_label_state={this.props.medical_label_state}
+                            phase_name={this.props.phase_name}/>
                         <canvas className="cornerstone-canvas" 
                             width={canvas_width+"px"} 
                             height={canvas_height+"px"} 

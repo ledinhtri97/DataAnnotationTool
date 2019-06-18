@@ -76,9 +76,11 @@ class MedicalLabelState {
         }
     }
 
-    notify_copy_chart_to_slice = (except_key, lookup_table, control_points, xmin, xmax, ymin, ymax) => {
+    notify_copy_chart_to_slice = (except_key, lookup_table, control_points, xmin, xmax, ymin, ymax, destination_phase_first_char) => {
         for (var key in this.copy_chart_to_slice_callback) {
-            if (key == except_key) {
+            if (destination_phase_first_char == undefined && key == except_key) {
+                continue;
+            } else if (destination_phase_first_char != undefined && this.medical_gvcornerstone[key].props.phase_name[0] != destination_phase_first_char) {
                 continue;
             }
             const cfunc = this.copy_chart_to_slice_callback[key];

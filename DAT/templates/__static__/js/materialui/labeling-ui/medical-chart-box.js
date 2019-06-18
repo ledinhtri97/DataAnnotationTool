@@ -221,14 +221,7 @@ class MedicalChartBox {
             { x: 95, y: 250 },
             { x: 170, y: 0 },
         ];
-
-        const xmin = scatter_data[0].x;
-        const xmax = scatter_data[scatter_data.length-1].x;
-        const ymin = 0;
-        const ymax = 255;
-        var g_data = MedicalChartBox.generate_line_data(scatter_data, xmin, xmax, ymin, ymax);
-        self.props.tunnel_set_lookup_table(g_data.lookup_table, scatter_data, xmin, xmax, ymin, ymax);
-        MedicalChartBox.update_chartjs_UI(self, scatter_data, g_data.points);
+        MedicalChartBox.set_chart(self, scatter_data);
     }
 
     static set_chart_for_lung = (self) => {
@@ -237,7 +230,21 @@ class MedicalChartBox {
             { x: -700, y: 250 },
             { x: -400, y: 0 },
         ];
+        MedicalChartBox.set_chart(self, scatter_data);        
+    }
 
+    static set_chart_for_blood_vessel = (self) => {
+        var scatter_data = [
+            { x: -1000, y: 0 },
+            { x: -700, y: 250 },
+            { x: -463, y: 60 },
+            { x: -81, y: 205 },
+            { x: 144, y: 27 },
+        ];
+        MedicalChartBox.set_chart(self, scatter_data);
+    }
+
+    static set_chart = (self, scatter_data) => {
         const xmin = scatter_data[0].x;
         const xmax = scatter_data[scatter_data.length-1].x;
         const ymin = 0;
@@ -281,16 +288,31 @@ class MedicalChartBox {
         const is_click = Math.abs(self.chart_data.up_x-self.chart_data.down_x)<5 && Math.abs(self.chart_data.up_y-self.chart_data.down_y)<5;
         if (is_click) {
             if (e.nativeEvent.which === 3) { // right click
+                console.log("right click on chart");
+                console.log("chart_data");
+                console.log(self.chart_data);
+                console.log("self.chart_js_obj.data.datasets[0].data");
+                console.log(self.chart_js_obj.data.datasets[0].data);
+                
                 // remove point instead of adding new point
                 const chart_point = MedicalChartBox.canvas_px_to_chart_value(self.chart_data.down_x, self.chart_data.down_y, self);
                 var to_remove_idx = [];
                 for (var i=0; i<self.chart_js_obj.data.datasets[0].data.length; i++) {
                     var point = self.chart_js_obj.data.datasets[0].data[i];
+
+                    console.log("point");
+                    console.log(point);
+                    console.log("chart_point");
+                    console.log(chart_point);
+
                     if (Math.abs(point.x-chart_point.x)/self.chart_data.x_range<0.05 && Math.abs(point.y-chart_point.y)/self.chart_data.y_range<0.05) {
                         const idx = i;
                         to_remove_idx.push(idx);
                     }
                 }
+
+                console.log("to_remove_idx");
+                console.log(to_remove_idx);
 
                 for (var i=to_remove_idx.length-1; i>=0; i--) {
                     self.chart_js_obj.data.datasets[0].data.splice(to_remove_idx[i], 1);
