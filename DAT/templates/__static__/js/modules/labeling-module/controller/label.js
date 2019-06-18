@@ -35,7 +35,7 @@ class LabelControl{
 		this.canvas.remove(this.obj);
 
 		var new_poly = configurePoly(this.obj.points, this.obj.name, '1.0', this.obj.circles);
-		new_poly.icon = this.obj.icon;
+
 		this.obj = new_poly;
 		this.obj.labelControl = this;
 
