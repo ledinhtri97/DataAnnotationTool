@@ -17,6 +17,12 @@ postgres=# CREATE DATABASE docker_dat_gvlab_dev WITH OWNER = 'docker_gvlab_dev';
 /workspace/DAT# python manage.py shell < init_admin.py --settings=DAT.settings.dev
 ```
 
+# Build React
+
+```
+npm run build-medical-global && npm run build-medical-labeling
+```
+
 # Development Setup
 
 ```

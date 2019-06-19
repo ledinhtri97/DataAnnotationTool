@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-
 import classNames from 'classnames';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,7 +9,6 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
-
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -137,9 +135,7 @@ const styles = theme =>({
 	
 });
 
-// {/*<IconButton className={classes.menuButton} color="inherit" aria-label="Menu">*/}
-
-class MedicalMenuAppBar extends React.Component {
+class MedicalMenuBar extends React.Component {
 	
 	state = {
 		anchorEl: null,
@@ -266,8 +262,8 @@ class MedicalMenuAppBar extends React.Component {
 }
 }
 
-MedicalMenuAppBar.propTypes = {
+MedicalMenuBar.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MedicalMenuAppBar);
+export default withStyles(styles)(MedicalMenuBar);

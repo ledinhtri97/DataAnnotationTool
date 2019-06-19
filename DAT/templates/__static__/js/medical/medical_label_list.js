@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import OfflineBolt from '@material-ui/icons/OfflineBolt';
-import ThumbDownAlt from '@material-ui/icons/ThumbDownAlt';
-import Cancel from '@material-ui/icons/Cancel';
 import RemoveRedEye from '@material-ui/icons/RemoveRedEye';
 import RemoveCircle from '@material-ui/icons/RemoveCircle';
 import ArrowForward from '@material-ui/icons/ArrowForward';
@@ -14,7 +10,6 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
@@ -59,7 +54,7 @@ const styles = theme => ({
     }
 });
 
-class MedicalLabelListItems extends React.Component {
+class MedicalLabelList extends React.Component {
 
     queue = [];
 
@@ -103,7 +98,7 @@ class MedicalLabelListItems extends React.Component {
     };
 
     render() {
-        const { classes, label_select, medical_label_state, drawStatus, quickSettings } = this.props;
+        const { classes, label_select, medical_label_state } = this.props;
         const { messageInfo } = this.state;
         const tool = this;
 
@@ -228,8 +223,8 @@ class MedicalLabelListItems extends React.Component {
     };
 }
 
-MedicalLabelListItems.propTypes = {
+MedicalLabelList.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MedicalLabelListItems);
+export default withStyles(styles)(MedicalLabelList);

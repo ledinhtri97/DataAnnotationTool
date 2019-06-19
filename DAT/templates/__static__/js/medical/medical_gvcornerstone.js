@@ -1,19 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 //https://github.com/cornerstonejs/react-cornerstone-viewport/blob/master/example/src/App.js
 import './initCornerstone';
 import cornerstone from 'cornerstone-core';
-import CornerstoneViewport from 'react-cornerstone-viewport'
-import cornerstoneTools from 'cornerstone-tools';
 
-import MedicalImageProcessingBox from './medical-image-processing-box';
-import MedicalChartBox from './medical-chart-box';
-import GVMedicalOverlay from './medical-overlay';
-
-const ipbox = new MedicalImageProcessingBox();
+import MedicalImageProcessingBox from './toolbox/medical_image_processing_box';
+import MedicalChartBox from './toolbox/medical_chart_box';
+import GVMedicalOverlay from './medical_overlay';
 
 const styles = theme => ({
 });
@@ -180,7 +174,7 @@ class GVCornerStone2 extends React.Component {
         props.medical_label_state.register_next_slice_callback(this.canvas_id, this.next_slice_callback);
         props.medical_label_state.register_prev_slice_callback(this.canvas_id, this.prev_slice_callback);
         props.medical_label_state.register_go_to_slice_callback(this.canvas_id, this.go_to_slice_callback);
-        props.medical_label_state.register_copy_chart_to_slice_callback(this.canvas_id, this.tunnel_set_lookup_table);
+        props.medical_label_state.register_copy_chart_to_slice_callback(this.canvas_id, this.set_lookup_table);
         props.medical_label_state.register_medical_gvcornerstone(this.canvas_id, this)
     }
 
@@ -373,22 +367,6 @@ class GVCornerStone2 extends React.Component {
         }
     }
 
-    tunnel_retrieve_medical_images = () => {
-        return this.medical_images;
-    }
-
-    tunnel_retrieve_state = () => {
-        return this.state;
-    }
-
-    tunnel_retrieve_vis_meta = () => {
-        return this.vis_meta;
-    }
-
-    tunnel_retrieve_labeling_mask_layers = () => {
-        return this.labeling_mask_layers
-    }
-
     recalculate_labeling_mask = (label_id) => {
         const mask_layers = this.labeling_mask_layers[this.state.active_idx];
         // re-calculate the updated mask
@@ -424,7 +402,7 @@ class GVCornerStone2 extends React.Component {
         }
     }
 
-    tunnel_remove_labeling_mask_layers = (mask_idx) => { // this method will be called from overlay
+    remove_labeling_mask_layers = (mask_idx) => { // this method will be called from overlay
         const mask_layers = this.labeling_mask_layers[this.state.active_idx];
         const mask_info = mask_layers[mask_idx];
         const label_id = mask_info.label_id;
@@ -437,22 +415,22 @@ class GVCornerStone2 extends React.Component {
         this.medical_overlay_obj.draw_mask();
     }
 
-    tunnel_set_total_items = (new_total_items) => {
+    set_total_items = (new_total_items) => {
         new_total_items = (typeof new_total_items != "undefined") ? new_total_items : this.original_total_items;
         this.setState({
             total_items: new_total_items,
         });        
     }
 
-    tunnel_set_medical_overlay = (overlay_obj) => {
+    set_medical_overlay = (overlay_obj) => {
         this.medical_overlay_obj = overlay_obj;
     }
 
-    tunnel_register_visualize_callback = (mycallback) => {
+    register_visualize_callback = (mycallback) => {
         this.visualize_callback = mycallback;
     }
 
-    tunnel_set_lookup_table = (new_lookup_table, control_points, xmin, xmax, ymin, ymax) => {
+    set_lookup_table = (new_lookup_table, control_points, xmin, xmax, ymin, ymax) => {
         var clone_lookup_table = Object.assign({}, new_lookup_table);
         // copy and save control points
         var cp_copy = [];
@@ -474,7 +452,7 @@ class GVCornerStone2 extends React.Component {
         });
     }
 
-    tunnel_set_zoom_area = (xmin, ymin, xmax, ymax) => {
+    set_zoom_area = (xmin, ymin, xmax, ymax) => {
         /*
             xmin, ymin, xmax, ymax: relative coords (%)
         */
@@ -507,7 +485,7 @@ class GVCornerStone2 extends React.Component {
     }
 
     // 20190527
-    tunnel_region_growing = (x_percent, y_percent, delta, mask_idx) => {
+    region_growing = (x_percent, y_percent, delta, mask_idx) => {
         mask_idx = (typeof mask_idx == "undefined")?-1:mask_idx;
         return wait_opencvjs_to_exec(function(data) {
             const x_percent = data.x_percent;
@@ -668,20 +646,8 @@ class GVCornerStone2 extends React.Component {
                             height={canvas_height}
                             canvas_id={"overlay-"+this.canvas_id}
                             original_canvas_id={this.canvas_id}
-                            tunnel_set_total_items={this.tunnel_set_total_items}
-                            tunnel_region_growing={this.tunnel_region_growing}
-                            tunnel_retrieve_state={this.tunnel_retrieve_state}
-                            tunnel_retrieve_medical_images={this.tunnel_retrieve_medical_images}
-                            tunnel_retrieve_vis_meta={this.tunnel_retrieve_vis_meta}
-                            tunnel_retrieve_labeling_mask_layers={this.tunnel_retrieve_labeling_mask_layers}
-                            tunnel_remove_labeling_mask_layers={this.tunnel_remove_labeling_mask_layers}
-                            tunnel_set_zoom_area={this.tunnel_set_zoom_area}
-                            tunnel_register_visualize_callback={this.tunnel_register_visualize_callback}
-                            tunnel_set_medical_overlay={this.tunnel_set_medical_overlay}
-                            tunnel_set_lookup_table={this.tunnel_set_lookup_table}
+                            gvc={this}
                             total_items={this.state.total_items}
-                            tunnel_go_to_slice_idx={this.sync_go_to_slice}
-                            tunnel_sync_copy_to_slice={this.sync_copy_to_slice}
                             medical_label_state={this.props.medical_label_state}
                             phase_name={this.props.phase_name}/>
                         <canvas className="cornerstone-canvas" 

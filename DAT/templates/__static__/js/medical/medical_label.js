@@ -1,8 +1,3 @@
-import {createItemToList} from "../controller/label"
-import {Color} from "../style/color"
-import {fabric} from "fabric";
-import {drawStatus} from "../../../labeling";
-
 const MIN = 99;
 const MAX = 999999;
 

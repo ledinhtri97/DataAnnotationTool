@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MedicalLabeling from "./materialui/labeling-ui/medical-labeling-main";
-import {rqnext, rqsavenext} from  "./modules/request"
-
-import MedicalLabelListItems from './materialui/labeling-ui/listitem/medicalLabelListItems';
+import {rqnext, rqsavenext} from  "../modules/request"
 import {fabric} from 'fabric';
-import {Color} from "./modules/labeling-module/style/color";
-import DrawStatus from './modules/labeling-module/drawstatus';
-import QuickSettings from './modules/labeling-module/settings'
-import {MedicalLabelState} from "./modules/labeling-module/drawer/medical_label"
-import { type } from 'os';
+import {Color} from "../modules/labeling-module/style/color";
+import DrawStatus from '../modules/labeling-module/drawstatus';
+import QuickSettings from '../modules/labeling-module/settings'
+
+import MedicalLabelingGrid from "./medical_labeling_grid";
+import MedicalLabelList from './medical_label_list';
+import {MedicalLabelState} from "./medical_label"
 
 //===================DEFAULT-INIT======================//
 const group_control =  document.getElementById("group_control");
@@ -110,7 +109,7 @@ if (labeling) {
 		console.log("phase_names");
 		console.log(phase_names);
 
-		ReactDOM.render(<MedicalLabeling 
+		ReactDOM.render(<MedicalLabelingGrid 
 			urls={urls} 
 			phase_names={phase_names}
 			active_idx_views={active_idx_views}
@@ -130,7 +129,7 @@ if (labeling) {
 		console.log('/gvlab-dat/workspace/metaview/'+meta_id.textContent+'/api-get-data/?label_select=true');
 
 		const labels_list_items = document.getElementById("labels_list_items");
-		labels_list_items && ReactDOM.render(<MedicalLabelListItems 
+		labels_list_items && ReactDOM.render(<MedicalLabelList 
 			label_select={meta.label_select} 
 			medical_label_state={medical_label_state} 
 			drawStatus={drawStatus}
@@ -143,9 +142,7 @@ if (labeling) {
 //=====================CONTROLER=======================//
 
 const controllerRequest = (callback_cl) => {
-
 	if(group_control) group_control.style["display"] = "none";
-
 	if(callback_cl == 'rqnext'){
 		rqnext(meta_id.textContent, canvas);
 	}

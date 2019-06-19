@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
-import GVCornerStone2 from './medical-gvcornerstone';
 import Grid from '@material-ui/core/Grid';
-import { isAbsolute } from 'path';
-import { privateEncrypt } from 'crypto';
+
+import GVCornerStone2 from './medical_gvcornerstone';
 
 const styles = theme => ({
 	appBarSpacer: theme.mixins.toolbar,
@@ -55,7 +53,7 @@ const styles = theme => ({
 	},
 });
 
-class MedicalLabeling extends React.Component {
+class MedicalLabelingGrid extends React.Component {
 
 	state = {
 		urls: [],
@@ -79,16 +77,8 @@ class MedicalLabeling extends React.Component {
 	};
 
 	render() {
-
 		const { classes, phase_names } = this.props;
-		const {urls} = this.state;
-
-		/*
-		// container.js
-		const medical_mapping_chart_list = document.getElementById("medical_mapping_chart_list");
-		ReactDOM.render(<MedicalMappingChartList />, medical_mapping_chart_list);
-		*/
-		
+		const {urls} = this.state;		
 		const total_items = urls.length;
 		const medical_label_state = this.medical_label_state;
 		const active_idx_views = this.active_idx_views;
@@ -134,8 +124,8 @@ class MedicalLabeling extends React.Component {
 	}
 }
 
-MedicalLabeling.propTypes = {
+MedicalLabelingGrid.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MedicalLabeling);
+export default withStyles(styles)(MedicalLabelingGrid);

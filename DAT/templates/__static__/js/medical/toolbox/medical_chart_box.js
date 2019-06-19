@@ -1,115 +1,107 @@
 
 class MedicalChartBox {
-    static mouse_down = (event, overlay_obj) => {
-        if (event.nativeEvent.which === 3) { // no processing on right click
-            return;
-        }
-
-        if (overlay_obj.data.is_ready_to_zoom_in) {
-            overlay_obj.data.zoom_from_x = event.nativeEvent.offsetX;
-            overlay_obj.data.zoom_from_y = event.nativeEvent.offsetY;
-            overlay_obj.data.is_chosen_zoom_from = true;
-        //} else if (!this.data.is_zoom_in) {
-        } else {
-            // apply region growing algorithm
-            const x = event.nativeEvent.offsetX;
-            const y = event.nativeEvent.offsetY;
-            const vis_meta = overlay_obj.props.tunnel_retrieve_vis_meta();
-            const image_layer_state = overlay_obj.props.tunnel_retrieve_state();
-            const point2d = MedicalChartBox.convert_canvas_coord_to_image_coord_percent(x, y, vis_meta, image_layer_state);
-            
-            if (point2d.x < 0 || point2d.y < 0 || point2d.x > 1 || point2d.y > 1) {
-                return;
+    static chartColors = {
+        red: 'rgb(255, 99, 132)',
+        orange: 'rgb(255, 159, 64)',
+        yellow: 'rgb(255, 205, 86)',
+        green: 'rgb(75, 192, 192)',
+        blue: 'rgb(54, 162, 235)',
+        purple: 'rgb(153, 102, 255)',
+        grey: 'rgb(201, 203, 207)'
+    };
+    
+    static chart_js_config = {
+        data: {
+            datasets: [
+            {
+                type: 'scatter',
+                backgroundColor: Chart.helpers.color(MedicalChartBox.chartColors.yellow).alpha(0.5).rgbString(),
+                borderColor: MedicalChartBox.chartColors.yellow,
+                pointRadius: 4,
+                showLine: false,
+                data: [{
+                    x: 0,
+                    y: 0
+                }, {
+                    x: 2000,
+                    y: 255
+                }],
+            } ,{
+                type: 'line',
+                backgroundColor: Chart.helpers.color(MedicalChartBox.chartColors.yellow).alpha(0.5).rgbString(),
+                borderColor: MedicalChartBox.chartColors.yellow,
+                fill: true,
+                pointRadius: 0,
+                data: [{
+                    x: 0,
+                    y: 0
+                }, {
+                    x: 2000,
+                    y: 255
+                }],
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: {
+                duration: 0
+            },
+            title: {
+                display: false,
+                text: 'Chart.js'
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                intersect: true,
+                mode: 'single',
+                callbacks: {
+                    label: (tooltipItem, data) => {
+                        // data for manipulation
+                        return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].x.toFixed(2);
+                    },
+                    title: (tooltipItems, data) => {
+                        return "Hounsfield";
+                    }
+                },
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Hounsfield',
+                        fontColor: "yellow",
+                    },
+                    ticks: {
+                        fontColor: "yellow",
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Intensity',
+                        fontColor: "yellow",
+                    },
+                    ticks: {
+                        fontColor: "yellow",
+                        min: 0,
+                        max: 255,
+                        stepSize: 70
+                    }
+                }]
+            },
+            elements: {
+                line: {
+                    tension: 0 // disables bezier curves
+                }
             }
-
-            overlay_obj.props.tunnel_region_growing(point2d.x, point2d.y);
-            overlay_obj.draw_mask();
         }
-    }
-
-    static mouse_up = (event, overlay_obj) => {
-        if (event.nativeEvent.which === 3) {
-            // no processing on left or right click, we did it on mouse_down
-            return;
-        } 
-        
-        if (overlay_obj.data.is_ready_to_zoom_in) {
-            // do zoom in action            
-            const x_from = overlay_obj.data.zoom_from_x;
-            const y_from = overlay_obj.data.zoom_from_y;
-            const x_to = event.nativeEvent.offsetX;
-            const y_to = event.nativeEvent.offsetY;
-
-            const vis_meta = overlay_obj.props.tunnel_retrieve_vis_meta();
-            const image_layer_state = overlay_obj.props.tunnel_retrieve_state();
-
-            const point_from = MedicalChartBox.convert_canvas_coord_to_image_coord_percent(x_from, y_from, vis_meta, image_layer_state);
-            const point_to = MedicalChartBox.convert_canvas_coord_to_image_coord_percent(x_to, y_to, vis_meta, image_layer_state);
-
-            overlay_obj.props.tunnel_set_zoom_area(point_from.x, point_from.y, point_to.x, point_to.y);
-
-            overlay_obj.reset_data();
-            overlay_obj.data.is_zoom_in = true;
-
-            // clear createjs overlay
-            var overlay_canvas = document.getElementById(overlay_obj.canvas_createjs_id);
-            overlay_canvas.getContext('2d').clearRect(0, 0, overlay_canvas.width, overlay_canvas.height);
-            
-            var mask_canvas = document.getElementById(overlay_obj.props.canvas_id);
-            mask_canvas.getContext('2d').clearRect(0, 0, mask_canvas.width, mask_canvas.height);
-
-            overlay_obj.props.tunnel_register_visualize_callback(overlay_obj.draw_mask);
-        }
-    }
-
-    static mouse_move = (event, self) => {
-        const offsetX = event.nativeEvent.offsetX;
-        const offsetY = event.nativeEvent.offsetY;
-        const imgWidth = self.props.width;
-        const imgHeight = self.props.height;
-
-        const overlay_canvas_id = self.canvas_createjs_id;
-
-        if (self._check_is_active(self.brush_button_id)) {
-            self.draw_brush(overlay_canvas_id, 
-                offsetX, 
-                offsetY, 
-                self.brush_radius);
-            return;
-        }
-
-        if (self.data.is_ready_to_zoom_in) {
-            self.focus_on_mouse(overlay_canvas_id, offsetX, offsetY, imgWidth, imgHeight);
-        }
-
-        if (self.data.is_chosen_zoom_from) {
-            // draw rectangle from zoom_from to current mouse pointer
-            self.draw_rect(overlay_canvas_id, 
-                self.data.zoom_from_x, 
-                self.data.zoom_from_y, 
-                offsetX-self.data.zoom_from_x, 
-                offsetY-self.data.zoom_from_y);
-        }
-    }
-
-    static convert_canvas_coord_to_image_coord_percent = (x, y, vis_meta, image_layer_state) => {
-        const shift_x_px = (vis_meta.viewing_canvas_width_px - vis_meta.viewing_image_width_px)/2;
-        const shift_y_px = (vis_meta.viewing_canvas_height_px - vis_meta.viewing_image_height_px)/2;
-
-        var xshift = (x - shift_x_px)/vis_meta.viewing_image_width_px;
-        var yshift = (y - shift_y_px)/vis_meta.viewing_image_height_px;
-
-        const ratio_w = image_layer_state.zoom_xmax - image_layer_state.zoom_xmin;
-        const ratio_h = image_layer_state.zoom_ymax - image_layer_state.zoom_ymin;
-
-        return {
-            x: image_layer_state.zoom_xmin + ratio_w*xshift,
-            y: image_layer_state.zoom_ymin + ratio_h*yshift,
-            shift_x_px: shift_x_px,
-            shift_y_px: shift_y_px,
-        };
-    }
-
+    };
+    
     static canvas_px_to_chart_value = (x, y, self) => {
         let scaleRef, valueX, valueY;                            
         for (var scaleKey in self.chart_js_obj.scales) {
@@ -208,7 +200,7 @@ class MedicalChartBox {
             self.chart_data.down_point_close_idx = result.idx;            
 
             ////const lookup_table = MedicalChartBox.export_lookup_table_from_chart(self.chart_js_obj, self);
-            self.props.tunnel_set_lookup_table(g_data.lookup_table, scatter_ds.data, x_start, x_stop, y_min, y_max);
+            self.gvc.set_lookup_table(g_data.lookup_table, scatter_ds.data, x_start, x_stop, y_min, y_max);
             
             console.log("scatter_ds.data");
             console.log(scatter_ds.data);
@@ -258,7 +250,7 @@ class MedicalChartBox {
         const ymin = 0;
         const ymax = 255;
         var g_data = MedicalChartBox.generate_line_data(scatter_data, xmin, xmax, ymin, ymax);
-        self.props.tunnel_set_lookup_table(g_data.lookup_table, scatter_data, xmin, xmax, ymin, ymax);
+        self.gvc.set_lookup_table(g_data.lookup_table, scatter_data, xmin, xmax, ymin, ymax);
         MedicalChartBox.update_chartjs_UI(self, scatter_data, g_data.points);
     }
 
