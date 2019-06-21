@@ -17,6 +17,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from usermaster.subviews.change_pass import change_password
+from rest_framework import routers
+from medicalapi import views
+
+
+router = routers.DefaultRouter()
+router.register(r'patients', views.MedicalPatientViewSet)
+router.register(r'instances', views.MedicalInstanceViewSet)
+
 
 urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
@@ -28,7 +36,8 @@ urlpatterns = [
 ]
 
 urlpatterns = [
-    path('gvlab-dat/', include(urlpatterns))
+    path('gvlab-dat/', include(urlpatterns)),
+    path('medicalapi/', include(router.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.STORAGE_URL, document_root=settings.STORAGE_ROOT) + \
     static(settings.OUTPUT_URL, document_root=settings.OUTPUT_ROOT) + \
