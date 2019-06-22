@@ -12,6 +12,7 @@ import ShowChart from '@material-ui/icons/ShowChart';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import Brush from '@material-ui/icons/Brush';
+import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked';
 
 import MedicalImageProcessingBox from './toolbox/medical_image_processing_box';
 import MedicalChartBox from './toolbox/medical_chart_box';
@@ -62,6 +63,8 @@ class GVMedicalOverlay extends React.Component {
     surface = null;
     chart = null;
     brush = null;
+    eraser = null;
+    brush_or_eraser = null;
     gvc = null;
 
     ids = {
@@ -77,6 +80,7 @@ class GVMedicalOverlay extends React.Component {
         chart_editor_id: "chart_editor_id_",
         chart_canvas_id: "chart_canvas_id_",
         brush_button_id: "brush_button_id_",
+        eraser_button_id: "eraser_button_id_",
         canvas_createjs_id: "canvas_createjs_id_",
         input_text_slice_id: "input_text_slice_id_",
     };
@@ -109,8 +113,11 @@ class GVMedicalOverlay extends React.Component {
         this.surface = new MedicalSurfaceBox(this, this.ids.canvas_createjs_id);
         /////this.medical_chart_box = new MedicalChartBox(this);
         this.brush = new MedicalBrushBox(this, this.ids.brush_button_id);
+        
+        const is_eraser = true;
+        this.eraser = new MedicalBrushBox(this, this.ids.eraser_button_id, is_eraser);
+        
         this.gvc = props.gvc;
-
         this.gvc.set_medical_overlay(this);
     }
     
@@ -503,12 +510,21 @@ class GVMedicalOverlay extends React.Component {
                         </Tooltip></IconButton>
                     
                     <IconButton 
-                        onClick={this.brush.start_labeling_by_brush} 
+                        onClick={this.brush.start_labeling} 
                         id={this.ids.brush_button_id} 
                         className={classes.icon_button}
                         style={{display: "none"}}>
                         <Tooltip title="Labeling by brush" placement="right" classes={{tooltip: classes.lightTooltip}}>
                             <Brush className={classes.icon} fontSize="large"/>
+                        </Tooltip></IconButton>
+
+                    <IconButton 
+                        onClick={this.eraser.start_labeling} 
+                        id={this.ids.eraser_button_id} 
+                        className={classes.icon_button}
+                        style={{display: "none"}}>
+                        <Tooltip title="Eraser" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <RadioButtonUnchecked className={classes.icon} fontSize="large"/>
                         </Tooltip></IconButton>
                 </div>
 

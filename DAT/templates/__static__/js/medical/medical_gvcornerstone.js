@@ -617,8 +617,9 @@ class GVCornerStone2 extends React.Component {
         });
     }
 
-    brush_point_at = (x_percent, y_percent, radius, shape, mask_idx) => {
+    brush_point_at = (x_percent, y_percent, radius, shape, mask_idx, is_eraser) => {
         mask_idx = (typeof mask_idx == "undefined")?-1:mask_idx;
+        is_eraser = (is_eraser == undefined)?false:is_eraser;
         return wait_opencvjs_to_exec(function(data) {
             const x_percent = data.x_percent;
             const y_percent = data.y_percent;
@@ -626,6 +627,7 @@ class GVCornerStone2 extends React.Component {
             const shape = data.shape;
             const mask_idx = data.mask_idx;
             const gvc = data.gvc;
+            const is_eraser = data.is_eraser;
 
             const cvimg = gvc.medical_images[gvc.state.active_idx].intensity_image;
             const x_abs = Math.floor(x_percent*cvimg.cols);
@@ -633,7 +635,8 @@ class GVCornerStone2 extends React.Component {
             
             const label_id = (mask_idx>=0)?gvc.labeling_mask_layers[gvc.state.active_idx][mask_idx].label_id:gvc.props.medical_label_state.labelId.toString();
 
-            var draw_area = function(cvmask, x_center, y_center, radius, area_shape) {
+            var draw_area = function(cvmask, x_center, y_center, radius, area_shape, value) {
+                value = (value == undefined)?255:value;
                 var to_loc1d = (x, y) => (y*cvmask.cols*cvmask.channels()+x*cvmask.channels());
                 var is_valid_xy = (x, y) => x>=0 && y>=0 && x<cvmask.cols && y<cvmask.rows;
                 // directly modify cvmask
@@ -648,31 +651,39 @@ class GVCornerStone2 extends React.Component {
                         if (area_shape=="circle") {
                             const dist = Math.sqrt(Math.pow(x-x_center, 2)+Math.pow(y-y_center, 2));
                             if (dist <= radius) {
-                                cvmask.data[loc_1d] = 255;
+                                cvmask.data[loc_1d] = value;
                             }
                         } else if (area_shape=="rectangle") {
-                            cvmask.data[loc_1d] = 255;
+                            cvmask.data[loc_1d] = value;
                         }
                     }
                 }
             }
 
-            if (mask_idx >= 0) {
-                // update
-                var cvmask = gvc.labeling_mask_layers[gvc.state.active_idx][mask_idx].mask;                
-                draw_area(cvmask, x_abs, y_abs, radius, shape);
-                gvc.labeling_mask_layers[gvc.state.active_idx][mask_idx].mask = cvmask;
+            if (!is_eraser) {
+                if (mask_idx >= 0) {
+                    // update
+                    var cvmask = gvc.labeling_mask_layers[gvc.state.active_idx][mask_idx].mask;                
+                    draw_area(cvmask, x_abs, y_abs, radius, shape);
+                    //gvc.labeling_mask_layers[gvc.state.active_idx][mask_idx].mask = cvmask;
+                } else {
+                    var cvmask = new cv.Mat(cvimg.rows, cvimg.cols, cv.CV_8U, new cv.Scalar(0));    
+                    draw_area(cvmask, x_abs, y_abs, radius, shape);
+                    gvc.labeling_mask_layers[gvc.state.active_idx].push({
+                        x_percent: x_percent,
+                        y_percent: y_percent,
+                        label_id: label_id.toString(), // str
+                        mask: cvmask, // cv.Mat()
+                        delta: -1
+                    });                
+                }
             } else {
-                var cvmask = new cv.Mat(cvimg.rows, cvimg.cols, cv.CV_8U, new cv.Scalar(0));    
-                draw_area(cvmask, x_abs, y_abs, radius, shape);
-                gvc.labeling_mask_layers[gvc.state.active_idx].push({
-                    x_percent: x_percent,
-                    y_percent: y_percent,
-                    label_id: label_id.toString(), // str
-                    mask: cvmask, // cv.Mat()
-                    delta: -1
-                });                
+                for (var midx=0; midx<gvc.labeling_mask_layers[gvc.state.active_idx].length; midx++) {
+                    var cvmask = gvc.labeling_mask_layers[gvc.state.active_idx][midx].mask;
+                    draw_area(cvmask, x_abs, y_abs, radius, shape, 0);
+                }
             }
+            
             gvc.recalculate_labeling_mask(label_id);
         }, {
             x_percent: x_percent,
@@ -680,7 +691,8 @@ class GVCornerStone2 extends React.Component {
             radius: radius,
             shape: shape,
             mask_idx: mask_idx,
-            gvc: this
+            gvc: this,
+            is_eraser: is_eraser
         });
     }
 

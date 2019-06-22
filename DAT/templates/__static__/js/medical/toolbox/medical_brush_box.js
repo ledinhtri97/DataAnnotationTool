@@ -4,10 +4,17 @@ class MedicalBrushBox {
     brush_radius = 8;
     brush_shape = "circle"; // "circle" or "rectangle"
     is_brushing = false;
+    is_eraser = false;
+    brush_color = "#ffff00";
 
-    constructor(overlay, brush_button_id) {
+    constructor(overlay, brush_button_id, is_eraser) {
         this.overlay = overlay;
         this.brush_button_id = brush_button_id;
+
+        if (is_eraser != undefined) {
+            this.is_eraser = is_eraser;
+            this.brush_color = "#ff0000";
+        }
     }
 
     show = () => {
@@ -30,27 +37,35 @@ class MedicalBrushBox {
         }
     }
 
-    start_labeling_by_brush = () => {
+    start_labeling = () => {
         if (!this.is_active()) {
             // start labeling with brush ...
             if (this.overlay._check_is_active(this.overlay.ids.show_chart_button_id)) {
                 this.overlay.show_or_close_chart(); // close the open chart
             }
 
+            if (this.is_eraser) {
+                this.overlay.brush.stop_labeling();
+            } else {
+                this.overlay.eraser.stop_labeling();
+            }
+
             // change state
             this.set_active(true);
+            this.overlay.brush_or_eraser = this;
         } else {
-            this.stop_labeling_by_brush();
+            this.stop_labeling();
         }
     }
 
-    stop_labeling_by_brush = () => {
+    stop_labeling = () => {
         if (this.is_active()) {
             // stop labeling with brush ...
             // change state
             this.set_active(false);
             // clear canvas
             this.overlay.surface._clear_surface();
+            this.overlay.brush_or_eraser = null;
         }
     }
 }
