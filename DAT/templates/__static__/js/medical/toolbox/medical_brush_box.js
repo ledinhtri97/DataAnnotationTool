@@ -1,7 +1,9 @@
 class MedicalBrushBox {
     overlay = null;
     brush_button_id = "";
-    brush_radius = 5;
+    brush_radius = 8;
+    brush_shape = "circle"; // "circle" or "rectangle"
+    is_brushing = false;
 
     constructor(overlay, brush_button_id) {
         this.overlay = overlay;
@@ -29,7 +31,6 @@ class MedicalBrushBox {
     }
 
     start_labeling_by_brush = () => {
-        console.log('Overlay > start_labeling_by_brush()');
         if (!this.is_active()) {
             // start labeling with brush ...
             if (this.overlay._check_is_active(this.overlay.ids.show_chart_button_id)) {
@@ -39,6 +40,12 @@ class MedicalBrushBox {
             // change state
             this.set_active(true);
         } else {
+            this.stop_labeling_by_brush();
+        }
+    }
+
+    stop_labeling_by_brush = () => {
+        if (this.is_active()) {
             // stop labeling with brush ...
             // change state
             this.set_active(false);

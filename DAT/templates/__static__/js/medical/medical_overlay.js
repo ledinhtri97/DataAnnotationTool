@@ -347,6 +347,7 @@ class GVMedicalOverlay extends React.Component {
             }
 
             var cvmask = medical_images[state.active_idx].labeling_mask[lb_id].clone();
+
             cvmask = MedicalImageProcessingBox.ROI(cvmask, 
                 state.zoom_xmin, 
                 state.zoom_ymin,
@@ -367,8 +368,10 @@ class GVMedicalOverlay extends React.Component {
             var segment_b = parseInt(segment_color_hex.substr(4), 16);
     
             // modify image data
+            var debug_counter = 0;
             for(var p=0; p<cvmask.rows*cvmask.cols; p++) {
                 if (cvmask.data[p] > 0) {
+                    debug_counter+=1;
                     var loc1d = p * 4;
                     if (pix[loc1d+3]==0) {
                         pix[loc1d] = segment_r;
@@ -417,7 +420,8 @@ class GVMedicalOverlay extends React.Component {
                     onMouseMove={this.surface.mouse_move}
                     onMouseUp={this.surface.mouse_up}
                     onMouseDown={this.surface.mouse_down}
-                    onContextMenu={this.surface.handle_click}></canvas>
+                    onContextMenu={this.surface.handle_click}
+                    onWheel={this.surface.on_wheel}></canvas>
                 <div style={{position: "absolute", left: "0px", top: "0px", zIndex: "100", margin: "0.5em"}}>
                     <div style={{marginBottom: "0.5em", textAlign: "left"}}>
                         <span className={classes.pos_text_info}>{this.props.phase_name}</span>
