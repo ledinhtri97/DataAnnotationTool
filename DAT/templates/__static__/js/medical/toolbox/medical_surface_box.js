@@ -14,6 +14,11 @@ class MedicalSurfaceBox {
     zoom_to_x = -1;
     zoom_to_y = -1;
 
+    hounsfield_from_x = -1;
+    hounsfield_from_y = -1;
+    hounsfield_to_x = -1;
+    hounsfield_to_y = -1;
+
     constructor(overlay, canvas_surface_id) {
         this.overlay = overlay;
         this.canvas_surface_id = canvas_surface_id;
@@ -34,6 +39,16 @@ class MedicalSurfaceBox {
         if (this.overlay.brush_or_eraser && this.overlay.brush_or_eraser.is_active()) {
             this.overlay.brush_or_eraser.is_brushing = true;
             return;
+        }
+
+        if (this.overlay.hounsfield_indicator.is_active()) {
+            this.hounsfield_from_x = event.nativeEvent.offsetX;
+            this.hounsfield_from_y = event.nativeEvent.offsetY;
+            return;
+        } else {
+            this.overlay.hounsfield_indicator.delete_region(event.nativeEvent.offsetX,
+                event.nativeEvent.offsetY);
+
         }
 
         {
@@ -89,6 +104,19 @@ class MedicalSurfaceBox {
             this.overlay.brush_or_eraser.is_brushing = false;
             return;
         }
+
+        if (this.overlay.hounsfield_indicator.is_active()) {
+            const x_from = this.hounsfield_from_x;
+            const y_from = this.hounsfield_from_y;
+            const x_to = event.nativeEvent.offsetX;
+            const y_to = event.nativeEvent.offsetY;
+            this.overlay.hounsfield_indicator.add_region(x_from, y_from, x_to, y_to);
+            this.overlay.hounsfield_indicator.render();
+            this._clear_surface();
+            this.hounsfield_from_x = -1;
+            this.hounsfield_from_y = -1;
+            return;
+        }
     }
 
     mouse_move = (event) => {
@@ -129,7 +157,7 @@ class MedicalSurfaceBox {
             return;
         }
 
-        if (this.is_ready_to_zoom_in) {
+        if (this.is_ready_to_zoom_in || this.overlay.hounsfield_indicator.is_active()) {
             this._focus_on_mouse(this.canvas_surface_id, offsetX, offsetY, this.overlay.props.width, this.overlay.props.height);
         }
 
@@ -140,6 +168,15 @@ class MedicalSurfaceBox {
                 this.zoom_from_y, 
                 offsetX-this.zoom_from_x, 
                 offsetY-this.zoom_from_y);
+        }
+
+        if (this.overlay.hounsfield_indicator.is_active() && this.hounsfield_from_x != -1 && this.hounsfield_from_y != -1) {
+            // draw rectangle from zoom_from to current mouse pointer
+            MedicalGeometryBox.draw_rect(this.canvas_surface_id, 
+                this.hounsfield_from_x, 
+                this.hounsfield_from_y, 
+                offsetX-this.hounsfield_from_x, 
+                offsetY-this.hounsfield_from_y);
         }
     }
 

@@ -204,7 +204,7 @@ class MedicalChartBox {
             
             console.log("scatter_ds.data");
             console.log(scatter_ds.data);
-
+            self.hounsfield_indicator.render();
         }
     }
 
@@ -213,6 +213,7 @@ class MedicalChartBox {
         self.chart_js_obj.data.datasets[0].data = scatter_data;
         self.chart_js_obj.data.datasets[1].data = line_data;
         self.chart_js_obj.update();
+        //self.hounsfield_indicator.render();
     }
 
     static set_chart_for_liver = (self) => { // 60 +- 6

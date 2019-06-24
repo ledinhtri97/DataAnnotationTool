@@ -13,11 +13,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import Brush from '@material-ui/icons/Brush';
 import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked';
+import Colorize from '@material-ui/icons/Colorize';
 
 import MedicalImageProcessingBox from './toolbox/medical_image_processing_box';
 import MedicalChartBox from './toolbox/medical_chart_box';
 import MedicalSurfaceBox from './toolbox/medical_surface_box';
 import MedicalBrushBox from './toolbox/medical_brush_box';
+import MedicalHounsfieldIndicatorBox from './toolbox/medical_hounsfield_indicator_box';
 
 const styles = theme => ({
     createjs_canvas: {
@@ -83,6 +85,8 @@ class GVMedicalOverlay extends React.Component {
         eraser_button_id: "eraser_button_id_",
         canvas_createjs_id: "canvas_createjs_id_",
         input_text_slice_id: "input_text_slice_id_",
+        hounsfield_indicator_button_id: "hounsfield_indicator_button_id_",
+        hounsfield_indicator_canvas_id: "hounsfield_indicator_canvas_id_",
     };
 
     supported_phases = ["Non Contrast", "Arterial", "Venous", "Delay"];
@@ -117,6 +121,10 @@ class GVMedicalOverlay extends React.Component {
         const is_eraser = true;
         this.eraser = new MedicalBrushBox(this, this.ids.eraser_button_id, is_eraser);
         
+        this.hounsfield_indicator = new MedicalHounsfieldIndicatorBox(this, 
+            this.ids.hounsfield_indicator_button_id, 
+            this.ids.hounsfield_indicator_canvas_id);
+
         this.gvc = props.gvc;
         this.gvc.set_medical_overlay(this);
     }
@@ -164,6 +172,8 @@ class GVMedicalOverlay extends React.Component {
 
     show_or_close_chart = () => {        
         if (document.getElementById(this.ids.show_chart_button_id).getElementsByTagName("svg")[0].style.color != "rgba(255, 255, 0, 0.867)") {
+            this.hounsfield_indicator.set_active(false);
+
             // show chart
             document.getElementById(this.ids.show_chart_button_id).getElementsByTagName("svg")[0].style.color = "#ffff00dd";
             document.getElementById(this.ids.chart_editor_id).style.display = "block";
@@ -225,7 +235,7 @@ class GVMedicalOverlay extends React.Component {
     }
     
     componentDidMount() {
-        this.show_mask_editor();
+        //this.show_mask_editor();
     }
 
     componentDidUpdate = (prevProps, prevState, snapshot) => {
@@ -254,6 +264,8 @@ class GVMedicalOverlay extends React.Component {
     }
 
     draw_mask = () => {
+        this.hounsfield_indicator.render();
+
         var overlay_canvas = document.getElementById(this.props.canvas_id);
         var context = overlay_canvas.getContext("2d");
         context.clearRect(0, 0, overlay_canvas.width, overlay_canvas.height);
@@ -420,6 +432,12 @@ class GVMedicalOverlay extends React.Component {
                     id={canvas_id}
                     width={width+"px"} 
                     height={height+"px"}></canvas>
+
+                <canvas className={classes.createjs_canvas} 
+                    id={this.ids.hounsfield_indicator_canvas_id}
+                    width={width+"px"} 
+                    height={height+"px"}></canvas>
+
                 <canvas className={classes.createjs_canvas} 
                     id={this.ids.canvas_createjs_id}
                     width={width+"px"} 
@@ -495,9 +513,18 @@ class GVMedicalOverlay extends React.Component {
                         onClick={this.close_mask_editor} 
                         id={this.ids.close_mask_editor_button_id} 
                         className={classes.icon_button}
-                        style={{display: "block"}}>
+                        style={{display: "none"}}>
                         <Tooltip title="Edit Labels" placement="right" classes={{tooltip: classes.lightTooltip}}>
                             <Layers className={classes.icon} fontSize="large"/>
+                        </Tooltip></IconButton>
+
+                    <IconButton 
+                        onClick={this.hounsfield_indicator.handle_click_hounsfield_indicator} 
+                        id={this.ids.hounsfield_indicator_button_id} 
+                        className={classes.icon_button}
+                        style={{display: "block"}}>
+                        <Tooltip title="Hounsfield Statistic" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <Colorize className={classes.icon} fontSize="large"/>
                         </Tooltip></IconButton>
 
                     <IconButton 
