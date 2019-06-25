@@ -353,7 +353,7 @@ class GVMedicalOverlay extends React.Component {
             div_editor.appendChild(dom_mask_items[dmi]);
         }
 
-
+        var mstate = this.props.medical_label_state;
         this.props.medical_label_state.all_labels.map(function(lb, key) {
             if (lb.id != label_id && label_id>=0) {
                 return;
@@ -366,6 +366,17 @@ class GVMedicalOverlay extends React.Component {
             }
 
             var cvmask = medical_images[state.active_idx].labeling_mask[lb_id].clone();
+
+            // check boundary mode
+            const is_boundary_mode = mstate.is_boundary_mode;
+            if (is_boundary_mode) {
+                let M = cv.Mat.ones(5, 5, cv.CV_8U);
+                let anchor = new cv.Point(-1, -1);
+                // https://docs.opencv.org/3.0-beta/modules/imgproc/doc/filtering.html#morphologyex
+                // Morphological Gradient
+                // https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html
+                cv.morphologyEx(cvmask, cvmask, cv.MORPH_GRADIENT, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
+            }
 
             cvmask = MedicalImageProcessingBox.ROI(cvmask, 
                 state.zoom_xmin, 

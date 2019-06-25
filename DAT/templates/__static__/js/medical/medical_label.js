@@ -15,9 +15,24 @@ class MedicalLabelState {
     copy_chart_to_slice_callback = {};
     medical_gvcornerstone = {};
 
+    is_boundary_mode = false;
+    boundary_mode_callback = {};
+
 	constructor(props) {
         // do nothing?!
-	}
+    }
+    
+    switch_boundary_mode = () => {
+        this.is_boundary_mode = !this.is_boundary_mode;
+        for (var key in this.boundary_mode_callback) {
+            const cfunc = this.boundary_mode_callback[key];
+            cfunc();
+        }
+    }
+
+    register_boundary_mode_callback = (key, myfunc) => {
+        this.boundary_mode_callback[key] = myfunc;
+    }
 
     register_medical_gvcornerstone = (key, medical_gvcornerstone_obj) => {
         this.medical_gvcornerstone[key] = medical_gvcornerstone_obj;

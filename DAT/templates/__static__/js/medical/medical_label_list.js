@@ -22,6 +22,7 @@ import Filter6 from '@material-ui/icons/Filter6';
 import Filter7 from '@material-ui/icons/Filter7';
 import Filter8 from '@material-ui/icons/Filter8';
 import Filter9 from '@material-ui/icons/Filter9';
+import BorderOuter from '@material-ui/icons/BorderOuter';
 
 const MAP_ICON_LABEL = [
 <Filter1/>,
@@ -135,28 +136,41 @@ class MedicalLabelList extends React.Component {
                 medical_label_state.setLabelId(-1);
                 medical_label_state.notify_label_selected();
             }}>
-            <ListItem button>
-            <Tooltip title="Show all labels" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
-            <ListItemIcon className={classes.icon}>
-            <RemoveRedEye />
-            </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Show all labels"/>
-            </ListItem>
+                <ListItem button>
+                    <Tooltip title="Show all labels" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+                        <ListItemIcon className={classes.icon}>
+                            <RemoveRedEye />
+                        </ListItemIcon>
+                    </Tooltip>
+                    <ListItemText primary="Show all labels"/>
+                </ListItem>
             </div>
 
             <div id="hide_all_labels" onClick={function(e){
                 medical_label_state.setLabelId(0);
                 medical_label_state.notify_label_selected();
             }}>
-            <ListItem button>
-            <Tooltip title="Hide all labels" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
-            <ListItemIcon className={classes.icon}>
-            <RemoveCircle />
-            </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Hide all labels"/>
-            </ListItem>
+                <ListItem button>
+                    <Tooltip title="Hide all labels" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+                        <ListItemIcon className={classes.icon}>
+                            <RemoveCircle />
+                        </ListItemIcon>
+                    </Tooltip>
+                    <ListItemText primary="Hide all labels"/>
+                </ListItem>
+            </div>
+
+            <div id="boundary_mode" onClick={function(e){
+                medical_label_state.switch_boundary_mode();
+            }}>
+                <ListItem button>
+                    <Tooltip title="Boundary Mode" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+                        <ListItemIcon className={classes.icon}>
+                            <BorderOuter />
+                        </ListItemIcon>
+                    </Tooltip>
+                    <ListItemText primary="Boundary Mode"/>
+                </ListItem>
             </div>
             
             {

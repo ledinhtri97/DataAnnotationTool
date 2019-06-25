@@ -176,6 +176,7 @@ class GVCornerStone2 extends React.Component {
         props.medical_label_state.register_go_to_slice_callback(this.canvas_id, this.go_to_slice_callback);
         props.medical_label_state.register_copy_chart_to_slice_callback(this.canvas_id, this.set_lookup_table);
         props.medical_label_state.register_medical_gvcornerstone(this.canvas_id, this)
+        props.medical_label_state.register_boundary_mode_callback(this.canvas_id, this.boundary_mode_callback);
     }
 
     label_selected_callback = () => {
@@ -500,9 +501,6 @@ class GVCornerStone2 extends React.Component {
             const x_abs = Math.floor(x_percent*cvimg.cols);
             const y_abs = Math.floor(y_percent*cvimg.rows);
     
-            console.log(x_percent);
-            console.log(y_percent);
-    
             var pix = cvimg.data;
     
             var to_loc1d = (x, y) => (y*cvimg.cols+x)*4;
@@ -694,6 +692,12 @@ class GVCornerStone2 extends React.Component {
             gvc: this,
             is_eraser: is_eraser
         });
+    }
+
+    boundary_mode_callback = () => {
+        if (this.medical_overlay_obj) {
+            this.medical_overlay_obj.draw_mask();
+        }        
     }
 
     componentDidMount = () => {
