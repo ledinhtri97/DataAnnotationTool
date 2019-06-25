@@ -3,7 +3,7 @@ import requests
 from adminmaster.datamanagement.submodels.medical_patient import MedicalPatientModel
 from adminmaster.datamanagement.submodels.medical_instance import MedicalInstanceModel
 from adminmaster.datamanagement.submodels.medical_dataset import MedicalDataSetModel
-from medicalapi.serializers import MedicalPatientSerializer, MedicalInstanceSerializer
+from medicalapi.serializers import *
 from rest_framework import viewsets, renderers, response, pagination
 from django.conf import settings
 from django.http import JsonResponse
@@ -65,17 +65,18 @@ class MedicalInstanceViewSet(viewsets.ModelViewSet):
             for phase_name, phase_item in phases.items():
                 phase_id, phase_uid = phase_item
                 # get seri tag
-                # print(phase_uid)
-                seri_res = self.dicom_api.get_seri(phase_uid)
-                seri_tag = ''
-                if seri_res is not None:
-                    seri_tag = seri_res['MainDicomTags']['SeriesInstanceUID']
-
+                # seri_res = self.dicom_api.get_seri(phase_uid)
+                # seri_tag = ''
+                # if seri_res is not None:
+                #     seri_tag = seri_res['MainDicomTags']['SeriesInstanceUID']
+                seri_tag = instance.seri_id.series_instance_uid
+                
                 # get instance tag
-                inst_res = self.dicom_api.get_instance(instance.instance_uid)
-                inst_tag = ''
-                if inst_res is not None:
-                    inst_tag = inst_res['MainDicomTags']['SOPInstanceUID']
+                # inst_res = self.dicom_api.get_instance(instance.instance_uid)
+                # inst_tag = ''
+                # if inst_res is not None:
+                #     inst_tag = inst_res['MainDicomTags']['SOPInstanceUID']
+                inst_tag = instance.sop_instance_uid
 
                 if phase_id == instance.seri_id.id:
                     predict_url = os.path.join(
@@ -98,3 +99,18 @@ class MedicalInstanceViewSet(viewsets.ModelViewSet):
         
         return JsonResponse(data=response1, safe=False)
         # return self.get_paginated_response(response1)
+
+class MedicalStudiesViewSet(viewsets.ModelViewSet):
+    renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer)
+    queryset = MedicalStudiesModel.objects.all()
+    serializer_class = MedicalStudiesSerializer
+
+class MedicalSeriesViewSet(viewsets.ModelViewSet):
+    renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer)
+    queryset = MedicalSeriesModel.objects.all()
+    serializer_class = MedicalSeriesSerializer
+
+class MedicalPredictedInstanceViewSet(viewsets.ModelViewSet):
+    renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer)
+    queryset = MedicalPredictedInstanceModel.objects.all()
+    serializer_class = MedicalPredictedInstanceSerializer

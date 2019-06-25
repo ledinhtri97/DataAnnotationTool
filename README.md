@@ -26,3 +26,6 @@ getattr(sys.modules[__name__], "func_%s" % fieldname)()
 --su dung bootstrap framework
 
 ```
+# Completely drop db
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+find . -path "*/migrations/*.pyc"  -delete

@@ -12,9 +12,7 @@ class MedicalStudiesModel(models.Model):
     studies_uid = models.CharField(max_length=100, verbose_name="Studies UID")
     studies_last_update = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name="Studies Last Update")
     patient_id = models.ForeignKey(MedicalPatientModel, on_delete=models.CASCADE, blank=True, null=True)
-    
-    # class Meta:
-    #     unique_together = (('studies_uid', 'patient_id'),)
+    studies_instance_uid = models.CharField(max_length=100, verbose_name="Studies Instance UID")
 
     def __str__(self):
         return self.studies_uid
