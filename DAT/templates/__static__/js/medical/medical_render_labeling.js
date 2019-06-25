@@ -128,9 +128,32 @@ if (labeling) {
 		console.log(meta);
 		console.log('/gvlab-dat/workspace/metaview/'+meta_id.textContent+'/api-get-data/?label_select=true');
 
+		/* HARD CODE */
+		var hard_code_labels = [
+			{
+				type_label: "medical",
+				id: 1,
+				tag_label: "Liver",
+				color: "#00ff00",
+			},
+			{
+				type_label: "medical",
+				id: 2,
+				tag_label: "Lung",
+				color: "#ffff00",
+			},
+			{
+				type_label: "medical",
+				id: 3,
+				tag_label: "Blood Vessel",
+				color: "#ff0000",
+			}
+		];
+
 		const labels_list_items = document.getElementById("labels_list_items");
 		labels_list_items && ReactDOM.render(<MedicalLabelList 
-			label_select={meta.label_select} 
+			//label_select={meta.label_select} 
+			label_select={hard_code_labels} 
 			medical_label_state={medical_label_state} 
 			drawStatus={drawStatus}
 			quickSettings={quickSettings}/>, 
