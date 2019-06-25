@@ -44,5 +44,7 @@ class MedicalInstanceModel(models.Model):
 
     history = HistoricalRecords()
 
+    sop_instance_uid = models.CharField(max_length=100, verbose_name="SOP Instance UID")
+
     def __str__(self):
         return self.instance_uid + '(' + str(self.index_in_series) + ')'

@@ -22,7 +22,6 @@ from .submodels.utils.groundtruth import GroundTruther
 from .submodels.medical_patient import MedicalPatientModel
 from .submodels.medical_series import MedicalSeriesModel
 from .submodels.medical_studies import MedicalStudiesModel
-from .submodels.medical_phase import MedicalPhaseModel
 from .submodels.medical_instance import MedicalInstanceModel
 from .submodels.medical_studies import MedicalStudiesModel
 from .submodels.medical_dataset import MedicalDataSetModel
@@ -188,21 +187,25 @@ class InputDataAdmin(admin.ModelAdmin):
                     try:
                         series_name = remote_seri['MainDicomTags']['SeriesDescription']
                         phase = MedicalPhaseModel.objects.get(phase_name=series_name)
-                    except Exception as e:
-                        phase = MedicalPhaseModel.objects.get(phase_number=1)
+                    except KeyError as e:
                         print(e)
-                    
+                    except:
+                        pass
+                        
                     try:
                         series_number = int(remote_seri['MainDicomTags'].get('SeriesNumber', 0))
                     except:
                         series_number = 0
 
+                    series_total_slices = len(remote_seri['Instances'])
+
                     seri, is_created = MedicalSeriesModel.objects.get_or_create(
                         series_name=series_name,
-                        series_instance_uid=remote_seri['ID'],
+                        series_uid=remote_seri['ID'],
                         studies_id=study,
                         series_instance_number=series_number,
-                        phase_id=phase
+                        series_instance_uid=remote_seri['MainDicomTags']['SeriesInstanceUID'],
+                        series_total_slices=series_total_slices
                     )
 
                     # create instance
@@ -211,7 +214,8 @@ class InputDataAdmin(admin.ModelAdmin):
                         instance, is_created = MedicalInstanceModel.objects.get_or_create(
                             index_in_series=remote_instance['IndexInSeries'],
                             instance_uid=remote_instance['ID'],
-                            seri_id=seri
+                            seri_id=seri,
+                            sop_instance_uid=remote_instance['MainDicomTags']['SOPInstanceUID']
                         )
 
 class OutputDataForm(forms.ModelForm):
@@ -377,7 +381,6 @@ admin.site.register(MetaDataModel)
 admin.site.register(OutputDataModel, OutputDataAdmin)
 admin.site.register(MedicalPatientModel, MedicalPatientModelAdmin)
 admin.site.register(MedicalSeriesModel, MedicalSeriesModelAdmin)
-admin.site.register(MedicalPhaseModel, MedicalPhaseModelAdmin)
 admin.site.register(MedicalInstanceModel, MedicalInstanceModelAdmin)
 admin.site.register(MedicalStudiesModel, MedicalStudiesModelAdmin)
 admin.site.register(MedicalDataSetModel, MedicalDataSetModelAdmin)
