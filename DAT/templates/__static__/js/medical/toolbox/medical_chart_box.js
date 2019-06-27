@@ -42,7 +42,7 @@ class MedicalChartBox {
             }]
         },
         options: {
-            responsive: true,
+            responsive: false,
             animation: {
                 duration: 0
             },

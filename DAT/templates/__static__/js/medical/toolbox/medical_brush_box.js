@@ -40,15 +40,7 @@ class MedicalBrushBox {
     start_labeling = () => {
         if (!this.is_active()) {
             // start labeling with brush ...
-            if (this.overlay._check_is_active(this.overlay.ids.show_chart_button_id)) {
-                this.overlay.show_or_close_chart(); // close the open chart
-            }
-
-            if (this.is_eraser) {
-                this.overlay.brush.stop_labeling();
-            } else {
-                this.overlay.eraser.stop_labeling();
-            }
+            this.overlay._disable_conflict_features("brush");
 
             // change state
             this.set_active(true);

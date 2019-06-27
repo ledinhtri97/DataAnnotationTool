@@ -54,7 +54,8 @@ const styles = theme => ({
     button_copy_to_specific_slice: {
         color: 'black',
         background: '#FFFFFF88',
-        maxWidth: '24px',
+        minWidth: '40px',
+        maxWidth: '40px',
         padding: '0px',
         margin: '5px',
     }
@@ -170,9 +171,39 @@ class GVMedicalOverlay extends React.Component {
         document.getElementById(this.ids.mask_layers_editor_id).style.display = "none";
     }
 
+    _disable_conflict_features = (feature_name) => {
+        if (feature_name != "brush_or_eraser") {
+            // close brush or eraser
+            if (this.brush_or_eraser) {
+                this.brush_or_eraser.stop_labeling();
+            }
+        }
+
+        if (feature_name != "hounsfield_indicator") {
+            this.hounsfield_indicator.set_active(false);
+        }
+
+        if (feature_name != "zoom_in") {
+            this.surface.deactivate_zoom_in();
+        }
+
+        if (feature_name != "chart") {
+            // close chart
+            if (this._check_is_active(this.ids.show_chart_button_id)) {
+                this.show_or_close_chart(); // close the open chart
+            }
+        }
+
+        if (feature_name == "chart" || feature_name == "hounsfield_indicator") {
+            // do nothing
+        } else {
+            this.hounsfield_indicator.clean();
+        }
+    }
+
     show_or_close_chart = () => {        
         if (document.getElementById(this.ids.show_chart_button_id).getElementsByTagName("svg")[0].style.color != "rgba(255, 255, 0, 0.867)") {
-            this.hounsfield_indicator.set_active(false);
+            this._disable_conflict_features("chart");
 
             // show chart
             document.getElementById(this.ids.show_chart_button_id).getElementsByTagName("svg")[0].style.color = "#ffff00dd";
@@ -538,7 +569,7 @@ class GVMedicalOverlay extends React.Component {
                         id={this.ids.hounsfield_indicator_button_id} 
                         className={classes.icon_button}
                         style={{display: "block"}}>
-                        <Tooltip title="Hounsfield Statistic" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                        <Tooltip title="Hounsfield Statistic | Turn this off and click on region to delete" placement="right" classes={{tooltip: classes.lightTooltip}}>
                             <Colorize className={classes.icon} fontSize="large"/>
                         </Tooltip></IconButton>
 
