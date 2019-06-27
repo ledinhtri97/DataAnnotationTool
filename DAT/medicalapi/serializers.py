@@ -35,4 +35,4 @@ class MedicalPredictedInstanceSerializer(serializers.HyperlinkedModelSerializer)
 class LabelDataSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = LabelDataModel
-        fields = ('tag_label', 'type_label', 'description')
+        fields = ('tag_label', 'type_label', 'color', 'description')
