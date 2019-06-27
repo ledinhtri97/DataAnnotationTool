@@ -115,7 +115,7 @@ class MedicalLabelList extends React.Component {
                             <ArrowForward />
                         </ListItemIcon>
                     </Tooltip>
-                    <ListItemText primary="Next slice"/>
+                    <ListItemText primary="Forward"/>
                 </ListItem>
             </div>
 
@@ -128,7 +128,7 @@ class MedicalLabelList extends React.Component {
                             <ArrowBack />
                         </ListItemIcon>
                     </Tooltip>
-                    <ListItemText primary="Previous slice"/>
+                    <ListItemText primary="Backward"/>
                 </ListItem>
             </div>
 
@@ -200,7 +200,7 @@ class MedicalLabelList extends React.Component {
                         {MAP_ICON_LABEL[key]}
                         </ListItemIcon>
                         </Tooltip>
-                        <ListItemText primary={labelname + " | " + labeltype} />
+                        <ListItemText primary={labelname} />
                         </ListItem>
                         <div id={lb.id+'_color'} className={classes.hidden}>{lb.color}</div>
                         </div>

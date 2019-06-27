@@ -32,7 +32,9 @@ const quickSettings = new QuickSettings();
 const labeling = document.getElementById("labeling");
 if (labeling) {
 	const dataset_id = meta_id.textContent;
-	fetch('/gvlab-dat/workspace/medical/instance/dataset/' + dataset_id + '/', {
+	//var backend_endpoint = '/gvlab-dat/workspace/medical/instance/dataset/' + dataset_id + '/';
+	var backend_endpoint = '/medicalapi/instances/?datasetid=' + dataset_id;
+	fetch(backend_endpoint, {
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
@@ -42,6 +44,7 @@ if (labeling) {
 		return response.json();
 	}).then(result => {
 		var urls = [];
+		var predicts = []; // an item in array looks like this: [{"label": "liver", "url": "http://172.28.182.144:8010/...jpg"}]
 		var active_idx_views = [];
 		var phase_names = [];
 		
@@ -50,46 +53,74 @@ if (labeling) {
 
 		if (typeof result.non_contrast_phase != "undefined") {
 			var extracted_urls = [];
+			var extracted_predicts = [];
 			for (var k=0; k<result.non_contrast_phase.length; k++) {
 				const slice_obj = result.non_contrast_phase[k];
 				extracted_urls.push(slice_obj.url);
+				if ('predicts' in slice_obj) {
+					extracted_predicts.push(slice_obj.predicts);				
+				} else {
+					extracted_predicts.push(null);
+				}
 			}
 			urls.push(extracted_urls);
 			active_idx_views.push(0);
 			phase_names.push("Non Contrast");
+			predicts.push(extracted_predicts);
 		}
 
 		if (typeof result.arterial_phase != "undefined") {
 			var extracted_urls = [];
+			var extracted_predicts = [];
 			for (var k=0; k<result.arterial_phase.length; k++) {
 				const slice_obj = result.arterial_phase[k];
 				extracted_urls.push(slice_obj.url);
+				if ('predicts' in slice_obj) {
+					extracted_predicts.push(slice_obj.predicts);				
+				} else {
+					extracted_predicts.push(null);
+				}
 			}
 			urls.push(extracted_urls);
 			active_idx_views.push(0);
 			phase_names.push("Arterial");
+			predicts.push(extracted_predicts);
 		}
 
 		if (typeof result.venous_phase != "undefined") {
 			var extracted_urls = [];
+			var extracted_predicts = [];
 			for (var k=0; k<result.venous_phase.length; k++) {
 				const slice_obj = result.venous_phase[k];
 				extracted_urls.push(slice_obj.url);
+				if ('predicts' in slice_obj) {
+					extracted_predicts.push(slice_obj.predicts);				
+				} else {
+					extracted_predicts.push(null);
+				}
 			}
 			urls.push(extracted_urls);
 			active_idx_views.push(0);
 			phase_names.push("Venous");
+			predicts.push(extracted_predicts);
 		}
 
 		if (typeof result.delay_phase != "undefined") {
 			var extracted_urls = [];
+			var extracted_predicts = [];
 			for (var k=0; k<result.delay_phase.length; k++) {
 				const slice_obj = result.delay_phase[k];
 				extracted_urls.push(slice_obj.url);
+				if ('predicts' in slice_obj) {
+					extracted_predicts.push(slice_obj.predicts);				
+				} else {
+					extracted_predicts.push(null);
+				}
 			}
 			urls.push(extracted_urls);
 			active_idx_views.push(0);
 			phase_names.push("Delay");
+			predicts.push(extracted_predicts);
 		}
 		
 		/*
@@ -109,8 +140,12 @@ if (labeling) {
 		console.log("phase_names");
 		console.log(phase_names);
 
+		console.log("predicts");
+		console.log(predicts);
+
 		ReactDOM.render(<MedicalLabelingGrid 
 			urls={urls} 
+			predicts={predicts}
 			phase_names={phase_names}
 			active_idx_views={active_idx_views}
 			medical_label_state={medical_label_state}/>, labeling);

@@ -135,6 +135,16 @@ class MedicalLabelState {
         return this.color;
     }
 
+    getLabelIdFromTagLabel = (tag_label) => {
+        for (var i=0; i<this.all_labels.length; i++) {
+            var lab = this.all_labels[i];
+            if (lab.tag_label.toLowerCase() == tag_label.toLowerCase()) {
+                return lab.id;
+            }
+        }
+        return -1;
+    }
+
 }
 
 export {MedicalLabelState};

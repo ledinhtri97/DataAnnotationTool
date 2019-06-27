@@ -105,6 +105,11 @@ class GVCornerStone2 extends React.Component {
         cornerstone_image: null,
         intensity_image: null,
         labeling_mask: null,    // dict of cv.Mat()
+        predict: null,  // list of label predictions in this image
+        groundtruth: null,
+        /*
+            predict: [{"label": "liver", "url": "http://..."}, {"label": "tumor", "url": "http://..."}]
+        */
     }];
 
     labeling_mask_layers = [
@@ -144,9 +149,10 @@ class GVCornerStone2 extends React.Component {
                 url: this.props.urls[i],
                 cornerstone_image: default_medical_instance.cornerstone_image,
                 intensity_image: default_medical_instance.intensity_image,
-                labeling_mask: default_medical_instance.labeling_mask
+                labeling_mask: default_medical_instance.labeling_mask,
+                predict: this.props.predicts[i],
+                groundtruth: default_medical_instance.groundtruth,
             });
-
             this.labeling_mask_layers.push([]);
         }
 
@@ -284,14 +290,63 @@ class GVCornerStone2 extends React.Component {
         var dicom_url = this.medical_images[this.state.active_idx].url;
         if (dicom_url != "") {
             if (this.medical_images[this.state.active_idx].cornerstone_image == null) {
-                console.log("Load " + dicom_url + " via network!")
+                console.log("Load " + dicom_url + " via network!");
                 cornerstone.loadAndCacheImage(dicom_url).then(image => { // async calling
                     this.medical_images[this.state.active_idx].cornerstone_image = image;
-                    this.visualize();
+                    var predict_list = this.medical_images[this.state.active_idx].predict;
+                    if (predict_list && predict_list.length > 0) {
+                        wait_opencvjs_to_exec(function(data) {
+                            var self = data.self;
+                            var image = data.image;
+                            var predict_list = data.predict_list;                            
+                            
+                            var async_processing_predict_mask = function(img, ctx, myCanvas, idx, end_idx, label_id, self) {
+                                ctx.drawImage(img, 0, 0); // Or at whatever offset you like
+                                var p_cvmask = cv.imread(myCanvas);
+                                var g_cvmask = new cv.Mat();
+                                cv.cvtColor(p_cvmask, g_cvmask, cv.COLOR_RGBA2GRAY, 1);
+
+                                self.labeling_mask_layers[self.state.active_idx].push({
+                                    x_percent: -1,
+                                    y_percent: -1,
+                                    label_id: label_id.toString(), // str
+                                    mask: g_cvmask, // cv.Mat()
+                                    delta: -1
+                                });
+
+                                self.recalculate_labeling_mask(label_id.toString());
+
+                                if (idx==end_idx-1) {
+                                    self.visualize();
+                                }
+                            }
+
+                            for (var pl=0; pl<predict_list.length; pl++) {
+                                const idx = pl;
+                                var predict_info = predict_list[pl]; // {'label': 'liver', 'url': 'http://...'}
+                                var label_id = self.props.medical_label_state.getLabelIdFromTagLabel(predict_info.label);
+
+                                let myCanvas = document.createElement('canvas');
+                                myCanvas.width  = image.width;
+                                myCanvas.height = image.height;
+                                var ctx = myCanvas.getContext('2d');
+                                var img = new Image();
+                                img.onload = function() {
+                                    async_processing_predict_mask(img, ctx, myCanvas, idx, predict_list.length, label_id, self);
+                                };
+                                img.crossOrigin = "Anonymous";
+                                img.src = predict_info.url;
+                            }
+                        }, {
+                            self: this,
+                            image: image,
+                            predict_list: predict_list,
+                        });
+                    } else {
+                        this.visualize();
+                    }
                 });
             } else {
-                console.log("Use cached medical image!");
-                //console.log(this.medical_images[this.state.active_idx].cornerstone_image);
                 this.visualize();
             }            
         } else {
@@ -304,9 +359,6 @@ class GVCornerStone2 extends React.Component {
         if (cornerstone_image == null) {
             return;
         }
-
-        console.log("Call visualize(): Zoom: [" + this.state.zoom_xmin + ", " + 
-            this.state.zoom_ymin + ", " + this.state.zoom_xmax + ", " + this.state.zoom_ymax + "]");
 
         const result = wait_opencvjs_to_exec(function(data) {
             const image = data.cornerstone_image;
@@ -328,8 +380,6 @@ class GVCornerStone2 extends React.Component {
 
             // fill in CT image
             ctx.putImageData(imgData, canvas.width/2-imgData.width/2, canvas.height/2-imgData.height/2);
-
-            //console.log("[" + data.canvas_id + "] " + "Going to update vis meta");
 
             if (data.self.medical_images[data.self.state.active_idx].intensity_image != null) {
                 data.self.medical_images[data.self.state.active_idx].intensity_image.delete();
@@ -716,7 +766,7 @@ class GVCornerStone2 extends React.Component {
         const canvas_width = ((this.state.total_items == 1)?medicalGridContainer.clientWidth:medicalGridContainer.clientWidth/2)*0.98;
         const canvas_height = ((this.state.total_items == 1)?medicalGridContainer.clientHeight:medicalGridContainer.clientHeight/2)*0.98;
         
-        console.log("medical-gvcornerstone > render()");
+        ///console.log("medical-gvcornerstone > render()");
         
         return (
             <Grid item xs={xs_value} style={{padding: "1px"}} className="griditem_container" id={"griditem_container-"+this.canvas_id}>
