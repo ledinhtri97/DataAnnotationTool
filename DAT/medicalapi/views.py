@@ -3,6 +3,7 @@ import requests
 from adminmaster.datamanagement.submodels.medical_patient import MedicalPatientModel
 from adminmaster.datamanagement.submodels.medical_instance import MedicalInstanceModel
 from adminmaster.datamanagement.submodels.medical_dataset import MedicalDataSetModel
+from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
 from medicalapi.serializers import *
 from rest_framework import viewsets, renderers, response, pagination
 from django.conf import settings
@@ -114,3 +115,8 @@ class MedicalPredictedInstanceViewSet(viewsets.ModelViewSet):
     renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer)
     queryset = MedicalPredictedInstanceModel.objects.all()
     serializer_class = MedicalPredictedInstanceSerializer
+
+class LabelDataViewSet(viewsets.ModelViewSet):
+    renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer)
+    queryset = LabelDataModel.objects.all()
+    serializer_class = LabelDataSerializer

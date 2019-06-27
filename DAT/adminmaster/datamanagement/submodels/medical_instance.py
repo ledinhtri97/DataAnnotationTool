@@ -15,7 +15,7 @@ class MedicalInstanceModel(models.Model):
 
     index_in_series = models.IntegerField(verbose_name="Index In Series")
 
-    instance_uid = models.CharField(max_length=100, verbose_name="Instance UID")
+    instance_uid = models.CharField(max_length=100, blank=True, null=True, verbose_name="Instance UID")
 
     seri_id = models.ForeignKey(MedicalSeriesModel, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Seri ID")
     
@@ -44,7 +44,7 @@ class MedicalInstanceModel(models.Model):
 
     history = HistoricalRecords()
 
-    sop_instance_uid = models.CharField(max_length=100, verbose_name="SOP Instance UID")
+    sop_instance_uid = models.CharField(max_length=100, blank=True, null=True, verbose_name="SOP Instance UID")
 
     def __str__(self):
         return self.instance_uid + '(' + str(self.index_in_series) + ')'

@@ -4,6 +4,7 @@ from adminmaster.datamanagement.submodels.medical_instance import MedicalInstanc
 from adminmaster.datamanagement.submodels.medical_studies import MedicalStudiesModel
 from adminmaster.datamanagement.submodels.medical_series import MedicalSeriesModel
 from adminmaster.datamanagement.submodels.medical_predicted_instance import MedicalPredictedInstanceModel
+from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
 
 
 class MedicalPatientSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,4 +30,9 @@ class MedicalInstanceSerializer(serializers.HyperlinkedModelSerializer):
 class MedicalPredictedInstanceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = MedicalPredictedInstanceModel
-        fields = ('instance_id', 'label_id')
+        fields = ('instance_id', 'label_id', 'predict_type')
+
+class LabelDataSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = LabelDataModel
+        fields = ('tag_label', 'type_label', 'description')

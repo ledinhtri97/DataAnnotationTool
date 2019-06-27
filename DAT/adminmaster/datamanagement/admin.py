@@ -1,4 +1,4 @@
-import os
+import os, requests
 import shutil
 import django.utils.safestring as safestring
 
@@ -25,6 +25,7 @@ from .submodels.medical_studies import MedicalStudiesModel
 from .submodels.medical_instance import MedicalInstanceModel
 from .submodels.medical_studies import MedicalStudiesModel
 from .submodels.medical_dataset import MedicalDataSetModel
+from .submodels.medical_dicom_server import MedicalDicomServerModel
 from ..dicom_api import DICOMRESTApi
 
 
@@ -371,6 +372,29 @@ class MedicalDataSetModelAdmin(admin.ModelAdmin):
 
         return result
 
+class MedicalDicomServerModelAdmin(admin.ModelAdmin):
+    list_display = ('__str__',)
+    save_on_top = True
+
+    def save_model(self, request, obj, form, change):
+        result = super(MedicalDicomServerModelAdmin, self).save_model(request, obj, form, change)
+        data = {
+            'app_name': 'Medical DAT',
+            'app_base_url': obj.dicom_anno_tool_host,
+            'app_version': 'v0.0.1',
+            'app_type': 'A'
+        }
+
+        try:
+            regist_ext_api = os.path.join(obj.dicom_adapter_host, 'externalapp/')
+            res = requests.post(regist_ext_api, data, timeout=30)
+        except Exception as e:
+            print(e)
+        except:
+            print('Error while registering to dicom adapter')
+
+        return result
+
 
 # Register your models here.
 admin.site.register(DataSetModel, DataSetAdmin)
@@ -384,3 +408,4 @@ admin.site.register(MedicalSeriesModel, MedicalSeriesModelAdmin)
 admin.site.register(MedicalInstanceModel, MedicalInstanceModelAdmin)
 admin.site.register(MedicalStudiesModel, MedicalStudiesModelAdmin)
 admin.site.register(MedicalDataSetModel, MedicalDataSetModelAdmin)
+admin.site.register(MedicalDicomServerModel, MedicalDicomServerModelAdmin)

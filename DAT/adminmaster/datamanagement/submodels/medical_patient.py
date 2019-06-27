@@ -17,7 +17,7 @@ class MedicalPatientModel(models.Model):
 
     id = models.AutoField(primary_key=True)
 
-    patient_name = models.CharField(max_length=100, verbose_name="Patient Name")
+    patient_name = models.CharField(max_length=100, blank=True, null=True, verbose_name="Patient Name")
 
     patient_birthdate = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name="Patient Birthdate")
 

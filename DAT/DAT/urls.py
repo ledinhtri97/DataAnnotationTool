@@ -24,7 +24,7 @@ from medicalapi import views
 router = routers.DefaultRouter()
 router.register(r'patients', views.MedicalPatientViewSet)
 router.register(r'instances', views.MedicalInstanceViewSet)
-
+router.register(r'labels', views.LabelDataViewSet)
 
 urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
