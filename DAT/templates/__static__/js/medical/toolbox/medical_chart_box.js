@@ -216,11 +216,23 @@ class MedicalChartBox {
         //self.hounsfield_indicator.render();
     }
 
+    static set_chart_for_default = (self) => {
+        var min_hounsfield = self.chart_data.min_hounsfield;
+        var max_hounsfield = self.chart_data.max_hounsfield;
+        var scatter_data = [
+            { x: min_hounsfield, y: 0 },
+            { x: max_hounsfield, y: 255 },
+        ];
+        MedicalChartBox.set_chart(self, scatter_data);
+    }
+
     static set_chart_for_liver = (self) => { // 60 +- 6
         var scatter_data = [
-            { x: 30, y: 0 },
+            { x: -385, y: 0 },
+            { x: 36, y: 186 },
             { x: 95, y: 250 },
-            { x: 170, y: 0 },
+            { x: 188, y: 47 },
+            { x: 550, y: 0 },
         ];
         MedicalChartBox.set_chart(self, scatter_data);
     }
@@ -236,11 +248,15 @@ class MedicalChartBox {
 
     static set_chart_for_blood_vessel = (self) => {
         var scatter_data = [
-            { x: -1000, y: 0 },
-            { x: -700, y: 250 },
-            { x: -463, y: 60 },
-            { x: -81, y: 205 },
-            { x: 144, y: 27 },
+            { x: -1024, y: 0 },
+            { x: -555, y: 0 },
+            { x: -300, y: 0 },
+            { x: -125, y: 120 },
+            { x: -60, y: 220 },            
+            { x: 16, y: 25 },
+            { x: 290, y: 250 },
+            { x: 395, y: 140 },
+            { x: 457, y: 0 },            
         ];
         MedicalChartBox.set_chart(self, scatter_data);
     }

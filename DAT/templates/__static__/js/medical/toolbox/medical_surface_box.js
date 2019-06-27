@@ -260,7 +260,7 @@ class MedicalSurfaceBox {
     go_to_slice = (event) => {
         if (event.key === 'Enter') {
             if (!isNaN(this.overlay.state.idx) && this.overlay.state.idx.length > 0) { // input text is number
-                this.overlay.gvc.sync_go_to_slice(parseInt(this.state.idx)-1);
+                this.overlay.gvc.sync_go_to_slice(parseInt(this.overlay.state.idx)-1);
             }     
         }     
     }

@@ -9,6 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
+import Home from '@material-ui/icons/Home';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -17,7 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import {outWorkSpace} from "../modules/dat-utils"
 
-const drawerWidth = 300;
+const drawerWidth = 250;
 
 const styles = theme =>({
 	root: {
@@ -207,6 +208,10 @@ class MedicalMenuBar extends React.Component {
 		}
 	};
 
+	back_to_workspace = () => {
+		window.location.href = "/gvlab-dat/workspace/";
+	};
+
 	render() {
 		const { classes } = this.props;
 		const { anchorEl, expanded } = this.state;
@@ -226,6 +231,13 @@ class MedicalMenuBar extends React.Component {
                 }}
                 open={this.state.open}
                 >
+					<div className={classes.toolbarIcon}>
+						<span id="workspace" title="Workspace" />
+                        <IconButton onClick={this.back_to_workspace}>
+                            <Home />
+                        </IconButton>
+					</div>
+
                     <div className={classes.toolbarIcon} >
                         <span id="settings" title="Settings" className={classNames(classes.span && !this.state.open && classes.menuButtonHidden,)} />                        
                         <IconButton onClick={this.handleDrawerClose}

@@ -54,7 +54,7 @@ const styles = theme => ({
     button_copy_to_specific_slice: {
         color: 'black',
         background: '#FFFFFF88',
-        maxWidth: '32px',
+        maxWidth: '24px',
         padding: '0px',
         margin: '5px',
     }
@@ -222,6 +222,10 @@ class GVMedicalOverlay extends React.Component {
         this.gvc.sync_copy_to_slice(phase_name[0]);
     }
 
+    set_chart_for_default = () => {
+        MedicalChartBox.set_chart_for_default(this);
+    }
+
     set_chart_for_liver = () => {
         MedicalChartBox.set_chart_for_liver(this);
     }
@@ -288,8 +292,8 @@ class GVMedicalOverlay extends React.Component {
 
         //if (medical_images[state.active_idx].labeling_mask == null || !(label_id in medical_images[state.active_idx].labeling_mask)) {
         if (medical_images[state.active_idx].labeling_mask == null) {
-            console.log("[" + this.props.canvas_id + "] " + "Labeling Mask is null! Label ID: " + label_id + ". medical_images[state.active_idx].labeling_mask:");
-            console.log(medical_images[state.active_idx].labeling_mask);
+            //console.log("[" + this.props.canvas_id + "] " + "Labeling Mask is null! Label ID: " + label_id + ". medical_images[state.active_idx].labeling_mask:");
+            //console.log(medical_images[state.active_idx].labeling_mask);
             return;
         }
 
@@ -341,7 +345,7 @@ class GVMedicalOverlay extends React.Component {
                 remove_icon_node.style.cursor = "pointer";
                 remove_icon_node.innerHTML = '&nbsp;&nbsp;<i class="fa fa-times-circle-o fa-2" aria-hidden="true"></i>';
                 remove_icon_node.addEventListener('click', function() {
-                    self.props.remove_labeling_mask_layers(mask_idx);
+                    self.gvc.remove_labeling_mask_layers(mask_idx);
                 });
                 div_node.appendChild(remove_icon_node);
 
@@ -435,7 +439,7 @@ class GVMedicalOverlay extends React.Component {
             this.height_chart = Math.floor(this.width_chart * 1.5);
         }
 
-        console.log("medical-overlay > render()");
+        //console.log("medical-overlay > render()");
 
         return (
             <div>
@@ -593,7 +597,12 @@ class GVMedicalOverlay extends React.Component {
                         onMouseMove={this.chart_canvas_mouse_move}
                         onMouseUp={this.chart_canvas_mouse_up}
                         onMouseDown={this.chart_canvas_mouse_down}/>
-                    <div>                        
+                    <div>         
+                        <span>
+                            <Button variant="contained" color="secondary" 
+                                className={classes.button_preset_chart} 
+                                onClick={this.set_chart_for_default}>Default</Button>
+                        </span>               
                         <span>
                             <Button variant="contained" color="secondary" 
                                 className={classes.button_preset_chart} 

@@ -77,7 +77,7 @@ class MedicalLabelingGrid extends React.Component {
 	};
 
 	render() {
-		const { classes, phase_names } = this.props;
+		const { classes, phase_names, predicts } = this.props;
 		const {urls} = this.state;		
 		const total_items = urls.length;
 		const medical_label_state = this.medical_label_state;
@@ -96,6 +96,7 @@ class MedicalLabelingGrid extends React.Component {
 										total_items={total_items} 
 										urls={url_list} 
 										phase_name={phase_names[i]}
+										predicts={predicts[i]}
 										active_idx={active_idx_views[i]}
 										medical_label_state={medical_label_state} />
 								)
