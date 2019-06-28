@@ -214,7 +214,7 @@ class MainFrameLabeling extends React.Component {
 				>
 				<div className={classes.homeIcon}>
 				<p style={{paddingRight: 20}}>DAT - GVLab</p>
-				<IconButton onClick={this.handleHomePage}>
+				<IconButton onClick={this.handleWorkspace}>
 				<Home />
 				</IconButton>
 				</div>
