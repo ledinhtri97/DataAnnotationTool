@@ -28,3 +28,13 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+DICOM_SERVER = {
+    'BASE_URL': 'http://172.28.182.130:8042',
+    'USERNAME': 'orthanc',
+    'PASSWORD': 'orthanc'
+}
+
+DICOM_ANALYSIS_SERVER = {
+    'STORAGE_URL': 'http://172.28.182.144:8010',
+}
