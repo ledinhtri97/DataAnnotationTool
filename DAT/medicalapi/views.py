@@ -9,6 +9,7 @@ from rest_framework import viewsets, renderers, response, pagination
 from django.conf import settings
 from django.http import JsonResponse
 from adminmaster.dicom_api import DICOMRESTApi
+from rest_framework.decorators import action
 
 
 class MedicalPatientViewSet(viewsets.ModelViewSet):
@@ -83,7 +84,7 @@ class MedicalInstanceViewSet(viewsets.ModelViewSet):
                     predict_url = os.path.join(
                         settings.DICOM_ANALYSIS_SERVER['STORAGE_URL'],
                         seri_tag,
-                        inst_tag + '.jpg'
+                        inst_tag + '.png'
                     )
                     response1[phase_name].append({
                             'slice_id': instance.index_in_series,
@@ -115,6 +116,10 @@ class MedicalPredictedInstanceViewSet(viewsets.ModelViewSet):
     renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer)
     queryset = MedicalPredictedInstanceModel.objects.all()
     serializer_class = MedicalPredictedInstanceSerializer
+
+    @action(detail=False, method=['post'])
+    def upload(self, request):
+        pass
 
 class LabelDataViewSet(viewsets.ModelViewSet):
     renderer_classes = (renderers.JSONRenderer, renderers.TemplateHTMLRenderer)
