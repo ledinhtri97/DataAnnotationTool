@@ -208,6 +208,55 @@ class MedicalChartBox {
         }
     }
 
+    static chart_canvas_mouse_up = (e, self) => {
+        self.chart_data.up_x = e.nativeEvent.offsetX;
+        self.chart_data.up_y = e.nativeEvent.offsetY;
+        self.chart_data.is_keeping_mouse_down = false;
+
+        const is_click = Math.abs(self.chart_data.up_x-self.chart_data.down_x)<5 && Math.abs(self.chart_data.up_y-self.chart_data.down_y)<5;
+        if (is_click) {
+            if (e.nativeEvent.which === 3) { // right click
+                // remove point instead of adding new point
+                const chart_point = MedicalChartBox.canvas_px_to_chart_value(self.chart_data.down_x, self.chart_data.down_y, self);
+                var to_remove_idx = [];
+                for (var i=0; i<self.chart_js_obj.data.datasets[0].data.length; i++) {
+                    var point = self.chart_js_obj.data.datasets[0].data[i];
+
+                    if (Math.abs(point.x-chart_point.x)/self.chart_data.x_range<0.05 && Math.abs(point.y-chart_point.y)/self.chart_data.y_range<0.05) {
+                        const idx = i;
+                        to_remove_idx.push(idx);
+                    }
+                }
+
+                for (var i=to_remove_idx.length-1; i>=0; i--) {
+                    self.chart_js_obj.data.datasets[0].data.splice(to_remove_idx[i], 1);
+                }
+
+                // generate line data
+                const scatter_ds = self.chart_js_obj.data.datasets[0];
+                const line_ds = self.chart_js_obj.data.datasets[1];
+                line_ds.data.splice(0);
+                const x_start = scatter_ds.data[0].x;
+                const x_stop = scatter_ds.data[scatter_ds.data.length-1].x;
+                var g_data = MedicalChartBox.generate_line_data(scatter_ds.data, x_start, x_stop, 0, 255);
+                line_ds.data = g_data.points;
+
+                self.chart_js_obj.update();
+                self.gvc.set_lookup_table(g_data.lookup_table, scatter_ds.data, x_start, x_stop, 0, 255);
+                self.hounsfield_indicator.render();
+            } else {
+                // do no thing
+                const scatter_ds = self.chart_js_obj.data.datasets[0];
+                console.log("* scatter_ds.data:");
+                console.log(scatter_ds.data);
+            }
+        }
+
+        if (self.chart_data.down_point_close_idx >= 0) {
+            self.chart_data.down_point_close_idx = -1;
+        }
+    }
+
     static update_chartjs_UI = (self, scatter_data, line_data) => {
         self.init_chart_if_not_rendered();
         self.chart_js_obj.data.datasets[0].data = scatter_data;
@@ -296,54 +345,7 @@ class MedicalChartBox {
             lookup_table: lookup_table
         };
     }
-
-    static chart_canvas_mouse_up = (e, self) => {
-        self.chart_data.up_x = e.nativeEvent.offsetX;
-        self.chart_data.up_y = e.nativeEvent.offsetY;
-        self.chart_data.is_keeping_mouse_down = false;
-
-        const is_click = Math.abs(self.chart_data.up_x-self.chart_data.down_x)<5 && Math.abs(self.chart_data.up_y-self.chart_data.down_y)<5;
-        if (is_click) {
-            if (e.nativeEvent.which === 3) { // right click
-                console.log("right click on chart");
-                console.log("chart_data");
-                console.log(self.chart_data);
-                console.log("self.chart_js_obj.data.datasets[0].data");
-                console.log(self.chart_js_obj.data.datasets[0].data);
-
-                // remove point instead of adding new point
-                const chart_point = MedicalChartBox.canvas_px_to_chart_value(self.chart_data.down_x, self.chart_data.down_y, self);
-                var to_remove_idx = [];
-                for (var i=0; i<self.chart_js_obj.data.datasets[0].data.length; i++) {
-                    var point = self.chart_js_obj.data.datasets[0].data[i];
-
-                    console.log("point");
-                    console.log(point);
-                    console.log("chart_point");
-                    console.log(chart_point);
-
-                    if (Math.abs(point.x-chart_point.x)/self.chart_data.x_range<0.05 && Math.abs(point.y-chart_point.y)/self.chart_data.y_range<0.05) {
-                        const idx = i;
-                        to_remove_idx.push(idx);
-                    }
-                }
-
-                console.log("to_remove_idx");
-                console.log(to_remove_idx);
-
-                for (var i=to_remove_idx.length-1; i>=0; i--) {
-                    self.chart_js_obj.data.datasets[0].data.splice(to_remove_idx[i], 1);
-                }
-                self.chart_js_obj.update();
-            } else {
-                // do no thing
-            }
-        }
-
-        if (self.chart_data.down_point_close_idx >= 0) {
-            self.chart_data.down_point_close_idx = -1;
-        }
-    }
+    
 }
 
 export default MedicalChartBox;
