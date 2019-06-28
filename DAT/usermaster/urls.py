@@ -1,7 +1,7 @@
 from django.urls import path, include
 from django.conf import settings
 
-from usermaster.subviews.workspaces import WorkspaceView, get_data_settings, saveseting_index
+from usermaster.subviews.workspaces import WorkspaceView, get_data_workspaces
 from usermaster.subviews.labeling import LabelingView, EditLabelingView
 from usermaster.subviews.contribute import ContributeView
 from usermaster.subviews.request import labeling_view
@@ -14,6 +14,7 @@ from usermaster.subviews.request import overview_workspcae_view as owv
 urlpatterns = [
     
     path('', WorkspaceView.as_view(), name='workspace'),
+    path(''+settings.SLUG_API_URL, get_data_workspaces),
 
     path('contribute/', ContributeView.as_view(), name='contribute'),
     path('contribute-upload/<int:contributeid>/', contribute_view.index, name='contribute_upload'),
@@ -31,8 +32,8 @@ urlpatterns = [
     path('outworkspace/<int:metaid>/', labeling_view.outws_index, name='outws'),
     
 
-    path('savesettings/', saveseting_index, name='savesettings'),
-    path('settings/'+settings.SLUG_API_URL, get_data_settings),
+    path('savesettings/', labeling_view.saveseting_index, name='savesettings'),
+    path('settings/'+settings.SLUG_API_URL, labeling_view.get_data_settings),
 
     path('overviewall/', OverViewAllView.as_view(), name='overviewall'),#mark-dev
     
@@ -45,8 +46,4 @@ urlpatterns = [
     path('metaview/<int:mtid>/'+settings.SLUG_API_URL,
          owv.get_meta_overview),
 
-
-     # path('objdet/', apiview.o_index, name='objdet'),
-     # path('facedet/<int:metaid>/', apiview.f_index, name='facedet'),
-     # path('persondet/<int:metaid>/', apiview.p_index, name='persondet'),
 ]
