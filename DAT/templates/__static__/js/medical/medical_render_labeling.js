@@ -151,7 +151,8 @@ if (labeling) {
 			medical_label_state={medical_label_state}/>, labeling);
 	});
 
-	fetch('/gvlab-dat/workspace/metaview/'+meta_id.textContent+'/api-get-data/?label_select=true', {})
+	//fetch('/gvlab-dat/workspace/metaview/'+meta_id.textContent+'/api-get-data/?label_select=true', {})
+	fetch('/medicalapi/labels/', {})
 	.then(response => {
 		if(response.status !== 200){
 			return "FAILED";
@@ -161,34 +162,21 @@ if (labeling) {
 	).then(meta => {
 		console.log("meta");
 		console.log(meta);
-		console.log('/gvlab-dat/workspace/metaview/'+meta_id.textContent+'/api-get-data/?label_select=true');
 
-		/* HARD CODE */
-		var hard_code_labels = [
-			{
-				type_label: "medical",
-				id: 1,
-				tag_label: "Liver",
-				color: "#00ff00",
-			},
-			{
-				type_label: "medical",
-				id: 2,
-				tag_label: "Lung",
-				color: "#ffff00",
-			},
-			{
-				type_label: "medical",
-				id: 3,
-				tag_label: "Blood Vessel",
-				color: "#ff0000",
-			}
-		];
+		var label_data = [];
+		for (var mr=0; mr<meta.results.length; mr++) {
+			var label_info_obj = meta.results[mr]; // {tag_label: "liver", type_label: "rect", description: null}
+			label_data.push({
+				id: mr+1,
+				type_label: label_info_obj.type_label,
+				tag_label: label_info_obj.tag_label,
+				color: label_info_obj.color,
+			});
+		}
 
 		const labels_list_items = document.getElementById("labels_list_items");
 		labels_list_items && ReactDOM.render(<MedicalLabelList 
-			//label_select={meta.label_select} 
-			label_select={hard_code_labels} 
+			label_select={label_data} 
 			medical_label_state={medical_label_state} 
 			drawStatus={drawStatus}
 			quickSettings={quickSettings}/>, 

@@ -1,4 +1,5 @@
 import MedicalGeometryBox from './medical_geometry_box';
+import { Math } from 'core-js';
 
 class MedicalSurfaceBox {
     overlay = null;
@@ -97,6 +98,7 @@ class MedicalSurfaceBox {
             this._clear_surface();
             this.overlay._clear_mask_layer();
             this.overlay.gvc.register_visualize_callback(this.overlay.draw_mask);
+            this._icon_color_off(this.overlay.ids.zoom_in_button_id);
             return;
         }
 
@@ -110,8 +112,36 @@ class MedicalSurfaceBox {
             const y_from = this.hounsfield_from_y;
             const x_to = event.nativeEvent.offsetX;
             const y_to = event.nativeEvent.offsetY;
-            this.overlay.hounsfield_indicator.add_region(x_from, y_from, x_to, y_to);
-            this.overlay.hounsfield_indicator.render();
+
+            // sort (x,y)-from and (x,y)-to
+            var xf = Math.min(x_from, x_to);
+            var yf = Math.min(y_from, y_to);
+            var xt = Math.max(x_from, x_to);
+            var yt = Math.max(y_from, y_to);
+            
+            const vis_meta = this.overlay.gvc.vis_meta;
+            const image_layer_state = this.overlay.gvc.state;
+            const point_from = MedicalSurfaceBox.convert_canvas_coord_to_image_coord_percent(xf, yf, vis_meta, image_layer_state);
+            const point_to = MedicalSurfaceBox.convert_canvas_coord_to_image_coord_percent(xt, yt, vis_meta, image_layer_state);
+
+            // check constraint
+            if (Math.abs(xt-xf)>=this.overlay.hounsfield_indicator.min_region_width && 
+                Math.abs(yt-yf)>=this.overlay.hounsfield_indicator.min_region_height &&
+                point_from.x >= 0 && point_from.x <= 1 &&
+                point_from.y >= 0 && point_from.y <= 1 &&
+                point_to.x >= 0 && point_to.x <= 1 &&
+                point_to.y >= 0 && point_to.y <= 1){
+                this.overlay.hounsfield_indicator.add_region(xf/this._surface_width(), 
+                    yf/this._surface_height(), 
+                    xt/this._surface_width(), 
+                    yt/this._surface_height(), 
+                    point_from.x, 
+                    point_from.y, 
+                    point_to.x, 
+                    point_to.y);
+                this.overlay.hounsfield_indicator.render();
+            }
+            
             this._clear_surface();
             this.hounsfield_from_x = -1;
             this.hounsfield_from_y = -1;
@@ -158,7 +188,8 @@ class MedicalSurfaceBox {
         }
 
         if (this.is_ready_to_zoom_in || this.overlay.hounsfield_indicator.is_active()) {
-            this._focus_on_mouse(this.canvas_surface_id, offsetX, offsetY, this.overlay.props.width, this.overlay.props.height);
+            var color = (this.overlay.hounsfield_indicator.is_active()) ? this.overlay.hounsfield_indicator.border_color : "#ffff00";
+            this._focus_on_mouse(this.canvas_surface_id, offsetX, offsetY, this.overlay.props.width, this.overlay.props.height, color);
         }
 
         if (this.is_chosen_zoom_from) {
@@ -223,6 +254,16 @@ class MedicalSurfaceBox {
     _clear_surface = () => {
         var surface_canvas = document.getElementById(this.canvas_surface_id);
         surface_canvas.getContext('2d').clearRect(0, 0, surface_canvas.width, surface_canvas.height);        
+    }
+
+    _surface_width = () => {
+        var surface_canvas = document.getElementById(this.canvas_surface_id);
+        return surface_canvas.width;
+    }
+
+    _surface_height = () => {
+        var surface_canvas = document.getElementById(this.canvas_surface_id);
+        return surface_canvas.height;
     }
     
     _focus_on_mouse = (canvasId, offsetX, offsetY, imgWidth, imgHeight, color) => {
@@ -293,10 +334,15 @@ class MedicalSurfaceBox {
         this._cursor_crosshair();
         this.is_ready_to_zoom_in = true;
         this._icon_color_on(this.overlay.ids.zoom_in_button_id);
-        if (this.overlay.brush_or_eraser) {
-            this.overlay.brush_or_eraser.stop_labeling();
-        }
+
+        this.overlay._disable_conflict_features("zoom_in");
         return;
+    }
+
+    deactivate_zoom_in = () => {
+        this._cursor_default();
+        this.is_ready_to_zoom_in = false;
+        this._icon_color_off(this.overlay.ids.zoom_in_button_id);
     }
     
     reset_zoom = () => {
@@ -304,6 +350,8 @@ class MedicalSurfaceBox {
         this.overlay.gvc.set_zoom_area(0, 0, 1, 1);
         this._icon_color_off(this.overlay.ids.zoom_in_button_id);
         this.overlay.gvc.register_visualize_callback(this.overlay.draw_mask);
+        this._clear_surface();
+        this.overlay.hounsfield_indicator.clean();
         return;
     }
 

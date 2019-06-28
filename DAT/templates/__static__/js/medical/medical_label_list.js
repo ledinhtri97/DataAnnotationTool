@@ -195,7 +195,7 @@ class MedicalLabelList extends React.Component {
                             }}
                             style={{backgroundColor: lb.color+"77"}}>
                         <ListItem button>
-                        <Tooltip title={labelname + " | " + labeltype} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+                        <Tooltip title={labelname} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
                         <ListItemIcon className={classes.icon}>
                         {MAP_ICON_LABEL[key]}
                         </ListItemIcon>
