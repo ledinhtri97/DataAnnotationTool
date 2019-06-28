@@ -19,9 +19,7 @@ import Chip from '@material-ui/core/Chip';
 const styles = theme => ({
 	appBarSpacer: theme.mixins.toolbar,
 	content: {
-		
 		flexGrow: 1,
-		padding: theme.spacing.unit * 2,
 		width: '100%',
 		height: '100%',
 		overflow: 'auto',
@@ -35,7 +33,6 @@ const styles = theme => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingTop: "50px",
 	},
 	secondcontainer:{
 		width: '100%',
@@ -64,11 +61,6 @@ class Labeling extends React.Component {
 
 	state = {
 		something: null,
-	};
-
-	contextMenu = function(e) {
-    	e.preventDefault();
-    	return false;
 	};
 
 	render() {

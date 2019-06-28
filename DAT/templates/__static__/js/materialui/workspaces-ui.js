@@ -64,9 +64,33 @@ const styles = theme => ({
 
 class Workspaces extends React.Component {
 
-	state = {
-		something: null,
+	constructor(props){
+		super(props);
+		this.state = {
+			workspaces: [],
+		}
 	};
+
+	getData(){
+		setTimeout(
+			fetch("/gvlab-dat/workspace/api-get-data/", {})
+			.then(res => {
+				if (res.status != 200){
+					return "FAILED";
+				}
+				return res.json();
+			})
+			.then(data => {
+				if(data === "FAILED") return;
+				this.setState({
+					workspaces: data,
+				})
+			}), 100);
+	}
+
+	componentDidMount(){
+        this.getData();
+    };
 
 	handleContribute = () => {
 		window.location.href = document.getElementById("url_contribute").textContent;
@@ -76,20 +100,19 @@ class Workspaces extends React.Component {
 		window.location.href = document.getElementById("url_overviewall").textContent;;
 	};
 
-	handleOverview =  (overview_url) => {
-		window.location.href = overview_url;
+	handleOverview =  (id) => {
+		window.location.href = "/gvlab-dat/workspace/overview/"+id;
 	};
 
-	handleStartLabeling = (startlabeling_url) => {
-		window.location.href = startlabeling_url;
+	handleStartLabeling = (id) => {
+		window.location.href = "/gvlab-dat/workspace/ws-"+id;
 	};
 
 	render() {
 
 		const { classes } = this.props;
+		const { workspaces } = this.state;
 		const thiswp = this;
-		const workspaces = JSON.parse(document.getElementById("home").textContent)['workspaces'];
-		workspaces.pop();
 
 		return (
 			<React.Fragment>
@@ -121,7 +144,7 @@ class Workspaces extends React.Component {
           <div className={classNames(classes.layout, classes.cardGrid)}>
           <Grid container spacing={40}>
           {workspaces.map(
-          	function(wp, key) {if(wp.name) {
+          	function(wp, key) {
 
           		return (
           			<Grid item key={key} sm={6} md={4} lg={3}>
@@ -130,23 +153,23 @@ class Workspaces extends React.Component {
           			className={classes.cardMedia} image="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22288%22%20height%3D%22225%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20288%20225%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_164edaf95ee%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_164edaf95ee%22%3E%3Crect%20width%3D%22288%22%20height%3D%22225%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2296.32500076293945%22%20y%3D%22118.8%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" title={wp.name}/>
           			<CardContent className={classes.cardContent}>
           			<Typography gutterBottom variant="h5" component="h2">
-          			{wp.name}
+          			{wp.nameworkspace}
           			</Typography>
           			<Typography>
-          			Dataset ID: {wp.iddataset}<br/>
-          			Total data: {wp.total}<br/>
-          			Annotated data: {wp.anno}
+          			Dataset ID: {wp.dataset}<br/>
+          			Total data: {wp.num_allmeta}<br/>
+          			Annotated data: {wp.num_annotated_meta}
           			</Typography>
           			</CardContent>
           			<CardActions>
           			<Button 
-          				onClick={function(e){thiswp.handleOverview(wp.url_overview)}} 
+          				onClick={function(e){thiswp.handleOverview(wp.dataset)}} 
           				color="primary" size="small">
           			<BarChart className={classes.rightIcon} />
           			OVERVIEW
           			</Button>
           			<Button 
-          				onClick={function(e){thiswp.handleStartLabeling(wp.url_join)}} 
+          				onClick={function(e){thiswp.handleStartLabeling(wp.dataset)}} 
           				variant="contained" size="small" color="primary" 
           				className={classes.button}>
           			<OpenInNew className={classes.rightIcon} />
@@ -155,7 +178,7 @@ class Workspaces extends React.Component {
           			</CardActions>
           			</Card>
           			</Grid>
-          			)}})}
+          			)})}
           </Grid>
           </div>
           </main>
