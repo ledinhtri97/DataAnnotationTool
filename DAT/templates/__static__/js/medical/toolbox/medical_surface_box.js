@@ -371,6 +371,13 @@ class MedicalSurfaceBox {
         this._show_icon(this.overlay.ids.restore_screen_button_id);
         this.last_action = "full_screen";
         this.overlay.gvc.register_visualize_callback(this.overlay.draw_mask);
+
+        // re-render chart (fix wrong display for chart when turning to full screen)
+        
+        /////this.overlay.is_rendered_chart = false;
+        /////this.overlay.init_chart_if_not_rendered();
+        /////this.overlay.chart_js_obj.update();
+
         return;
     }
 

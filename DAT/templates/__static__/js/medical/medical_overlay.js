@@ -461,8 +461,10 @@ class GVMedicalOverlay extends React.Component {
         const total_images = this.gvc.medical_images.length;
         const self = this;
 
-        this.width_chart = Math.floor(width * 0.5);
-        this.height_chart = Math.floor(height * 0.5);
+        var chart_scale = (this.gvc.state.total_items>1)?0.5:0.25;
+
+        this.width_chart = Math.floor(width * chart_scale);
+        this.height_chart = Math.floor(height * chart_scale);
 
         if (this.width_chart > this.height_chart) {
             this.width_chart = Math.floor(this.height_chart * 1.5);
