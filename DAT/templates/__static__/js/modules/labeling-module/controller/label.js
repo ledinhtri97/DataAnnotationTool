@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import LabelItem from "../../../materialui/labeling-ui/item";
 import uniqid from "uniqid";
 import {fabric} from "fabric";
-import {drawPoly, quickSettings} from "../../../labeling";
-import {configureCircle, configurePoly} from "../drawer/polygon";
+import {drawTool, quickSettings, drawStatus} from "../../../labeling";
+import {configureCircle, configurePoly} from "../drawtool";
 import {Color} from "../style/color"
 import AlertDialog from "../../../materialui/dialog";
 
@@ -52,7 +52,10 @@ class LabelControl{
 			this.obj.icon.set('fill', color);
 			this.canvas.renderAll();
 
-			this.__hiddenITEM__();
+			drawStatus.setRenewLabel(false);
+			drawStatus.setNameLabel(tag_label);
+			drawStatus.setColorLabel(color);
+
 			return true;
 		}
 		else{
@@ -86,11 +89,11 @@ class LabelControl{
 		var checkbox_hidden = document.getElementById(this.id+"_hidden");
 		if(checkbox_hidden){
 			this.obj.setColor(Color.Transparent);
-			this.obj.visible = !checkbox_hidden.checked;
+			this.obj.set('visible', !checkbox_hidden.checked);
 			if(this.obj.shapeflag) {
-				this.obj.shapeflag.visible = !checkbox_hidden.checked;
+				this.obj.shapeflag.set('visible', !checkbox_hidden.checked);
 			}
-			this.obj.hidden = checkbox_hidden.checked;
+			this.obj.set('hidden', checkbox_hidden.checked);
 			if(checkbox_hidden.checked) {
 				this.__editITEM__(false); 
 				this.canvas.add(this.obj.icon);
@@ -98,7 +101,7 @@ class LabelControl{
 			else{
 				this.canvas.remove(this.obj.icon);	
 			} 
-			this.canvas.renderAll();
+			// this.canvas.renderAll();
 		}
 	}
 
@@ -122,8 +125,6 @@ class LabelControl{
 			lbc.edit = false;
 		}
 
-		
-
 		if(current_element){
 			this.obj.selectable = lbc.edit;
 
@@ -138,7 +139,7 @@ class LabelControl{
 						__canvas__.renderAll();
 					}, 10000);
 				}
-				drawPoly.endDraw();
+				drawTool.endDraw();
 			}
 			else{
 				lbc.obj.set('stroke', lbc.obj.basicColor);
@@ -153,13 +154,13 @@ class LabelControl{
 							__canvas__.remove(c);
 						});
 						lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
-						__canvas__.renderAll();
 					}
 
 					lbc.obj.points.forEach(function(point, index) {
 						var circle = configureCircle(point.x, point.y, index);
-						circle.radius = 8;
-						
+
+						circle.set('isEditPolygonIcon', true);
+
 						circle.on('moving', function(){
 							var p = circle;
 							var i = parseInt(p.name);
@@ -203,12 +204,17 @@ class LabelControl{
 				});
 				lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
 			}
-
-			this.canvas.remove(this.obj.icon);
 			this.canvas.remove(this.obj);
-			this.canvas.renderAll();
+			this.canvas.remove(this.obj.icon);
 			current_element.parentElement.removeChild(current_element);
 		}
+		else {
+			console.log("noooooooooo delete" + this.id)
+		}
+	}
+
+	getTypeLabel() {
+		return this.obj.type_label;
 	}
 
 	getValueClass(){
@@ -223,7 +229,7 @@ class LabelControl{
 		return this.edit;
 	}
 
-	getNamelabel(){
+	getNameLabel(){
 		return this.obj.name;
 	}
 
@@ -243,14 +249,6 @@ const createItemToList = function(canvas, object){
 	if(quickSettings.getAtt('auto_hidden')){
 		var e_hidden = document.getElementById(object.labelControl.getId()+"_hidden");
 		e_hidden && e_hidden.click();
-	}
-	else {
-		setTimeout(function(){
-			var e_hidden = document.getElementById(object.labelControl.getId()+"_hidden");
-			if(!object.labelControl.getIsEdit()){
-				e_hidden && e_hidden.click();
-			}
-		}, 5000);
 	}
 }
 

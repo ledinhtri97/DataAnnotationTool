@@ -22,8 +22,8 @@ class PopupControllers{
 			document.getElementById("accuracy_popup").textContent = this.objshape.accuracy;
 			var left = (cvcontainer.clientWidth - cv_element.clientWidth) / 2;
 			var top = (cvcontainer.clientHeight - cv_element.clientHeight) / 2;
-			group_control.style["left"] = (left + this.objshape.oCoords.bl.x) +"px";
-			group_control.style["top"] = (top + this.objshape.oCoords.bl.y)+"px";
+			group_control.style["left"] = (left + this.objshape.oCoords.tl.x) +"px";
+			group_control.style["top"] = (top + this.objshape.oCoords.tl.y - 20)+"px";
 			group_control.style["display"] = "";
 		}
 	}
