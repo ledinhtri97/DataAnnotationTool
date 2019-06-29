@@ -1,5 +1,12 @@
 version: '3'
 services:
+  db:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_PASSWORD=gvlab@2019
+      - POSTGRES_USER=docker_gvlab_dev
+      - POSTGRES_DB=docker_dat_gvlab_dev
+    restart: always             # run as a service
   dat_gvlab_dev:
     build:
       context: ..
@@ -8,6 +15,8 @@ services:
         - NODE_BUILD_TYPE=dev   # dev or prod
         - DJANGO_SETTINGS=DAT.settings.dev
     image: dat_gvlab_dev
+    depends_on:
+      - db
     ports:
       - "8787:8787" # django
       - "8989:8989" # jupyter lab

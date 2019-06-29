@@ -265,6 +265,51 @@ class MedicalChartBox {
         //self.hounsfield_indicator.render();
     }
 
+    static set_chart_for_contrast = (self, xmin, ymin, xmax, ymax) => {
+        const cornerstone_image = self.gvc.medical_images[self.gvc.state.active_idx].cornerstone_image;
+
+        // extract data from voxel matrix
+        var z_xmin = Math.min(xmin, xmax);
+        var z_ymin = Math.min(ymin, ymax);
+        var z_xmax = Math.max(xmin, xmax);
+        var z_ymax = Math.max(ymin, ymax);
+        var x1 = parseInt(z_xmin * cornerstone_image.width);
+        var y1 = parseInt(z_ymin * cornerstone_image.height);
+        var x2 = parseInt(z_xmax * cornerstone_image.width);
+        var y2 = parseInt(z_ymax * cornerstone_image.height);
+        const cs_data = cornerstone_image.getPixelData();
+        var to_loc1d = (x, y) => (y*cornerstone_image.width+x);
+        var is_valid_xy = (x, y) => x>=0 && y>=0 && x<cornerstone_image.width && y<cornerstone_image.height;
+        
+        var voxel_min_value = Number.MAX_SAFE_INTEGER;
+        var voxel_max_value = Number.MIN_SAFE_INTEGER;
+        
+        const slope = cornerstone_image.slope;
+        const intercept = cornerstone_image.intercept;
+
+        for (var x=x1; x<=x2; x++) {
+            for (var y=y1; y<=y2; y++) {
+                if (!is_valid_xy(x, y)) {
+                    continue;
+                }
+                var xy_1d = to_loc1d(x, y);
+                const voxel_value = cs_data[xy_1d]*slope+intercept;
+                if (voxel_value < voxel_min_value) {
+                    voxel_min_value = voxel_value;
+                }
+                if (voxel_value > voxel_max_value) {
+                    voxel_max_value = voxel_value;
+                }
+            }
+        }
+
+        var scatter_data = [
+            { x: voxel_min_value, y: 0 },
+            { x: voxel_max_value, y: 255 },
+        ];
+        MedicalChartBox.set_chart(self, scatter_data);
+    }
+
     static set_chart_for_default = (self) => {
         var min_hounsfield = self.chart_data.min_hounsfield;
         var max_hounsfield = self.chart_data.max_hounsfield;

@@ -24,7 +24,7 @@ DATABASES = {
         'NAME': 'docker_dat_gvlab_dev',
         'USER': 'docker_gvlab_dev',
         'PASSWORD': 'gvlab@2019',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

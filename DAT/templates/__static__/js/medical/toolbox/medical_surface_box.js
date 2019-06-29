@@ -99,6 +99,11 @@ class MedicalSurfaceBox {
             this.overlay._clear_mask_layer();
             this.overlay.gvc.register_visualize_callback(this.overlay.draw_mask);
             this._icon_color_off(this.overlay.ids.zoom_in_button_id);
+
+            if (this.overlay.contrast.is_active()) {
+                this.overlay.set_chart_for_contrast(point_from.x, point_from.y, point_to.x, point_to.y);
+            }
+
             return;
         }
 
@@ -352,6 +357,9 @@ class MedicalSurfaceBox {
         this.overlay.gvc.register_visualize_callback(this.overlay.draw_mask);
         this._clear_surface();
         this.overlay.hounsfield_indicator.clean();
+        if (this.overlay.contrast.is_active()) {
+            this.overlay.set_chart_for_default();
+        }
         return;
     }
 

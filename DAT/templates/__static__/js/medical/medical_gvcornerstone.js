@@ -375,7 +375,7 @@ class GVCornerStone2 extends React.Component {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // fill black background
-            ctx.fillStyle = "#000000";
+            ctx.fillStyle = "#111111";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             // fill in CT image

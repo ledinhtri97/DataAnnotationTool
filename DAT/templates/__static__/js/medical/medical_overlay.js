@@ -14,12 +14,14 @@ import Button from '@material-ui/core/Button';
 import Brush from '@material-ui/icons/Brush';
 import RadioButtonUnchecked from '@material-ui/icons/RadioButtonUnchecked';
 import Colorize from '@material-ui/icons/Colorize';
+import Exposure from '@material-ui/icons/Exposure';
 
 import MedicalImageProcessingBox from './toolbox/medical_image_processing_box';
 import MedicalChartBox from './toolbox/medical_chart_box';
 import MedicalSurfaceBox from './toolbox/medical_surface_box';
 import MedicalBrushBox from './toolbox/medical_brush_box';
 import MedicalHounsfieldIndicatorBox from './toolbox/medical_hounsfield_indicator_box';
+import ContrastModeBox from './toolbox/contrast_mode_box';
 
 const styles = theme => ({
     createjs_canvas: {
@@ -68,6 +70,7 @@ class GVMedicalOverlay extends React.Component {
     brush = null;
     eraser = null;
     brush_or_eraser = null;
+    contrast = null;
     gvc = null;
 
     ids = {
@@ -88,6 +91,7 @@ class GVMedicalOverlay extends React.Component {
         input_text_slice_id: "input_text_slice_id_",
         hounsfield_indicator_button_id: "hounsfield_indicator_button_id_",
         hounsfield_indicator_canvas_id: "hounsfield_indicator_canvas_id_",
+        contrast_mode_button_id: "contrast_mode_button_id_",
     };
 
     supported_phases = ["Non Contrast", "Arterial", "Venous", "Delay"];
@@ -121,6 +125,7 @@ class GVMedicalOverlay extends React.Component {
         
         const is_eraser = true;
         this.eraser = new MedicalBrushBox(this, this.ids.eraser_button_id, is_eraser);
+        this.contrast = new ContrastModeBox(this, this.ids.contrast_mode_button_id);
         
         this.hounsfield_indicator = new MedicalHounsfieldIndicatorBox(this, 
             this.ids.hounsfield_indicator_button_id, 
@@ -199,6 +204,10 @@ class GVMedicalOverlay extends React.Component {
         } else {
             this.hounsfield_indicator.clean();
         }
+
+        if (feature_name == "chart") {
+            this.contrast.set_active(false);
+        }
     }
 
     show_or_close_chart = () => {        
@@ -251,6 +260,10 @@ class GVMedicalOverlay extends React.Component {
 
     copy_chart_to_one_slice = (phase_name) => {
         this.gvc.sync_copy_to_slice(phase_name[0]);
+    }
+
+    set_chart_for_contrast = (xmin, ymin, xmax, ymax) => {
+        MedicalChartBox.set_chart_for_contrast(this, xmin, ymin, xmax, ymax);
     }
 
     set_chart_for_default = () => {
@@ -531,31 +544,14 @@ class GVMedicalOverlay extends React.Component {
                     </IconButton>
                     
                     <IconButton 
-                        onClick={this.surface.full_screen} 
-                        id={this.ids.full_screen_button_id} 
-                        className={classes.icon_button}
-                        style={{display: "block"}}>
-                        <Tooltip title="Fullscreen" placement="right" classes={{tooltip: classes.lightTooltip}}>
-                            <Fullscreen className={classes.icon} fontSize="large"/>
-                        </Tooltip></IconButton>
-
-                    <IconButton 
-                        onClick={this.surface.restore_screen} 
-                        id={this.ids.restore_screen_button_id}
-                        className={classes.icon_button}
-                        style={{display: "none"}}>
-                        <Tooltip title="Exit Fullscreen" placement="right" classes={{tooltip: classes.lightTooltip}}>
-                            <FullscreenExit className={classes.icon} fontSize="large"/>
-                        </Tooltip></IconButton>
-                    
-                    <IconButton 
                         onClick={this.show_mask_editor} 
                         id={this.ids.show_mask_editor_button_id} 
                         className={classes.icon_button}
                         style={{display: "none"}}>
                         <Tooltip title="Edit Labels" placement="right" classes={{tooltip: classes.lightTooltip}}>
                             <Layers className={classes.icon} fontSize="large"/>
-                        </Tooltip></IconButton>
+                        </Tooltip>
+                    </IconButton>
 
                     <IconButton 
                         onClick={this.close_mask_editor} 
@@ -564,16 +560,8 @@ class GVMedicalOverlay extends React.Component {
                         style={{display: "none"}}>
                         <Tooltip title="Edit Labels" placement="right" classes={{tooltip: classes.lightTooltip}}>
                             <Layers className={classes.icon} fontSize="large"/>
-                        </Tooltip></IconButton>
-
-                    <IconButton 
-                        onClick={this.hounsfield_indicator.handle_click_hounsfield_indicator} 
-                        id={this.ids.hounsfield_indicator_button_id} 
-                        className={classes.icon_button}
-                        style={{display: "block"}}>
-                        <Tooltip title="Hounsfield Statistic | Turn this off and click on region to delete" placement="right" classes={{tooltip: classes.lightTooltip}}>
-                            <Colorize className={classes.icon} fontSize="large"/>
-                        </Tooltip></IconButton>
+                        </Tooltip>
+                    </IconButton>
 
                     <IconButton 
                         onClick={this.show_or_close_chart} 
@@ -582,7 +570,28 @@ class GVMedicalOverlay extends React.Component {
                         style={{display: "block"}}>
                         <Tooltip title="Show Chart" placement="right" classes={{tooltip: classes.lightTooltip}}>
                             <ShowChart className={classes.icon} fontSize="large"/>
-                        </Tooltip></IconButton>
+                        </Tooltip>
+                    </IconButton>
+
+                    <IconButton 
+                        onClick={this.contrast.switch_mode} 
+                        id={this.ids.contrast_mode_button_id} 
+                        className={classes.icon_button}
+                        style={{display: "block"}}>
+                        <Tooltip title="Contrast Mode" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <Exposure className={classes.icon} fontSize="large"/>
+                        </Tooltip>
+                    </IconButton>
+
+                    <IconButton 
+                        onClick={this.hounsfield_indicator.handle_click_hounsfield_indicator} 
+                        id={this.ids.hounsfield_indicator_button_id} 
+                        className={classes.icon_button}
+                        style={{display: "block"}}>
+                        <Tooltip title="Hounsfield Statistic | Turn this off and click on region to delete" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <Colorize className={classes.icon} fontSize="large"/>
+                        </Tooltip>
+                    </IconButton>
                     
                     <IconButton 
                         onClick={this.brush.start_labeling} 
@@ -591,7 +600,8 @@ class GVMedicalOverlay extends React.Component {
                         style={{display: "none"}}>
                         <Tooltip title="Labeling by brush" placement="right" classes={{tooltip: classes.lightTooltip}}>
                             <Brush className={classes.icon} fontSize="large"/>
-                        </Tooltip></IconButton>
+                        </Tooltip>
+                    </IconButton>
 
                     <IconButton 
                         onClick={this.eraser.start_labeling} 
@@ -600,7 +610,29 @@ class GVMedicalOverlay extends React.Component {
                         style={{display: "none"}}>
                         <Tooltip title="Eraser" placement="right" classes={{tooltip: classes.lightTooltip}}>
                             <RadioButtonUnchecked className={classes.icon} fontSize="large"/>
-                        </Tooltip></IconButton>
+                        </Tooltip>
+                    </IconButton>
+                </div>
+                
+                <div style={{position: "absolute", right: "0px", bottom: "0px", zIndex: "100", margin: "0.5em"}}>
+                    <IconButton 
+                        onClick={this.surface.full_screen} 
+                        id={this.ids.full_screen_button_id} 
+                        className={classes.icon_button}
+                        style={{display: "block"}}>
+                        <Tooltip title="Fullscreen" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <Fullscreen className={classes.icon} fontSize="large"/>
+                        </Tooltip>
+                    </IconButton>
+                    <IconButton 
+                        onClick={this.surface.restore_screen} 
+                        id={this.ids.restore_screen_button_id}
+                        className={classes.icon_button}
+                        style={{display: "none"}}>
+                        <Tooltip title="Exit Fullscreen" placement="right" classes={{tooltip: classes.lightTooltip}}>
+                            <FullscreenExit className={classes.icon} fontSize="large"/>
+                        </Tooltip>
+                    </IconButton>
                 </div>
 
                 <div id={this.ids.mask_layers_editor_id} 
