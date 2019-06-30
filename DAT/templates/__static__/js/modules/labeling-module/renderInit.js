@@ -93,8 +93,8 @@ const initPredict = function(canvas, meta){
 		}
 		canvas.renderAll();
 		createItemToList(canvas, shape);
-		var e_hidden = document.getElementById(shape.labelControl.getId()+"_hidden");
-		e_hidden && e_hidden.click();
+		// var e_hidden = document.getElementById(shape.labelControl.getId()+"_hidden");
+		// e_hidden && e_hidden.click();
 	});  
 }
 
