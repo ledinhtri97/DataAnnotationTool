@@ -26,6 +26,9 @@ class MedicalSurfaceBox {
     }
 
     mouse_down = (event) => {
+        const offsetX = event.nativeEvent.offsetX;
+        const offsetY = event.nativeEvent.offsetY;
+
         if (event.nativeEvent.which === 3) { // no processing on right click
             return;
         }
@@ -39,6 +42,30 @@ class MedicalSurfaceBox {
         
         if (this.overlay.brush_or_eraser && this.overlay.brush_or_eraser.is_active()) {
             this.overlay.brush_or_eraser.is_brushing = true;
+
+            const point2d = MedicalSurfaceBox.convert_canvas_coord_to_image_coord_percent(
+                offsetX, offsetY, 
+                this.overlay.gvc.vis_meta, 
+                this.overlay.gvc.state);
+                
+            if (point2d.x < 0 || point2d.y < 0 || point2d.x > 1 || point2d.y > 1) { // invalid values
+                // do nothing
+            } else {
+                var mask_idx = -1;
+                var active_label_id = this.overlay.props.medical_label_state.getLabelId();
+                var m = this.overlay.gvc.labeling_mask_layers[this.overlay.gvc.state.active_idx]
+                if (m.length>0 && parseInt(m[m.length-1].label_id) == parseInt(active_label_id)) {
+                    mask_idx = m.length-1;
+                }
+                this.overlay.gvc.brush_point_at(point2d.x, point2d.y, 
+                    this.overlay.brush_or_eraser.brush_radius, 
+                    this.overlay.brush_or_eraser.brush_shape,
+                    mask_idx,
+                    this.overlay.brush_or_eraser.is_eraser,
+                    this._surface_height());
+                this.overlay.draw_mask();
+            }
+
             return;
         }
 
@@ -178,7 +205,8 @@ class MedicalSurfaceBox {
                         this.overlay.brush_or_eraser.brush_radius, 
                         this.overlay.brush_or_eraser.brush_shape,
                         mask_idx,
-                        this.overlay.brush_or_eraser.is_eraser);
+                        this.overlay.brush_or_eraser.is_eraser,
+                        this._surface_height());
                     this.overlay.draw_mask();
                 }
             }
@@ -231,18 +259,18 @@ class MedicalSurfaceBox {
         }
     }
 
-    /*on_wheel = (e) => {
-        console.log("on wheel ()");
-        console.log(e);
-        if(e.Delta > 0) {
-            // The user scrolled up.
-            this.overlay.brush.brush_radius += 1;
-        } else {
-            // The user scrolled down.
-            this.overlay.brush.brush_radius -= 1;
-            this.overlay.brush.brush_radius = (this.overlay.brush.brush_radius<0)?0:this.overlay.brush.brush_radius;
+    on_wheel = (e) => {
+        if (!this.overlay.brush_or_eraser) {
+            return;
         }
-    }*/
+
+        if (e.nativeEvent.wheelDelta > 0) {
+            this.overlay.brush_or_eraser.brush_radius += 1;
+        } else {
+            this.overlay.brush_or_eraser.brush_radius -= 1;
+            this.overlay.brush_or_eraser.brush_radius = (this.overlay.brush_or_eraser.brush_radius<=0)?1:this.overlay.brush_or_eraser.brush_radius;
+        }
+    }
 
     _reset = () => {
         this.is_zoom_in = false;

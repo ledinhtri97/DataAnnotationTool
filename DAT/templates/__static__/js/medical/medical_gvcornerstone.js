@@ -665,13 +665,13 @@ class GVCornerStone2 extends React.Component {
         });
     }
 
-    brush_point_at = (x_percent, y_percent, radius, shape, mask_idx, is_eraser) => {
+    brush_point_at = (x_percent, y_percent, radius, shape, mask_idx, is_eraser, canvas_height_px) => {
         mask_idx = (typeof mask_idx == "undefined")?-1:mask_idx;
         is_eraser = (is_eraser == undefined)?false:is_eraser;
         return wait_opencvjs_to_exec(function(data) {
             const x_percent = data.x_percent;
             const y_percent = data.y_percent;
-            const radius = data.radius;
+            const radius_percent = data.radius_percent;
             const shape = data.shape;
             const mask_idx = data.mask_idx;
             const gvc = data.gvc;
@@ -679,7 +679,8 @@ class GVCornerStone2 extends React.Component {
 
             const cvimg = gvc.medical_images[gvc.state.active_idx].intensity_image;
             const x_abs = Math.floor(x_percent*cvimg.cols);
-            const y_abs = Math.floor(y_percent*cvimg.rows);               
+            const y_abs = Math.floor(y_percent*cvimg.rows);      
+            const radius = Math.ceil(radius_percent * (gvc.state.zoom_ymax-gvc.state.zoom_ymin) * cvimg.rows);
             
             const label_id = (mask_idx>=0)?gvc.labeling_mask_layers[gvc.state.active_idx][mask_idx].label_id:gvc.props.medical_label_state.labelId.toString();
 
@@ -736,7 +737,7 @@ class GVCornerStone2 extends React.Component {
         }, {
             x_percent: x_percent,
             y_percent: y_percent,
-            radius: radius,
+            radius_percent: radius/canvas_height_px,
             shape: shape,
             mask_idx: mask_idx,
             gvc: this,
