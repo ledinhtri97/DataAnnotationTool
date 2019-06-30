@@ -22,29 +22,33 @@ const styles = theme =>({
 
 
 class AlertDialogChangeClass extends React.Component {
-  state = {
-    open: true,
-  };
+    state = {
+        open: true,
+    };
 
-  handleClose = (event) => {
-    // alert(event.target.value);
-    if(event.target.value){
-      let values = event.target.value.split(',');
+    contextMenu = function(e) {
+        e.preventDefault();
+        return false;
+    };
 
-      let res = this.props.labelControl.__changeClass__(values[0], values[1], values[2]);//lb.tag_label+','+lb.type_label+','+lb.color;
-      
-      if (res){
-        this.setState({ open: false });
-        this.props.callSetName(values[0]); //dig
-      }
-      else{
-        alert("Cannot change different type of shape");
-      }
-    }
-    else{
-      this.setState({ open: false });
-    }
-  };
+    handleClose = (event) => {
+        // alert(event.target.value);
+        if(event.target.value){
+            let values = event.target.value.split(',');
+            //lb.tag_label+','+lb.type_label+','+lb.color;
+            let res = this.props.labelControl.__changeClass__(values[0], values[1], values[2]);
+            if (res){
+                this.setState({ open: false });
+                this.props.callSetName(values[0]); //dig
+            }
+            else{
+                alert("Cannot change different type of shape");
+            }
+        }
+        else{
+            this.setState({ open: false });
+        }
+    };
 
   render() {
 
@@ -77,12 +81,13 @@ class AlertDialogChangeClass extends React.Component {
                 let labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
                 let labeltype = lb.type_label.charAt(0).toUpperCase() + lb.type_label.slice(1);
                 let id = lb.tag_label+','+lb.type_label+','+lb.color;
-                return (
+                if (lb.type_label === labelControl.getTypeLabel()){
+                  return (
                     <FormControlLabel key={lb.id} value={id} control={<Radio color="primary"/>} label={labelname + ' | ' +labeltype} />
-                  );}
+                  );}  
+                }
               )
             }
-
               </RadioGroup>
             </FormControl>
           </DialogContent>

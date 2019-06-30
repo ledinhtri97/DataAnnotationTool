@@ -2,9 +2,11 @@ from adminmaster.datamanagement.submodels.metadata import MetaDataModel
 from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
 from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
 from adminmaster.workspacemanagement.models import WorkSpaceUserModel
+from adminmaster.workspacemanagement.models import UserSettingsModel
 from django.http import JsonResponse
 from django.conf import settings
 from .querymeta import query_meta, query_meta_reference
+import json
 
 from apimodel.models import ApiReferenceModel
 
@@ -168,3 +170,32 @@ def outws_index(request, metaid):
 	current_meta_data.onviewing_user =  None
 	current_meta_data.save(update_fields=['onviewing_user'])
 	return JsonResponse(data={})
+
+
+def get_data_settings(request):
+    data = {}
+    try:
+        setts = UserSettingsModel.objects.get(user=request.user)
+        data = json.loads(setts.settings)
+    except Exception as e:
+        data['Error'] = 'Data is not available'
+        data['Messenger'] = str(e)
+
+    return JsonResponse(data=data)
+
+
+def saveseting_index(request):
+    if request.method == 'POST':
+        try:
+
+            __body__ = json.loads(request.body.decode('utf-8'))
+
+            setts = UserSettingsModel.objects.filter(user=request.user).first()
+            setts.settings = json.dumps(__body__['sett'])
+            print(setts.settings)
+            setts.save(update_fields=['settings'])
+
+        except Exception as e:
+            print(e)
+
+    return JsonResponse({})

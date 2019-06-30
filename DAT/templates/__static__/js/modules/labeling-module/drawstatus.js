@@ -5,26 +5,62 @@ class DrawStatus{
 		this.isWaiting = false;
 		this.isZoom = false;
 		this.idTool = '';
-		this.namelabel = 'NO LABEL';
-		this.typelabel = 'TYPE LABEL'
+		this.namelabel = '';
+		this.colorlabel = "#F4D03F";
+		this.typelabel = '';
+		this.renewlabel = true;
 		this.zoomSpaceKey = false;
 		this.popupHover = false;
+		this.modeTool = [0, 0, 0, 0]; //edit, hidden, delete, change mode ===> default is false
 	}
 
-	getIdlabel(){
-		return this.idTool;
+	getModeTool(imode) {
+		if(imode) return this.modeTool[imode];
+		
+		let i = 0;
+		for(i; i < this.modeTool.length; i++){
+			if(this.modeTool[i]===1){ return i; }
+		}
+		return -1;
 	}
 
-	getNamelabel(){
+	setModeTool(imode=-1){
+		let i = 0;
+		for(i; i < this.modeTool.length; i++){
+			if(imode === i){ this.modeTool[i] = 1; }
+			else{ this.modeTool[i] = 0; }
+		}
+	}
+
+	setModeToolOff(imode){
+		this.modeTool[imode] = 0;
+	}
+
+	getRenewLabel(){
+		return this.renewlabel;
+	}
+
+	setRenewLabel(value) {
+		this.renewlabel = value;
+	}
+
+	getNameLabel(){
 		return this.namelabel;
 	}
 
-	getColorlabel(){
-		var color = document.getElementById(this.idTool+'_color')
-		return color ? color.textContent : "#F4D03F";
+	setNameLabel(value){
+		return this.namelabel = value;
 	}
 
-	getStrokelabel(){
+	getColorLabel(){
+		return this.colorlabel;
+	}
+
+	setColorLabel(value){
+		return this.colorlabel = value;
+	}
+
+	getStrokeLabel(){
 		var strokeWidth_id = document.getElementById('width_stroke');
 		return strokeWidth_id ? parseInt(strokeWidth_id.textContent) : 2;
 	}
@@ -53,10 +89,6 @@ class DrawStatus{
 		return this.isWaiting;
 	}
 
-	setIdTool(__idTool__){
-		this.idTool = __idTool__;
-	}
-
 	setIsZoom(__isZoom__){
 		this.isZoom = __isZoom__;
 	}
@@ -73,27 +105,14 @@ class DrawStatus{
 		return this.zoomSpaceKey;
 	}
 
-	startDrawStatus(__idTool__, namelabel, typelabel){
+	startDrawStatus(){
 		this.isDrawing = true;
 		this.isWaiting = true;
-		if(__idTool__ && namelabel && typelabel) {
-			this.idTool = __idTool__;
-			this.namelabel = namelabel;
-			this.typelabel = typelabel;
-		}
-		var currentTool = document.getElementById(this.idTool+'_label');
-		document.getElementById("type_label").textContent = "SHAPE : " + this.typelabel;
-		document.getElementById("label").textContent = this.namelabel;
-		if (currentTool) currentTool.style['backgroundColor'] = "#ADE4FF";
 	}
 
 	stopDrawStatus(){
 		this.isDrawing = false;
 		this.isWaiting = false;
-		var currentTool = document.getElementById(this.idTool+'_label');
-		document.getElementById("type_label").textContent = "TYPE LABEL";
-		document.getElementById("label").textContent = "NO LABEL";
-		if (currentTool) currentTool.style['backgroundColor'] = "#FFFFFF";
 	}
 }
 

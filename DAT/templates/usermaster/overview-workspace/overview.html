@@ -1,11 +1,20 @@
 {% extends "usermaster/base.html" %}
 {% block title %}Workspace{% endblock %}
+
+{%block header%}
+<div id="header"></div>
+{%endblock%}
+
 {% block content %}
 	<div id="overview_workspace">{% load static %}<img 
       style="display: block; margin: auto; margin-top: 5rem; width:40%; height:40%;"
       src="{% static 'images/simple-loader.gif' %}" alt=""></div>
 	<div id="dialog_view" style="display:none;"></div>
 {% endblock content%}
+
+{%block footer%}
+<div id="footer"></div>
+{%endblock%}
 
 {%block loadjs%} 
 {% load static %}

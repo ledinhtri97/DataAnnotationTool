@@ -2,23 +2,40 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {fabric} from 'fabric';
 
-import Labeling from "./materialui/labeling-ui/labeling-main";
+import MainFrameLabeling from "./materialui/labeling-ui/mainframe";
 import TemporaryDrawerInstruction from "./materialui/labeling-ui/drawerInstruction"
 import TemporaryDrawerSettings from "./materialui/labeling-ui/drawerSettings";
 import ToolListItems from './materialui/labeling-ui/listitem/toolListItems';
 
 import {outWorkSpace} from "./modules/dat-utils";
 import {rqnext, rqsavenext, rqsave} from  "./modules/request"
-import {initCanvas, initPredict} from "./modules/labeling-module/controller/renderInit"
+import {initCanvas, initPredict} from "./modules/labeling-module/renderInit"
 import {init_event} from "./modules/labeling-module/event"
 import {PopupControllers} from "./modules/labeling-module/controller/popup";
-import {DrawPolygon} from "./modules/labeling-module/drawer/polygon"
+import {DrawTool} from "./modules/labeling-module/drawtool"
 import {Color} from "./modules/labeling-module/style/color";
 import DrawStatus from './modules/labeling-module/drawstatus';
 import QuickSettings from './modules/labeling-module/settings'
 
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+const controllerRequest = (callback_cl) => {
+
+	if(group_control) group_control.style["display"] = "none";
+
+	if(callback_cl == 'rqnext'){
+		rqnext(meta_id.textContent, canvas);
+	}
+	if (callback_cl == 'rqsavenext') {
+		rqsavenext(meta_id.textContent, canvas);
+	}
+	if (callback_cl == 'rqsave') {
+		rqsave(meta_id.textContent, canvas);
+	} 
+}
+
 const labeling = document.getElementById("labeling");
-labeling && ReactDOM.render(<Labeling />, labeling);
+labeling && ReactDOM.render(<MainFrameLabeling />, labeling);
 
 const canvas = new fabric.Canvas('canvas', {
 	hoverCursor: 'pointer',
@@ -26,6 +43,7 @@ const canvas = new fabric.Canvas('canvas', {
 	selectionBorderColor: Color.GREEN,
 	backgroundColor: null,
 	uniScaleTransform: true,
+	fireRightClick: true,
 });
 
 const settings = document.getElementById("settings");
@@ -35,11 +53,8 @@ settings && ReactDOM.render(<TemporaryDrawerSettings canvas={canvas}/>, settings
 
 const group_control =  document.getElementById("group_control");
 const meta_id = document.getElementById("meta_id");
-const skip_next = document.getElementById("skip_next");
-const save_next = document.getElementById("save_next");
-const only_save = document.getElementById("only_save");
 const drawStatus = new DrawStatus();
-const drawPoly = new DrawPolygon(canvas);
+const drawTool = new DrawTool(canvas);
 const popupControllers = new PopupControllers(canvas); 
 const quickSettings = new QuickSettings();
 
@@ -68,7 +83,7 @@ if(labeling && meta_id && meta_id.textContent){
 			).then(meta => {
 				if(meta === "FAILED") return;
 				
-				setTimeout(function(){initPredict(canvas, meta)}, 100);
+				setTimeout(function(){initPredict(canvas, meta)}, 200);
 			});
 
 			init_event(canvas, popupControllers, meta.label_select);
@@ -76,9 +91,10 @@ if(labeling && meta_id && meta_id.textContent){
 			const tools_list_items = document.getElementById("tools_list_items");
 			tools_list_items && ReactDOM.render(<ToolListItems 
 				label_select={meta.label_select} 
-				drawPoly={drawPoly} 
+				drawTool={drawTool} 
 				drawStatus={drawStatus}
-				quickSettings={quickSettings}/>, 
+				quickSettings={quickSettings}
+				controllerRequest={controllerRequest}/>, 
 				tools_list_items);
 
 			const keyboard = document.getElementById("keyboard");
@@ -89,6 +105,12 @@ if(labeling && meta_id && meta_id.textContent){
 			if(label_select) {
 				label_select.textContent = JSON.stringify({label_select: meta.label_select});
 			};
+
+			//start drawing when all done
+			//old option parameter: id, namelabel, typelabel
+			
+			document.getElementById("stop_draw").style['backgroundColor'] = "#B6F3F2";
+			setTimeout(function(){drawTool.startDraw();}, 500);
 		});
 	} catch(e) {
 		// statements
@@ -98,31 +120,9 @@ if(labeling && meta_id && meta_id.textContent){
 
 //=====================CONTROLER=======================//
 
-const controllerRequest = (callback_cl) => {
-
-	if(group_control) group_control.style["display"] = "none";
-
-	if(callback_cl == 'rqnext'){
-		rqnext(meta_id.textContent, canvas);
-	}
-	if (callback_cl == 'rqsavenext') {
-		rqsavenext(meta_id.textContent, canvas);
-	}
-	if (callback_cl == 'rqsave') {
-		rqsave(meta_id.textContent, canvas);
-	} 
-}
-
-if(skip_next) {
-	skip_next.addEventListener('click', () => controllerRequest('rqnext'));
-}
-
-if(save_next) {
-	save_next.addEventListener('click', () => controllerRequest('rqsavenext'));
-}
-
+let only_save;
 if(only_save){
 	only_save.addEventListener('click', () => controllerRequest('rqsave'));
 }
 
-export {quickSettings, drawStatus, drawPoly, controllerRequest}
+export {quickSettings, drawStatus, drawTool, controllerRequest}
