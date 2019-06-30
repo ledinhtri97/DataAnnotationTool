@@ -17,7 +17,7 @@
     "prod-labeling": "webpack --mode production ./DAT/templates/__static__/js/labeling.js --output ./DAT/templates/static/js/build/labeling.js",
     "prod-contribute": "webpack --mode production ./DAT/templates/__static__/js/contribute.js --output ./DAT/templates/static/js/build/contribute.js",
     "prod-adminws": "webpack --mode production ./DAT/templates/__static__/js/admin_workspace.js --output ./DAT/templates/static/js/build/admin_workspace.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1 "
   },
   "keywords": [],
   "author": "",
