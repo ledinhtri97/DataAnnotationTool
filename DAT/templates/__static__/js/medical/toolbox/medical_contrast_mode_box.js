@@ -1,4 +1,4 @@
-class ContrastModeBox {
+class MedicalContrastModeBox {
     overlay = null;
     contrast_mode_button_id = "";
 
@@ -30,4 +30,4 @@ class ContrastModeBox {
     }
 }
 
-export default ContrastModeBox
+export default MedicalContrastModeBox

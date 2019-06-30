@@ -311,7 +311,8 @@ class GVCornerStone2 extends React.Component {
                                     y_percent: -1,
                                     label_id: label_id.toString(), // str
                                     mask: g_cvmask, // cv.Mat()
-                                    delta: -1
+                                    delta: -1,
+                                    editable: false,
                                 });
 
                                 self.recalculate_labeling_mask(label_id.toString());
@@ -644,6 +645,7 @@ class GVCornerStone2 extends React.Component {
                     label_id: label_id, // str
                     mask: cvmask.clone(), // cv.Mat()
                     delta: delta,
+                    editable: true,
                 };
             } else {
                 self.labeling_mask_layers[self.state.active_idx].push({
@@ -651,7 +653,8 @@ class GVCornerStone2 extends React.Component {
                     y_percent: y_percent,
                     label_id: label_id, // str
                     mask: cvmask.clone(), // cv.Mat()
-                    delta: delta
+                    delta: delta,
+                    editable: true,
                 });
             }
 
@@ -723,7 +726,8 @@ class GVCornerStone2 extends React.Component {
                         y_percent: y_percent,
                         label_id: label_id.toString(), // str
                         mask: cvmask, // cv.Mat()
-                        delta: -1
+                        delta: -1,
+                        editable: true,
                     });                
                 }
             } else {

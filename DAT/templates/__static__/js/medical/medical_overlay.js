@@ -21,7 +21,8 @@ import MedicalChartBox from './toolbox/medical_chart_box';
 import MedicalSurfaceBox from './toolbox/medical_surface_box';
 import MedicalBrushBox from './toolbox/medical_brush_box';
 import MedicalHounsfieldIndicatorBox from './toolbox/medical_hounsfield_indicator_box';
-import ContrastModeBox from './toolbox/contrast_mode_box';
+import MedicalContrastModeBox from './toolbox/medical_contrast_mode_box';
+import MedicalMaskEditorBox from './toolbox/medical_mask_editor_box';
 
 const styles = theme => ({
     createjs_canvas: {
@@ -78,8 +79,6 @@ class GVMedicalOverlay extends React.Component {
         zoom_reset_button_id: "zoom_reset_button_id_",
         full_screen_button_id: "full_screen_button_id_",
         restore_screen_button_id: "restore_screen_button_id_",
-        show_mask_editor_button_id: "show_mask_editor_button_id_",
-        close_mask_editor_button_id: "close_mask_editor_button_id_",
         mask_layers_editor_id: "mask_layers_editor_id_",
         show_chart_button_id: "show_chart_button_id_",
         copy_chart_to_other_slices_button_id: "copy_chart_to_other_slices_button_id_",
@@ -125,7 +124,8 @@ class GVMedicalOverlay extends React.Component {
         
         const is_eraser = true;
         this.eraser = new MedicalBrushBox(this, this.ids.eraser_button_id, is_eraser);
-        this.contrast = new ContrastModeBox(this, this.ids.contrast_mode_button_id);
+        this.contrast = new MedicalContrastModeBox(this, this.ids.contrast_mode_button_id);
+        this.mask_editor = new MedicalMaskEditorBox(this, this.ids.mask_layers_editor_id);
         
         this.hounsfield_indicator = new MedicalHounsfieldIndicatorBox(this, 
             this.ids.hounsfield_indicator_button_id, 
@@ -161,20 +161,7 @@ class GVMedicalOverlay extends React.Component {
 
     label_selected = () => {
         this.surface.label_selected();
-    }
-
-    show_mask_editor = () => {
-        document.getElementById(this.ids.show_mask_editor_button_id).style.display = "none";
-        document.getElementById(this.ids.close_mask_editor_button_id).style.display = "block";
-        document.getElementById(this.ids.close_mask_editor_button_id).getElementsByTagName("svg")[0].style.color = "#ffff00dd";  
-        document.getElementById(this.ids.mask_layers_editor_id).style.display = "block";
-    }
-
-    close_mask_editor = () => {
-        document.getElementById(this.ids.show_mask_editor_button_id).style.display = "block";
-        document.getElementById(this.ids.close_mask_editor_button_id).style.display = "none";
-        document.getElementById(this.ids.mask_layers_editor_id).style.display = "none";
-    }
+    }    
 
     _disable_conflict_features = (feature_name) => {
         if (feature_name != "brush_or_eraser") {
@@ -283,7 +270,7 @@ class GVMedicalOverlay extends React.Component {
     }
     
     componentDidMount() {
-        //this.show_mask_editor();
+        // do nothing
     }
 
     componentDidUpdate = (prevProps, prevState, snapshot) => {
@@ -318,88 +305,18 @@ class GVMedicalOverlay extends React.Component {
         var context = overlay_canvas.getContext("2d");
         context.clearRect(0, 0, overlay_canvas.width, overlay_canvas.height);
 
-        const div_editor = document.getElementById(this.ids.mask_layers_editor_id);
-        while (div_editor.firstChild) {
-            div_editor.removeChild(div_editor.firstChild);
-        }
-
-        //var createjs_canvas = document.getElementById(this.canvas_createjs_id);
-        //createjs_canvas.getContext("2d").clearRect(0, 0, createjs_canvas.width, createjs_canvas.height);
-
+        this.mask_editor.clean();
+        
         const medical_images = this.gvc.medical_images;
         const state = this.gvc.state;
         const vis_meta = this.gvc.vis_meta;
         const label_id = this.props.medical_label_state.getLabelId();
-        const self = this;
 
-        //console.log("[" + this.props.canvas_id + "] Draw mask for " + this.props.medical_label_state.getTagLabel() + " (" + label_id + ")" + " | state.active_idx: " + state.active_idx);
-
-        //if (medical_images[state.active_idx].labeling_mask == null || !(label_id in medical_images[state.active_idx].labeling_mask)) {
         if (medical_images[state.active_idx].labeling_mask == null) {
-            //console.log("[" + this.props.canvas_id + "] " + "Labeling Mask is null! Label ID: " + label_id + ". medical_images[state.active_idx].labeling_mask:");
-            //console.log(medical_images[state.active_idx].labeling_mask);
             return;
         }
 
-        const labeling_mask_layers = this.gvc.labeling_mask_layers;
-        const mask_layers = labeling_mask_layers[state.active_idx];        
-        
-        var dom_mask_items = [];
-        for (var ml=0; ml<mask_layers.length; ml++) {
-            const mask_info = mask_layers[ml];
-            const mask_label_id = parseInt(mask_info.label_id);
-            if (mask_label_id != label_id && label_id >= 0) {
-                continue;
-            }
-
-            var label_info = null;
-            for (var al=0; al<this.props.medical_label_state.all_labels.length; al++) {
-                if (this.props.medical_label_state.all_labels[al].id == mask_label_id) {
-                    label_info = this.props.medical_label_state.all_labels[al];
-                    break;
-                }                
-            }
-
-            if (label_info != null) {
-                const mask_label_tag_name = label_info.tag_label;
-
-                var div_node = document.createElement("div");
-                div_node.style.textAlign = "right";
-                var text_node = document.createTextNode(mask_label_tag_name);
-                div_node.appendChild(text_node);
-                
-                const mask_idx = ml;
-
-                var track_bar_node = document.createElement("span");
-                var delta_string = (mask_info.delta.toString().length==2)?mask_info.delta.toString():"&nbsp;&nbsp;"+mask_info.delta.toString();
-                track_bar_node.innerHTML = '&nbsp;&nbsp;<input type="range" id="trackbar" value="' + mask_info.delta + '" min="1" max="35" step="1" width="30%"> <span name="intensity_threshold">' + delta_string + '</span>';
-                track_bar_node.getElementsByTagName("input")[0].addEventListener('input', function() {
-                    const value = this.value;
-                    var value_str = (value.toString().length==2)?value.toString():"&nbsp;&nbsp;"+value.toString();
-                    this.parentNode.getElementsByTagName("span")[0].innerHTML = value_str;
-                });
-                track_bar_node.getElementsByTagName("input")[0].addEventListener('change', function() {
-                    self.gvc.region_growing(mask_info.x_percent, mask_info.y_percent, parseInt(this.value), mask_idx);
-                    self.draw_mask();
-                });
-                div_node.appendChild(track_bar_node);
-
-                
-                var remove_icon_node = document.createElement("span");
-                remove_icon_node.style.cursor = "pointer";
-                remove_icon_node.innerHTML = '&nbsp;&nbsp;<i class="fa fa-times-circle-o fa-2" aria-hidden="true"></i>';
-                remove_icon_node.addEventListener('click', function() {
-                    self.gvc.remove_labeling_mask_layers(mask_idx);
-                });
-                div_node.appendChild(remove_icon_node);
-
-                dom_mask_items.push(div_node);
-            }
-        }
-
-        for(var dmi=0; dmi<dom_mask_items.length; dmi++) {
-            div_editor.appendChild(dom_mask_items[dmi]);
-        }
+        this.mask_editor.render(label_id);
 
         var mstate = this.props.medical_label_state;
         this.props.medical_label_state.all_labels.map(function(lb, key) {
@@ -540,26 +457,6 @@ class GVMedicalOverlay extends React.Component {
                         style={{display: "block"}}>
                         <Tooltip title="Zoom Out" placement="right" classes={{tooltip: classes.lightTooltip}}>
                             <ZoomOut className={classes.icon} fontSize="large"/>
-                        </Tooltip>
-                    </IconButton>
-                    
-                    <IconButton 
-                        onClick={this.show_mask_editor} 
-                        id={this.ids.show_mask_editor_button_id} 
-                        className={classes.icon_button}
-                        style={{display: "none"}}>
-                        <Tooltip title="Edit Labels" placement="right" classes={{tooltip: classes.lightTooltip}}>
-                            <Layers className={classes.icon} fontSize="large"/>
-                        </Tooltip>
-                    </IconButton>
-
-                    <IconButton 
-                        onClick={this.close_mask_editor} 
-                        id={this.ids.close_mask_editor_button_id} 
-                        className={classes.icon_button}
-                        style={{display: "none"}}>
-                        <Tooltip title="Edit Labels" placement="right" classes={{tooltip: classes.lightTooltip}}>
-                            <Layers className={classes.icon} fontSize="large"/>
                         </Tooltip>
                     </IconButton>
 
