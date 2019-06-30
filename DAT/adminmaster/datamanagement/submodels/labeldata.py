@@ -7,19 +7,20 @@ import os
 
 class LabelDataModel(models.Model):
 
-     RECT = 'rect'
-     QUAD = 'quad'
-     POLY = 'poly'
+     RECT = "rect"
+     POLY = "poly"
+     ATTR = "attr"
      TYPE_LABEL_CHOICES = (
         (RECT, 'Rectangle'),
-        (QUAD, 'Quadrilateral'),
         (POLY, 'Polygon'),
+        (ATTR, 'Attribute'),
      )
+
      id = models.AutoField(primary_key=True)
 
      tag_label = models.CharField(max_length=100, default='label', verbose_name="Name label")
 
-     type_label = models.CharField (
+     type_label = models.CharField(
           max_length=20,
           choices=TYPE_LABEL_CHOICES,
           default=RECT,

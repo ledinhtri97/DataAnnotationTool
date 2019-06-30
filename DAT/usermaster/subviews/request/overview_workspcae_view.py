@@ -86,7 +86,7 @@ def get_data_overview_workspace(request, wsid):
                 },
                 'objects': [
                     {
-                        'name': label.tag_label,
+                        'name': label.tag_label + '-' + label.type_label,
                         'total': metadatas.filter(boxes_position__label=label).count(),
                         'user': metadatas.filter(submitted_by_user=user, boxes_position__label=label, boxes_position__flag='-1').count(),
                         'predict': metadatas.filter(boxes_position__label=label).count() - metadatas.filter(boxes_position__label=label, boxes_position__flag='-1').count(),

@@ -50,22 +50,22 @@ def get_fake_api(meta, api_ref):
 
 fake = [
     {
-        'tag_label': 'label_low',
+        'tag_label': 'smoke',
         'type_label': 'rect',
         'color': '#F0F0F0',
         'flag': 1,
         'accept_report_flag': False,
-        'position': '0.34,0.35,0.45,0.53',
+        'position': '0.65,0.25,0.95,0.53',
         'conf': 0.45,
         'accept_edit': True,
     },
     {
-        'tag_label': 'label_hight',
+        'tag_label': 'fire',
         'type_label': 'rect',
         'color': '#4285F4',
         'flag': 1,
         'accept_report_flag': False,
-        'position': '0.54,0.35,0.75,0.63',
+        'position': '0.54,0.35,0.85,0.95',
         'conf': 0.95,
         'accept_edit': False,
     }
@@ -76,11 +76,12 @@ def query_meta_reference(meta, api_reference):
     data = {}
     
     if len(api_reference.all()) and not meta.is_reference_api:
-        #data['predict'] = fake
-        # data['predict'] = []
-        data['predict'] = sum([
-            get_fake_api(meta, api_ref) for api_ref in api_reference.all()
-        ], [])
+        
+        # data['predict'] = sum([
+        #     get_fake_api(meta, api_ref) for api_ref in api_reference.all()
+        # ], [])
+
+        data['predict'] = []
 
         if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
             data['status'] = 'FAILED'

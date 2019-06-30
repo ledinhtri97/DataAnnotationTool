@@ -6,37 +6,22 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import OfflineBolt from '@material-ui/icons/OfflineBolt';
 import ThumbDownAlt from '@material-ui/icons/ThumbDownAlt';
-import Cancel from '@material-ui/icons/Cancel';
+import Brush from '@material-ui/icons/Brush';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
+import SkipNext from '@material-ui/icons/SkipNext';
+import BeenhereOutlined from '@material-ui/icons/BeenhereOutlined';
+import Autorenew from '@material-ui/icons/Autorenew';
+import ExtensionOutlined from '@material-ui/icons/ExtensionOutlined';
+import ControlCameraOutlined from '@material-ui/icons/ControlCameraOutlined';
+import CancelPresentationOutlined from '@material-ui/icons/CancelPresentationOutlined';
+import PartyModeOutlined from '@material-ui/icons/PartyModeOutlined';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
-import Filter1 from '@material-ui/icons/Filter1';
-import Filter2 from '@material-ui/icons/Filter2';
-import Filter3 from '@material-ui/icons/Filter3';
-import Filter4 from '@material-ui/icons/Filter4';
-import Filter5 from '@material-ui/icons/Filter5';
-import Filter6 from '@material-ui/icons/Filter6';
-import Filter7 from '@material-ui/icons/Filter7';
-import Filter8 from '@material-ui/icons/Filter8';
-import Filter9 from '@material-ui/icons/Filter9';
-import Filter from '@material-ui/icons/Filter';
-
-const MAP_ICON_LABEL = [
-<Filter1/>,
-<Filter2/>,
-<Filter3/>,
-<Filter4/>,
-<Filter5/>,
-<Filter6/>,
-<Filter7/>,
-<Filter8/>,
-<Filter9/>,
-<Filter/>,
-];
 
 const styles = theme => ({
     lightTooltip: {
@@ -47,15 +32,40 @@ const styles = theme => ({
     },
     icon: {
         paddingLeft: "5px",
-        paddingRight: "25px",
+        paddingRight: "5px",
     },
     close: {
         padding: theme.spacing.unit / 2,
     },
     hidden: {
         display: 'none',
-    }
+    },
+    splitTool:{
+        width: '100%',
+        height: 3,
+        background: '#4285F4',
+        padding: 0,
+    },
 });
+
+class ItemTool extends React.Component {
+    render() {
+        const { classes, idI, callBackFunc, text, Micon } = this.props;
+
+        return(
+            <div id={idI} onClick={callBackFunc}>
+            <ListItem button>
+            <Tooltip title={text} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+            <ListItemIcon className={classes.icon}>
+            <Micon />
+            </ListItemIcon>
+            </Tooltip>
+            <ListItemText primary={text}/>
+            </ListItem>
+            </div>
+        );
+    }
+};
 
 class ToolListItems extends React.Component {
 
@@ -64,6 +74,11 @@ class ToolListItems extends React.Component {
     state = {
         open: false,
         messageInfo: {},
+    };
+
+    contextMenu = function(e) {
+        e.preventDefault();
+        return false;
     };
 
     handleClick = (message) => {
@@ -90,102 +105,174 @@ class ToolListItems extends React.Component {
         this.setState({ open: false });
     };
 
+    handleRenewLabel = () => {
+        this.props.drawStatus.setRenewLabel(true);
+    };
+
+    handleDisplayTool = (onTool=-1) => {
+        let listTool = ["stop_draw", "edit_tool", "hidden_tool", "delete_tool", "change_tool"];
+        let i = 0;
+        for (i; i < 5; i++){
+            if (i === onTool) {
+                document.getElementById(listTool[i]).style['backgroundColor'] = "#B6F3F2";
+            }
+            else{
+                document.getElementById(listTool[i]).style['backgroundColor'] = "#FFFFFF";
+            }
+        }
+    };
+
+    handleStopDrawing = () => {
+        const {drawTool, drawStatus, quickSettings} = this.props;
+        
+        this.handleDisplayTool(0);
+
+        let isDrawing = drawStatus.getIsDrawing();
+        let isWaiting = drawStatus.getIsWaiting();
+        
+        if(quickSettings.getAtt('show_popup')){
+            if(isDrawing){
+                this.handleClick("Stop labeling mode");
+            }
+            else{
+                this.handleClick("You are not in labeling mode");
+            } 
+        }
+
+        if(isDrawing && isWaiting){
+            drawTool.endDraw();
+            stop_draw.style['backgroundColor'] = "#FFFFFF";
+        }
+        else{
+            drawTool.quickDraw();
+        }
+        drawStatus.setModeTool();
+    };
+
+    handleSaveNext = () => {
+        this.props.controllerRequest('rqsavenext');
+    };
+
+    handleSkipNext = () => {
+        this.props.controllerRequest('rqnext');
+    };
+
     handleExited = () => {
         this.processQueue();
     };
 
+    handleEdit = () => {
+        let {drawTool, drawStatus} = this.props;
+        
+        drawTool.endDraw();
+
+        if(drawStatus.getModeTool(0) === 1){
+            this.handleDisplayTool();
+            drawStatus.setModeTool(); //edit
+        }
+        else{
+            this.handleDisplayTool(1);
+            drawStatus.setModeTool(0); //edit
+        }  
+    };
+
+    handleHidden = () => {
+        let {drawTool, drawStatus} = this.props;
+
+        drawTool.endDraw();
+
+        if(drawStatus.getModeTool(1) === 1){
+            this.handleDisplayTool();
+            drawStatus.setModeTool();
+        }
+        else{
+            this.handleDisplayTool(2);
+            drawStatus.setModeTool(1); //hidden
+        }
+    };
+    
+    handleDelete = () => {
+        let {drawTool, drawStatus} = this.props;
+        
+        drawTool.endDraw();
+        if(drawStatus.getModeTool(2) === 1){
+            this.handleDisplayTool();
+            drawStatus.setModeTool();
+        }
+        else{
+            this.handleDisplayTool(3);
+            drawStatus.setModeTool(2); //delete
+        }
+    };
+
+    handleChange = () => {
+         let {drawTool, drawStatus} = this.props;
+        
+        drawTool.endDraw();
+        if(drawStatus.getModeTool(3) === 1){
+            this.handleDisplayTool();
+            drawStatus.setModeTool();
+        }
+        else{
+            this.handleDisplayTool(4);
+            drawStatus.setModeTool(3); //delete
+        }
+    }
+
     render() {
-        const { classes, label_select, drawPoly, drawStatus, quickSettings } = this.props;
+        const { classes, label_select, drawTool, drawStatus, quickSettings } = this.props;
         const { messageInfo } = this.state;
         const tool = this;
 
         return(
             <div>
 
-            <div id="stop_draw" onClick={function(e){
+            <div><ListItem button className={classes.splitTool}></ListItem></div>
 
-                let isDrawing = drawStatus.getIsDrawing();
-                let isWaiting = drawStatus.getIsWaiting();
-                
-                if(quickSettings.getAtt('show_popup')){
-                    if(isDrawing){
-                        tool.handleClick("Stop labeling mode");
-                    }
-                    else{
-                        tool.handleClick("You are not in labeling mode");
-                    } 
-                }
+             <ItemTool 
+                classes={classes} idI="renew_label" callBackFunc={tool.handleRenewLabel} 
+                Micon={Autorenew} text="(R) = Renew Label"/>
 
-                if(isDrawing && isWaiting){
-                    drawPoly.endDraw();
-                }
-                else{
-                    drawPoly.quickDraw();
-                }
-                
-            }}>
-            <ListItem button>
-            <Tooltip title="Stop Drawing" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
-            <ListItemIcon className={classes.icon}>
-            <Cancel />
-            </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Stop Drawing"/>
-            </ListItem>
-            </div>
-            
-            {
-                label_select.map(function(lb, key) {
-                    var labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
-                    var labeltype = lb.type_label.charAt(0).toUpperCase() + lb.type_label.slice(1);
-                    var _key_ = Math.min(key, 9);
-                    return (
-                        <div id={lb.id+'_label'} key={key} onClick={function(e){
+            <ItemTool 
+                classes={classes} idI="stop_draw" callBackFunc={tool.handleStopDrawing} 
+                Micon={Brush} text="(Q) = Labeling"/>
 
-                                let isd = drawStatus.getIsDrawing();
-                                let isw = drawStatus.getIsWaiting();
-                                if(!isd || (isd && isw)){
-                                    drawPoly.startDraw(lb.id, lb.tag_label, lb.type_label);
-                                    if(quickSettings.getAtt('show_popup')){
-                                        tool.handleClick("Drawing " + labelname + " by " + (lb.type_label =='rect' ? "rectangle" : "polygon") + " shape");
-                                    }
-                                }
-                            }}>
-                        <ListItem button>
-                        <Tooltip title={labelname + " | " + labeltype} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
-                        <ListItemIcon className={classes.icon}>
-                        {MAP_ICON_LABEL[_key_]}
-                        </ListItemIcon>
-                        </Tooltip>
-                        <ListItemText primary={labelname} />
-                        </ListItem>
-                        <div id={lb.id+'_color'} className={classes.hidden}>{lb.color}</div>
-                        </div>
-                        );}
-                    )
-            }
+            <ItemTool 
+                classes={classes} idI="edit_tool" callBackFunc={tool.handleEdit} 
+                Micon={ExtensionOutlined} text="(E) = Edit"/>
+
+            <ItemTool 
+                classes={classes} idI="hidden_tool" callBackFunc={tool.handleHidden} 
+                Micon={ControlCameraOutlined} text="(H) = Hidden"/>
+
+            <ItemTool 
+                classes={classes} idI="delete_tool" callBackFunc={tool.handleDelete} 
+                Micon={CancelPresentationOutlined} text="(D) = Delete"/>
+
+            <ItemTool 
+                classes={classes} idI="change_tool" callBackFunc={tool.handleChange} 
+                Micon={PartyModeOutlined} text="(C) = Change Class"/>
+
+            <div><ListItem button className={classes.splitTool}></ListItem></div>
+
+            <ItemTool 
+                classes={classes} idI="save_next" callBackFunc={tool.handleSaveNext} 
+                Micon={BeenhereOutlined} text="(S) = Save & Next"/>
+
+            <ItemTool 
+                classes={classes} idI="skip_next" callBackFunc={tool.handleSkipNext} 
+                Micon={SkipNext} text="(A) = Skip & Next"/>
 
             <Snackbar
-            key={messageInfo.key}
-            anchorOrigin={{vertical: 'bottom', horizontal: 'left',}}
-            open={this.state.open}
-            autoHideDuration={6000}
-            onClose={this.handleClose}
-            onExited={this.handleExited}
+            key={messageInfo.key} anchorOrigin={{vertical: 'bottom', horizontal: 'left',}}
+            open={this.state.open} autoHideDuration={6000}
+            onClose={this.handleClose} onExited={this.handleExited}
             ContentProps={{'aria-describedby': 'message-id',}}
             message={<span id="message-id">{messageInfo.message}</span>}
             action={[
-                // <Button key="undo" color="secondary" size="small" onClick={this.handleClose}>
-                // UNDO
-                // </Button>,
-                <IconButton
-                key="close"
-                aria-label="Close"
-                color="inherit"
-                className={classes.close}
-                onClick={this.handleClose}
-                >
-                <CloseIcon />
+                <IconButton key="close" aria-label="Close" color="inherit"
+                className={classes.close} onClick={this.handleClose} >
+                    <CloseIcon />
                 </IconButton>,
                 ]}
                 />

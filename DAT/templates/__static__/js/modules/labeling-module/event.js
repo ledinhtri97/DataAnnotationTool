@@ -1,7 +1,7 @@
 import {ask_before_out} from "../dat-utils"
-import {drawStatus, drawPoly, controllerRequest, quickSettings} from "../../labeling"
+import {drawStatus, drawTool, controllerRequest, quickSettings} from "../../labeling"
 import {Color} from './style/color'
-import {configureLine, configureFlag} from "./drawer/polygon"
+import {configureLine, configureFlag} from "./drawtool"
 import React from "react";
 import ReactDOM from "react-dom";
 import AlertDialog from "../../materialui/dialog";
@@ -25,7 +25,6 @@ var mouseDownPoint = null;
 
 var objectGlobal = null;
 var namelabelGlobal = null;
-//var labelselect = document.getElementById("label_select");
 
 var dialogChild = null;
 var dialog = document.getElementById("dialog");
@@ -102,7 +101,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				namelabelGlobal = objectGlobal.isIcon ? objectGlobal.object.name : objectGlobal.name;
 			}
 			else if(drawStatus.getIsDrawing()){
-				namelabelGlobal = drawStatus.getNamelabel();
+				namelabelGlobal = drawStatus.getNameLabel();
 			}
 			if(namelabelGlobal){
 				__canvas__.getObjects().forEach(function (obj) {
@@ -131,13 +130,13 @@ const init_event = function(__canvas__, popupControllers, label_select){
 	};
 
 	window.onkeypress = function(e){
-		var key = e.keyCode ? e.keyCode : e.which;
+		let key = e.keyCode ? e.keyCode : e.which;
 		// alert(key);
 		if(key == 97){
 			if(dialog && quickSettings.getAtt('ask_dialog')){
 				ReactDOM.unmountComponentAtNode(dialog);
-				var message = "Skip this data and continue?";
-				var request = "rqnext";
+				let message = "Skip this data and continue?";
+				let request = "rqnext";
 				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
 			}
 			else{
@@ -147,8 +146,8 @@ const init_event = function(__canvas__, popupControllers, label_select){
 		else if(key == 115){
 			if(dialog && quickSettings.getAtt('ask_dialog')){
 				ReactDOM.unmountComponentAtNode(dialog);
-				var message = "All labels will be save and continue?";
-				var request = "rqsavenext";
+				let message = "All labels will be save and continue?";
+				let request = "rqsavenext";
 				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
 			}
 			else{
@@ -162,15 +161,13 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				if(group_control) {
 					group_control.style["display"] = "none";
 				}
-				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
+				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 
 				if(labelControl){
-					var changelb = document.getElementById(labelControl.getId()+"_changelabel");
+					let changelb = document.getElementById(labelControl.getId()+"_changelabel");
 					changelb && changelb.click();
 				}
 			}
-
-			
 		}
 		else if(key == 101){
 			//E key -> Edit
@@ -178,13 +175,9 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				if(group_control) {
 					group_control.style["display"] = "none";
 				}
-				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
+				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 
 				if(labelControl){
-					// if(objectGlobal.object && objectGlobal.object.hidden){
-					// 	var e_hidden = document.getElementById(labelControl.getId()+"_hidden");
-					// 	e_hidden && e_hidden.click();
-					// }
 					labelControl.__editITEM__();
 				}
 			}
@@ -196,7 +189,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 					group_control.style["display"] = "none";
 				}
 
-				var o = objectGlobal.object || objectGlobal;
+				let o = objectGlobal.object || objectGlobal;
 				
 				if(o.flag != -1 && !o.accept_edit){
 					__canvas__.remove(o.shapeflag);
@@ -206,7 +199,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 					else if (o.flag == 1){
 						o.flag = 0;
 					}
-					var flag = configureFlag(o);
+					let flag = configureFlag(o);
 					__canvas__.add(flag);
 					__canvas__.renderAll();
 				}
@@ -218,9 +211,9 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				if(group_control) {
 					group_control.style["display"] = "none";
 				}
-				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
+				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 				if(labelControl){
-					var e_hidden = document.getElementById(labelControl.getId()+"_hidden");
+					let e_hidden = document.getElementById(labelControl.getId()+"_hidden");
 					e_hidden && e_hidden.click();
 				}
 			}
@@ -231,32 +224,20 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				if(group_control) {
 					group_control.style["display"] = "none";
 				}
-				var labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
+				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 				if(labelControl){
-					var e_delete = document.getElementById(labelControl.getId()+"_delete");
-					e_delete && e_delete.click();
+					labelControl.__deleteITEM__();
 				}
 			}
 		}
 		else if(key == 113) {
 			//quit draw -> q key
-			if(drawStatus.getIsDrawing() && drawStatus.getIsWaiting()){
-				let e_stop = document.getElementById("stop_draw");
-				e_stop && e_stop.click();
-			}
-			else {
-				drawPoly.quickDraw();
-			}
+			let e_stop = document.getElementById("stop_draw");
+			e_stop && e_stop.click();
 		}
-		else {
-			if(label_select){
-				label_select.forEach(function(lb, index) {
-					if(key == 49+index){			
-						let e_label = document.getElementById(lb.id+'_label');
-						e_label && e_label.click();
-					}
-				});
-			}
+		else if(key == 114) {
+			let renew_label = document.getElementById("renew_label");
+			renew_label && renew_label.click();
 		}
 	}
 
@@ -265,7 +246,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 			if(group_control) {
 				group_control.style["display"] = "none";
 			}
-			var obj = e.target,
+			let obj = e.target,
 			width = obj.width,
 			height = obj.height,
 			scaleX = obj.scaleX,
@@ -279,7 +260,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 
 		},
 		'mouse:over': function(e){
-			var obj = e.target;
+			let obj = e.target;
 
 			if (obj){
 				objectGlobal = obj;
@@ -303,12 +284,16 @@ const init_event = function(__canvas__, popupControllers, label_select){
 					}
 					popupControllers.popup(obj);
 				}
+
+				if(obj.isEditPolygonIcon && !drawStatus.getIsZoom()){
+					obj.set('radius', 7);
+				}
 			}
 			__canvas__.renderAll();
 		},
 		'mouse:out': function(e){
 			objectGlobal = null;
-			var obj = e.target;
+			let obj = e.target;
 			try {
 				if (isLabel(obj)){
 					obj.set('fill', Color.Transparent);
@@ -322,14 +307,17 @@ const init_event = function(__canvas__, popupControllers, label_select){
 						group_control.style["display"] = "none";
 					}
 				}
-				__canvas__.renderAll();	
+				if(obj.isEditPolygonIcon){
+					obj.set('radius', 3);
+				}
+				__canvas__.renderAll();
 			}
 			catch(error) {
 
 			}
 		},
 		'object:selected': function(e){
-			var obj = e.target;
+			let obj = e.target;
 			if(isLabel(obj)){
 				objectGlobal = obj;
 				popupControllers.popup(obj);
@@ -342,8 +330,28 @@ const init_event = function(__canvas__, popupControllers, label_select){
 					group_control.style["display"] = "none";
 				}
 			}
+			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
+				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
+				let i = drawStatus.getModeTool();
+				if(labelControl && i != -1){
+					if (i === 0) {
+						labelControl.__editITEM__();
+					}
+					else if (i === 1){
+						let e_hidden = document.getElementById(labelControl.getId()+"_hidden");
+						e_hidden && e_hidden.click();
+					}
+					else if (i === 2){
+						labelControl.__deleteITEM__();
+					}
+					else if (i === 3) {
+						let changelb = document.getElementById(labelControl.getId()+"_changelabel");
+						changelb && changelb.click();
+					}
+				}
+			}
 
-			var pointer = __canvas__.getPointer(e.e, true);
+			let pointer = __canvas__.getPointer(e.e, true);
 			mouseDownPoint = new fabric.Point(pointer.x, pointer.y);
 
 		},
@@ -527,4 +535,3 @@ const init_event = function(__canvas__, popupControllers, label_select){
 }
 
 export {init_event, reset_when_go};
-

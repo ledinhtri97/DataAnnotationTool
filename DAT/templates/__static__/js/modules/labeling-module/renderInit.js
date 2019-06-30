@@ -1,7 +1,7 @@
 import {fabric} from 'fabric';
-import {createItemToList} from "./label"
-import {configurePoly, configureRectangle, configureFlag} from '../drawer/polygon';
-import {Color} from "../style/color"
+import {createItemToList} from "./controller/label"
+import {configurePoly, configureRectangle, configureFlag} from './drawtool';
+import {Color} from "./style/color"
 
 function image_convert(img){
 	var parent = document.getElementById("cvcontainer");

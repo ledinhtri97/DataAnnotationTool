@@ -1,12 +1,11 @@
-import {initCanvas, initPredict} from "./labeling-module/controller/renderInit";
+import {initCanvas, initPredict} from "./labeling-module/renderInit";
 import ReactDOM from "react-dom";
 import React, {Component} from "react";
 import Cookie from 'js-cookie';
 import {reset_when_go} from "./labeling-module/event";
 import {outWorkSpace, ask_before_out} from "./dat-utils"
-import {drawPoly} from "../labeling"
+import {drawTool, drawStatus} from "../labeling"
 
-var label = document.getElementById("label");
 const ROUND = 100000;
 
 const collect_boudingbox = function(canvas){
@@ -81,9 +80,9 @@ const rqsavenext = function(meta_id, canvas){
 
 			initCanvas(canvas, metadata);
 			
-			if(label.textContent != "NO LABEL"){
+			if(drawStatus.getNameLabel() != ''){
 				reset_when_go();
-				drawPoly.startDraw();
+				drawTool.startDraw();
 			}
 			
 			fetch('/gvlab-dat/workspace/api_reference/'+metadata.id+'/api-get-data/', {})
@@ -125,9 +124,9 @@ const rqnext = function(meta_id, canvas){
 
 			initCanvas(canvas, metadata);
 			
-			if(label.textContent!="NO LABEL"){
+			if(drawStatus.getNameLabel() != ''){
 				reset_when_go();
-				drawPoly.startDraw();
+				drawTool.startDraw();
 			}
 
 			fetch('/gvlab-dat/workspace/api_reference/'+metadata.id+'/api-get-data/', {})

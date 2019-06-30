@@ -19,7 +19,7 @@ import dateFormat from 'dateformat';
 
 import AlertDialogView from "./dialog-view";
 import {fabric} from 'fabric';
-import {initCanvas} from '../../../modules/labeling-module/controller/renderInit';
+import {initCanvas} from '../../../modules/labeling-module/renderInit';
 
 const styles = theme => ({
   root: {
@@ -150,8 +150,8 @@ class SubmittedTable extends React.Component {
             <TableFooter>
               <TableRow className={classes.tablePagniation}>
                 <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  colSpan={3}
+                  rowsPerPageOptions={[5]} //[5, 10, 15]
+                  colSpan={2}
                   count={submitted.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
