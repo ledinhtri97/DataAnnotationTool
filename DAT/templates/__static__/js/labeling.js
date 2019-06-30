@@ -35,6 +35,7 @@ const controllerRequest = (callback_cl) => {
 }
 
 const labeling = document.getElementById("labeling");
+const on_edit = document.getElementById("on_edit");
 labeling && ReactDOM.render(<MainFrameLabeling />, labeling);
 
 const canvas = new fabric.Canvas('canvas', {
@@ -73,19 +74,21 @@ if(labeling && meta_id && meta_id.textContent){
 
 			initCanvas(canvas, meta);
 			
-			fetch('/gvlab-dat/workspace/api_reference/'+meta_id.textContent+'/api-get-data/', {})
-			.then(response => {
-				if(response.status !== 200){
-					return "FAILED";
-				}
-					return response.json();
-				}
-			).then(meta => {
-				if(meta === "FAILED") return;
-				
-				setTimeout(function(){initPredict(canvas, meta)}, 200);
-			});
-
+			if (!on_edit){
+				fetch('/gvlab-dat/workspace/api_reference/'+meta_id.textContent+'/api-get-data/', {})
+				.then(response => {
+					if(response.status !== 200){
+						return "FAILED";
+					}
+						return response.json();
+					}
+				).then(meta => {
+					if(meta === "FAILED") return;
+					
+					setTimeout(function(){initPredict(canvas, meta)}, 200);
+				});
+			}
+			
 			init_event(canvas, popupControllers, meta.label_select);
 
 			const tools_list_items = document.getElementById("tools_list_items");
