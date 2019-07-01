@@ -22,9 +22,7 @@ def create_thumbnail_index(request, id_dataset):
     data = {}
     
     try:
-        metadata = MetaDataModel.objects.filter(dataset=id_dataset)
-        thumb_height = 100
-
+        metadata = MetaDataModel.objects.filter(dataset=id_dataset, is_annotated=1)
         for meta in metadata.all():
             create_thumbnail(meta)
 
