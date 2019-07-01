@@ -68,8 +68,8 @@ const initCanvas = function(canvas, meta, only_view=false) {
 			            canvas.add(shape);
 			            if(!only_view) {
 			            	createItemToList(canvas, shape);
-			            	var e_hidden = document.getElementById(shape.labelControl.getId()+"_hidden");
-							e_hidden && e_hidden.click();
+			    //         	var e_hidden = document.getElementById(shape.labelControl.getId()+"_hidden");
+							// e_hidden && e_hidden.click();
 			            };
 		            });
 

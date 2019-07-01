@@ -24,6 +24,9 @@ const styles = theme => ({
   appBar: {
     position: 'relative',
   },
+  toolBar: {
+    minHeight: "0 !important",
+  },
 });
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -46,7 +49,7 @@ class AlertDialogView extends React.Component {
     return (
         <Dialog fullScreen open={this.state.open} onClose={this.handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
-          <Toolbar>
+          <Toolbar className={classes.toolBar}>
             <IconButton edge="start" color="inherit" onClick={this.handleClose} aria-label="Close">
               <CloseIcon />
             </IconButton>
