@@ -120,7 +120,7 @@ class SubmittedTable extends React.Component {
                 return (
                 <TableRow key={key}>
                 <TableCell className={classes.table_content}>
-					        <img style={{ height: '100px'}} src={smd.url_thumb} 
+					        <img style={{ height: '200px'}} src={smd.url_thumb} 
                     onClick={function(e){ if(smd.view){self_table.handleView(smd.url_meta)}}}/>
                 </TableCell>
                 <TableCell className={classes.table_content}>{smd.meta_id}</TableCell>
@@ -150,7 +150,7 @@ class SubmittedTable extends React.Component {
             <TableFooter>
               <TableRow className={classes.tablePagniation}>
                 <TablePagination
-                  rowsPerPageOptions={[5]} //[5, 10, 15]
+                  rowsPerPageOptions={[10]} //[5, 10, 15]
                   colSpan={2}
                   count={submitted.length}
                   rowsPerPage={rowsPerPage}
