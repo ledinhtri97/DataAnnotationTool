@@ -157,6 +157,10 @@ class ToolListItems extends React.Component {
         this.props.controllerRequest('rqnext');
     };
 
+    handleSave = () => {
+        this.props.controllerRequest('rqsave');
+    };
+
     handleExited = () => {
         this.processQueue();
     };
@@ -217,12 +221,14 @@ class ToolListItems extends React.Component {
             this.handleDisplayTool(4);
             drawStatus.setModeTool(3); //delete
         }
-    }
+    };
 
     render() {
         const { classes, label_select, drawTool, drawStatus, quickSettings } = this.props;
         const { messageInfo } = this.state;
         const tool = this;
+
+        const on_edit = document.getElementById('on_edit') != null;
 
         return(
             <div>
@@ -255,13 +261,21 @@ class ToolListItems extends React.Component {
 
             <div><ListItem button className={classes.splitTool}></ListItem></div>
 
-            <ItemTool 
+            {
+                on_edit ? (<ItemTool 
+                classes={classes} idI="only_save" callBackFunc={tool.handleSave} 
+                Micon={BeenhereOutlined} text="(S) = Save"/>
+                ) : (<React.Fragment>
+                
+                <ItemTool 
                 classes={classes} idI="save_next" callBackFunc={tool.handleSaveNext} 
                 Micon={BeenhereOutlined} text="(S) = Save & Next"/>
-
-            <ItemTool 
-                classes={classes} idI="skip_next" callBackFunc={tool.handleSkipNext} 
-                Micon={SkipNext} text="(A) = Skip & Next"/>
+                <ItemTool 
+                    classes={classes} idI="skip_next" callBackFunc={tool.handleSkipNext} 
+                    Micon={SkipNext} text="(A) = Skip & Next"/>
+                </React.Fragment>)
+            }
+            
 
             <Snackbar
             key={messageInfo.key} anchorOrigin={{vertical: 'bottom', horizontal: 'left',}}

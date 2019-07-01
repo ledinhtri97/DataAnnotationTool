@@ -29,6 +29,7 @@ var namelabelGlobal = null;
 var dialogChild = null;
 var dialog = document.getElementById("dialog");
 
+const on_edit = document.getElementById("on_edit");
 const isLabel = function(obj){
 	return obj.islabel;
 }
@@ -147,7 +148,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 			if(dialog && quickSettings.getAtt('ask_dialog')){
 				ReactDOM.unmountComponentAtNode(dialog);
 				let message = "All labels will be save and continue?";
-				let request = "rqsavenext";
+				let request = on_edit ? "rqsave" : "rqsavenext";
 				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
 			}
 			else{

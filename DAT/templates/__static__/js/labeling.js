@@ -121,11 +121,4 @@ if(labeling && meta_id && meta_id.textContent){
 	}
 }
 
-//=====================CONTROLER=======================//
-
-let only_save;
-if(only_save){
-	only_save.addEventListener('click', () => controllerRequest('rqsave'));
-}
-
 export {quickSettings, drawStatus, drawTool, controllerRequest}
