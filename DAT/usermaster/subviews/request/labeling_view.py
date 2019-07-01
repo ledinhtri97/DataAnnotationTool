@@ -31,12 +31,9 @@ def create_thumbnail(meta):
 
 	im = Image.open(path_mt)
 	im = im.convert("RGBA")
-
 	tmp = Image.new('RGBA', im.size, TINT_COLOR+(0,))
 
 	draw = ImageDraw.Draw(tmp)
-
-	# draw = ImageDraw.Draw(im)
 
 	for bb in meta.boxes_position.all():
 		positions = bb.position.split(',')
@@ -61,14 +58,6 @@ def create_thumbnail(meta):
 	im = im.convert("RGB")
 	im.thumbnail((im.size[0]*thumb_height/im.size[1], thumb_height), Image.ANTIALIAS)
 	im.save(thumb + ".thumbnail", "JPEG")
-	
-	# if im.mode in ('RGBA', 'LA', 'P'):
-	# 	im = im.convert("RGB")
-	# 	im.save(thumb + ".thumbnail", "PNG")
-	# else:
-	# 	im.save(thumb + ".thumbnail", "PNG")
-	#	im.save(thumb + ".thumbnail", "JPEG")
-
 
 def get_query_meta_general(dataset_id=None, user=None):
 	base_request = MetaDataModel.objects.filter(
