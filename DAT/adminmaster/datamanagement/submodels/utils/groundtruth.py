@@ -10,36 +10,32 @@ class GroundTruther(object):
   def run(self):
     GROUNDTRUTH_FOMART = self.outputModel.type_groundtruth
     path_file = ''
-    if (GROUNDTRUTH_FOMART == 'CSV'):
-      path_file = self.with_CSV_format()
+    if (GROUNDTRUTH_FOMART == 'TXT'):
+      path_file = self.with_TXT_format()
     elif (GROUNDTRUTH_FOMART == 'VOC'):
       path_file = self.with_VOC_format()
     
     return path_file
 
 
-  def with_CSV_format(self):
-    import csv
+  def with_TXT_format(self):
     
-    path_file_groundtruth = os.path.join(settings.BASE_DIR, self.outputModel.get_save_file(), 'CSV')
+    path_file_groundtruth = os.path.join(settings.BASE_DIR, self.outputModel.get_save_file(), 'TXT')
     print(path_file_groundtruth)
     if not os.path.exists(path_file_groundtruth):
       os.makedirs(path_file_groundtruth, exist_ok=True)
       print(" Otput Directory Groundtruth", path_file_groundtruth)
 
-    name_file = self.outputModel.name.replace(' ', '_') + '.csv'
+    name_file = self.outputModel.name.replace(' ', '_') + '.txt'
     
-    with open(os.path.join(path_file_groundtruth, name_file), mode='w') as csv_file:
-      fieldnames = ['meta_path', 'label', 'position']
-      writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-      writer.writeheader()
+    with open(os.path.join(path_file_groundtruth, name_file), mode='w') as txt_file:
+
       for meta in self.metas:
-        meta_path = meta.get_rel_path()
+        line = [meta.get_rel_path(), str(meta.boxes_position.count())]
         for bb in meta.boxes_position.all():
-          label = bb.label.tag_label
-          position = bb.position
-          writer.writerow(
-              {'meta_path': meta_path, 'label': label, 'position': position})
+          line.append(bb.label.tag_label)
+          line.append(bb.position)
+        txt_file.write(','.join(line)+'\n')
 
     return path_file_groundtruth
 

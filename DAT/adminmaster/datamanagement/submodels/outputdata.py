@@ -7,11 +7,11 @@ from django.utils.html import format_html
 
 class OutputDataModel(models.Model):
 
-    CSV = 'CSV'
+    TXT = 'TXT'
     VOC = 'VOC'
 
     TYPE_GROUNDTRUTH_CHOICES = (
-        (CSV, 'CSV Format'),
+        (TXT, 'TXT Format'),
         (VOC, 'VOC Format'),
     )
 
@@ -23,7 +23,7 @@ class OutputDataModel(models.Model):
     type_groundtruth = models.CharField(
         max_length=10,
         choices=TYPE_GROUNDTRUTH_CHOICES,
-        default=CSV,
+        default=TXT,
     )
 
     file_path = models.CharField(
