@@ -121,7 +121,7 @@ class SkippedTable extends React.Component {
                 return (
                 <TableRow key={key}>
                 <TableCell className={classes.table_content}>
-                  <img style={{ height: '100px'}} src={skd.url_thumb} 
+                  <img style={{ height: '200px'}} src={skd.url_thumb} 
                     onClick={function(e){ if(skd.view){self_table.handleView(skd.url_meta)}}}/>
                 </TableCell>                
                 <TableCell component="th" scope="row" className={classes.table_content}>
@@ -154,7 +154,7 @@ class SkippedTable extends React.Component {
             <TableFooter>
               <TableRow className={classes.tablePagniation}>
                 <TablePagination
-                  rowsPerPageOptions={[5]} //5, 10, 25
+                  rowsPerPageOptions={[10]} //5, 10, 25
                   colSpan={3}
                   count={skipped.length}
                   rowsPerPage={rowsPerPage}

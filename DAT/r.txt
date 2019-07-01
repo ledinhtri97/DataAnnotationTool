@@ -11,8 +11,8 @@ decorator==4.4.0
 defusedxml==0.5.0
 Django==2.1.9
 django-colorfield==0.1.15
-django-crispy-forms==1.7.2
 django-cors-headers==3.0.2
+django-crispy-forms==1.7.2
 django-extensions==2.1.9
 django-filter==2.1.0
 django-progressbarupload==0.1.7
@@ -49,6 +49,7 @@ pep8==1.7.1
 pexpect==4.7.0
 pickleshare==0.7.5
 Pillow==5.4.1
+pkg-resources==0.0.0
 prometheus-client==0.6.0
 prompt-toolkit==2.0.9
 psycopg2==2.7.7

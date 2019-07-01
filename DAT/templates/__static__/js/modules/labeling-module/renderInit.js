@@ -51,31 +51,33 @@ const initCanvas = function(canvas, meta, only_view=false) {
 	fabric.Image.fromURL(
 		meta.url_meta,
 		function(img) {
-			var wh = image_convert(img)
-			img.scaleToWidth(wh[0]);
-			img.scaleToHeight(wh[1]);
-			canvas.setWidth(wh[0]);
-			canvas.setHeight(wh[1]);
-			canvas.setBackgroundImage(img);
+			var wh = image_convert(img);
+			if(wh){
+				img.scaleToWidth(wh[0]);
+				img.scaleToHeight(wh[1]);
+				canvas.setWidth(wh[0]);
+				canvas.setHeight(wh[1]);
+				canvas.setBackgroundImage(img);
 
-			canvas.renderAll();
+				canvas.renderAll();
 
-			setTimeout(function(){
-				if(meta.status === 'OK' && meta.boxes_position){
-					
-					meta.boxes_position.forEach(function(bb){
-			            var shape = create_shape(bb, canvas);
-			            canvas.add(shape);
-			            if(!only_view) {
-			            	createItemToList(canvas, shape);
-			    //         	var e_hidden = document.getElementById(shape.labelControl.getId()+"_hidden");
-							// e_hidden && e_hidden.click();
-			            };
-		            });
+				setTimeout(function(){
+					if(meta.status === 'OK' && meta.boxes_position){
+						
+						meta.boxes_position.forEach(function(bb){
+				            var shape = create_shape(bb, canvas);
+				            canvas.add(shape);
+				            if(!only_view) {
+				            	createItemToList(canvas, shape);
+				    //         	var e_hidden = document.getElementById(shape.labelControl.getId()+"_hidden");
+								// e_hidden && e_hidden.click();
+				            };
+			            });
 
-		            canvas.renderAll();
-				}
-			}, 500);
+			            canvas.renderAll();
+					}
+				}, 500);	
+			}
 		}
 	);
 };

@@ -7,8 +7,68 @@ from django.http import JsonResponse
 from django.conf import settings
 from .querymeta import query_meta, query_meta_reference
 import json
-
+import os
 from apimodel.models import ApiReferenceModel
+from PIL import Image, ImageFont, ImageDraw, ImageEnhance
+
+def hex_to_rgba(value):
+    value = value.lstrip('#')
+    lv = len(value)
+    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3)) + (127,)
+
+def create_thumbnail(meta):
+	thumb_height = 200
+	TINT_COLOR = (0, 0, 0)  # Black
+	path_mt = meta.get_full_origin()
+	file, ext = os.path.splitext(path_mt)
+	thumb = file.replace('storage_data', 'thumbnail')
+
+	try:
+		folder = os.path.dirname(thumb)
+		os.makedirs(folder)
+	except FileExistsError:
+		print("Directory ", folder,  " already exists")
+
+	im = Image.open(path_mt)
+	im = im.convert("RGBA")
+
+	tmp = Image.new('RGBA', im.size, TINT_COLOR+(0,))
+
+	draw = ImageDraw.Draw(tmp)
+
+	# draw = ImageDraw.Draw(im)
+
+	for bb in meta.boxes_position.all():
+		positions = bb.position.split(',')
+		color = hex_to_rgba(bb.label.color)
+		print(color)
+		if(len(positions)==4):
+			draw.rectangle(
+				(
+                    (float(positions[0])*im.size[0], float(positions[1])*im.size[1]),
+                    (float(positions[2])*im.size[0], float(positions[3])*im.size[1])),
+					fill=color
+				)
+		else:
+			poly = []
+			for i in range(0, len(positions), 2):
+				poly.append((float(positions[i])*im.size[0], float(positions[i+1])*im.size[1]))
+			
+			draw.polygon(poly, fill=color)
+	del draw
+
+	im = Image.alpha_composite(im, tmp)
+	im = im.convert("RGB")
+	im.thumbnail((im.size[0]*thumb_height/im.size[1], thumb_height), Image.ANTIALIAS)
+	im.save(thumb + ".thumbnail", "JPEG")
+	
+	# if im.mode in ('RGBA', 'LA', 'P'):
+	# 	im = im.convert("RGB")
+	# 	im.save(thumb + ".thumbnail", "PNG")
+	# else:
+	# 	im.save(thumb + ".thumbnail", "PNG")
+	#	im.save(thumb + ".thumbnail", "JPEG")
+
 
 def get_query_meta_general(dataset_id=None, user=None):
 	base_request = MetaDataModel.objects.filter(
@@ -87,12 +147,13 @@ def save_index(request, metaid):
 		user = request.user
 
 		for bb in current_meta_data.boxes_position.all():
-			print('old: ', bb)
+			# print('old: ', bb)
 			bb.delete()
-			print('new: ', bb)
-		#print(body_unicode)
+			# print('new: ', bb)
+		# print(body_unicode)
 		for bb in body_unicode.split('\n')[:-1]:
 			bb = bb.split(',')
+			#print(bb)
 			new_bb, created = BoundingBoxModel.objects.get_or_create(
 				label=LabelDataModel.objects.get(tag_label=bb[0], type_label=bb[1]),
 				flag=bb[2],
@@ -113,6 +174,9 @@ def save_index(request, metaid):
 
 		current_meta_data.save(update_fields=['is_annotated', 'onviewing_user'])
 
+		#here we will create thumbnail with drawing boxes to display
+		create_thumbnail(current_meta_data)
+
 	return JsonResponse(data=data)
 
 def savenext_index(request, metaid):
@@ -126,7 +190,7 @@ def savenext_index(request, metaid):
 		user = request.user
 	
 		for bb in current_meta_data.boxes_position.all():
-			print('old: ', bb)
+			# print('old: ', bb)
 			bb.delete()
 		#print(body_unicode)
 		for bb in body_unicode.split('\n')[:-1]:
@@ -149,6 +213,9 @@ def savenext_index(request, metaid):
 	
 		current_meta_data.save(update_fields=['is_annotated', 'onviewing_user'])
 		
+		#here we will create thumbnail with drawing boxes to display
+		create_thumbnail(current_meta_data)
+
 		meta = get_query_meta_general(dataset_id, user)
 
 		#print('meta: ', meta)

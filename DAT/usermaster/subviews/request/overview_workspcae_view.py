@@ -130,8 +130,8 @@ def get_data_overview_workspace(request, wsid):
                         'url_meta': meta.get_url_api(),
                         'meta_id': meta.id,
                         'last_date_update': meta.history.first().history_date,
-                        'message': 'sss',
-                        'flag_count': 'sss',
+                        'message': 'no',
+                        'flag_count': 'no',
                         'label_count': meta.boxes_position.count(),
                         'notice_review': meta.is_notice_view,
                     } for meta in metadatas.filter(is_notice_view=1).all()

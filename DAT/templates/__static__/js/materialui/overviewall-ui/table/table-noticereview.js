@@ -124,7 +124,7 @@ class NoticeReviewTable extends React.Component {
                 return (
                 <TableRow key={key}>
                 <TableCell className={classes.table_content}>
-                  <img style={{ height: '100px'}} src={ntv.url_thumb} 
+                  <img style={{ height: '200px'}} src={ntv.url_thumb} 
                     onClick={function(e){ if(ntv.view){self_table.handleView(ntv.url_meta)}}}/>
                 </TableCell>
                 <TableCell component="th" scope="row" className={classes.table_content}>
@@ -154,7 +154,7 @@ class NoticeReviewTable extends React.Component {
             <TableFooter>
               <TableRow className={classes.tablePagniation}>
                 <TablePagination
-                  rowsPerPageOptions={[5]} //5, 10, 25
+                  rowsPerPageOptions={[10]} //5, 10, 25
                   colSpan={3}
                   count={notice_review.length}
                   rowsPerPage={rowsPerPage}
