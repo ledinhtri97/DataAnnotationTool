@@ -211,12 +211,7 @@ class MedicalSurfaceBox {
                 }
             }
 
-            MedicalGeometryBox.draw_brush(this.canvas_surface_id, 
-                offsetX, 
-                offsetY, 
-                this.overlay.brush_or_eraser.brush_radius,
-                this.overlay.brush_or_eraser.brush_color);
-            
+            this.overlay.brush_or_eraser.render(this.canvas_surface_id, offsetX, offsetY);
             return;
         }
 
@@ -260,15 +255,22 @@ class MedicalSurfaceBox {
     }
 
     on_wheel = (e) => {
-        if (!this.overlay.brush_or_eraser) {
+        if (!this.overlay.brush_or_eraser || !this.overlay.brush_or_eraser.is_active()) {
             return;
         }
 
+        const offsetX = e.nativeEvent.offsetX;
+        const offsetY = e.nativeEvent.offsetY;
+
+        console.log("on wheel: " + offsetX + " " + offsetY);
+
         if (e.nativeEvent.wheelDelta > 0) {
             this.overlay.brush_or_eraser.brush_radius += 1;
+            this.overlay.brush_or_eraser.render(this.canvas_surface_id, offsetX, offsetY);
         } else {
             this.overlay.brush_or_eraser.brush_radius -= 1;
             this.overlay.brush_or_eraser.brush_radius = (this.overlay.brush_or_eraser.brush_radius<=0)?1:this.overlay.brush_or_eraser.brush_radius;
+            this.overlay.brush_or_eraser.render(this.canvas_surface_id, offsetX, offsetY);
         }
     }
 

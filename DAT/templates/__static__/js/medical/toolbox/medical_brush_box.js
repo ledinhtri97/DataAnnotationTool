@@ -1,3 +1,5 @@
+import MedicalGeometryBox from './medical_geometry_box';
+
 class MedicalBrushBox {
     overlay = null;
     brush_button_id = "";
@@ -59,6 +61,15 @@ class MedicalBrushBox {
             this.overlay.surface._clear_surface();
             this.overlay.brush_or_eraser = null;
         }
+    }
+
+    render = (canvas_surface_id, offsetX, offsetY) => {
+        this.overlay.surface._clear_surface();
+        MedicalGeometryBox.draw_brush(canvas_surface_id, 
+            offsetX, 
+            offsetY, 
+            this.brush_radius,
+            this.brush_color);
     }
 }
 
