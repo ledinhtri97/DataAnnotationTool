@@ -7,8 +7,48 @@ from django.http import JsonResponse
 from django.conf import settings
 from .querymeta import query_meta, query_meta_reference
 import json
-
+import os
 from apimodel.models import ApiReferenceModel
+from PIL import Image, ImageFont, ImageDraw, ImageEnhance
+
+def create_thumbnail(meta):
+	thumb_height = 100
+
+	path_mt = meta.get_full_origin()
+	file, ext = os.path.splitext(path_mt)
+	thumb = file.replace('storage_data', 'thumbnail')
+
+	im = Image.open(path_mt)
+	draw = ImageDraw.Draw(im)
+	for bb in meta.boxes_position.all():
+		positions = bb.position.split(',')
+		if(len(positions)==4):
+			draw.rectangle(
+				(
+                    (float(positions[0])*im.size[0], float(positions[1])*im.size[1]),
+                    (float(positions[2])*im.size[0], float(positions[3])*im.size[1])),
+					outline=bb.label.color
+				)
+		else:
+			poly = []
+			for i in range(0, len(positions), 2):
+				poly.append((float(positions[i])*im.size[0], float(positions[i+1])*im.size[1]))
+			
+			draw.polygon(poly, outline=bb.label.color)
+	del draw
+	im.thumbnail((im.size[0]*thumb_height/im.size[1], thumb_height), Image.ANTIALIAS)
+
+	try:
+		folder = os.path.dirname(thumb)
+		os.makedirs(folder)
+	except FileExistsError:
+		print("Directory ", folder,  " already exists")
+	if im.mode in ('RGBA', 'LA', 'P'):
+		im = im.convert("RGB")
+		im.save(thumb + ".thumbnail", "PNG")
+	else:
+		im.save(thumb + ".thumbnail", "JPEG")
+
 
 def get_query_meta_general(dataset_id=None, user=None):
 	base_request = MetaDataModel.objects.filter(
@@ -113,6 +153,9 @@ def save_index(request, metaid):
 
 		current_meta_data.save(update_fields=['is_annotated', 'onviewing_user'])
 
+		#here we will create thumbnail with drawing boxes to display
+		create_thumbnail(current_meta_data)
+
 	return JsonResponse(data=data)
 
 def savenext_index(request, metaid):
@@ -149,6 +192,9 @@ def savenext_index(request, metaid):
 	
 		current_meta_data.save(update_fields=['is_annotated', 'onviewing_user'])
 		
+		#here we will create thumbnail with drawing boxes to display
+		create_thumbnail(current_meta_data)
+
 		meta = get_query_meta_general(dataset_id, user)
 
 		#print('meta: ', meta)
