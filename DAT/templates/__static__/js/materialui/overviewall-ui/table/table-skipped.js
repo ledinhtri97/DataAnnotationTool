@@ -21,162 +21,162 @@ import {fabric} from 'fabric';
 import {initCanvas} from '../../../modules/labeling-module/renderInit';
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-  },
-  table: {
-    minWidth: 500,
-  },
-  tableWrapper: {
-    overflowX: 'auto',
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  },
-  table_title: {
-    fontSize: '0.947rem',
-  },
-  table_content: {
-    fontSize: '0.915rem',
-  },
-  button: {
-    margin: theme.spacing.unit,
-    width: '7em',
-    fontSize: '0.85em',
-  },
-  tablePagniation: {
-    float: 'left',
-  },
+	root: {
+		width: '100%',
+		marginTop: theme.spacing.unit * 3,
+	},
+	table: {
+		minWidth: 500,
+	},
+	tableWrapper: {
+		overflowX: 'auto',
+	},
+	rightIcon: {
+		marginLeft: theme.spacing.unit,
+	},
+	table_title: {
+		fontSize: '0.947rem',
+	},
+	table_content: {
+		fontSize: '0.915rem',
+	},
+	button: {
+		margin: theme.spacing.unit,
+		width: '7em',
+		fontSize: '0.85em',
+	},
+	tablePagniation: {
+		float: 'left',
+	},
 });
 
 class SkippedTable extends React.Component {
-  state = {
-    page: 0,
-    rowsPerPage: 10,
-  };
+	state = {
+		page: 0,
+		rowsPerPage: 10,
+	};
 
-  handleChangePage = (event, page) => {
-    this.setState({ page });
-  };
+	handleChangePage = (event, page) => {
+		this.setState({ page });
+	};
 
-  handleChangeRowsPerPage = event => {
-    this.setState({ page: 0, rowsPerPage: event.target.value });
-  };
+	handleChangeRowsPerPage = event => {
+		this.setState({ page: 0, rowsPerPage: event.target.value });
+	};
 
-  handleView = (url_meta) => {
-    var dialog_view = document.getElementById("dialog_view");
-    fetch(url_meta, {})
-      .then(response => {
-          if(response.status !== 200){
-            return "FAILED";
-          }
-          return response.json();
-        }
-      ).then(meta => {
-          if(meta === "FAILED") return;
-          
-          if(dialog_view){
-            ReactDOM.unmountComponentAtNode(dialog_view);
-            ReactDOM.render(
-              <AlertDialogView name={meta.name} metaid={meta.id}/>, dialog_view
-            );
+	handleView = (url_meta) => {
+		var dialog_view = document.getElementById("dialog_view");
+		fetch(url_meta, {})
+			.then(response => {
+					if(response.status !== 200){
+						return "FAILED";
+					}
+					return response.json();
+				}
+			).then(meta => {
+					if(meta === "FAILED") return;
+					
+					if(dialog_view){
+						ReactDOM.unmountComponentAtNode(dialog_view);
+						ReactDOM.render(
+							<AlertDialogView name={meta.name} metaid={meta.id}/>, dialog_view
+						);
 
-            const canvas = new fabric.Canvas('canvas', {
-              hoverCursor: 'pointer',
-              selection: true,
-              backgroundColor: null,
-              uniScaleTransform: true,
-            });
+						const canvas = new fabric.Canvas('canvas', {
+							hoverCursor: 'pointer',
+							selection: true,
+							backgroundColor: null,
+							uniScaleTransform: true,
+						});
 
-            initCanvas(canvas, meta, true);
-        }
-      });
-  };
+						initCanvas(canvas, meta, true);
+				}
+			});
+	};
 
-  render() {
-    const self_table = this;
-    const { classes, skipped } = this.props;
-    const { rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, skipped.length - page * rowsPerPage);
+	render() {
+		const self_table = this;
+		const { classes, skipped } = this.props;
+		const { rowsPerPage, page } = this.state;
+		const emptyRows = rowsPerPage - Math.min(rowsPerPage, skipped.length - page * rowsPerPage);
 
-    return (
-      <Paper className={classes.root}>
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table}>
+		return (
+			<Paper className={classes.root}>
+				<div className={classes.tableWrapper}>
+					<Table className={classes.table}>
 
-            <TableHead>
-            <TableRow>
-            <TableCell className={classes.table_title}>Thumbnail</TableCell>
-            <TableCell className={classes.table_title}>Meta Id</TableCell>
-            <TableCell className={classes.table_title}>Last Date Update</TableCell>
-            <TableCell className={classes.table_title}>Reason Skipped</TableCell>
-            <TableCell align="center" className={classes.table_title}>Labeled Count</TableCell>
-            <TableCell align="center" className={classes.table_title}>View</TableCell>
-            </TableRow>
-            </TableHead>
+						<TableHead>
+						<TableRow>
+						<TableCell className={classes.table_title}>Thumbnail</TableCell>
+						<TableCell className={classes.table_title}>Meta Id</TableCell>
+						<TableCell className={classes.table_title}>Last Date Update</TableCell>
+						<TableCell className={classes.table_title}>Reason Skipped</TableCell>
+						<TableCell align="center" className={classes.table_title}>Labeled Count</TableCell>
+						<TableCell align="center" className={classes.table_title}>View</TableCell>
+						</TableRow>
+						</TableHead>
 
-            <TableBody>
-              {skipped.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(function(skd, key) {
-                return (
-                <TableRow key={key}>
-                <TableCell className={classes.table_content}>
-                  <img style={{ height: '200px'}} src={skd.url_thumb} 
-                    onClick={function(e){ if(skd.view){self_table.handleView(skd.url_meta)}}}/>
-                </TableCell>                
-                <TableCell component="th" scope="row" className={classes.table_content}>
-                {skd.meta_id}
-                </TableCell>
-                <TableCell className={classes.table_content}>
-                {dateFormat(new Date(skd.last_date_update), "dddd, mmmm dS, yyyy, h:MM:ss TT").toString()}
-                </TableCell>
-                <TableCell className={classes.table_content}>{skd.reason_skipped}</TableCell>
-                <TableCell align="center" className={classes.table_content}>{skd.label_count}</TableCell>
-                <TableCell align="center" className={classes.table_content}>
-                {
-                skd.view ? <Button 
-                onClick={function(e){self_table.handleView(skd.url_meta)}}
-                variant="outlined" color="primary" className={classes.button}>
-                View
-                </Button> : <Button variant="outlined" color="primary" className={classes.button}>
-                Blocked
-                </Button>
-                }
-                </TableCell>
-                </TableRow>
-              )})}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-            <TableFooter>
-              <TableRow className={classes.tablePagniation}>
-                <TablePagination
-                  rowsPerPageOptions={[10]} //5, 10, 25
-                  colSpan={3}
-                  count={skipped.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  SelectProps={{
-                    native: true,
-                  }}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActionsWrapped}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </div>
-      </Paper>
-    );
-  }
+						<TableBody>
+							{skipped.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(function(skd, key) {
+								return (
+								<TableRow key={key}>
+								<TableCell className={classes.table_content}>
+									<img style={{ height: '200px'}} src={skd.url_thumb} 
+										onClick={function(e){ if(skd.view){self_table.handleView(skd.url_meta)}}}/>
+								</TableCell>                
+								<TableCell component="th" scope="row" className={classes.table_content}>
+								{skd.meta_id}
+								</TableCell>
+								<TableCell className={classes.table_content}>
+								{dateFormat(new Date(skd.last_date_update), "dddd, mmmm dS, yyyy, h:MM:ss TT").toString()}
+								</TableCell>
+								<TableCell className={classes.table_content}>{skd.reason_skipped}</TableCell>
+								<TableCell align="center" className={classes.table_content}>{skd.label_count}</TableCell>
+								<TableCell align="center" className={classes.table_content}>
+								{
+								skd.view ? <Button 
+								onClick={function(e){self_table.handleView(skd.url_meta)}}
+								variant="outlined" color="primary" className={classes.button}>
+								View
+								</Button> : <Button variant="outlined" color="primary" className={classes.button}>
+								Blocked
+								</Button>
+								}
+								</TableCell>
+								</TableRow>
+							)})}
+							{emptyRows > 0 && (
+								<TableRow style={{ height: 48 * emptyRows }}>
+									<TableCell colSpan={6} />
+								</TableRow>
+							)}
+						</TableBody>
+						<TableFooter>
+							<TableRow className={classes.tablePagniation}>
+								<TablePagination
+									rowsPerPageOptions={[10]} //5, 10, 25
+									colSpan={3}
+									count={skipped.length}
+									rowsPerPage={rowsPerPage}
+									page={page}
+									SelectProps={{
+										native: true,
+									}}
+									onChangePage={this.handleChangePage}
+									onChangeRowsPerPage={this.handleChangeRowsPerPage}
+									ActionsComponent={TablePaginationActionsWrapped}
+								/>
+							</TableRow>
+						</TableFooter>
+					</Table>
+				</div>
+			</Paper>
+		);
+	}
 }
 
 SkippedTable.propTypes = {
-  classes: PropTypes.object.isRequired,
+	classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(SkippedTable);
