@@ -67,32 +67,45 @@ class MedicalInstanceViewSet(viewsets.ModelViewSet):
             for phase_name, phase_item in phases.items():
                 phase_id, phase_uid = phase_item
                 # get seri tag
-                # seri_res = self.dicom_api.get_seri(phase_uid)
-                # seri_tag = ''
-                # if seri_res is not None:
-                #     seri_tag = seri_res['MainDicomTags']['SeriesInstanceUID']
                 seri_tag = instance.seri_id.series_instance_uid
                 
                 # get instance tag
-                # inst_res = self.dicom_api.get_instance(instance.instance_uid)
-                # inst_tag = ''
-                # if inst_res is not None:
-                #     inst_tag = inst_res['MainDicomTags']['SOPInstanceUID']
                 inst_tag = instance.sop_instance_uid
 
                 if phase_id == instance.seri_id.id:
-                    predict_url = os.path.join(
+                    predicted_liver_url = os.path.join(
                         settings.DICOM_ANALYSIS_SERVER['STORAGE_URL'],
                         seri_tag,
+                        'liver',
+                        'predict',
                         inst_tag + '.png'
                     )
+                    
+                    predicted_vessel_url  = predicted_liver_url.replace('liver', 'blood_vessel')
+                    groundtruth_liver_url = predicted_liver_url.replace('predict', 'groundtruth')
+                    groundtruth_vessel_url = groundtruth_liver_url.replace('liver', 'blood_vessel')
+                    
                     response1[phase_name].append({
                             'slice_id': instance.index_in_series,
                             'url': dcm_file_url.format(instance.instance_uid),
                             'predicts': [
                                 {
                                     'label': 'liver',
-                                    'url': predict_url
+                                    'url': predicted_liver_url
+                                },
+                                {
+                                    'label': 'blood_vessel',
+                                    'url': predicted_vessel_url
+                                }
+                            ],
+                            'groundtruths': [
+                                {
+                                    'label': 'liver',
+                                    'url': groundtruth_liver_url
+                                },
+                                {
+                                    'label': 'blood_vessel',
+                                    'url': groundtruth_vessel_url
                                 }
                             ]
                         })
