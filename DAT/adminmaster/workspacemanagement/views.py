@@ -19,8 +19,6 @@ class WorkspaceView(generics.RetrieveAPIView):
 
         return Response(data=__data__)
 
-
-
 def wsm_index(request, id_workspace):
     data = {
         'namews': '',

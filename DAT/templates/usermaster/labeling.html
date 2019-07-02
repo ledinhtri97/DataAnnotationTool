@@ -18,9 +18,13 @@
 
 {%block loadjs%}
 {% load static %}
+{% if tl == "de" %}
+    <script src="{% static 'js/build/labeling.js' %}"></script> 
+{% elif tl == "tr" %}
+    <script src="{% static 'js/build/tracking.js' %}"></script>  
+{% else %}
+	<script src="{% static 'js/build/labeling.js' %}"></script>  
+{% endif %}
 
-<script src="{% static 'js/build/labeling.js' %}"></script>  
+ 
 {% endblock loadjs %}
-
-
-

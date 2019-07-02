@@ -1,3 +1,4 @@
+from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from adminmaster.datamanagement.models import DataSetModel
 from adminmaster.datamanagement.models import MetaDataModel
 from adminmaster.workspacemanagement.models import UserSettingsModel
@@ -18,21 +19,16 @@ class LabelingView(generics.RetrieveUpdateAPIView):
         dataset_id = self.request.parser_context['kwargs']['id']
         user = self.request.user
         meta_data = labeling_view.get_query_meta_general(dataset_id, user)
-
         return meta_data
 
     def retrieve(self, request, *args, **kwargs):
     
         meta_data = self.get_queryset()
-
+        type_labeling = WorkSpaceUserModel.objects.get(dataset=request.parser_context['kwargs']['id']).type_labeling
         if meta_data:
-            data = {
-                'id': meta_data.id,
-            }
+            data = { 'id': meta_data.id, 'tl': type_labeling}
         else:
-            data = {
-                'id': '-1',
-            }
+            data = { 'id': '-1', 'tl': type_labeling}
 
         return Response(data=data)
 
@@ -55,13 +51,9 @@ class EditLabelingView(generics.RetrieveUpdateAPIView):
                 except MetaDataModel.DoesNotExist:
                     meta = MetaDataModel.objects.get(id=metaid, skipped_by_user=user)
 
-            data = {
-                'id': metaid,
-            }
+            data = { 'id': metaid, }
         except Exception as e:
             print(e)
-            data = {
-                'id': '',
-            }
+            data = { 'id': '-1', }
 
         return Response(data=data)
