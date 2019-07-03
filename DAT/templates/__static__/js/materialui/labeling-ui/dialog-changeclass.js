@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,6 +10,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import SearchIcon from '@material-ui/icons/Search';
 
 const styles = theme =>({
 	formControl: {
@@ -19,6 +20,46 @@ const styles = theme =>({
 		margin: theme.spacing.unit,
 	},
 });
+
+// const useStyles = makeStyles(theme => ({
+// 	search: {
+// 	    position: 'relative',
+// 	    borderRadius: theme.shape.borderRadius,
+// 	    backgroundColor: fade(theme.palette.common.white, 0.15),
+// 	    '&:hover': {
+// 	      backgroundColor: fade(theme.palette.common.white, 0.25),
+// 	    },
+// 	    marginLeft: 0,
+// 	    width: '100%',
+// 	    [theme.breakpoints.up('sm')]: {
+// 	      marginLeft: theme.spacing(1),
+// 	      width: 'auto',
+// 	    },
+// 	},
+// 	searchIcon: {
+// 	    width: theme.spacing(7),
+// 	    height: '100%',
+// 	    position: 'absolute',
+// 	    pointerEvents: 'none',
+// 	    display: 'flex',
+// 	    alignItems: 'center',
+// 	    justifyContent: 'center',
+// 	},
+// 	inputRoot: {
+// 	    color: 'inherit',
+// 	},
+// 	inputInput: {
+// 	    padding: theme.spacing(1, 1, 1, 7),
+// 	    transition: theme.transitions.create('width'),
+// 	    width: '100%',
+// 	    [theme.breakpoints.up('sm')]: {
+// 	      width: 120,
+// 	      '&:focus': {
+// 	        width: 200,
+// 	      },
+// 	    },
+// 	 },
+// }));
 
 
 class AlertDialogChangeClass extends React.Component {
@@ -54,7 +95,7 @@ class AlertDialogChangeClass extends React.Component {
 
 		const selfForm = this;
 		const { classes, labelControl} = this.props;
-
+		// const cl = useStyles();
 		let lbs = document.getElementById('label_select');
 		let label_select = JSON.parse(lbs.textContent).label_select;
 
@@ -69,6 +110,7 @@ class AlertDialogChangeClass extends React.Component {
 					<DialogContent>
 						<FormControl component="fieldset" className={classes.formControl}>
 							<FormLabel component="legend">Change class label</FormLabel>
+							
 							<RadioGroup
 								aria-label="Change class label"
 								name="changeclass"
