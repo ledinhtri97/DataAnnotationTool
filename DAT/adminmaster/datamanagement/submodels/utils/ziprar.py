@@ -31,16 +31,6 @@ class ZipRarExtractor(object):
 
             self.extract_file(input, output)
 
-            file_gt = input_file.get_gtname()
-            if (file_gt):
-                input = input_file.get_full_path_file()
-
-                output = input_file.get_output_path()
-                
-                self.extract_file(input, output)
-
-
-
     def extract_file(self, input, output):
         '''
         check the file is an archive file or not.

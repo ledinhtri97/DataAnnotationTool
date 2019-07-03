@@ -13,114 +13,114 @@ import AttachFile from '@material-ui/icons/AttachFile';
 import Cookie from 'js-cookie';
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 600,
-  },
-  button: {
-    margin: theme.spacing.unit,
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  },
-  input: {
-    display: 'none',
-  },
-  form: {
-    display: 'flex',
-  },
-  table_title: {
-    fontSize: '0.967rem',
-  },
-  table_content: {
-    fontSize: '0.925rem',
-  },
+	root: {
+		width: '100%',
+		marginTop: theme.spacing.unit * 3,
+		overflowX: 'auto',
+	},
+	table: {
+		minWidth: 600,
+	},
+	button: {
+		margin: theme.spacing.unit,
+	},
+	rightIcon: {
+		marginLeft: theme.spacing.unit,
+	},
+	input: {
+		display: 'none',
+	},
+	form: {
+		display: 'flex',
+	},
+	table_title: {
+		fontSize: '0.967rem',
+	},
+	table_content: {
+		fontSize: '0.925rem',
+	},
 });
 
 const CSRFToken = () => {
-  return (
-    <input type="hidden" name="csrfmiddlewaretoken" value={Cookie.get("csrftoken")} />
-    );
+	return (
+		<input type="hidden" name="csrfmiddlewaretoken" value={Cookie.get("csrftoken")} />
+		);
 };
 
 // var currentUpload = null;
 
 class AcceptedTable extends React.Component {
 
-  state = {
-    currentUpload: null,
-  };
+	state = {
+		currentUpload: null,
+	};
 
-  changeTitle = (id, event) => {
+	changeTitle = (id, event) => {
 
-    var status = document.getElementById("contribute_status")
-    status.textContent = "Files Upload: "+event.target.files[0].name;
-    status.style['color'] = "#8C0C4B";
+		var status = document.getElementById("contribute_status")
+		status.textContent = "Files Upload: "+event.target.files[0].name;
+		status.style['color'] = "#8C0C4B";
 
-    this.setState({ currentUpload: id });
-  };
+		this.setState({ currentUpload: id });
+	};
 
-  handleViewItem = (url_view) => {
-    window.location.href = url_view;
-  };
+	handleViewItem = (url_view) => {
+		window.location.href = url_view;
+	};
 
-  render() {
+	render() {
 
-    const { classes } = this.props;
+		const { classes } = this.props;
 
-    const contribute_accepted = JSON.parse(
-      document.getElementById("contribute_accepted").textContent
-      )['contribute_accepted'];
+		const contribute_accepted = JSON.parse(
+			document.getElementById("contribute_accepted").textContent
+			)['contribute_accepted'];
 
-    contribute_accepted.pop();
-    const table = this;
+		contribute_accepted.pop();
+		const table = this;
 
-    return (
-      <Paper className={classes.root}>
-      <Table className={classes.table}>
-      <TableHead>
-      <TableRow>
-      <TableCell className={classes.table_title}>User Name</TableCell>
-      <TableCell align="right" className={classes.table_title}>File name</TableCell>
-      <TableCell align="right" className={classes.table_title}>Date Upload</TableCell>
-      <TableCell align="center" className={classes.table_title}>View</TableCell>
-      </TableRow>
-      </TableHead>
-      <TableBody>
-      {
-        contribute_accepted.map(function(ct, key){
-          return (
-            <TableRow key={key}>
-            <TableCell component="th" scope="row" className={classes.table_content}>
-            {ct.user_name}
-            </TableCell>
-            <TableCell align="right" className={classes.table_content}>{ct.file_name}</TableCell>
-            <TableCell align="right" className={classes.table_content}>{ct.date_upload}</TableCell>
-            <TableCell align="center" className={classes.table_content}>
-            <Button variant="contained" className={classes.button}
-              onClick={function(e){table.handleViewItem(ct.url_view.replace("1", ct.id_file))}}
-            >
-            View
-            </Button>
-            </TableCell>
-            </TableRow>
-            );
-        })
-      }
+		return (
+			<Paper className={classes.root}>
+			<Table className={classes.table}>
+			<TableHead>
+			<TableRow>
+			<TableCell className={classes.table_title}>User Name</TableCell>
+			<TableCell align="right" className={classes.table_title}>File name</TableCell>
+			<TableCell align="right" className={classes.table_title}>Date Upload</TableCell>
+			<TableCell align="center" className={classes.table_title}>View</TableCell>
+			</TableRow>
+			</TableHead>
+			<TableBody>
+			{
+				contribute_accepted.map(function(ct, key){
+					return (
+						<TableRow key={key}>
+						<TableCell component="th" scope="row" className={classes.table_content}>
+						{ct.user_name}
+						</TableCell>
+						<TableCell align="right" className={classes.table_content}>{ct.file_name}</TableCell>
+						<TableCell align="right" className={classes.table_content}>{ct.date_upload}</TableCell>
+						<TableCell align="center" className={classes.table_content}>
+						<Button variant="contained" className={classes.button}
+							onClick={function(e){table.handleViewItem(ct.url_view.replace("1", ct.id_file))}}
+						>
+						View
+						</Button>
+						</TableCell>
+						</TableRow>
+						);
+				})
+			}
 
-      </TableBody>
-      </Table>
-      </Paper>
-      );
-  }
+			</TableBody>
+			</Table>
+			</Paper>
+			);
+	}
 }
 
 AcceptedTable.propTypes = {
-  classes: PropTypes.object.isRequired,
+	classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(AcceptedTable);

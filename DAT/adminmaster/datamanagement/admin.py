@@ -55,7 +55,7 @@ class DataSetForm(forms.ModelForm):
 			self.scanner_database(instance_dataset)
 		else:
 			data = DataSetModel.objects.filter(id=instance_dataset.id).first()
-			if (self.check_change_filezip(data.input_file.all(), self.cleaned_data['input_file'])):
+			if (True or self.check_change_filezip(data.input_file.all(), self.cleaned_data['input_file'])):
 				print("has change")
 				self.extract_zip(instance_dataset)
 				self.scanner_database(instance_dataset)

@@ -45,7 +45,7 @@ class WorkSpaceUserAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,
                 {
-                'fields': ['nameworkspace']
+                'fields': ['nameworkspace', 'type_labeling']
                 }
         ),
         ('DATASET Field',

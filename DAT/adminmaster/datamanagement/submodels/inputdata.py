@@ -21,14 +21,12 @@ class InputDataModel(models.Model):
    id = models.AutoField(primary_key=True)
 
    zipfile = models.FileField(upload_to=user_upload_directory_path,
-         validators=[FileExtensionValidator(
-             allowed_extensions=TYPE_DATA_VALIDATION)]
+         validators=[FileExtensionValidator(allowed_extensions=TYPE_DATA_VALIDATION)]
    )
 
    groundtruth = models.FileField(upload_to=user_output_directory_path, 
          blank=True, null=True,
-         validators=[FileExtensionValidator(
-             allowed_extensions=TYPE_DATA_VALIDATION[:2])]
+         validators=[FileExtensionValidator(allowed_extensions=['txt', 'xml'])]
    )
 
    useful = models.BooleanField(default=False, verbose_name="Usefull data")
@@ -54,14 +52,4 @@ class InputDataModel(models.Model):
          settings.BASE_DIR, settings.STORAGE_DIR, 
          str(self.owner.username), self.get_zipname().split('.')[0])
       return output
-
-   def get_gtname(self):
-      # return (groundtruth)
-      print(self.groundtruth)
-      if (self.groundtruth):
-         # print("have base groundtruth")
-         return self.groundtruth.name.split(charos)[-1] 
-      else:
-         # print("no base groundtruth")
-         return None
 

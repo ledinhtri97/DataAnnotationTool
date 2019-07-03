@@ -12,92 +12,92 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
 const styles = theme =>({
-  formControl: {
-    margin: theme.spacing.unit * 3,
-  },
-  group: {
-    margin: theme.spacing.unit,
-  },
+	formControl: {
+		margin: theme.spacing.unit * 3,
+	},
+	group: {
+		margin: theme.spacing.unit,
+	},
 });
 
 
 class AlertDialogChangeClass extends React.Component {
-    state = {
-        open: true,
-    };
+		state = {
+				open: true,
+		};
 
-    contextMenu = function(e) {
-        e.preventDefault();
-        return false;
-    };
+		contextMenu = function(e) {
+				e.preventDefault();
+				return false;
+		};
 
-    handleClose = (event) => {
-        // alert(event.target.value);
-        if(event.target.value){
-            let values = event.target.value.split(',');
-            //lb.tag_label+','+lb.type_label+','+lb.color;
-            let res = this.props.labelControl.__changeClass__(values[0], values[1], values[2]);
-            if (res){
-                this.setState({ open: false });
-                this.props.callSetName(values[0]); //dig
-            }
-            else{
-                alert("Cannot change different type of shape");
-            }
-        }
-        else{
-            this.setState({ open: false });
-        }
-    };
+		handleClose = (event) => {
+				// alert(event.target.value);
+				if(event.target.value){
+						let values = event.target.value.split(',');
+						//lb.tag_label+','+lb.type_label+','+lb.color;
+						let res = this.props.labelControl.__changeClass__(values[0], values[1], values[2]);
+						if (res){
+								this.setState({ open: false });
+								this.props.callSetName(values[0]); //dig
+						}
+						else{
+								alert("Cannot change different type of shape");
+						}
+				}
+				else{
+						this.setState({ open: false });
+				}
+		};
 
-  render() {
+	render() {
 
-    const selfForm = this;
-    const { classes, labelControl} = this.props;
+		const selfForm = this;
+		const { classes, labelControl} = this.props;
 
-    let lbs = document.getElementById('label_select');
-    let label_select = JSON.parse(lbs.textContent).label_select;
+		let lbs = document.getElementById('label_select');
+		let label_select = JSON.parse(lbs.textContent).label_select;
 
-    return (
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{"Data Annotation Tool - GVlab"}</DialogTitle>
-          <DialogContent>
-            <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend">Change class label</FormLabel>
-              <RadioGroup
-                aria-label="Change class label"
-                name="changeclass"
-                className={classes.group}
-                value={labelControl.getValueClass()}
-                onChange={function(e){selfForm.handleClose(e)}}
-              >
-              { 
-              label_select.map(function(lb) {
-                let labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
-                let labeltype = lb.type_label.charAt(0).toUpperCase() + lb.type_label.slice(1);
-                let id = lb.tag_label+','+lb.type_label+','+lb.color;
-                if (lb.type_label === labelControl.getTypeLabel()){
-                  return (
-                    <FormControlLabel key={lb.id} value={id} control={<Radio color="primary"/>} label={labelname + ' | ' +labeltype} />
-                  );}  
-                }
-              )
-            }
-              </RadioGroup>
-            </FormControl>
-          </DialogContent>
-        </Dialog>
-    );
-  }
+		return (
+				<Dialog
+					open={this.state.open}
+					onClose={this.handleClose}
+					aria-labelledby="alert-dialog-title"
+					aria-describedby="alert-dialog-description"
+				>
+					<DialogTitle id="alert-dialog-title">{"Data Annotation Tool - GVlab"}</DialogTitle>
+					<DialogContent>
+						<FormControl component="fieldset" className={classes.formControl}>
+							<FormLabel component="legend">Change class label</FormLabel>
+							<RadioGroup
+								aria-label="Change class label"
+								name="changeclass"
+								className={classes.group}
+								value={labelControl.getValueClass()}
+								onChange={function(e){selfForm.handleClose(e)}}
+							>
+							{ 
+							label_select.map(function(lb) {
+								let labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
+								let labeltype = lb.type_label.charAt(0).toUpperCase() + lb.type_label.slice(1);
+								let id = lb.tag_label+','+lb.type_label+','+lb.color;
+								if (lb.type_label === labelControl.getTypeLabel()){
+									return (
+										<FormControlLabel key={lb.id} value={id} control={<Radio color="primary"/>} label={labelname + ' | ' +labeltype} />
+									);}  
+								}
+							)
+						}
+							</RadioGroup>
+						</FormControl>
+					</DialogContent>
+				</Dialog>
+		);
+	}
 }
 
 AlertDialogChangeClass.propTypes = {
-  classes: PropTypes.object.isRequired,
+	classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(AlertDialogChangeClass);
