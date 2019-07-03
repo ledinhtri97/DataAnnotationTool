@@ -335,7 +335,7 @@ class GVMedicalOverlay extends React.Component {
             // check boundary mode
             const is_boundary_mode = mstate.is_boundary_mode;
             if (is_boundary_mode) {
-                let M = cv.Mat.ones(5, 5, cv.CV_8U);
+                let M = cv.Mat.ones(3, 3, cv.CV_8U);
                 let anchor = new cv.Point(-1, -1);
                 // https://docs.opencv.org/3.0-beta/modules/imgproc/doc/filtering.html#morphologyex
                 // Morphological Gradient
@@ -362,7 +362,7 @@ class GVMedicalOverlay extends React.Component {
             var segment_g = parseInt(segment_color_hex.substr(2, 2), 16);
             var segment_b = parseInt(segment_color_hex.substr(4), 16);
     
-            // modify image data
+            // modify image data of canvas
             var debug_counter = 0;
             for(var p=0; p<cvmask.rows*cvmask.cols; p++) {
                 if (cvmask.data[p] > 0) {

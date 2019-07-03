@@ -43,29 +43,11 @@ class MedicalSurfaceBox {
         if (this.overlay.brush_or_eraser && this.overlay.brush_or_eraser.is_active()) {
             this.overlay.brush_or_eraser.is_brushing = true;
 
-            const point2d = MedicalSurfaceBox.convert_canvas_coord_to_image_coord_percent(
-                offsetX, offsetY, 
-                this.overlay.gvc.vis_meta, 
-                this.overlay.gvc.state);
-                
-            if (point2d.x < 0 || point2d.y < 0 || point2d.x > 1 || point2d.y > 1) { // invalid values
-                // do nothing
-            } else {
-                var mask_idx = -1;
-                var active_label_id = this.overlay.props.medical_label_state.getLabelId();
-                var m = this.overlay.gvc.labeling_mask_layers[this.overlay.gvc.state.active_idx]
-                if (m.length>0 && parseInt(m[m.length-1].label_id) == parseInt(active_label_id)) {
-                    mask_idx = m.length-1;
-                }
-                this.overlay.gvc.brush_point_at(point2d.x, point2d.y, 
-                    this.overlay.brush_or_eraser.brush_radius, 
-                    this.overlay.brush_or_eraser.brush_shape,
-                    mask_idx,
-                    this.overlay.brush_or_eraser.is_eraser,
-                    this._surface_height());
-                this.overlay.draw_mask();
-            }
+            if (this.overlay.props.medical_label_state.is_boundary_mode) {
+                this.overlay.props.medical_label_state.switch_boundary_mode();
+            }            
 
+            this.overlay.brush_or_eraser.brush_on_surface(offsetX, offsetY);            
             return;
         }
 
@@ -195,10 +177,15 @@ class MedicalSurfaceBox {
                 if (point2d.x < 0 || point2d.y < 0 || point2d.x > 1 || point2d.y > 1) { // invalid values
                     // do nothing
                 } else {
+
+                    this.overlay.brush_or_eraser.brush_on_surface(offsetX, offsetY);
+                    /*
                     var mask_idx = -1;
                     var active_label_id = this.overlay.props.medical_label_state.getLabelId();
                     var m = this.overlay.gvc.labeling_mask_layers[this.overlay.gvc.state.active_idx]
-                    if (m.length>0 && parseInt(m[m.length-1].label_id) == parseInt(active_label_id)) {
+                    if (m.length>0 && 
+                        parseInt(m[m.length-1].label_id) == parseInt(active_label_id) &&
+                        m[m.length-1].editable == true) {
                         mask_idx = m.length-1;
                     }
                     this.overlay.gvc.brush_point_at(point2d.x, point2d.y, 
@@ -208,6 +195,7 @@ class MedicalSurfaceBox {
                         this.overlay.brush_or_eraser.is_eraser,
                         this._surface_height());
                     this.overlay.draw_mask();
+                    */
                 }
             }
 
@@ -261,9 +249,6 @@ class MedicalSurfaceBox {
 
         const offsetX = e.nativeEvent.offsetX;
         const offsetY = e.nativeEvent.offsetY;
-
-        console.log("on wheel: " + offsetX + " " + offsetY);
-
         if (e.nativeEvent.wheelDelta > 0) {
             this.overlay.brush_or_eraser.brush_radius += 1;
             this.overlay.brush_or_eraser.render(this.canvas_surface_id, offsetX, offsetY);

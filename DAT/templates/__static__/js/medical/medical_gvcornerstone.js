@@ -194,6 +194,24 @@ class GVCornerStone2 extends React.Component {
 
     next_slice_callback = () => {
         const current_active_idx = this.state.active_idx;
+
+        // save mask to server
+        // http://172.28.182.144:8011/groundtruth/upload/
+        /*
+        {
+            "seri_id": "1.3.12.2.1107.5.1.4.66711.30000018110100213625600167239",
+            "gt_file_name": "1.3.12.2.1107.5.1.4.66711.30000018110100213625600167239.png",
+            "label": "blood_vessel",
+            "gt_file": "<base64>"
+        }
+        */
+
+        // GET http://172.28.182.144:8010/1.3.12.2.1107.5.1.4.66711.30000018110100213625600166327/blood_vessel/predict/1.3.12.2.1107.5.1.4.66711.30000018110100213625600166328.png
+        // GET http://172.28.182.144:8010/1.3.12.2.1107.5.1.4.66711.30000018110100213625600166327/blood_vessel/groundtruth/1.3.12.2.1107.5.1.4.66711.30000018110100213625600166328.png
+        // http://172.28.182.144:8011/groundtruth/upload/
+        
+
+        // load next view
         const total_slices = this.medical_images.length;
         var new_active_idx = (current_active_idx+1<total_slices)?current_active_idx+1:current_active_idx;
         if (new_active_idx != current_active_idx) {
@@ -419,6 +437,33 @@ class GVCornerStone2 extends React.Component {
         }
     }
 
+    merge_immutable_mask_layers = (label_id) => {
+        const mask_layers = this.labeling_mask_layers[this.state.active_idx];
+        // re-calculate the updated mask
+        var new_cvmask = null;
+        var idx_to_remove = [];
+        for(var i=0; i<mask_layers.length; i++) {
+            const mask = mask_layers[i];
+            if (mask.label_id.toString() == label_id.toString()) {
+                if (new_cvmask == null) {
+                    new_cvmask = mask.mask;
+                } else if (mask.editable == false) {
+                    cv.add(new_cvmask, mask.mask, new_cvmask);  
+                    idx_to_remove.push(i);
+                }
+            }
+        }
+
+        if (idx_to_remove.length > 0) {
+            for(var i=idx_to_remove.length-1; i>=0; i--) {
+                var idx = idx_to_remove[i];
+                const mask = mask_layers[idx];
+                mask.mask.delete();
+                mask_layers.splice(idx, 1);
+            }
+        }
+    }
+
     recalculate_labeling_mask = (label_id) => {
         const mask_layers = this.labeling_mask_layers[this.state.active_idx];
         // re-calculate the updated mask
@@ -635,7 +680,6 @@ class GVCornerStone2 extends React.Component {
 
             if (mask_idx >= 0) {
                 // update
-                console.log("mask_idx: " + mask_idx);
                 if (self.labeling_mask_layers[self.state.active_idx][mask_idx].mask != null) {
                     self.labeling_mask_layers[self.state.active_idx][mask_idx].mask.delete();
                 }
@@ -657,7 +701,7 @@ class GVCornerStone2 extends React.Component {
                     editable: true,
                 });
             }
-
+            cvmask.delete();
             self.recalculate_labeling_mask(label_id);
         }, {
             x_percent: x_percent,

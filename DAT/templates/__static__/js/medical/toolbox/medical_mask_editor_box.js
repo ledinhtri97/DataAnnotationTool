@@ -47,6 +47,7 @@ class MedicalMaskEditorBox {
                 check_icon_node.addEventListener('click', function() {
                     mask_info.editable = false;
                     div_editor.removeChild(div_node);
+                    self.overlay.gvc.merge_immutable_mask_layers(mask_info.label_id);
                 });
                 div_node.appendChild(check_icon_node);
 
