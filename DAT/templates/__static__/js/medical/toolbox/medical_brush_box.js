@@ -108,11 +108,11 @@ class MedicalBrushBox {
             for (var x=brush_region_canvas_x_range[0]; x<=brush_region_canvas_x_range[1]; x++) {
                 for (var y=brush_region_canvas_y_range[0]; y<=brush_region_canvas_y_range[1]; y++) {
                     if (x<0 || y<0 || x>=overlay_canvas.width || y>= overlay_canvas.height) {
-                        continue
+                        continue;
                     }
 
                     if (x<point2d.shift_x_px || y<point2d.shift_y_px || x>point2d.shift_x_px+this.overlay.gvc.vis_meta.viewing_image_width || y>point2d.shift_y_px+this.overlay.gvc.vis_meta.viewing_image_height_px) {
-                        continue
+                        continue;
                     }
 
                     if (this.brush_shape == "circle") {

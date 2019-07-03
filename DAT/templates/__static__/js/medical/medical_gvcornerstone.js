@@ -313,45 +313,54 @@ class GVCornerStone2 extends React.Component {
                     this.medical_images[this.state.active_idx].cornerstone_image = image;
                     var predict_list = this.medical_images[this.state.active_idx].predict;
                     if (predict_list && predict_list.length > 0) {
+                        this.visualize();                        
                         wait_opencvjs_to_exec(function(data) {
                             var self = data.self;
                             var image = data.image;
-                            var predict_list = data.predict_list;                            
+                            var predict_list = data.predict_list;
                             
                             var async_processing_predict_mask = function(img, ctx, myCanvas, idx, end_idx, label_id, self) {
-                                ctx.drawImage(img, 0, 0); // Or at whatever offset you like
-                                var p_cvmask = cv.imread(myCanvas);
-                                var g_cvmask = new cv.Mat();
-                                cv.cvtColor(p_cvmask, g_cvmask, cv.COLOR_RGBA2GRAY, 1);
+                                try {
+                                    ctx.drawImage(img, 0, 0); // Or at whatever offset you like
+                                    var p_cvmask = cv.imread(myCanvas);
+                                    var g_cvmask = new cv.Mat();
+                                    cv.cvtColor(p_cvmask, g_cvmask, cv.COLOR_RGBA2GRAY, 1);
 
-                                self.labeling_mask_layers[self.state.active_idx].push({
-                                    x_percent: -1,
-                                    y_percent: -1,
-                                    label_id: label_id.toString(), // str
-                                    mask: g_cvmask, // cv.Mat()
-                                    delta: -1,
-                                    editable: false,
-                                });
+                                    self.labeling_mask_layers[self.state.active_idx].push({
+                                        x_percent: -1,
+                                        y_percent: -1,
+                                        label_id: label_id.toString(), // str
+                                        mask: g_cvmask, // cv.Mat()
+                                        delta: -1,
+                                        editable: false,
+                                    });
 
-                                self.recalculate_labeling_mask(label_id.toString());
-
-                                if (idx==end_idx-1) {
-                                    self.visualize();
+                                    self.recalculate_labeling_mask(label_id.toString());
+                                    self.medical_overlay_obj.draw_mask();
+                                } catch (e) {
+                                    console.log("[Error] Exception while trying to load predict @ " + label_id);
                                 }
                             }
 
                             for (var pl=0; pl<predict_list.length; pl++) {
                                 const idx = pl;
                                 var predict_info = predict_list[pl]; // {'label': 'liver', 'url': 'http://...'}
-                                var label_id = self.props.medical_label_state.getLabelIdFromTagLabel(predict_info.label);
+                                const label_id = self.props.medical_label_state.getLabelIdFromTagLabel(predict_info.label);
 
-                                let myCanvas = document.createElement('canvas');
+                                /*if(predict_info.label == "blood_vessel") {
+                                    continue;
+                                }*/
+
+                                const myCanvas = document.createElement('canvas');
                                 myCanvas.width  = image.width;
                                 myCanvas.height = image.height;
-                                var ctx = myCanvas.getContext('2d');
-                                var img = new Image();
+                                const ctx = myCanvas.getContext('2d');
+                                const img = new Image();
                                 img.onload = function() {
                                     async_processing_predict_mask(img, ctx, myCanvas, idx, predict_list.length, label_id, self);
+                                };
+                                img.onerror = function() {
+                                    // do nothing?
                                 };
                                 img.crossOrigin = "Anonymous";
                                 img.src = predict_info.url;
