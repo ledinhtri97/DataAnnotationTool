@@ -600,7 +600,7 @@ class GVCornerStone2 extends React.Component {
             var delta = data.delta;
             const self = data.self;
 
-            delta = (typeof delta == "undefined")?15:delta;
+            //delta = (typeof delta == "undefined")?15:delta;
 
             const cvimg = self.medical_images[self.state.active_idx].intensity_image;
             const x_abs = Math.floor(x_percent*cvimg.cols);
@@ -611,11 +611,33 @@ class GVCornerStone2 extends React.Component {
             var to_loc1d = (x, y) => (y*cvimg.cols+x)*4;
             var is_valid_xy = (x, y) => x>=0 && y>=0 && x<cvimg.cols && y<cvimg.rows;
     
-            const loc_1d = to_loc1d(x_abs, y_abs);
-            const red = pix[loc_1d];
-            const green = pix[loc_1d+1];
-            const blue = pix[loc_1d+2];
-    
+            var px_array = [];
+            var loc_1d = to_loc1d(x_abs, y_abs);
+            var red = pix[loc_1d];
+            var green = pix[loc_1d+1];
+            var blue = pix[loc_1d+2];
+            px_array.push(red);
+
+            const rad = 2;
+            for (var xx=x_abs-rad; xx<=x_abs+rad; xx++) {
+                for (var yy=y_abs-rad; yy<=y_abs+rad; yy++) {
+                    if (is_valid_xy(xx, yy)) {
+                        loc_1d = to_loc1d(xx, yy);
+                        px_array.push(pix[loc_1d]);
+                    }
+                }
+            }
+
+            console.log("px_array");
+            console.log(px_array);
+
+            var px_mean_std = self.medical_overlay_obj.hounsfield_indicator.calc_mean_std_from_voxel_array(px_array, 1, 0);
+            red = px_mean_std.mean;
+            green = px_mean_std.mean;
+            blue = px_mean_std.mean;
+            delta = (typeof delta == "undefined")?Math.floor(px_mean_std.std):delta;
+            console.log("avg intensity, detla: " + red + " | " + delta);
+
             var neighbors = [];
             neighbors.push({x: x_abs, y: y_abs});
             var cvmask = new cv.Mat(cvimg.rows, cvimg.cols, cv.CV_8U, new cv.Scalar(0));

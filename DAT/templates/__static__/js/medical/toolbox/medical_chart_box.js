@@ -341,7 +341,7 @@ class MedicalChartBox {
     }
 
     static set_chart_for_blood_vessel = (self) => {
-        var scatter_data = [
+        /*var scatter_data = [
             { x: -1024, y: 0 },
             { x: -555, y: 0 },
             { x: -300, y: 0 },
@@ -351,6 +351,16 @@ class MedicalChartBox {
             { x: 290, y: 250 },
             { x: 395, y: 140 },
             { x: 457, y: 0 },            
+        ];*/
+        var scatter_data = [
+            { x: -1024, y: 0 },
+            { x: -628, y: 0 },
+            { x: -352, y: 68 },
+            { x: -26, y: 0 },
+            { x: 225, y: 171 },
+            { x: 290, y: 250 },
+            { x: 476, y: 111 },
+            { x: 677, y: 0 },
         ];
         MedicalChartBox.set_chart(self, scatter_data);
     }
