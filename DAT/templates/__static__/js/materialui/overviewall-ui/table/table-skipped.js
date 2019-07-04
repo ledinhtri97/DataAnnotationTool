@@ -23,7 +23,7 @@ import {initCanvas} from '../../../modules/labeling-module/renderInit';
 const styles = theme => ({
 	root: {
 		width: '100%',
-		marginTop: theme.spacing.unit * 3,
+		marginTop: theme.spacing(3),
 	},
 	table: {
 		minWidth: 500,
@@ -32,7 +32,7 @@ const styles = theme => ({
 		overflowX: 'auto',
 	},
 	rightIcon: {
-		marginLeft: theme.spacing.unit,
+		marginLeft: theme.spacing(1),
 	},
 	table_title: {
 		fontSize: '0.947rem',
@@ -41,7 +41,7 @@ const styles = theme => ({
 		fontSize: '0.915rem',
 	},
 	button: {
-		margin: theme.spacing.unit,
+		margin: theme.spacing(1),
 		width: '7em',
 		fontSize: '0.85em',
 	},

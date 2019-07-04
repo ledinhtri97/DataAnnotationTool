@@ -20,7 +20,7 @@ const styles = theme => ({
 		width: '95%',
 	},
 	exButton: {
-		margin: theme.spacing.unit,
+		margin: theme.spacing(1),
 		width: '20em',
 		marginTop: '1rem',
 	},

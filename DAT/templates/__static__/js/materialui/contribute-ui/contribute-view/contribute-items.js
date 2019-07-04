@@ -37,7 +37,7 @@ const styles = theme => ({
 		color: 'rgba(255, 255, 255, 0.54)',
 	},
 	button: {
-		margin: theme.spacing.unit,
+		margin: theme.spacing(1),
 	},
 	label: {
 		color: "#FFFFFF",

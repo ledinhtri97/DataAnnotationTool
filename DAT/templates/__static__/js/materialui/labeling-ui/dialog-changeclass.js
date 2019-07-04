@@ -12,92 +12,55 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import SearchIcon from '@material-ui/icons/Search';
 
+import IntegrationReactSelect from './autoComplete';
+
 const styles = theme =>({
 	formControl: {
-		margin: theme.spacing.unit * 3,
+		margin: theme.spacing(3),
 	},
 	group: {
-		margin: theme.spacing.unit,
+		margin: theme.spacing(1),
 	},
 });
 
-// const useStyles = makeStyles(theme => ({
-// 	search: {
-// 	    position: 'relative',
-// 	    borderRadius: theme.shape.borderRadius,
-// 	    backgroundColor: fade(theme.palette.common.white, 0.15),
-// 	    '&:hover': {
-// 	      backgroundColor: fade(theme.palette.common.white, 0.25),
-// 	    },
-// 	    marginLeft: 0,
-// 	    width: '100%',
-// 	    [theme.breakpoints.up('sm')]: {
-// 	      marginLeft: theme.spacing(1),
-// 	      width: 'auto',
-// 	    },
-// 	},
-// 	searchIcon: {
-// 	    width: theme.spacing(7),
-// 	    height: '100%',
-// 	    position: 'absolute',
-// 	    pointerEvents: 'none',
-// 	    display: 'flex',
-// 	    alignItems: 'center',
-// 	    justifyContent: 'center',
-// 	},
-// 	inputRoot: {
-// 	    color: 'inherit',
-// 	},
-// 	inputInput: {
-// 	    padding: theme.spacing(1, 1, 1, 7),
-// 	    transition: theme.transitions.create('width'),
-// 	    width: '100%',
-// 	    [theme.breakpoints.up('sm')]: {
-// 	      width: 120,
-// 	      '&:focus': {
-// 	        width: 200,
-// 	      },
-// 	    },
-// 	 },
-// }));
-
-
 class AlertDialogChangeClass extends React.Component {
-		state = {
-				open: true,
-		};
+	state = {
+		open: true,
+	};
 
-		contextMenu = function(e) {
-				e.preventDefault();
-				return false;
-		};
-
-		handleClose = (event) => {
-				// alert(event.target.value);
-				if(event.target.value){
-						let values = event.target.value.split(',');
-						//lb.tag_label+','+lb.type_label+','+lb.color;
-						let res = this.props.labelControl.__changeClass__(values[0], values[1], values[2]);
-						if (res){
-								this.setState({ open: false });
-								this.props.callSetName(values[0]); //dig
-						}
-						else{
-								alert("Cannot change different type of shape");
-						}
+	handleClose = (event) => {
+			if(event.target.value){
+				let values = event.target.value.split(',');
+				let res = this.props.labelControl.__changeClass__(values[0], values[1], values[2]);
+				if (res){
+					this.setState({ open: false });
+					this.props.callSetName(values[0]); //dig
 				}
 				else{
-						this.setState({ open: false });
+					alert("Cannot change different type of shape");
 				}
-		};
+			}
+			else{
+				this.props.labelControl.__noClassChange__();
+				this.setState({ open: false });
+			}
+	};
 
 	render() {
 
 		const selfForm = this;
 		const { classes, labelControl} = this.props;
-		// const cl = useStyles();
 		let lbs = document.getElementById('label_select');
-		let label_select = JSON.parse(lbs.textContent).label_select;
+		let label_select = [];
+		
+		JSON.parse(lbs.textContent).label_select.map(function(lb) {
+			if (lb.type_label === labelControl.getTypeLabel()){
+				label_select.push({
+					value: lb.tag_label+','+lb.type_label+','+lb.color,
+					label: lb.tag_label,
+				});
+			}
+		});
 
 		return (
 				<Dialog
@@ -108,30 +71,24 @@ class AlertDialogChangeClass extends React.Component {
 				>
 					<DialogTitle id="alert-dialog-title">{"Data Annotation Tool - GVlab"}</DialogTitle>
 					<DialogContent>
-						<FormControl component="fieldset" className={classes.formControl}>
-							<FormLabel component="legend">Change class label</FormLabel>
-							
-							<RadioGroup
-								aria-label="Change class label"
-								name="changeclass"
-								className={classes.group}
-								value={labelControl.getValueClass()}
-								onChange={function(e){selfForm.handleClose(e)}}
-							>
-							{ 
-							label_select.map(function(lb) {
-								let labelname = lb.tag_label.charAt(0).toUpperCase() + lb.tag_label.slice(1);
-								let labeltype = lb.type_label.charAt(0).toUpperCase() + lb.type_label.slice(1);
-								let id = lb.tag_label+','+lb.type_label+','+lb.color;
-								if (lb.type_label === labelControl.getTypeLabel()){
-									return (
-										<FormControlLabel key={lb.id} value={id} control={<Radio color="primary"/>} label={labelname + ' | ' +labeltype} />
-									);}  
-								}
-							)
-						}
-							</RadioGroup>
-						</FormControl>
+					<FormControl component="fieldset" className={classes.formControl}>
+						<IntegrationReactSelect suggestions={label_select} handleClose={selfForm.handleClose}/>
+						<RadioGroup
+							name="changeclass"
+							className={classes.group}
+							value={labelControl.getValueClass()}
+							onChange={function(e){selfForm.handleClose(e)}}
+						>
+						{ 
+						label_select.map(function(i, key) {
+							return (
+								<FormControlLabel key={key} 
+									value={i.value} control={<Radio color="primary"/>} 
+									label={i.label} />
+							);
+						})}
+						</RadioGroup>
+					</FormControl>
 					</DialogContent>
 				</Dialog>
 		);

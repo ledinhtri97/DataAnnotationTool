@@ -54,7 +54,7 @@ const styles = theme =>({
 		flexGrow: 1,
 	},
 	chip: {
-		margin: theme.spacing.unit,
+		margin: theme.spacing(1),
 		backgroundColor: "#FFFFFF",
 		color: "#0844a7",
 		fontSize: '1rem',
@@ -92,9 +92,9 @@ const styles = theme =>({
     		easing: theme.transitions.easing.sharp,
     		duration: theme.transitions.duration.leavingScreen,
     	}),
-    	width: theme.spacing.unit * 7,
+    	width: theme.spacing(7),
     	[theme.breakpoints.up('sm')]: {
-    		width: theme.spacing.unit * 9,
+    		width: theme.spacing(9),
     	},
     },
     labeling:{
@@ -125,7 +125,7 @@ const styles = theme =>({
     	fontSize: 11,
     },
     button: {
-    	margin: theme.spacing.unit,
+    	margin: theme.spacing(1),
     	width: '150px',
     },
 	

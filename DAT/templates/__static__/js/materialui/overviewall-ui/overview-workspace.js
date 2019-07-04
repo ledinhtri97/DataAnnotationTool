@@ -74,7 +74,7 @@ const styles = theme => ({
     marginLeft: '1em'
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     width: '15em',
   },
   listStatus: {
@@ -84,20 +84,20 @@ const styles = theme => ({
     justifyContent: 'center',
   },
   chip: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     marginTop: 0,
     marginBottom: 0,
     padding: 0,
     width: '10em',
   },
   extractButton: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     width: '20em',
     float: 'right',
     marginRight: '3rem',
   },
   labeling:{
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     float: 'right',
   },
   tableLabels: {
