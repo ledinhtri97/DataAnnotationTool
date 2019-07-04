@@ -34,7 +34,7 @@ const styles = theme =>({
 		flexGrow: 1,
 	},
 	chip: {
-		margin: theme.spacing.unit,
+		margin: theme.spacing(1),
 		backgroundColor: "#FFFFFF",
 		color: "#0844a7",
 		fontSize: '1rem',

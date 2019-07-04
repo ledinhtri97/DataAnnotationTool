@@ -48,7 +48,7 @@ const styles = theme => ({
 		fontSize: '20px',
 	},
 	close: {
-		padding: theme.spacing.unit / 2,
+		padding: theme.spacing(0.5),
 	},
 	rootFromControlLabel: {
 		margin: 0,
@@ -89,10 +89,11 @@ class LabelItem extends React.Component {
 						<ListItemIcon className={classes.icon}>
 						<IconButton className={classes.iconControll} aria-haspopup="true" color="secondary"
 						id={labelControl.getId()+"_changelabel"} onClick={function(e){
+
 								let dialog = document.getElementById("dialog");
 								if(dialog){
-										ReactDOM.unmountComponentAtNode(dialog);
-										ReactDOM.render(<AlertDialogChangeClass
+									ReactDOM.unmountComponentAtNode(dialog);
+									ReactDOM.render(<AlertDialogChangeClass
 										callSetName={selfitem.callSetName}
 										labelControl={labelControl}
 										/>, dialog);

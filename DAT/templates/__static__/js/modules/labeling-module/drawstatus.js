@@ -1,6 +1,7 @@
 
 class DrawStatus{
 	constructor(){
+		this.isChangingLabel = false;
 		this.isDrawing = false;
 		this.isWaiting = false;
 		this.isZoom = false;
@@ -12,6 +13,14 @@ class DrawStatus{
 		this.zoomSpaceKey = false;
 		this.popupHover = false;
 		this.modeTool = [0, 0, 0, 0]; //edit, hidden, delete, change mode ===> default is false
+	}
+
+	getIsChangingLabel(){
+		return this.isChangingLabel;
+	}
+
+	setIsChangingLabel(val){
+		this.isChangingLabel = val;
 	}
 
 	getModeTool(imode) {

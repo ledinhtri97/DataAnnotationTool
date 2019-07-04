@@ -55,12 +55,16 @@ class LabelControl{
 			drawStatus.setRenewLabel(false);
 			drawStatus.setNameLabel(tag_label);
 			drawStatus.setColorLabel(color);
-
+			drawStatus.setIsChangingLabel(false);
 			return true;
 		}
 		else{
 			return false;
 		}
+	}
+
+	__noClassChange__(){
+		drawStatus.setIsChangingLabel(false);
 	}
 
 	__overITEM__(){

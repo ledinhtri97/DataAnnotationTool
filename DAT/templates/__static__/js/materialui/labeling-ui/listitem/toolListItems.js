@@ -35,7 +35,7 @@ const styles = theme => ({
         paddingRight: "5px",
     },
     close: {
-        padding: theme.spacing.unit / 2,
+        padding: theme.spacing(0.5),
     },
     hidden: {
         display: 'none',

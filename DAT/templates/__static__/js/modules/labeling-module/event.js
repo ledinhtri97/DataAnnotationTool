@@ -116,8 +116,10 @@ const init_event = function(__canvas__, popupControllers, label_select){
 	};
 
 	window.onkeyup = function(e) {
+		if(drawStatus.getIsChangingLabel()) return;
 		var key = e.keyCode ? e.keyCode : e.which;
 		if(key == 16 && namelabelGlobal){
+			//show all label same class, shift key
 			__canvas__.getObjects().forEach(function (obj) {
 				if(obj.name == namelabelGlobal && obj.hidden){
 					obj.visible = false;
@@ -126,11 +128,10 @@ const init_event = function(__canvas__, popupControllers, label_select){
 			__canvas__.renderAll();
 			namelabelGlobal = null;
 		}
-		else if(key == 90) {		
-		}
 	};
 
 	window.onkeypress = function(e){
+		if(drawStatus.getIsChangingLabel()) return;
 		let key = e.keyCode ? e.keyCode : e.which;
 		// alert(key);
 		if(key == 97){
@@ -165,6 +166,7 @@ const init_event = function(__canvas__, popupControllers, label_select){
 				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 
 				if(labelControl){
+					drawStatus.setIsChangingLabel(true);
 					let changelb = document.getElementById(labelControl.getId()+"_changelabel");
 					changelb && changelb.click();
 				}
