@@ -40,14 +40,14 @@ const styles = theme => ({
 		width: 'auto',
 		marginLeft: theme.spacing(3),
 		marginRight: theme.spacing(3),
-		[theme.breakpoints.up(1100 + theme.spacing(6))]: {
+		[theme.breakpoints.up(1100 + theme.spacing(2) * 3)]: {
 			width: 1100,
 			marginLeft: 'auto',
 			marginRight: 'auto',
 		},
 	},
 	cardGrid: {
-		padding: `${theme.spacing(5)}px 0`,
+		padding: `${theme.spacing(2)}px 0`,
 	},
 	card: {
 		height: '100%',
@@ -123,7 +123,7 @@ class Workspaces extends React.Component {
 			Main Workspace
 			</Typography>
             <div className={classes.heroButtons}>
-              <Grid container spacing={16} justify="center">
+              <Grid container spacing={10} justify="center">
                 <Grid item>
                   <Button 
                   	onClick={thiswp.handleOverviewAll}
@@ -142,10 +142,9 @@ class Workspaces extends React.Component {
           </div>
           </div>
           <div className={classNames(classes.layout, classes.cardGrid)}>
-          <Grid container spacing={40}>
+          <Grid container spacing={4}>
           {workspaces.map(
           	function(wp, key) {
-
           		return (
           			<Grid item key={key} sm={6} md={4} lg={3}>
           			<Card className={classes.card}>
