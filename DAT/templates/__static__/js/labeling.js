@@ -49,14 +49,15 @@ const controllerRequest = (callback_cl) => {
 	if(group_control) group_control.style["display"] = "none";
 
 	if(callback_cl == 'rqnext'){
+		drawStatus.setRenewLabel(true);
 		rqnext(meta_id.textContent, canvas);
-		drawStatus.setIsChangingLabel(true);
 	}
 	if (callback_cl == 'rqsavenext') {
+		drawStatus.setRenewLabel(true);
 		rqsavenext(meta_id.textContent, canvas);
-		drawStatus.setIsChangingLabel(true);
 	}
 	if (callback_cl == 'rqsave') {
+		drawStatus.setRenewLabel(true);
 		rqsave(meta_id.textContent, canvas);
 	} 
 }
