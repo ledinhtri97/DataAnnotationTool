@@ -64,6 +64,7 @@ class LabelControl{
 	}
 
 	__noClassChange__(){
+		drawStatus.setRenewLabel(false);
 		drawStatus.setIsChangingLabel(false);
 	}
 

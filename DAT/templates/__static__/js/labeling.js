@@ -59,7 +59,7 @@ const controllerRequest = (callback_cl) => {
 	if (callback_cl == 'rqsave') {
 		drawStatus.setRenewLabel(true);
 		rqsave(meta_id.textContent, canvas);
-	} 
+	}
 }
 
 if(labeling && meta_id && meta_id.textContent){

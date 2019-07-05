@@ -41,8 +41,13 @@ class AlertDialogChangeClass extends React.Component {
 				}
 			}
 			else{
-				this.props.labelControl.__noClassChange__();
-				this.setState({ open: false });
+				if (this.props.labelControl.getNameLabel()){
+					this.props.labelControl.__noClassChange__();
+					this.setState({ open: false });
+				}
+				else {
+					alert("You must choose label for this object !");
+				}
 			}
 	};
 
@@ -79,7 +84,7 @@ class AlertDialogChangeClass extends React.Component {
 							value={labelControl.getValueClass()}
 							onChange={function(e){selfForm.handleClose(e)}}
 						>
-						{ 
+						{
 						label_select.map(function(i, key) {
 							return (
 								<FormControlLabel key={key} 
