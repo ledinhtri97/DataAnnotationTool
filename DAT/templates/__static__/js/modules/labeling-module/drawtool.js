@@ -202,6 +202,7 @@ class DrawTool{
 		//end new variable
 
 		drawer.tool = {
+			
 			initTool : function() {
 				drawer.pointArray = new Array();
 				drawer.lineArray = new Array();
@@ -209,40 +210,57 @@ class DrawTool{
 
 			generateShapeLabel : function(){
 				let new_object;
-
 				drawer.lineArray.forEach(function(line){
 					drawer.canvas.remove(line);
 				});
-
 				drawer.canvas.remove(drawer.firstPoint);
 				drawer.canvas.remove(drawer.lastLine);
 				
 				if (drawer.typeLabel === 'rect') {
+					
+					let listRectLabel = drawStatus.getListLabelRect();
+
 					drawer.canvas.remove(drawer.rectangle);
 					
 					new_object = configureRectangle(
 						drawer.rectangle.left, drawer.rectangle.top, 
-						drawer.rectangle.width, drawer.rectangle.height) ;
-					new_object.type_label = 'rect';
+						drawer.rectangle.width, drawer.rectangle.height);
+
+					if (listRectLabel.length === 1){
+						let values = listRectLabel[0].value.split(','); //tag_label, type_label, color
+						new_object.set('name', values[0]);
+						new_object.set('stroke', values[2]);
+						new_object.set('basicColor', values[2]);
+						new_object.icon.set('fill', values[2]);
+					}
+
 					drawer.canvas.add(new_object);
 					createItemToList(drawer.canvas, new_object);
 				}
 				else if (drawer.typeLabel === 'poly') {
 					if(drawer.pointArray.length > 2) {
+
+						let listPolyLabel = drawStatus.getListLabelPoly();
+
 						new_object = configurePoly(drawer.pointArray);
-						new_object.type_label = 'poly';
+
+						if (listPolyLabel.length === 1){
+							let values = listPolyLabel[0].value.split(','); //tag_label, type_label, color
+							new_object.set('name', values[0]);
+							new_object.set('stroke', values[2]);
+							new_object.set('basicColor', values[2]);
+							new_object.icon.set('fill', values[2]);
+						}
+
 						drawer.canvas.add(new_object);
 						createItemToList(drawer.canvas, new_object);
 					}
 				}
 
-				if (new_object && drawStatus.getRenewLabel()) {
+				if (new_object && new_object.name === '' && drawStatus.getRenewLabel()) {
 					drawStatus.setIsChangingLabel(true);
 					let changelb = document.getElementById(new_object.labelControl.getId()+"_changelabel");
 					changelb && changelb.click();
-				}
-				else{
-					console.log("Still old label");
 				}
 
 				drawer.pointArray.splice(0, drawer.pointArray.lenth);
@@ -256,7 +274,6 @@ class DrawTool{
 				drawer.startDraw();
 			},
 		};
-
 
 		drawer.mouseDown = function(o){
 			let clickbtn = o.button;

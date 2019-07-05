@@ -92,11 +92,10 @@ if(labeling && meta_id && meta_id.textContent){
 				});
 			}
 			
-			init_event(canvas, popupControllers, meta.label_select);
+			init_event(canvas, popupControllers);
 
 			const tools_list_items = document.getElementById("tools_list_items");
-			tools_list_items && ReactDOM.render(<ToolListItems 
-				label_select={meta.label_select} 
+			tools_list_items && ReactDOM.render(<ToolListItems
 				drawTool={drawTool} 
 				drawStatus={drawStatus}
 				quickSettings={quickSettings}
@@ -111,12 +110,26 @@ if(labeling && meta_id && meta_id.textContent){
 			if(label_select) {
 				label_select.textContent = JSON.stringify({label_select: meta.label_select});
 			};
-
-			//start drawing when all done
-			//old option parameter: id, namelabel, typelabel
+			
+			let rectListLabel = [];
+			let polyListLabel = [];
+			meta.label_select.map(function(lb){
+				let item_lb = {
+					value: lb.tag_label+','+lb.type_label+','+lb.color,
+					label: lb.tag_label,
+				}
+				if(lb.type_label === 'rect'){
+					rectListLabel.push(item_lb);
+				}
+				else if (lb.type_label === 'poly') {
+					polyListLabel.push(item_lb);
+				}
+			});
+			drawStatus.setListLabel(rectListLabel, polyListLabel);
 			
 			document.getElementById("stop_draw").style['backgroundColor'] = "#B6F3F2";
 			setTimeout(function(){drawTool.startDraw();}, 500);
+
 		});
 	} catch(e) {
 		// statements

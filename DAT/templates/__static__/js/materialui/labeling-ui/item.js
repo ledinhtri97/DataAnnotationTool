@@ -90,14 +90,14 @@ class LabelItem extends React.Component {
 						<IconButton className={classes.iconControll} aria-haspopup="true" color="secondary"
 						id={labelControl.getId()+"_changelabel"} onClick={function(e){
 
-								let dialog = document.getElementById("dialog");
-								if(dialog){
-									ReactDOM.unmountComponentAtNode(dialog);
-									ReactDOM.render(<AlertDialogChangeClass
-										callSetName={selfitem.callSetName}
-										labelControl={labelControl}
-										/>, dialog);
-								}
+							let dialog = document.getElementById("dialog");
+							if(dialog){
+								ReactDOM.unmountComponentAtNode(dialog);
+								ReactDOM.render(<AlertDialogChangeClass
+									callSetName={selfitem.callSetName}
+									labelControl={labelControl}
+									/>, dialog);
+							}
 				}}>
 				<FilterFrames />
 				</IconButton>

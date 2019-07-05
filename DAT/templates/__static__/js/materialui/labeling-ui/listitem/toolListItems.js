@@ -224,7 +224,7 @@ class ToolListItems extends React.Component {
     };
 
     render() {
-        const { classes, label_select, drawTool, drawStatus, quickSettings } = this.props;
+        const { classes, drawTool, drawStatus, quickSettings } = this.props;
         const { messageInfo } = this.state;
         const tool = this;
 
