@@ -23,7 +23,7 @@ class ScanMetaToDatabase(object):
       for fa in folders_availiable:
          self.lookfiles(fa['inputfile'])
          if(fa['groundtruth']):
-            print(fa['groundtruth'])
+            # print(fa['groundtruth'])
             try:
                INPUT_FILE = os.path.join(settings.BASE_DIR, str(fa['groundtruth']))
                with open(INPUT_FILE, "r") as f:
@@ -78,8 +78,6 @@ class ScanMetaToDatabase(object):
             
             full_path_folder = os.path.join(path_origin, '/'.join(path_meta[:-1]))
 
-            print(full_path_folder, label_str, position, type(position))
-            
             new_bb, created = BoundingBoxModel.objects.get_or_create(
 				   label=LabelDataModel.objects.get(tag_label=label_str, type_label=type_label),
 				   flag=1,
@@ -125,7 +123,7 @@ class ScanMetaToDatabase(object):
 
          folders_availiable.append(dir_name)
       
-      print(folders_availiable)
+      # print(folders_availiable)
       return folders_availiable
 
    
