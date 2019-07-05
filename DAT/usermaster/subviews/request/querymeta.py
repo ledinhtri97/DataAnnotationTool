@@ -39,12 +39,12 @@ def get_fake_api(meta, api_ref):
                     'accept_edit': lb['conf'] < api_ref.percent_accept/100.0,
                 } for lb in json_data['data']['boxes']
             ]
-
-            for lb in data:
-                if lb['tag_label'] == 'license_plate':
-                    lpo = lb['position'].split(',')
-                    lb['type_label'] = 'poly'
-                    lb['position'] = ','.join(
+ 
+            for i in range(len(data)):
+                if data[i]['tag_label'] == 'license_plate':
+                    lpo = data[i]['position'].split(',')
+                    data[i]['type_label'] = 'poly'
+                    data[i]['position'] = ','.join(
                         [lpo[0], lpo[1], lpo[2], lpo[1], lpo[2], lpo[3], lpo[0], lpo[3]])
 
         except Exception as e:
