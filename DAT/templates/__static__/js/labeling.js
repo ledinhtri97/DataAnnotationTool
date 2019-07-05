@@ -19,21 +19,6 @@ import QuickSettings from './modules/labeling-module/settings'
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 
-const controllerRequest = (callback_cl) => {
-
-	if(group_control) group_control.style["display"] = "none";
-
-	if(callback_cl == 'rqnext'){
-		rqnext(meta_id.textContent, canvas);
-	}
-	if (callback_cl == 'rqsavenext') {
-		rqsavenext(meta_id.textContent, canvas);
-	}
-	if (callback_cl == 'rqsave') {
-		rqsave(meta_id.textContent, canvas);
-	} 
-}
-
 const labeling = document.getElementById("labeling");
 const on_edit = document.getElementById("on_edit");
 labeling && ReactDOM.render(<MainFrameLabeling />, labeling);
@@ -58,6 +43,23 @@ const drawStatus = new DrawStatus();
 const drawTool = new DrawTool(canvas);
 const popupControllers = new PopupControllers(canvas); 
 const quickSettings = new QuickSettings();
+
+const controllerRequest = (callback_cl) => {
+
+	if(group_control) group_control.style["display"] = "none";
+
+	if(callback_cl == 'rqnext'){
+		rqnext(meta_id.textContent, canvas);
+		drawStatus.setIsChangingLabel(true);
+	}
+	if (callback_cl == 'rqsavenext') {
+		rqsavenext(meta_id.textContent, canvas);
+		drawStatus.setIsChangingLabel(true);
+	}
+	if (callback_cl == 'rqsave') {
+		rqsave(meta_id.textContent, canvas);
+	} 
+}
 
 if(labeling && meta_id && meta_id.textContent){
 	try {
