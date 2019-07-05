@@ -77,11 +77,11 @@ def query_meta_reference(meta, api_reference):
     
     if len(api_reference.all()) and not meta.is_reference_api:
         
-        # data['predict'] = sum([
-        #     get_fake_api(meta, api_ref) for api_ref in api_reference.all()
-        # ], [])
+        data['predict'] = sum([
+            get_fake_api(meta, api_ref) for api_ref in api_reference.all()
+        ], [])
 
-        data['predict'] = []
+        #data['predict'] = []
 
         if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
             data['status'] = 'FAILED'
