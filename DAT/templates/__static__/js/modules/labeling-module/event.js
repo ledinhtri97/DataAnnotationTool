@@ -65,7 +65,7 @@ const controll_bigplus = function(__canvas__, pointer){
 	}
 }
 
-const init_event = function(__canvas__, popupControllers, label_select){
+const init_event = function(__canvas__, popupControllers){
 	var group_control = document.getElementById("group_control");
 	if(group_control) {
 

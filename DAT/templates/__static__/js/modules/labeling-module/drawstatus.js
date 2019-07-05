@@ -1,6 +1,8 @@
 
 class DrawStatus{
 	constructor(){
+		this.listLabelRect = null;
+		this.listLabelPoly = null;
 		this.isChangingLabel = false;
 		this.isDrawing = false;
 		this.isWaiting = false;
@@ -14,6 +16,19 @@ class DrawStatus{
 		this.popupHover = false;
 		this.modeTool = [0, 0, 0, 0]; //edit, hidden, delete, change mode ===> default is false
 	}
+
+	setListLabel(rectList, polyList) {
+		this.listLabelRect = rectList;
+		this.listLabelPoly = polyList;
+	};
+
+	getListLabelRect(){
+		return this.listLabelRect;
+	};
+
+	getListLabelPoly(){
+		return this.listLabelPoly;
+	};
 
 	getIsChangingLabel(){
 		return this.isChangingLabel;

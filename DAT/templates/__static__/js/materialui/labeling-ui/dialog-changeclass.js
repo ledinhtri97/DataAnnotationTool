@@ -55,47 +55,35 @@ class AlertDialogChangeClass extends React.Component {
 
 		const selfForm = this;
 		const { classes, labelControl} = this.props;
-		let lbs = document.getElementById('label_select');
-		let label_select = [];
-		
-		JSON.parse(lbs.textContent).label_select.map(function(lb) {
-			if (lb.type_label === labelControl.getTypeLabel()){
-				label_select.push({
-					value: lb.tag_label+','+lb.type_label+','+lb.color,
-					label: lb.tag_label,
-				});
-			}
-		});
+
+		let label_select = labelControl.getListLabel();
 
 		return (
-				<Dialog
-					open={this.state.open}
-					onClose={this.handleClose}
-					aria-labelledby="alert-dialog-title"
-					aria-describedby="alert-dialog-description"
-				>
-					<DialogTitle id="alert-dialog-title">{"Data Annotation Tool - GVlab"}</DialogTitle>
-					<DialogContent>
-					<FormControl component="fieldset" className={classes.formControl}>
-						<IntegrationReactSelect suggestions={label_select} handleClose={selfForm.handleClose}/>
-						<RadioGroup
-							name="changeclass"
-							className={classes.group}
-							value={labelControl.getValueClass()}
-							onChange={function(e){selfForm.handleClose(e)}}
-						>
-						{
-						label_select.map(function(i, key) {
-							return (
-								<FormControlLabel key={key} 
-									value={i.value} control={<Radio color="primary"/>} 
-									label={i.label} />
+			<Dialog
+				open={this.state.open}
+				onClose={this.handleClose}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				<DialogTitle id="alert-dialog-title">{"Data Annotation Tool - GVLab"}</DialogTitle>
+				<DialogContent>
+				<FormControl component="fieldset" className={classes.formControl}>
+					<IntegrationReactSelect suggestions={label_select} handleClose={selfForm.handleClose}/>
+					<RadioGroup
+						name="changeclass" className={classes.group}
+						value={labelControl.getValueClass()}
+						onChange={function(e){selfForm.handleClose(e)}}
+					>
+					{
+					label_select.map(function(i, key) {
+						return (<FormControlLabel key={key} value={i.value} label={i.label}
+								control={<Radio color="primary"/>}/>
 							);
-						})}
-						</RadioGroup>
-					</FormControl>
-					</DialogContent>
-				</Dialog>
+					})}
+					</RadioGroup>
+				</FormControl>
+				</DialogContent>
+			</Dialog>
 		);
 	}
 }

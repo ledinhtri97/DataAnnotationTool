@@ -218,6 +218,16 @@ class LabelControl{
 		}
 	}
 
+	getListLabel() {
+		if(this.obj.type_label === 'rect'){
+			return drawStatus.getListLabelRect();
+		}
+		else if (this.obj.type_label === 'poly'){
+			return drawStatus.getListLabelPoly();
+		}
+		return null;
+	}
+
 	getTypeLabel() {
 		return this.obj.type_label;
 	}

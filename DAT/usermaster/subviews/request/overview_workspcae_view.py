@@ -32,7 +32,6 @@ def get_meta_overview(request, mtid):
             if label_select == 'true':
                 data['label_select'] = [
                     {
-                        'id': lb.id,
                         'tag_label': lb.tag_label,
                         'type_label': lb.type_label,
                         'color': lb.color,
