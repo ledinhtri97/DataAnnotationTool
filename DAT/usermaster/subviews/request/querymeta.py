@@ -40,6 +40,13 @@ def get_fake_api(meta, api_ref):
                 } for lb in json_data['data']['boxes']
             ]
 
+            for lb in data:
+                if lb['tag_label'] == 'license_plate':
+                    lpo = lb['position'].split(',')
+                    lb['type_label'] = 'poly'
+                    lb['position'] = ','.join(
+                        [lpo[0], lpo[1], lpo[2], lpo[1], lpo[2], lpo[3], lpo[0], lpo[3]])
+
         except Exception as e:
             print(e)
             data = [{'error': 'Failed to connect'}]
@@ -77,11 +84,11 @@ def query_meta_reference(meta, api_reference):
     
     if len(api_reference.all()) and not meta.is_reference_api:
         
-        # data['predict'] = sum([
-        #     get_fake_api(meta, api_ref) for api_ref in api_reference.all()
-        # ], [])
+        data['predict'] = sum([
+            get_fake_api(meta, api_ref) for api_ref in api_reference.all()
+        ], [])
 
-        data['predict'] = []
+        # data['predict'] = []
 
         if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
             data['status'] = 'FAILED'
