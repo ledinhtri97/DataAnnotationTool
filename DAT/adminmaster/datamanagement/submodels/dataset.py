@@ -20,12 +20,12 @@ class DataSetModel(models.Model):
 
     labels = models.ManyToManyField(LabelDataModel, blank=True)
 
-    def create_thumbnail(self):
-        return format_html('<a href="/gvlab-dat/datadmin/dataman/create-thumbnail/ds-{}/">Create Thumbnail - {}</a>',
+    def import_groundtruth(self):
+        return format_html('<a href="/gvlab-dat/datadmin/dataman/import-groudtruth/ds-{}/">Import Groundtruth - {}</a>',
             str(self.id),
             str(self.name))
 
-    create_thumbnail.admin_order_field = 'name'
+    import_groundtruth.admin_order_field = 'name'
 
     def get_dir_path(self):
         return os.path.join(str(self.id)) #../id/..
