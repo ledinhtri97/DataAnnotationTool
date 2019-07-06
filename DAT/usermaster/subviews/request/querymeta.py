@@ -4,7 +4,7 @@ import requests
 def get_fake_api(meta, api_ref):
 
     files = {'image': open(meta.get_full_origin(), 'rb')}
-    data = [{}]
+    data = []
     
     try:
         print("try 1:", api_ref.local_api_url)
