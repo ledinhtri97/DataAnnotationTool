@@ -6,12 +6,7 @@ import os
 from django.conf import settings
 
 
-def is_label(v):
-    try:
-        c = float(v)
-        return len(v.split('.')) == 1
-    except:
-        return True
+
 
 @shared_task
 def scanner_dataset(datasetid):
@@ -29,6 +24,13 @@ def scanner_dataset(datasetid):
             print('still not found dataset')
             is_done = False
     inputFileQuery = dataSetModel.input_file
+
+    def is_label(v):
+        try:
+            c = float(v)
+            return len(v.split('.')) == 1
+        except:
+            return True
 
     def lookfiles(full_path_folder):
         folders = os.listdir(os.path.join(settings.STORAGE_DIR, full_path_folder))
@@ -48,19 +50,21 @@ def scanner_dataset(datasetid):
             path_meta, num_obj = sline[0].split('/'), int(sline[1])
             info_list = sline[2:]
             current_idx = 0
-            print(line)
+            valid_num_object = 0
+
+            name_file = path_meta[-1]
+            full_path_folder = os.path.join(
+                path_origin, '/'.join(path_meta[:-1]))
+
+            current_meta_data = MetaDataModel.objects.get(
+                dataset=dataSetModel, name=name_file, full_path=full_path_folder
+            )
+            if (current_meta_data.boxes_position.count() > 0):
+                continue
+
             for no in range(num_obj):
                 try:
                     label_str = info_list[current_idx]
-                    name_file = path_meta[-1]
-                    full_path_folder = os.path.join(
-                        path_origin, '/'.join(path_meta[:-1]))
-                    
-                    current_meta_data = MetaDataModel.objects.get(
-                        dataset=dataSetModel, name=name_file, full_path=full_path_folder
-                    )
-                    if (current_meta_data.boxes_position.count() > 0):
-                        continue
 
                 except Exception as e:
                     print(e)
@@ -71,8 +75,10 @@ def scanner_dataset(datasetid):
 
                 while True:
                     try: 
-                        if(is_label(info_list[current_idx])): break
-                    except: break
+                        if(is_label(info_list[current_idx])): 
+                            break
+                    except: 
+                        break
                     current_idx += 2
                     num_xy += 1
 
@@ -86,8 +92,11 @@ def scanner_dataset(datasetid):
                 )
 
                 if created:
+                    valid_num_object += 1
                     current_meta_data.boxes_position.add(new_bb)
-
+            
+            if(valid_num_object != num_obj):
+                print('{} miss {} objects'.format(path_meta[-1], str(num_obj-valid_num_object))
     try:
         for input_data in inputFileQuery.all():
             lookfiles(input_data.get_output_path())
