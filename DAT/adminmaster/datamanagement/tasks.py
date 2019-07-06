@@ -59,7 +59,7 @@ def scanner_dataset(datasetid):
             current_meta_data = MetaDataModel.objects.get(
                 dataset=dataSetModel, name=name_file, full_path=full_path_folder
             )
-            if (current_meta_data.boxes_position.count() > 0):
+            if (current_meta_data.is_reference_api):
                 continue
 
             for no in range(num_obj):
@@ -94,7 +94,9 @@ def scanner_dataset(datasetid):
                 if created:
                     valid_num_object += 1
                     current_meta_data.boxes_position.add(new_bb)
-            
+                    
+            current_meta_data.is_reference_api = True
+            current_meta_data.save(update_fields=['is_reference_api'])
             if(valid_num_object != num_obj):
                 print('{} miss {} objects'.format(path_meta[-1], str(num_obj-valid_num_object)))
     try:
