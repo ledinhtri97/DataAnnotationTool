@@ -26,19 +26,20 @@ def get_fake_api(meta, api_ref):
     if r:
         try:
             json_data = r.json()
-            #print(json_data)
-            data = [
-                {
-                    'tag_label': lb['label'],
-                    'type_label': 'rect',
-                    'color': api_ref.get_color_label(lb['label'], 'rect'),
-                    'flag': 1,
-                    'accept_report_flag': False,
-                    'position': ','.join([str(lb['xmin']), str(lb['ymin']), str(lb['xmax']), str(lb['ymax'])]),
-                    'conf': round(lb['conf'], 2),
-                    'accept_edit': lb['conf'] < api_ref.percent_accept/100.0,
-                } for lb in json_data['data']['boxes']
-            ]
+            available_labels = api_ref.available_labels()
+
+            for lb in json_data['data']['boxes']:
+                if lb['label'] in available_labels:
+                    data.append({
+                        'tag_label': lb['label'],
+                        'type_label': 'rect',
+                        'color': api_ref.get_color_label(lb['label'], 'rect'),
+                        'flag': 1,
+                        'accept_report_flag': False,
+                        'position': ','.join([str(lb['xmin']), str(lb['ymin']), str(lb['xmax']), str(lb['ymax'])]),
+                        'conf': round(lb['conf'], 2),
+                        'accept_edit': lb['conf'] < api_ref.percent_accept/100.0,
+                    })
  
             for i in range(len(data)):
                 if data[i]['tag_label'] == 'license_plate':
