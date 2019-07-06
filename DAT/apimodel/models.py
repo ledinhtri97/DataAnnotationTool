@@ -35,7 +35,7 @@ class ApiReferenceModel(models.Model):
         return 'Jsonfile {}'
 
     def available_labels(self):
-        return [lb.tag_label for lb in self.labels.all()]:
+        return [lb.tag_label for lb in self.labels.all()]
 
 
     def get_color_label(self, tag_label, type_label):
