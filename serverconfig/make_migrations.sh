@@ -1,4 +1,5 @@
 #!/bin/bash
+mkdir ../DAT/django_celery_results
 
 mkdir ../DAT/adminmaster/contributemanagement/migrations
 touch ../DAT/adminmaster/contributemanagement/migrations/__init__.py
