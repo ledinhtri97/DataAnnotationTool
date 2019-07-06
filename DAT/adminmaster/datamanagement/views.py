@@ -32,7 +32,8 @@ def import_groundtruth_index(request, id_dataset):
                     settings.BASE_DIR, str(input_data.groundtruth))
                 with open(INPUT_FILE, "r") as f:
                     lines = f.readlines()
-                    readlines_to_database(lines, input_data.get_output_path())
+                    status_all = readlines_to_database(
+                        id_dataset, lines, input_data.get_output_path())
                 data[input_data.get_zipname()] = {
                     'gt': str(input_data.groundtruth),
                     'import': 'done',
@@ -41,14 +42,15 @@ def import_groundtruth_index(request, id_dataset):
                 data[input_data.get_zipname()] = 'No groundtruth'
 
     except Exception as e:
-        print(e)
-        return JsonResponse(data={'e': str(e)})
+        data['status'] = 'Failed'
+        data['main_error'] = str(e)
+    data['status_all'] = status_all
 
     return JsonResponse(data=data)
 
 
-def readlines_to_database(lines, path_origin):
-
+def readlines_to_database(id_dataset, lines, path_origin):
+    status = {'error': [], 'number_image_inference': 0}
 
     def is_label(v):
         try:
@@ -65,9 +67,18 @@ def readlines_to_database(lines, path_origin):
 
         for no in range(num_obj):
             try:
-               label_str = info_list[current_idx]
-            except:
-               continue
+                label_str = info_list[current_idx]
+                name_file = path_meta[-1]
+                full_path_folder = os.path.join(path_origin, '/'.join(path_meta[:-1]))
+
+                current_meta_data = MetaDataModel.objects.get(
+                    dataset=id_dataset, name=name_file, full_path=full_path_folder
+                )
+                if (current_meta_data.boxes_position.count() > 0): continue
+
+            except Exception as e:
+                status['error'].append(str(e))
+                continue
             current_idx += 1
             index_from = current_idx
             num_xy = 0
@@ -85,11 +96,6 @@ def readlines_to_database(lines, path_origin):
 
             position = ','.join(info_list[index_from:current_idx])
 
-            name_file = path_meta[-1]
-
-            full_path_folder = os.path.join(
-                path_origin, '/'.join(path_meta[:-1]))
-
             new_bb, created = BoundingBoxModel.objects.get_or_create(
                 label=LabelDataModel.objects.get(
                     tag_label=label_str, type_label=type_label),
@@ -97,12 +103,8 @@ def readlines_to_database(lines, path_origin):
                 position=position,
             )
 
-            try:
-                current_meta_data = MetaDataModel.objects.get(
-                    dataset=self.dataSetModel, name=name_file, full_path=full_path_folder
-                )
+            if created:
+                current_meta_data.boxes_position.add(new_bb)
+                status['number_image_inference'] += 1
 
-                if created:
-                    current_meta_data.boxes_position.add(new_bb)
-            except Exception as e:
-                print(e)
+    return status
