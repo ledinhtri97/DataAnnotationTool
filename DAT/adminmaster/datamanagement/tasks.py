@@ -96,7 +96,7 @@ def scanner_dataset(datasetid):
                     current_meta_data.boxes_position.add(new_bb)
             
             if(valid_num_object != num_obj):
-                print('{} miss {} objects'.format(path_meta[-1], str(num_obj-valid_num_object))
+                print('{} miss {} objects'.format(path_meta[-1], str(num_obj-valid_num_object)))
     try:
         for input_data in inputFileQuery.all():
             lookfiles(input_data.get_output_path())
