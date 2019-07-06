@@ -39,6 +39,13 @@ def get_fake_api(meta, api_ref):
                     'accept_edit': lb['conf'] < api_ref.percent_accept/100.0,
                 } for lb in json_data['data']['boxes']
             ]
+ 
+            for i in range(len(data)):
+                if data[i]['tag_label'] == 'license_plate':
+                    lpo = data[i]['position'].split(',')
+                    data[i]['type_label'] = 'poly'
+                    data[i]['position'] = ','.join(
+                        [lpo[0], lpo[1], lpo[2], lpo[1], lpo[2], lpo[3], lpo[0], lpo[3]])
 
         except Exception as e:
             print(e)
@@ -81,7 +88,11 @@ def query_meta_reference(meta, api_reference):
             get_fake_api(meta, api_ref) for api_ref in api_reference.all()
         ], [])
 
+<<<<<<< HEAD
         #data['predict'] = []
+=======
+        # data['predict'] = []
+>>>>>>> 6b1039e183e7ad6ea4616b871a9b362d6c649e2e
 
         if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
             data['status'] = 'FAILED'
