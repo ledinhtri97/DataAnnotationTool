@@ -51,7 +51,7 @@ def get_fake_api(meta, api_ref):
             print(e)
             data = [{'error': 'Failed to connect'}]
         #{'data':{'boxes':[{'conf', 'label', 'xmax', 'ymax', 'xmin', 'ymin'}], '...parameters'}
-    print(data)
+    #print(data)
     return data
 
 
