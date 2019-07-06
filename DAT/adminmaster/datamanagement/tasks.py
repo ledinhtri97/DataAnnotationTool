@@ -61,7 +61,7 @@ def scanner_dataset(datasetid):
                         continue
 
                 except Exception as e:
-                    status['error'].append(str(e))
+                    print(e)
                     continue
                 current_idx += 1
                 index_from = current_idx
@@ -85,7 +85,6 @@ def scanner_dataset(datasetid):
 
                 if created:
                     current_meta_data.boxes_position.add(new_bb)
-                    status['number_image_inference'] += 1
 
     try:
         for input_data in inputFileQuery.all():
