@@ -41,7 +41,7 @@ def scanner_dataset(datasetid):
                 return True
 
         for line in lines:
-            print(status['number_image_inference'])
+            print(line)
             sline = line.split('\n')[0].split(',')
             path_meta, num_obj = sline[0].split('/'), int(sline[1])
             info_list = sline[2:]
