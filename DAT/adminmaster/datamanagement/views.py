@@ -58,14 +58,14 @@ def readlines_to_database(id_dataset, lines, path_origin):
             return len(v.split('.')) == 1
         except:
             return True
-
+    
     for line in lines:
-        
+        print(status['number_image_inference'])
         sline = line.split('\n')[0].split(',')
         path_meta, num_obj = sline[0].split('/'), int(sline[1])
         info_list = sline[2:]
         current_idx = 0
-        print(path_meta)
+        
 
         for no in range(num_obj):
             try:
