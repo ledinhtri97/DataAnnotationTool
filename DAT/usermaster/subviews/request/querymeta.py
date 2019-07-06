@@ -88,11 +88,7 @@ def query_meta_reference(meta, api_reference):
             get_fake_api(meta, api_ref) for api_ref in api_reference.all()
         ], [])
 
-<<<<<<< HEAD
-        #data['predict'] = []
-=======
         # data['predict'] = []
->>>>>>> 6b1039e183e7ad6ea4616b871a9b362d6c649e2e
 
         if len(data['predict']) == 1 and 'error' in data['predict'][0].keys():
             data['status'] = 'FAILED'
