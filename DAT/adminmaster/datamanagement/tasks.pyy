@@ -5,6 +5,9 @@ from celery import shared_task
 import os
 from django.conf import settings
 
+
+
+
 @shared_task
 def scanner_dataset(datasetid):
     from adminmaster.datamanagement.submodels.metadata import MetaDataModel
@@ -49,13 +52,12 @@ def scanner_dataset(datasetid):
 
             name_file = path_meta[-1]
             full_path_folder = os.path.join(path_origin, '/'.join(path_meta[:-1]))
-            try:
-                current_meta_data = MetaDataModel.objects.get(
-                    dataset=dataSetModel, name=name_file, full_path=full_path_folder
-                )
-            except:
-                continue
 
+            current_meta_data = MetaDataModel.objects.get(
+                dataset=dataSetModel, name=name_file, full_path=full_path_folder
+            )
+
+            print(dir(current_meta_data))
             if (current_meta_data.is_reference_api):
                 continue
 
@@ -63,18 +65,17 @@ def scanner_dataset(datasetid):
                 try:
                     label_str = info_list[current_idx]
                 except Exception as e:
+                    print(e)
                     continue
                 current_idx += 1
                 index_from = current_idx
                 num_xy = 0
-                print(no+1,path_meta,' ====== ', label_str)
 
                 while True:
                     try:
-                        print(info_list[current_idx])
                         if(is_label(info_list[current_idx])):
                             break
-                    except Exception as e:
+                    except:
                         break
                     current_idx += 2
                     num_xy += 1
@@ -82,16 +83,20 @@ def scanner_dataset(datasetid):
                 type_label = 'rect' if num_xy == 2 else 'poly'
                 position = ','.join(info_list[index_from:current_idx])
                 new_bb, created = BoundingBoxModel.objects.get_or_create(
-                     label=LabelDataModel.objects.get(tag_label=label_str, type_label=type_label),
-                     flag=1,
-                     position=position,
+                    label=LabelDataModel.objects.get(tag_label=label_str, type_label=type_label),
+                    flag=1,
+                    position=position,
                 )
-                valid_num_object += 1
-                current_meta_data.boxes_position.add(new_bb)
-            current_meta_data.is_reference_api = 1
+
+                if created:
+                    valid_num_object += 1
+                    current_meta_data.boxes_position.add(new_bb)
+                else:
+                    print(tag_label, type_label, position)
+            current_meta_data.is_reference_api = True
             current_meta_data.save(update_fields=['is_reference_api'])
-            if(valid_num_object != num_obj):
-                print('{} miss {} objects'.format(path_meta[-1], str(num_obj-valid_num_object)))
+            # if(valid_num_object != num_obj):
+            #     print('{} miss {} objects'.format(path_meta[-1], str(num_obj-valid_num_object)))
     try:
         for input_data in inputFileQuery.all():
             lookfiles(input_data.get_output_path())
@@ -101,6 +106,6 @@ def scanner_dataset(datasetid):
                     lines = f.readlines()
                     readlines_to_database(lines, input_data.get_output_path())
         return True
-    except Exception as e:
-        print(e)
+    except:
         return False
+   
