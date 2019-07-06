@@ -6,6 +6,13 @@ import os
 from django.conf import settings
 
 
+def is_label(v):
+    try:
+        c = float(v)
+        return len(v.split('.')) == 1
+    except:
+        return True
+
 @shared_task
 def scanner_dataset(datasetid):
     from adminmaster.datamanagement.submodels.metadata import MetaDataModel
@@ -33,15 +40,8 @@ def scanner_dataset(datasetid):
                 lookfiles(os.path.join(full_path_folder, xxxfile))
     
     def readlines_to_database(lines, path_origin):
-        def is_label(v):
-            try:
-                c = float(v)
-                return len(v.split('.')) == 1
-            except:
-                return True
-
+        
         for line in lines:
-            print(line)
             sline = line.split('\n')[0].split(',')
             path_meta, num_obj = sline[0].split('/'), int(sline[1])
             info_list = sline[2:]
@@ -53,6 +53,7 @@ def scanner_dataset(datasetid):
                     name_file = path_meta[-1]
                     full_path_folder = os.path.join(
                         path_origin, '/'.join(path_meta[:-1]))
+                    print(label_str, name_file, full_path_folder)
 
                     current_meta_data = MetaDataModel.objects.get(
                         dataset=dataSetModel, name=name_file, full_path=full_path_folder
