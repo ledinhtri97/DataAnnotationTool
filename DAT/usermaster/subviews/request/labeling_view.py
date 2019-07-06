@@ -5,7 +5,7 @@ from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from adminmaster.workspacemanagement.models import UserSettingsModel
 from django.http import JsonResponse
 from django.conf import settings
-from .querymeta import query_meta, query_meta_reference
+from usermaster.subviews.request.querymeta import query_meta, query_meta_reference
 import json
 import os
 from apimodel.models import ApiReferenceModel
