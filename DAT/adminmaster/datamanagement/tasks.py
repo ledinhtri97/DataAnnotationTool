@@ -53,8 +53,7 @@ def scanner_dataset(datasetid):
             valid_num_object = 0
 
             name_file = path_meta[-1]
-            full_path_folder = os.path.join(
-                path_origin, '/'.join(path_meta[:-1]))
+            full_path_folder = os.path.join(path_origin, '/'.join(path_meta[:-1]))
 
             current_meta_data = MetaDataModel.objects.get(
                 dataset=dataSetModel, name=name_file, full_path=full_path_folder
@@ -65,7 +64,6 @@ def scanner_dataset(datasetid):
             for no in range(num_obj):
                 try:
                     label_str = info_list[current_idx]
-
                 except Exception as e:
                     print(e)
                     continue
@@ -85,8 +83,7 @@ def scanner_dataset(datasetid):
                 type_label = 'rect' if num_xy == 2 else 'poly'
                 position = ','.join(info_list[index_from:current_idx])
                 new_bb, created = BoundingBoxModel.objects.get_or_create(
-                    label=LabelDataModel.objects.get(
-                        tag_label=label_str, type_label=type_label),
+                    label=LabelDataModel.objects.get(tag_label=label_str, type_label=type_label),
                     flag=1,
                     position=position,
                 )
@@ -94,11 +91,12 @@ def scanner_dataset(datasetid):
                 if created:
                     valid_num_object += 1
                     current_meta_data.boxes_position.add(new_bb)
-                    
+                else:
+                    print(tag_label, type_label, position)
             current_meta_data.is_reference_api = True
             current_meta_data.save(update_fields=['is_reference_api'])
-            if(valid_num_object != num_obj):
-                print('{} miss {} objects'.format(path_meta[-1], str(num_obj-valid_num_object)))
+            # if(valid_num_object != num_obj):
+            #     print('{} miss {} objects'.format(path_meta[-1], str(num_obj-valid_num_object)))
     try:
         for input_data in inputFileQuery.all():
             lookfiles(input_data.get_output_path())
