@@ -12,6 +12,3 @@ workspaces && ReactDOM.render(<Workspaces />, workspaces);
 
 const footer = document.getElementById("footer");
 footer && ReactDOM.render(<Footer />, footer);
-
-
-

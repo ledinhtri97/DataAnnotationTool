@@ -210,6 +210,7 @@ class DrawTool{
 
 			generateShapeLabel : function(){
 				let new_object;
+				let only = false;
 				drawer.lineArray.forEach(function(line){
 					drawer.canvas.remove(line);
 				});
@@ -232,6 +233,7 @@ class DrawTool{
 						new_object.set('stroke', values[2]);
 						new_object.set('basicColor', values[2]);
 						new_object.icon.set('fill', values[2]);
+						only = true;
 					}
 
 					drawer.canvas.add(new_object);
@@ -250,6 +252,7 @@ class DrawTool{
 							new_object.set('stroke', values[2]);
 							new_object.set('basicColor', values[2]);
 							new_object.icon.set('fill', values[2]);
+							only = true;
 						}
 
 						drawer.canvas.add(new_object);
@@ -257,7 +260,7 @@ class DrawTool{
 					}
 				}
 
-				if (new_object && new_object.name === '' && drawStatus.getRenewLabel()) {
+				if (new_object && !only && drawStatus.getRenewLabel()) {
 					drawStatus.setIsChangingLabel(true);
 					let changelb = document.getElementById(new_object.labelControl.getId()+"_changelabel");
 					changelb && changelb.click();
