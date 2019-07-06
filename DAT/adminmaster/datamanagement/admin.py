@@ -33,8 +33,12 @@ class DataSetForm(forms.ModelForm):
 		"""
 			Scanfile was extracted and add to database relationship
 		"""
-		scanner = ScanMetaToDatabase(instance_dataset, self.cleaned_data['input_file'])
-		scanner.scan_all_into_database()
+		from adminmaster.datamanagement.tasks import scanner_dataset
+		scanner_dataset.delay(instance_dataset.id)
+		
+		# scanner = ScanMetaToDatabase(instance_dataset, self.cleaned_data['input_file'])
+		# scanner.scan_all_into_database()
+
 		"""End of scan, Done!!"""
    
 	def check_change_filezip(self, old, new):
@@ -55,7 +59,7 @@ class DataSetForm(forms.ModelForm):
 			self.scanner_database(instance_dataset)
 		else:
 			data = DataSetModel.objects.filter(id=instance_dataset.id).first()
-			if (True or self.check_change_filezip(data.input_file.all(), self.cleaned_data['input_file'])):
+			if (self.check_change_filezip(data.input_file.all(), self.cleaned_data['input_file'])):
 				print("has change")
 				self.extract_zip(instance_dataset)
 				self.scanner_database(instance_dataset)
@@ -68,7 +72,7 @@ class DataSetForm(forms.ModelForm):
 class DataSetAdmin(admin.ModelAdmin):
 	#class Meta will not accept this form custom > find out why
 	form = DataSetForm
-	list_display = ('name', 'import_groundtruth',)
+	list_display = ('name',)
 	readonly_fields = ['id', 'dir_path']  # , 'dir_path'
 
 	fieldsets = [

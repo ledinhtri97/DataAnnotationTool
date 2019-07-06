@@ -122,10 +122,3 @@ class ScanMetaToDatabase(object):
       
       # print(folders_availiable)
       return folders_availiable
-
-   
-
-   
-
-
-

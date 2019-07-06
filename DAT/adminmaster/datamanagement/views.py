@@ -66,7 +66,6 @@ def readlines_to_database(id_dataset, lines, path_origin):
         info_list = sline[2:]
         current_idx = 0
         
-
         for no in range(num_obj):
             try:
                 label_str = info_list[current_idx]
