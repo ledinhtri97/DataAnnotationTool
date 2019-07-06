@@ -67,11 +67,9 @@ def scanner_dataset(datasetid):
                 current_idx += 1
                 index_from = current_idx
                 num_xy = 0
-                print(no+1,path_meta,' ====== ', label_str)
 
                 while True:
                     try:
-                        print(info_list[current_idx])
                         if(is_label(info_list[current_idx])):
                             break
                     except Exception as e:
