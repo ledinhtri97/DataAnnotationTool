@@ -47,7 +47,7 @@ def import_groundtruth_index(request, id_dataset):
     return JsonResponse(data=data)
 
 
-def readlines_to_database(self, lines, path_origin):
+def readlines_to_database(lines, path_origin):
 
 
     def is_label(v):
