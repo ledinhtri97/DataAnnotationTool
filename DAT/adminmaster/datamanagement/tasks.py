@@ -16,6 +16,8 @@ def is_label(v):
 @shared_task
 def scanner_dataset(datasetid):
     from adminmaster.datamanagement.submodels.metadata import MetaDataModel
+    from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
+    from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
     from adminmaster.datamanagement.submodels.dataset import DataSetModel
 
     is_done = False
@@ -46,15 +48,14 @@ def scanner_dataset(datasetid):
             path_meta, num_obj = sline[0].split('/'), int(sline[1])
             info_list = sline[2:]
             current_idx = 0
-
+            print(line)
             for no in range(num_obj):
                 try:
                     label_str = info_list[current_idx]
                     name_file = path_meta[-1]
                     full_path_folder = os.path.join(
                         path_origin, '/'.join(path_meta[:-1]))
-                    print(label_str, name_file, full_path_folder)
-
+                    
                     current_meta_data = MetaDataModel.objects.get(
                         dataset=dataSetModel, name=name_file, full_path=full_path_folder
                     )
