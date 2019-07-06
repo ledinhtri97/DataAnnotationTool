@@ -100,6 +100,7 @@ def scanner_dataset(datasetid):
                 with open(INPUT_FILE, "r") as f:
                     lines = f.readlines()
                     readlines_to_database(lines, input_data.get_output_path())
+        print("all file is import successful")
         return True
     except Exception as e:
         print(e)
