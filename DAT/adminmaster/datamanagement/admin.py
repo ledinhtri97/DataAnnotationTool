@@ -7,7 +7,7 @@ from .submodels.outputdata import OutputDataModel
 from .submodels.labeldata import LabelDataModel
 from .submodels.boudingbox import BoundingBoxModel
 from .submodels.utils.ziprar import ZipRarExtractor
-from .submodels.utils.scanmeta import ScanMetaToDatabase
+# from .submodels.utils.scanmeta import ScanMetaToDatabase
 from .submodels.utils.groundtruth import GroundTruther
 import os
 import shutil

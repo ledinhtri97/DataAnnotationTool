@@ -35,23 +35,17 @@ class LabelControl{
 		this.canvas.remove(this.obj);
 
 		var new_poly = configurePoly(this.obj.points, this.obj.name, '1.0', this.obj.circles);
-		new_poly.set('stroke', this.obj.basicColor);
-		new_poly.set('basicColor', this.obj.basicColor);
+		new_poly.set('stroke', this.obj.stroke);
 		this.obj = new_poly;
 		this.obj.labelControl = this;
-
 		this.canvas.insertAt(this.obj, idx);
-
-		this.canvas.renderAll();
 	}
 
 	__changeClass__(tag_label, type_label, color){
 		if(this.obj.type_label == type_label){
 			this.obj.set('name', tag_label);
 			this.obj.set('stroke', color);
-			this.obj.set('basicColor', color);
 			this.obj.icon.set('fill', color);
-			this.canvas.renderAll();
 
 			drawStatus.setRenewLabel(false);
 			drawStatus.setNameLabel(tag_label);
@@ -76,7 +70,6 @@ class LabelControl{
 				this.obj.visible = checkbox_hidden.checked;
 			}
 			this.obj.setColor(Color.Opacity_GREEN);
-			this.canvas.renderAll();
 		}
 	}
 
@@ -87,7 +80,6 @@ class LabelControl{
 				this.obj.visible = !checkbox_hidden.checked;
 			}
 			this.obj.setColor(Color.Transparent);
-			this.canvas.renderAll();
 		}
 	}
 
@@ -106,8 +98,7 @@ class LabelControl{
 			}
 			else{
 				this.canvas.remove(this.obj.icon);	
-			} 
-			// this.canvas.renderAll();
+			}
 		}
 	}
 
@@ -136,19 +127,15 @@ class LabelControl{
 
 			if (lbc.edit) {
 				if(this.obj.type == 'rect'){
-					this.obj.set('stroke', Color.RED);
 					__canvas__.setActiveObject(this.obj);
 					setTimeout(function() { //auto set block edit after 10s
 						lbc.obj.set('selectable', false);
 						lbc.obj.set('edit', false);
-						lbc.obj.set('stroke', lbc.obj.basicColor);
-						__canvas__.renderAll();
 					}, 10000);
 				}
 				drawTool.endDraw();
 			}
 			else{
-				lbc.obj.set('stroke', lbc.obj.basicColor);
 				__canvas__.discardActiveObject();
 			}		
 
@@ -183,14 +170,12 @@ class LabelControl{
 					});
 				}
 				else{
-					lbc.obj.set('stroke', lbc.obj.basicColor);
 					lbc.obj.circles.forEach(function(c){
 						__canvas__.remove(c);
 					});
 					lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
 				}
 			}
-			__canvas__.renderAll();
 		}
 	}
 

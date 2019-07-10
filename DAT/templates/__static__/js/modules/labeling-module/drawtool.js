@@ -87,7 +87,6 @@ const configureRectangle = function (
 		selectable: false,
 		name: name,
 		accuracy: __accuracy__,
-		basicColor: drawStatus.getColorLabel(),
 		flag:-1,
 		type_label: 'rect',
 		accept_edit: true,
@@ -124,7 +123,6 @@ const configurePoly = function(__points__, __name__= '', __accuracy__='1.0', __c
 		name: name,
 		accuracy: __accuracy__,
 		circles: __circles__,
-		basicColor: drawStatus.getColorLabel(),
 		flag:-1,
 		type_label: 'poly',
 		accept_edit: true,
@@ -231,7 +229,6 @@ class DrawTool{
 						let values = listRectLabel[0].value.split(','); //tag_label, type_label, color
 						new_object.set('name', values[0]);
 						new_object.set('stroke', values[2]);
-						new_object.set('basicColor', values[2]);
 						new_object.icon.set('fill', values[2]);
 						only = true;
 					}
@@ -250,7 +247,6 @@ class DrawTool{
 							let values = listPolyLabel[0].value.split(','); //tag_label, type_label, color
 							new_object.set('name', values[0]);
 							new_object.set('stroke', values[2]);
-							new_object.set('basicColor', values[2]);
 							new_object.icon.set('fill', values[2]);
 							only = true;
 						}

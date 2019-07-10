@@ -39,11 +39,10 @@ const create_shape = (bb, canvas) => {
 		})
 	  	shape = configurePoly(points, bb.tag_label);
 	}
-	shape.type_label = bb.type_label;
-	shape.stroke = bb.color;
-	shape.basicColor = bb.color;
-	shape.icon.fill = bb.color;
-	shape.flag = bb.flag;
+	shape.set('type_label', bb.type_label);
+	shape.set('stroke', bb.color);
+	shape.icon.set('fill', bb.color);
+	shape.set('flag', bb.flag);
 	return shape;
 }
 
