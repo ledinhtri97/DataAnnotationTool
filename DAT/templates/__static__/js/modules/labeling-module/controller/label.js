@@ -128,10 +128,6 @@ class LabelControl{
 			if (lbc.edit) {
 				if(this.obj.type == 'rect'){
 					__canvas__.setActiveObject(this.obj);
-					setTimeout(function() { //auto set block edit after 10s
-						lbc.obj.set('selectable', false);
-						lbc.obj.set('edit', false);
-					}, 10000);
 				}
 				drawTool.endDraw();
 			}
@@ -153,6 +149,10 @@ class LabelControl{
 						var circle = configureCircle(point.x, point.y, index);
 
 						circle.set('isEditPolygonIcon', true);
+
+						circle.on('mousedown', function(){
+							//TODO
+						});
 
 						circle.on('moving', function(){
 							var p = circle;
@@ -176,6 +176,8 @@ class LabelControl{
 					lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
 				}
 			}
+
+			__canvas__.renderAll();
 		}
 	}
 

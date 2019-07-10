@@ -38,8 +38,8 @@ class DrawStatus{
 		this.isChangingLabel = val;
 	}
 
-	getModeTool(imode) {
-		if(imode) return this.modeTool[imode];
+	getModeTool(imode=null) {
+		if(imode != null) return this.modeTool[imode];
 		
 		let i = 0;
 		for(i; i < this.modeTool.length; i++){
@@ -72,7 +72,7 @@ class DrawStatus{
 		return this.namelabel;
 	}
 
-	setNameLabel(value){
+	setNameLabel(value=''){
 		return this.namelabel = value;
 	}
 

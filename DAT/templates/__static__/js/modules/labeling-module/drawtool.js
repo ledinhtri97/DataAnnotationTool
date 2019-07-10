@@ -8,7 +8,7 @@ const MAX = 999999;
 
 const configureCircle = function(__x__, __y__, __name__=''){
 	var circle = new fabric.Circle({
-		radius: 3,
+		radius: 4,
 		fill: Color.YELLOW,
 		left: __x__,
 		top: __y__,
@@ -16,7 +16,7 @@ const configureCircle = function(__x__, __y__, __name__=''){
 		hasControls: false,
 		originX:'center',
 		originY:'center',
-		strokeWidth: 3,
+		strokeWidth: 4,
 		name:__name__,
 	});
 	return circle;
