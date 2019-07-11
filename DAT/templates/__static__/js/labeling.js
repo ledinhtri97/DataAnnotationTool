@@ -49,18 +49,15 @@ const controllerRequest = (callback_cl) => {
 	if(group_control) group_control.style["display"] = "none";
 
 	if(callback_cl == 'rqnext'){
-		drawStatus.setNameLabel();
-		drawStatus.setRenewLabel(true);
+		drawStatus.resetDrawStatus();
 		rqnext(meta_id.textContent, canvas);
 	}
 	if (callback_cl == 'rqsavenext') {
-		drawStatus.setNameLabel();
-		drawStatus.setRenewLabel(true);
+		drawStatus.resetDrawStatus();
 		rqsavenext(meta_id.textContent, canvas);
 	}
 	if (callback_cl == 'rqsave') {
-		drawStatus.setNameLabel();
-		drawStatus.setRenewLabel(true);
+		drawStatus.resetDrawStatus();
 		rqsave(meta_id.textContent, canvas);
 	}
 }

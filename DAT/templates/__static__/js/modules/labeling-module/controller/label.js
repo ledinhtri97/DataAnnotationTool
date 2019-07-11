@@ -4,7 +4,7 @@ import LabelItem from "../../../materialui/labeling-ui/item";
 import uniqid from "uniqid";
 import {fabric} from "fabric";
 import {drawTool, quickSettings, drawStatus} from "../../../labeling";
-import {configureCircle, configurePoly} from "../drawtool";
+import {configureCircle, configurePoly, configureLinePoly} from "../drawtool";
 import {Color} from "../style/color"
 import AlertDialog from "../../../materialui/dialog";
 
@@ -27,14 +27,103 @@ class LabelControl{
 		lbc.obj = __obj__;
 		lbc.id =  __id__;
 		lbc.edit = false;
+		
+		if(lbc.obj.type_label === 'poly'){
+			lbc.pointArray = new Array();
+			lbc.lineArray = new Array();
+
+			lbc.mouseDown = function(o){
+				if (!drawStatus.getZoomSpaceKey()) {
+					console.log('callback mousedown');
+					let pointer = lbc.canvas.getPointer(o.e);
+					let lastPointer = lbc.pointArray[lbc.pointArray.length - 1];
+					let points = [lastPointer.x, lastPointer.y, pointer.x, pointer.y];
+					let line = configureLinePoly(points);
+
+					lbc.pointArray.push({x: pointer.x, y: pointer.y});
+					lbc.lineArray.push(line);
+					
+					lbc.canvas.add(line);
+				}
+			};
+		}
+	}
+
+	addPointPolygonHandle(end_index=-1){
+
+		let idx = this.canvas.getObjects().indexOf(this.obj);
+		let canvas = this.canvas;
+		this.canvas.remove(this.obj);
+		this.obj.circles.forEach(function(c){
+			canvas.remove(c);
+			c.set('stroke', 'red');
+		});
+		this.obj.circles.splice(0, this.obj.circles.lenth);
+		this.lineArray.forEach(function(line){
+			canvas.remove(line);
+		});
+
+		if(end_index!=-1){
+			let s_i, e_i, right_side, left_side;
+			let new_points = [];
+
+			if(this.obj.start_index > end_index){
+				s_i = end_index;
+				e_i = this.obj.start_index;
+			}
+			else{
+				s_i = this.obj.start_index;
+				e_i = end_index;
+			}
+			right_side = e_i - s_i - 1;
+			left_side = this.obj.points.length - 2 - right_side;
+
+			let check_clock = true;
+			
+
+			if (right_side >= left_side){
+				console.log('r > l');
+				for (let i = s_i; i <= e_i; i++){
+					new_points.push({x: this.obj.points[i].x, y: this.obj.points[i].y});
+				}
+				for (let i = this.pointArray.length - 2; i > 0; i--){
+					new_points.push(this.pointArray[i]);
+				}
+			}
+			else{
+				console.log('l > r');
+				for (let i = 0; i <= s_i; i++){
+					new_points.push({x: this.obj.points[i].x, y: this.obj.points[i].y});
+				}
+				for (let i = 1; i < this.pointArray.length - 1; i++){
+					new_points.push(this.pointArray[i]);
+				}
+				for (let i = e_i; i < this.obj.points.length; i++){
+					new_points.push({x: this.obj.points[i].x, y: this.obj.points[i].y});
+				}
+			}
+
+			// this.pointArray.splice(0, this.pointArray.lenth);
+			this.pointArray = [];
+
+			let new_poly = configurePoly(new_points, this.obj.name, '1.0');
+			new_poly.set('stroke', this.obj.stroke);
+			new_poly.set('start_index', -1);
+			
+			this.obj = new_poly;
+			this.obj.labelControl = this;
+			this.canvas.insertAt(this.obj, idx);
+			this.canvas.off('mouse:down', this.mouseDown);
+		}
 	}
 
 	circlesHandle(){
-		var idx = this.canvas.getObjects().indexOf(this.obj);
+		let idx = this.canvas.getObjects().indexOf(this.obj);
 
 		this.canvas.remove(this.obj);
 
-		var new_poly = configurePoly(this.obj.points, this.obj.name, '1.0', this.obj.circles);
+		let new_poly = configurePoly(this.obj.points, this.obj.name, '1.0', this.obj.circles);
+
 		new_poly.set('stroke', this.obj.stroke);
 		this.obj = new_poly;
 		this.obj.labelControl = this;
@@ -102,6 +191,7 @@ class LabelControl{
 		}
 	}
 
+
 	__editITEM__(__default__=true){
 		if (this.obj.accept_edit == false && __default__) {
 			alertWarning();
@@ -152,17 +242,41 @@ class LabelControl{
 
 						circle.on('mousedown', function(){
 							//TODO
+							let i = parseInt(circle.name);
+							if(lbc.obj.start_index != -1){
+								console.log('before generate: '+lbc.pointArray.length);
+								lbc.addPointPolygonHandle(i);
+								console.log('after generate: '+lbc.pointArray.length);
+							}
+							else{
+								lbc.obj.set('start_index', i);
+								lbc.pointArray.push({x: circle.getCenterPoint().x, y: circle.getCenterPoint().y});
+
+
+								__canvas__.off('mouse:down', lbc.mouseDown);
+								__canvas__.on('mouse:down', lbc.mouseDown);
+								
+							}
 						});
 
 						circle.on('moving', function(){
-							var p = circle;
-							var i = parseInt(p.name);
-							lbc.obj.points[i] = {x: p.getCenterPoint().x, y: p.getCenterPoint().y};
+							let i = parseInt(circle.name);
+							lbc.obj.points[i] = {x: circle.getCenterPoint().x, y: circle.getCenterPoint().y};
 							lbc.circlesHandle();
+							if(lbc.obj.start_index != -1) {
+								lbc.obj.set('start_index', -1);
+
+							}
 						});
 
 						circle.on('moved', function(){
+							if(lbc.obj.start_index == -1){
+								lbc.obj.set('start_index', -1);
+								lbc.pointArray = [];
+								__canvas__.off('mouse:down', lbc.mouseDown);
+							}
 							lbc.circlesHandle();
+							
 						});
 
 						lbc.obj.circles.push(circle);

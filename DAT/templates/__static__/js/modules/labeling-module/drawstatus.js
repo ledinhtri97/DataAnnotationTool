@@ -138,6 +138,21 @@ class DrawStatus{
 		this.isDrawing = false;
 		this.isWaiting = false;
 	}
+
+	resetDrawStatus(){
+		this.isChangingLabel = false;
+		this.isDrawing = false;
+		this.isWaiting = false;
+		this.isZoom = false;
+		this.idTool = '';
+		this.namelabel = '';
+		this.colorlabel = "#F4D03F";
+		this.typelabel = '';
+		this.renewlabel = true;
+		this.zoomSpaceKey = false;
+		this.popupHover = false;
+		this.modeTool = [0, 0, 0, 0];
+	}
 }
 
 export default DrawStatus;

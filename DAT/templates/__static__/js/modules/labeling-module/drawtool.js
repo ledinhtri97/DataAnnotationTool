@@ -127,6 +127,7 @@ const configurePoly = function(__points__, __name__= '', __accuracy__='1.0', __c
 		type_label: 'poly',
 		accept_edit: true,
 		islabel: true,
+		start_index: -1,
 	});
 
 	var __left__ = polygon.left + polygon.width / 2;
@@ -396,7 +397,7 @@ class DrawTool{
 			this.typeLabel = typelabel	
 		}
 
-		drawStatus.startDrawStatus(id, namelabel, typelabel);
+		drawStatus.startDrawStatus();
 		
 		this.tool.initTool();
 		this.canvas.on('mouse:down', this.mouseDown);
@@ -438,4 +439,4 @@ class DrawTool{
 
 }
 
-export {configureFlag, configureCircle, configureLine, configureRectangle, configurePoly, DrawTool};
+export {configureFlag, configureCircle, configureLine, configureLinePoly, configureRectangle, configurePoly, DrawTool};
