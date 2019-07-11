@@ -8,15 +8,16 @@ const MAX = 999999;
 
 const configureCircle = function(__x__, __y__, __name__=''){
 	var circle = new fabric.Circle({
-		radius: 4,
+		radius: 5,
 		fill: Color.YELLOW,
+		stroke: 'red',
 		left: __x__,
 		top: __y__,
 		hasBorders: false,
 		hasControls: false,
 		originX:'center',
 		originY:'center',
-		strokeWidth: 4,
+		strokeWidth: 3,
 		name:__name__,
 	});
 	return circle;
@@ -263,8 +264,8 @@ class DrawTool{
 					changelb && changelb.click();
 				}
 
-				drawer.pointArray.splice(0, drawer.pointArray.lenth);
-				drawer.lineArray.splice(0, drawer.lineArray.lenth);
+				drawer.pointArray.lenth = 0;
+				drawer.lineArray.lenth = 0;
 				drawer.typeLabel = null;
 				drawer.lastLine = null;
 				drawer.firstPoint = null;
@@ -426,8 +427,8 @@ class DrawTool{
 			drawer.canvas.remove(line);
 		});
 
-		drawer.pointArray.splice(0, drawer.pointArray.lenth);
-		drawer.lineArray.splice(0, drawer.lineArray.lenth);
+		drawer.pointArray.lenth = 0;
+		drawer.lineArray.lenth = 0;
 		drawer.typeLabel = null;
 		drawer.lastLine = null;
 		drawer.firstPoint = null;

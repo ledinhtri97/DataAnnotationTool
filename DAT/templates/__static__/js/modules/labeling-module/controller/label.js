@@ -19,6 +19,37 @@ const alertWarning = () => {
 	}
 }
 
+const cal_a = function(x1, y1, x2, y2){
+	return (y2-y1)/(x2-x1);
+}
+
+const cal_b = function(x1, y1, x2, y2){
+	return (x2*y1-x1*y2)/(x2-x1);
+}
+
+const cal_x = function(a1, b1, a2, b2){
+	return (b2-b1)/(a1-a2);
+}
+
+const cal_y = function(a1, b1, a2, b2){
+	return (a1*b2-a2*b1)/(a1-a2);
+}
+
+const cal_d = function(x1, y1, x2, y2){
+	return Math.sqrt(Math.pow(x1-x2, 2)+Math.pow(y1-y2, 2));
+}
+
+const check_way = function(A, B, C, D){
+	let AB = [cal_a(A.x, A.y, B.x, B.y), cal_b(A.x, A.y, B.x, B.y)];
+	let CD = [cal_a(C.x, C.y, D.x, D.y), cal_b(C.x, C.y, D.x, D.y)];
+	//B above C, AB cut CD at E
+	let xE = cal_x(AB[0], AB[1], CD[0], CD[1]);
+	let yE = cal_y(AB[0], AB[1], CD[0], CD[1]);
+	let dAB = cal_d(A.x, A.y, B.x, B.y);
+	let dAE = cal_d(A.x, A.y, xE, yE);
+	return dAB < dAE;
+}
+
 class LabelControl{
 
 	constructor(__canvas__, __obj__, __id__){
@@ -34,7 +65,6 @@ class LabelControl{
 
 			lbc.mouseDown = function(o){
 				if (!drawStatus.getZoomSpaceKey()) {
-					console.log('callback mousedown');
 					let pointer = lbc.canvas.getPointer(o.e);
 					let lastPointer = lbc.pointArray[lbc.pointArray.length - 1];
 					let points = [lastPointer.x, lastPointer.y, pointer.x, pointer.y];
@@ -56,9 +86,7 @@ class LabelControl{
 		this.canvas.remove(this.obj);
 		this.obj.circles.forEach(function(c){
 			canvas.remove(c);
-			c.set('stroke', 'red');
 		});
-		this.obj.circles.splice(0, this.obj.circles.lenth);
 		this.lineArray.forEach(function(line){
 			canvas.remove(line);
 		});
@@ -75,37 +103,65 @@ class LabelControl{
 				s_i = this.obj.start_index;
 				e_i = end_index;
 			}
+
 			right_side = e_i - s_i - 1;
 			left_side = this.obj.points.length - 2 - right_side;
 
-			let check_clock = true;
-			
+			let right_point_index = s_i + parseInt((right_side + 1) / 2);
+			let left_point_index = e_i + parseInt(left_side / 2);
+			if (left_point_index >= this.obj.points.length) {
+				left_point_index -= this.obj.points.length;
+			}
 
-			if (right_side >= left_side){
-				console.log('r > l');
+			let A = this.obj.points[s_i];
+			let B = this.pointArray[1];
+			let C = this.pointArray[this.pointArray.length - 2];
+			let D = this.obj.points[e_i];
+			let R = this.obj.points[right_point_index];
+			let L = this.obj.points[left_point_index];
+
+			let checkWay = check_way(A, B, C, D);
+			let perimeter_right = cal_d(A.x, A.y, R.x, R.y) + cal_d(R.x, R.y, D.x, D.y);
+			let perimeter_left = cal_d(A.x, A.y, L.x, L.y) + cal_d(L.x, L.y, D.x, D.y);
+
+
+			if (perimeter_right >= perimeter_left){
 				for (let i = s_i; i <= e_i; i++){
 					new_points.push({x: this.obj.points[i].x, y: this.obj.points[i].y});
 				}
-				for (let i = this.pointArray.length - 2; i > 0; i--){
-					new_points.push(this.pointArray[i]);
+				if(checkWay){
+					for (let i = this.pointArray.length - 2; i > 0; i--){
+						new_points.push(this.pointArray[i]);
+					}	
+				}
+				else{
+					for (let i = 1; i < this.pointArray.length - 1; i++){
+						new_points.push(this.pointArray[i]);
+					}
 				}
 			}
 			else{
-				console.log('l > r');
 				for (let i = 0; i <= s_i; i++){
 					new_points.push({x: this.obj.points[i].x, y: this.obj.points[i].y});
 				}
-				for (let i = 1; i < this.pointArray.length - 1; i++){
-					new_points.push(this.pointArray[i]);
+				if(checkWay){
+					for (let i = 1; i < this.pointArray.length - 1; i++){
+						new_points.push(this.pointArray[i]);
+					}	
+				}
+				else{
+					for (let i = this.pointArray.length - 2; i > 0; i--){
+						new_points.push(this.pointArray[i]);
+					}
 				}
 				for (let i = e_i; i < this.obj.points.length; i++){
 					new_points.push({x: this.obj.points[i].x, y: this.obj.points[i].y});
 				}
 			}
 
-			// this.pointArray.splice(0, this.pointArray.lenth);
-			this.pointArray = [];
-
+			this.obj.circles = new Array();
+			this.lineArray = new Array();
+			this.pointArray = new Array();
 			let new_poly = configurePoly(new_points, this.obj.name, '1.0');
 			new_poly.set('stroke', this.obj.stroke);
 			new_poly.set('start_index', -1);
@@ -114,6 +170,9 @@ class LabelControl{
 			this.obj.labelControl = this;
 			this.canvas.insertAt(this.obj, idx);
 			this.canvas.off('mouse:down', this.mouseDown);
+
+			this.edit = false;
+			this.__editITEM__();
 		}
 	}
 
@@ -232,7 +291,7 @@ class LabelControl{
 						lbc.obj.circles.forEach(function(c){
 							__canvas__.remove(c);
 						});
-						lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
+						lbc.obj.circles.lenth = 0;
 					}
 
 					lbc.obj.points.forEach(function(point, index) {
@@ -242,21 +301,19 @@ class LabelControl{
 
 						circle.on('mousedown', function(){
 							//TODO
-							let i = parseInt(circle.name);
-							if(lbc.obj.start_index != -1){
-								console.log('before generate: '+lbc.pointArray.length);
-								lbc.addPointPolygonHandle(i);
-								console.log('after generate: '+lbc.pointArray.length);
-							}
-							else{
-								lbc.obj.set('start_index', i);
-								lbc.pointArray.push({x: circle.getCenterPoint().x, y: circle.getCenterPoint().y});
-
-
-								__canvas__.off('mouse:down', lbc.mouseDown);
-								__canvas__.on('mouse:down', lbc.mouseDown);
-								
-							}
+							setTimeout(function(){
+								let i = parseInt(circle.name);
+								if(lbc.obj.start_index != -1){
+									lbc.addPointPolygonHandle(i);
+								}
+								else{
+									lbc.obj.set('start_index', i);
+									lbc.pointArray.push({x: circle.getCenterPoint().x, y: circle.getCenterPoint().y});
+									__canvas__.off('mouse:down', lbc.mouseDown);
+									__canvas__.on('mouse:down', lbc.mouseDown);
+									
+								}
+							}, 200);
 						});
 
 						circle.on('moving', function(){
@@ -265,14 +322,17 @@ class LabelControl{
 							lbc.circlesHandle();
 							if(lbc.obj.start_index != -1) {
 								lbc.obj.set('start_index', -1);
-
 							}
 						});
 
 						circle.on('moved', function(){
 							if(lbc.obj.start_index == -1){
+								lbc.lineArray.forEach(function(line){
+									__canvas__.remove(line);
+								});
 								lbc.obj.set('start_index', -1);
-								lbc.pointArray = [];
+								lbc.pointArray = new Array();
+								lbc.lineArray = new Array();
 								__canvas__.off('mouse:down', lbc.mouseDown);
 							}
 							lbc.circlesHandle();
@@ -287,7 +347,7 @@ class LabelControl{
 					lbc.obj.circles.forEach(function(c){
 						__canvas__.remove(c);
 					});
-					lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
+					lbc.obj.circles.lenth = 0;
 				}
 			}
 
@@ -309,7 +369,7 @@ class LabelControl{
 				lbc.obj.circles.forEach(function(c){
 					lbc.canvas.remove(c);
 				});
-				lbc.obj.circles.splice(0, lbc.obj.circles.lenth);
+				lbc.obj.circles.lenth = 0;
 			}
 			this.canvas.remove(this.obj);
 			this.canvas.remove(this.obj.icon);

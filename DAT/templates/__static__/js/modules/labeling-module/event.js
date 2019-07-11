@@ -35,7 +35,7 @@ const isLabel = function(obj){
 }
 
 const reset_when_go =  function(){
-	bigplus.splice(0, bigplus.length);
+	bigplus.length = 0;
 }
 
 
@@ -311,7 +311,7 @@ const init_event = function(__canvas__, popupControllers){
 					}
 				}
 				if(obj.isEditPolygonIcon){
-					obj.set('radius', 3);
+					obj.set('radius', 5);
 				}
 				__canvas__.renderAll();
 			}
