@@ -42,7 +42,7 @@ const configureLine = function(__points__, __color__=Color.WHITE){
 
 const configureLinePoly = function(__points__){
 	let line = new fabric.Line(__points__, {
-		strokeWidth: 4,
+		strokeWidth: 3,
 		fill: Color.WHITE,
 		stroke: Color.WHITE,
 		strokeDashArray: [8, 8],
@@ -264,8 +264,8 @@ class DrawTool{
 					changelb && changelb.click();
 				}
 
-				drawer.pointArray.lenth = 0;
-				drawer.lineArray.lenth = 0;
+				drawer.pointArray.lenth = new Array();;
+				drawer.lineArray.lenth = new Array();;
 				drawer.typeLabel = null;
 				drawer.lastLine = null;
 				drawer.firstPoint = null;
