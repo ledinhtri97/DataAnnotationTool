@@ -287,7 +287,7 @@ class DrawTool{
 						drawer.firstPoint = configureCircle(pointer.x, pointer.y, 'fp');
 						drawer.firstPoint.set({
 							fill:'#FF0000',
-							radius: 6,
+							radius: drawStatus.getIsZoom() ? 2 : 5,
 							selectable: false,
 						});
 
