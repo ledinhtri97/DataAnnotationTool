@@ -301,6 +301,7 @@ class LabelControl{
 			if (this.obj.type == 'polygon'){
 				this.obj.set('selectable', false);
 				if(lbc.edit){
+
 					if(lbc.obj.circles.length > 0){
 						lbc.obj.circles.forEach(function(c){
 							__canvas__.remove(c);
@@ -308,9 +309,11 @@ class LabelControl{
 						lbc.obj.circles = new Array();
 					}
 
+					drawStatus.getActivePolygons()[lbc.id] = lbc.obj;
+
 					lbc.obj.points.forEach(function(point, index) {
 						var circle = configureCircle(point.x, point.y, index);
-
+						
 						circle.set('isEditPolygonIcon', true);
 
 						circle.on('mousedown', function(){
@@ -353,6 +356,7 @@ class LabelControl{
 				}
 				else{
 					lbc.cleanPolygonStuff();
+					delete drawStatus.getActivePolygons()[lbc.id];
 				}
 			}
 

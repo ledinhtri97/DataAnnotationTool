@@ -311,7 +311,8 @@ const init_event = function(__canvas__, popupControllers){
 					}
 				}
 				if(obj.isEditPolygonIcon){
-					obj.set('radius', 5);
+					let rd = drawStatus.getIsZoom() ? 2 : 4;
+					obj.set('radius', rd);
 				}
 				__canvas__.renderAll();
 			}
@@ -435,7 +436,7 @@ const init_event = function(__canvas__, popupControllers){
 			__canvas__.relativePan(new fabric.Point(0, 10 * __canvas__.getZoom()));
 			break;
 		}
-		keepPositionInBounds(__canvas__);
+		keepPositionInBounds();
 	}
 
 
@@ -443,7 +444,19 @@ const init_event = function(__canvas__, popupControllers){
 		if (zoomLevel < zoomLevelMax) {
 			zoomLevel++;
 			__canvas__.zoomToPoint(point, Math.pow(2, zoomLevel));
-			keepPositionInBounds(__canvas__);
+			keepPositionInBounds();
+
+			if(!drawStatus.getActivePolygons()['zs']){
+				drawStatus.getActivePolygons()['zs'] = true;
+				let listActivePolygons = drawStatus.getActivePolygons();
+				for (let id in listActivePolygons){
+					if(id!='zs'){
+						listActivePolygons[id].circles.forEach( function(c) {
+							c.set('radius', 2);
+						});
+					}
+				}
+			}
 		}
 	}
 
@@ -451,16 +464,25 @@ const init_event = function(__canvas__, popupControllers){
 		if (zoomLevel > zoomLevelMin) {
 			zoomLevel--;
 			__canvas__.zoomToPoint(point, Math.pow(2, zoomLevel));
-			keepPositionInBounds(__canvas__);
+			keepPositionInBounds();
 		}
 		if(zoomLevel == 0){
-
+			drawStatus.getActivePolygons()['zs'] = false;
+			let listActivePolygons = drawStatus.getActivePolygons();
+			for (let id in listActivePolygons){
+				if(id!='zs'){
+					listActivePolygons[id].circles.forEach( function(c) {
+						c.set('radius', 4);
+					});
+				}
+			}
 			drawStatus.setIsZoom(false);
 		}
 	}
 
 	function keepPositionInBounds() {
 		var zoom = __canvas__.getZoom();
+
 		var xMin = (2 - zoom) * __canvas__.getWidth() / 2;
 		var xMax = zoom * __canvas__.getWidth() / 2;
 		var yMin = (2 - zoom) * __canvas__.getHeight() / 2;
