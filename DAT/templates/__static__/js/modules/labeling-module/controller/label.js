@@ -79,17 +79,30 @@ class LabelControl{
 		}
 	}
 
+
+	cleanPolygonStuff(clean_circles=true){
+		let lbc = this;
+		lbc.lineArray.forEach(function(line){
+			lbc.canvas.remove(line);
+		});
+		lbc.obj.set('start_index', -1);
+		lbc.pointArray = new Array();
+		lbc.lineArray = new Array();
+
+		lbc.canvas.off('mouse:down', lbc.mouseDown);
+		if (clean_circles){
+			lbc.obj.circles.forEach(function(c){
+				lbc.canvas.remove(c);
+			});
+			lbc.obj.circles = new Array();
+		}
+	}
+
 	addPointPolygonHandle(end_index=-1){
 
 		let idx = this.canvas.getObjects().indexOf(this.obj);
 		let canvas = this.canvas;
-		this.canvas.remove(this.obj);
-		this.obj.circles.forEach(function(c){
-			canvas.remove(c);
-		});
-		this.lineArray.forEach(function(line){
-			canvas.remove(line);
-		});
+		
 
 		if(end_index!=-1){
 			let s_i, e_i, right_side, left_side;
@@ -159,17 +172,18 @@ class LabelControl{
 				}
 			}
 
-			this.obj.circles = new Array();
-			this.lineArray = new Array();
-			this.pointArray = new Array();
+			
+
 			let new_poly = configurePoly(new_points, this.obj.name, '1.0');
 			new_poly.set('stroke', this.obj.stroke);
 			new_poly.set('start_index', -1);
 			
+			this.canvas.remove(this.obj);
+			this.cleanPolygonStuff();
+
 			this.obj = new_poly;
 			this.obj.labelControl = this;
 			this.canvas.insertAt(this.obj, idx);
-			this.canvas.off('mouse:down', this.mouseDown);
 
 			this.edit = false;
 			this.__editITEM__();
@@ -281,11 +295,6 @@ class LabelControl{
 				drawTool.endDraw();
 			}
 			else{
-				lbc.obj.circles.forEach(function(c){
-					__canvas__.remove(c);
-				});
-				lbc.obj.circles.lenth = 0;
-				__canvas__.off('mouse:down', lbc.mouseDown);
 				__canvas__.discardActiveObject();
 			}		
 
@@ -296,7 +305,7 @@ class LabelControl{
 						lbc.obj.circles.forEach(function(c){
 							__canvas__.remove(c);
 						});
-						lbc.obj.circles.lenth = 0;
+						lbc.obj.circles = new Array();
 					}
 
 					lbc.obj.points.forEach(function(point, index) {
@@ -332,13 +341,7 @@ class LabelControl{
 
 						circle.on('moved', function(){
 							if(lbc.obj.start_index == -1){
-								lbc.lineArray.forEach(function(line){
-									__canvas__.remove(line);
-								});
-								lbc.obj.set('start_index', -1);
-								lbc.pointArray = new Array();
-								lbc.lineArray = new Array();
-								__canvas__.off('mouse:down', lbc.mouseDown);
+								lbc.cleanPolygonStuff(false);
 							}
 							lbc.circlesHandle();
 							
@@ -349,10 +352,7 @@ class LabelControl{
 					});
 				}
 				else{
-					lbc.obj.circles.forEach(function(c){
-						__canvas__.remove(c);
-					});
-					lbc.obj.circles.lenth = 0;
+					lbc.cleanPolygonStuff();
 				}
 			}
 
@@ -371,10 +371,7 @@ class LabelControl{
 
 			//remove circle if available in object poly
 			if(lbc.obj.type == 'polygon'){
-				lbc.obj.circles.forEach(function(c){
-					lbc.canvas.remove(c);
-				});
-				lbc.obj.circles.lenth = 0;
+				lbc.cleanPolygonStuff();
 			}
 			this.canvas.remove(this.obj);
 			this.canvas.remove(this.obj.icon);
