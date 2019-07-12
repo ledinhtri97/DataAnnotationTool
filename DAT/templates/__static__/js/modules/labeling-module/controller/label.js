@@ -281,6 +281,11 @@ class LabelControl{
 				drawTool.endDraw();
 			}
 			else{
+				lbc.obj.circles.forEach(function(c){
+					__canvas__.remove(c);
+				});
+				lbc.obj.circles.lenth = 0;
+				__canvas__.off('mouse:down', lbc.mouseDown);
 				__canvas__.discardActiveObject();
 			}		
 
