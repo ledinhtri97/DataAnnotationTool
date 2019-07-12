@@ -42,7 +42,7 @@ const configureLine = function(__points__, __color__=Color.WHITE){
 
 const configureLinePoly = function(__points__){
 	let line = new fabric.Line(__points__, {
-		strokeWidth: 3,
+		strokeWidth: drawStatus.getIsZoom() ? 2 : 4,
 		fill: Color.WHITE,
 		stroke: Color.WHITE,
 		strokeDashArray: [8, 8],
