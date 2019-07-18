@@ -244,10 +244,8 @@ export default function IntegrationReactSelect({suggestions, handleClose}) {
 							shrink: true,
 						},
 						placeholder:"Search...",
-
 					}}
 					autoFocus
-
 					options={suggestions}
 					components={components}
 					value={single}

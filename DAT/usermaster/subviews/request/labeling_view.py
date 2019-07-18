@@ -115,7 +115,7 @@ def next_index(request, metaid):
 		current_meta_data.save(update_fields=['is_allow_view'])
 		
 	current_meta_data.save(update_fields=['onviewing_user'])
-		#print(current_meta_data.skipped_by_user)
+	create_thumbnail(current_meta_data)
 	meta = get_query_meta_general(dataset_id, user)
 	
 	if meta:
