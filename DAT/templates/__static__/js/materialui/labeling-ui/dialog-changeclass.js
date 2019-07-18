@@ -30,7 +30,8 @@ class AlertDialogChangeClass extends React.Component {
 
 	handleClose = (event) => {
 			if(event.target.value){
-				let values = event.target.info.split(',');
+				let values = event.target.info || event.target.value;
+				values = values.split(',');
 				let res = this.props.labelControl.__changeClass__(values[0], values[1], values[2]);
 				if (res){
 					this.setState({ open: false });
