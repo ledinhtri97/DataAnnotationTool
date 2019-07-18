@@ -328,7 +328,6 @@ class LabelControl{
 									lbc.pointArray.push({x: circle.getCenterPoint().x, y: circle.getCenterPoint().y});
 									__canvas__.off('mouse:down', lbc.mouseDown);
 									__canvas__.on('mouse:down', lbc.mouseDown);
-									
 								}
 							}, 200);
 						});

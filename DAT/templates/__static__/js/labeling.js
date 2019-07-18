@@ -115,8 +115,9 @@ if(labeling && meta_id && meta_id.textContent){
 			let polyListLabel = [];
 			meta.label_select.map(function(lb){
 				let item_lb = {
-					value: lb.tag_label+','+lb.type_label+','+lb.color,
+					value: lb.tag_label,
 					label: lb.tag_label,
+					info: lb.tag_label+','+lb.type_label+','+lb.color,
 				}
 				if(lb.type_label === 'rect'){
 					rectListLabel.push(item_lb);

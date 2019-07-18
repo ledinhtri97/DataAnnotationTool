@@ -97,6 +97,7 @@ function Control(props) {
 	return (
 		<TextField
 			fullWidth
+			autoFocus
 			InputProps={{
 				inputComponent,
 				inputProps: {
@@ -238,13 +239,15 @@ export default function IntegrationReactSelect({suggestions, handleClose}) {
 					styles={selectStyles}
 					inputId="react-select-single"
 					TextFieldProps={{
-						label: 'Label',
 						InputLabelProps: {
 							htmlFor: 'react-select-single',
 							shrink: true,
 						},
-						placeholder: 'Search a label',
+						placeholder:"Search...",
+
 					}}
+					autoFocus
+
 					options={suggestions}
 					components={components}
 					value={single}

@@ -30,7 +30,7 @@ class AlertDialogChangeClass extends React.Component {
 
 	handleClose = (event) => {
 			if(event.target.value){
-				let values = event.target.value.split(',');
+				let values = event.target.info.split(',');
 				let res = this.props.labelControl.__changeClass__(values[0], values[1], values[2]);
 				if (res){
 					this.setState({ open: false });
@@ -76,7 +76,7 @@ class AlertDialogChangeClass extends React.Component {
 					>
 					{
 					label_select.map(function(i, key) {
-						return (<FormControlLabel key={key} value={i.value} label={i.label}
+						return (<FormControlLabel key={key} value={i.info} label={i.label}
 								control={<Radio color="primary"/>}/>
 							);
 					})}
