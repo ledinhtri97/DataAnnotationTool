@@ -228,7 +228,7 @@ class DrawTool{
 						drawer.rectangle.width, drawer.rectangle.height);
 
 					if (listRectLabel.length === 1){
-						let values = listRectLabel[0].value.split(','); //tag_label, type_label, color
+						let values = listRectLabel[0].info.split(','); //tag_label, type_label, color
 						new_object.set('name', values[0]);
 						new_object.set('stroke', values[2]);
 						new_object.icon.set('fill', values[2]);
@@ -246,7 +246,7 @@ class DrawTool{
 						new_object = configurePoly(drawer.pointArray);
 
 						if (listPolyLabel.length === 1){
-							let values = listPolyLabel[0].value.split(','); //tag_label, type_label, color
+							let values = listPolyLabel[0].info.split(','); //tag_label, type_label, color
 							new_object.set('name', values[0]);
 							new_object.set('stroke', values[2]);
 							new_object.icon.set('fill', values[2]);
