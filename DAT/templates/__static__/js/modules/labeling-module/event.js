@@ -166,9 +166,11 @@ const init_event = function(__canvas__, popupControllers){
 				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 
 				if(labelControl){
-					drawStatus.setIsChangingLabel(true);
-					let changelb = document.getElementById(labelControl.getId()+"_changelabel");
-					changelb && changelb.click();
+					setTimeout(function(){
+						drawStatus.setIsChangingLabel(true);
+						let changelb = document.getElementById(labelControl.getId()+"_changelabel");
+						changelb && changelb.click();
+					}, 10);
 				}
 			}
 		}
