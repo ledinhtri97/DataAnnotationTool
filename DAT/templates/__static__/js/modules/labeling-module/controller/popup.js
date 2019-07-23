@@ -19,7 +19,7 @@ class PopupControllers{
 			var cvcontainer = document.getElementById("cvcontainer");
 			var cv_element = document.getElementById("canvas");
 			document.getElementById("label_popup").textContent = this.objshape.name;
-			document.getElementById("accuracy_popup").textContent = this.objshape.accuracy;
+			// document.getElementById("accuracy_popup").textContent = this.objshape.accuracy;
 			var left = (cvcontainer.clientWidth - cv_element.clientWidth) / 2;
 			var top = (cvcontainer.clientHeight - cv_element.clientHeight) / 2;
 			group_control.style["left"] = (left + this.objshape.oCoords.tl.x) +"px";
