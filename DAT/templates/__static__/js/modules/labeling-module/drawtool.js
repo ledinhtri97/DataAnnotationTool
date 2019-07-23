@@ -258,6 +258,10 @@ class DrawTool{
 					}
 				}
 
+				//hardcode here
+				drawStatus.setRenewLabel(true);
+				new_object.set('name', '');
+
 				if (new_object && !only && drawStatus.getRenewLabel()) {
 					drawStatus.setIsChangingLabel(true);
 					let changelb = document.getElementById(new_object.labelControl.getId()+"_changelabel");
@@ -272,8 +276,8 @@ class DrawTool{
 				drawer.canvas.selection = true;
 
 				//end new code
-				drawStatus.setRenewLabel(true);
 				drawer.startDraw();
+
 			},
 		};
 

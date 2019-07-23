@@ -241,6 +241,7 @@ const init_event = function(__canvas__, popupControllers){
 			e_stop && e_stop.click();
 		}
 		else if(key == 114) {
+			//r key
 			let renew_label = document.getElementById("renew_label");
 			renew_label && renew_label.click();
 		}
