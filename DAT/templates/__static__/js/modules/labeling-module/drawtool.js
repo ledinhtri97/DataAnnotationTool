@@ -272,6 +272,7 @@ class DrawTool{
 				drawer.canvas.selection = true;
 
 				//end new code
+				drawStatus.setRenewLabel(true);
 				drawer.startDraw();
 			},
 		};
