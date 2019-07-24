@@ -1,19 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-
-import Tooltip from '@material-ui/core/Tooltip';
-import Zoom from '@material-ui/core/Zoom';
-
-import Button from '@material-ui/core/Button';
-
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 
 import Slider from '@material-ui/core/Slider';
-import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
 	scaleCanvas: {

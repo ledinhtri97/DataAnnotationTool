@@ -1,7 +1,8 @@
 import {fabric} from 'fabric';
 import {createItemToList} from "./controller/label"
 import {configurePoly, configureRectangle, configureFlag} from './drawtool';
-import {Color} from "./style/color"
+import {Color} from "./style/color";
+import {drawStatus} from "../../labeling";
 
 function image_convert(img){
 	var parent = document.getElementById("cvcontainer");
@@ -56,6 +57,7 @@ const initCanvas = function(canvas, meta, only_view=false) {
 				img.scaleToHeight(wh[1]);
 				canvas.setWidth(wh[0]);
 				canvas.setHeight(wh[1]);
+
 				canvas.setBackgroundImage(img);
 
 				canvas.renderAll();

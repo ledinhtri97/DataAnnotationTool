@@ -52,6 +52,7 @@ const controllerRequest = (callback_cl) => {
 	if(callback_cl == 'rqnext'){
 		drawStatus.resetDrawStatus();
 		rqnext(meta_id.textContent, canvas);
+		
 	}
 	if (callback_cl == 'rqsavenext') {
 		drawStatus.resetDrawStatus();
@@ -97,17 +98,18 @@ if(labeling && meta_id && meta_id.textContent){
 
 			const tools_list_items = document.getElementById("tools_list_items");
 			tools_list_items && ReactDOM.render(<ToolListItems
+				canvas={canvas}
 				drawTool={drawTool} 
 				drawStatus={drawStatus}
 				quickSettings={quickSettings}
 				controllerRequest={controllerRequest}/>, 
 				tools_list_items);
 
-			const image_tool = document.getElementById("image_tool");
-			image_tool && ReactDOM.render(<ImageTool
-				drawTool={drawTool} 
-				drawStatus={drawStatus}/>, 
-				image_tool);
+			// const image_tool = document.getElementById("image_tool");
+			// image_tool && ReactDOM.render(<ImageTool
+			// 	drawTool={drawTool} 
+			// 	drawStatus={drawStatus}/>, 
+			// 	image_tool);
 
 			const keyboard = document.getElementById("keyboard");
 			keyboard && ReactDOM.render(<TemporaryDrawerInstruction label_select={meta.label_select}/>, keyboard);

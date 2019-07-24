@@ -236,7 +236,7 @@ class MainFrameLabeling extends React.Component {
 				</ExpansionPanelDetails>
 				</ExpansionPanel>
 
-				<ExpansionPanel expanded={expanded === 'p2'} onChange={this.handleExpandInDrawer('p2')}>
+				{/*<ExpansionPanel expanded={expanded === 'p2'} onChange={this.handleExpandInDrawer('p2')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Image-T"/>
@@ -246,7 +246,7 @@ class MainFrameLabeling extends React.Component {
 				<Divider />
 				<List className={classes.listItem} id="image_tool"></List>
 				</ExpansionPanelDetails>
-				</ExpansionPanel>
+				</ExpansionPanel>*/}
 
 				<ExpansionPanel expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>

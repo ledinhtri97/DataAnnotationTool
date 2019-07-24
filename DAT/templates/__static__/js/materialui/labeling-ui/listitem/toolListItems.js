@@ -23,6 +23,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 
+import Slider from '@material-ui/core/Slider';
+
 const styles = theme => ({
     lightTooltip: {
         backgroundColor: theme.palette.common.white,
@@ -46,6 +48,21 @@ const styles = theme => ({
         background: '#4285F4',
         padding: 0,
     },
+    scaleCanvas: {
+        paddingTop: '5px',
+        paddingBottom: '5px',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+    },
+    sliderS: {
+        width: '70%',
+    },
+    listItemRoot: {
+        paddingTop: '2px',
+        paddingBottom: '2px',
+    }
 });
 
 class ItemTool extends React.Component {
@@ -54,7 +71,7 @@ class ItemTool extends React.Component {
 
         return(
             <div id={idI} onClick={callBackFunc}>
-            <ListItem button>
+            <ListItem button classes={{root: classes.listItemRoot}}>
             <Tooltip title={text} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
             <ListItemIcon className={classes.icon}>
             <Micon />
@@ -66,6 +83,36 @@ class ItemTool extends React.Component {
         );
     }
 };
+
+const PrettoSlider = withStyles({
+  root: {
+    color: '#52af77',
+    height: 6,
+  },
+  thumb: {
+    height: 18,
+    width: 18,
+    backgroundColor: '#fff',
+    border: '2px solid currentColor',
+    marginTop: -6,
+    marginLeft: -10,
+    '&:focus,&:hover,&$active': {
+      boxShadow: 'inherit',
+    },
+  },
+  active: {},
+  valueLabel: {
+    left: 'calc(-85% + 4px)',
+  },
+  track: {
+    height: 8,
+    borderRadius: 4,
+  },
+  rail: {
+    height: 8,
+    borderRadius: 4,
+  },
+})(Slider);
 
 class ToolListItems extends React.Component {
 
@@ -223,8 +270,45 @@ class ToolListItems extends React.Component {
         }
     };
 
+    zoomIt = (event, value) => {
+        var {canvas, drawStatus} = this.props;
+
+        var factor_choose = value / 100.0;
+        var factor = 1.0 + factor_choose - drawStatus.getFactor();
+        drawStatus.setFactor(factor_choose);
+        
+        var new_w = canvas.getWidth() * factor;
+        var new_h = canvas.getHeight() * factor;
+
+        canvas.setWidth(new_w);
+        canvas.setHeight(new_h);
+        
+        if (canvas.backgroundImage) {
+            // Need to scale background images as well
+            var bi = canvas.backgroundImage;
+            bi.scaleToWidth(new_w);
+            bi.scaleToHeight(new_h);
+        }
+        var objects = canvas.getObjects();
+        for (var i in objects) {
+            var scaleX = objects[i].scaleX * factor;
+            var scaleY = objects[i].scaleY * factor;
+            var left = objects[i].left * factor;
+            var top = objects[i].top * factor;
+
+            objects[i].scaleX = scaleX;
+            objects[i].scaleY = scaleY;
+            objects[i].left = left;
+            objects[i].top = top;
+
+            objects[i].setCoords();
+        }
+        canvas.renderAll();
+        canvas.calcOffset();
+    };
+
     render() {
-        const { classes, drawTool, drawStatus, quickSettings } = this.props;
+        const { classes } = this.props;
         const { messageInfo } = this.state;
         const tool = this;
 
@@ -275,6 +359,21 @@ class ToolListItems extends React.Component {
                     Micon={SkipNext} text="(A) = Skip & Next"/>
                 </React.Fragment>)
             }
+
+            <div><ListItem button className={classes.splitTool}></ListItem></div>
+
+
+            <div className={classes.scaleCanvas}>
+                <div className={classes.sliderS}>
+                    <PrettoSlider
+                        valueLabelDisplay="auto" 
+                        aria-label="Pretto slider" 
+                        defaultValue={100}
+                        onChange={tool.zoomIt}
+                        step={10}
+                        min={30} />
+                </div>
+            </div>
             
 
             <Snackbar
