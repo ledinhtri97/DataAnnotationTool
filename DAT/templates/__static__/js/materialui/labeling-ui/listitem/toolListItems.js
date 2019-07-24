@@ -235,7 +235,7 @@ class ToolListItems extends React.Component {
 
             <div><ListItem button className={classes.splitTool}></ListItem></div>
 
-             <ItemTool 
+            <ItemTool 
                 classes={classes} idI="renew_label" callBackFunc={tool.handleRenewLabel} 
                 Micon={Autorenew} text="(R) = Renew Label"/>
 

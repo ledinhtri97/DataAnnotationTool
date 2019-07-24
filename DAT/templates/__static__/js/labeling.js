@@ -6,6 +6,7 @@ import MainFrameLabeling from "./materialui/labeling-ui/mainframe";
 import TemporaryDrawerInstruction from "./materialui/labeling-ui/drawerInstruction"
 import TemporaryDrawerSettings from "./materialui/labeling-ui/drawerSettings";
 import ToolListItems from './materialui/labeling-ui/listitem/toolListItems';
+import ImageTool from './materialui/labeling-ui/listitem/imageTool';
 
 import {outWorkSpace} from "./modules/dat-utils";
 import {rqnext, rqsavenext, rqsave} from  "./modules/request"
@@ -101,6 +102,12 @@ if(labeling && meta_id && meta_id.textContent){
 				quickSettings={quickSettings}
 				controllerRequest={controllerRequest}/>, 
 				tools_list_items);
+
+			const image_tool = document.getElementById("image_tool");
+			image_tool && ReactDOM.render(<ImageTool
+				drawTool={drawTool} 
+				drawStatus={drawStatus}/>, 
+				image_tool);
 
 			const keyboard = document.getElementById("keyboard");
 			keyboard && ReactDOM.render(<TemporaryDrawerInstruction label_select={meta.label_select}/>, keyboard);

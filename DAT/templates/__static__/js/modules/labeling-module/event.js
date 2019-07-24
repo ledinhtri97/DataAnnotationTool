@@ -343,6 +343,8 @@ const init_event = function(__canvas__, popupControllers){
 				if(labelControl && i != -1){
 					if (i === 0) {
 						labelControl.__editITEM__();
+						let edit_tool = document.getElementById('edit_tool');
+						edit_tool && edit_tool.click();
 					}
 					else if (i === 1){
 						let e_hidden = document.getElementById(labelControl.getId()+"_hidden");

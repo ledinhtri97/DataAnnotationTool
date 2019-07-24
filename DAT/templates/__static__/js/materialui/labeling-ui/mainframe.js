@@ -106,7 +106,7 @@ const styles = theme =>({
     },
     tabExpandTitle:{
     	paddingRight: '0 !important',
-    	paddingLeft: '16px !important',
+    	paddingLeft: '0 !important',
     },
     tabExpandSumary:{
     	margin: "3px 0 !important",
@@ -127,7 +127,6 @@ const styles = theme =>({
     	margin: theme.spacing(1),
     	width: '150px',
     },
-	
 });
 
 
@@ -136,7 +135,7 @@ class MainFrameLabeling extends React.Component {
 	state = {
 		anchorEl: null,
 		open: false,
-		expanded: 'panel1',
+		expanded: 'p1',
 	};
 
 	handleExpandInDrawer = panel => (event, expanded) => {
@@ -203,7 +202,7 @@ class MainFrameLabeling extends React.Component {
 		const open = Boolean(anchorEl);
 
 		return (	
-			<div className={classes.root}>
+			<div className={classes.root} >
 				<Drawer
 				variant="permanent"
 				classes={{
@@ -225,7 +224,7 @@ class MainFrameLabeling extends React.Component {
 				</IconButton>
 				</div>
 
-				<ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleExpandInDrawer('panel1')}>
+				<ExpansionPanel expanded={expanded === 'p1'} onChange={this.handleExpandInDrawer('p1')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Tools"/>
@@ -237,7 +236,19 @@ class MainFrameLabeling extends React.Component {
 				</ExpansionPanelDetails>
 				</ExpansionPanel>
 
-				<ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleExpandInDrawer('panel2')}>
+				<ExpansionPanel expanded={expanded === 'p2'} onChange={this.handleExpandInDrawer('p2')}>
+				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
+				<ListItem button className={classes.tabExpandTitle}>
+				<ListItemText primary="Image-T"/>
+				</ListItem>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails className={classes.tabExpandDetail}>
+				<Divider />
+				<List className={classes.listItem} id="image_tool"></List>
+				</ExpansionPanelDetails>
+				</ExpansionPanel>
+
+				<ExpansionPanel expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Labels"/>
