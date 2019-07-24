@@ -128,9 +128,10 @@ if(labeling && meta_id && meta_id.textContent){
 			});
 			drawStatus.setListLabel(rectListLabel, polyListLabel);
 			
-			document.getElementById("stop_draw").style['backgroundColor'] = "#B6F3F2";
-			setTimeout(function(){drawTool.startDraw();}, 500);
-
+			if (!on_edit){
+				document.getElementById("stop_draw").style['backgroundColor'] = "#B6F3F2";
+				setTimeout(function(){drawTool.startDraw();}, 500);
+			}
 		});
 	} catch(e) {
 		// statements
