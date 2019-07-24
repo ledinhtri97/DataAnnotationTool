@@ -263,7 +263,9 @@ class DrawTool{
 				
 
 				if (new_object && !only && drawStatus.getRenewLabel()) {
+					//hardcode here
 					new_object.set('name', '');
+					
 					drawStatus.setIsChangingLabel(true);
 					let changelb = document.getElementById(new_object.labelControl.getId()+"_changelabel");
 					changelb && changelb.click();
