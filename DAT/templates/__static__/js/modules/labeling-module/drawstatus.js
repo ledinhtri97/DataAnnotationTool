@@ -17,15 +17,6 @@ class DrawStatus{
 		this.popupHover = false;
 		this.modeTool = [0, 0, 0, 0]; //edit, hidden, delete, change mode ===> default is false
 		this.activePolygons = {'zs': false};
-		this.factor = 1.0;
-	};
-
-	setFactor(f){
-		this.factor = f;
-	};
-
-	getFactor(){
-		return this.factor;
 	};
 
 	getActivePolygons(){

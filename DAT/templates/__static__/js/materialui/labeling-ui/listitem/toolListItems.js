@@ -273,12 +273,12 @@ class ToolListItems extends React.Component {
     zoomIt = (event, value) => {
         var {canvas, drawStatus} = this.props;
 
-        var factor_choose = value / 100.0;
-        var factor = 1.0 + factor_choose - drawStatus.getFactor();
-        drawStatus.setFactor(factor_choose);
+        var factor_choose = value / 100;
         
-        var new_w = canvas.getWidth() * factor;
-        var new_h = canvas.getHeight() * factor;
+        var new_w = canvas.originWidth * factor_choose;
+        var new_h = canvas.originHeight * factor_choose;
+        var ratio_w = new_w / canvas.getWidth();
+        var ratio_h = new_h / canvas.getHeight();
 
         canvas.setWidth(new_w);
         canvas.setHeight(new_h);
@@ -289,17 +289,14 @@ class ToolListItems extends React.Component {
             bi.scaleToWidth(new_w);
             bi.scaleToHeight(new_h);
         }
+        
         var objects = canvas.getObjects();
         for (var i in objects) {
-            var scaleX = objects[i].scaleX * factor;
-            var scaleY = objects[i].scaleY * factor;
-            var left = objects[i].left * factor;
-            var top = objects[i].top * factor;
 
-            objects[i].scaleX = scaleX;
-            objects[i].scaleY = scaleY;
-            objects[i].left = left;
-            objects[i].top = top;
+            objects[i].scaleX *= ratio_w;
+            objects[i].scaleY *= ratio_h;
+            objects[i].left *= ratio_w;
+            objects[i].top *= ratio_h;
 
             objects[i].setCoords();
         }
@@ -370,8 +367,8 @@ class ToolListItems extends React.Component {
                         aria-label="Pretto slider" 
                         defaultValue={100}
                         onChange={tool.zoomIt}
-                        step={10}
-                        min={30} />
+                        step={20}
+                        min={40} />
                 </div>
             </div>
             

@@ -14,22 +14,30 @@ const collect_boudingbox = function(canvas){
 	for(var i = 0; i < canvas.getObjects().length; i+=1){
 		var item = canvas.item(i);
 		if (item.islabel) {
+			
+			if (item.labelControl.getIsEdit()){
+				item.labelControl.__editITEM__(false);
+			}
+
 			if (item.type == 'rect'){ 
 				myData += [
 				item.name,
 				item.type_label,
 				item.flag,
-				Math.round(item.left * ROUND / canvas.getWidth()) / ROUND,
-				Math.round(item.top * ROUND / canvas.getHeight()) / ROUND,
-				Math.round((item.left + item.width) * ROUND / canvas.getWidth()) / ROUND,
-				Math.round((item.top + item.height) * ROUND / canvas.getHeight()) / ROUND,
+				item.xmin, item.ymin, item.xmax, item.ymax,
+				// Math.round(item.left * ROUND / canvas.originWidth) / ROUND,
+				// Math.round(item.top * ROUND / canvas.originHeight) / ROUND,
+				// Math.round((item.left + item.width) * ROUND / canvas.originWidth) / ROUND,
+				// Math.round((item.top + item.height) * ROUND / canvas.originHeight) / ROUND,
 				].join(',') + '\n';
 			}
 			else if(item.type == 'polygon'){
 				var bb = [item.name, item.type_label, item.flag];
-				for (var p of item.points){
-					bb.push(Math.round(p.x * ROUND / canvas.getWidth()) / ROUND);
-					bb.push(Math.round(p.y * ROUND / canvas.getHeight()) / ROUND);
+				for (var p of item.rpoints){
+					bb.push(p.x);
+					bb.push(p.y);
+					// bb.push(Math.round(p.x * ROUND / canvas.originWidth) / ROUND);
+					// bb.push(Math.round(p.y * ROUND / canvas.originHeight) / ROUND);
 				}
 				myData += bb.join(',') + '\n';
 			}

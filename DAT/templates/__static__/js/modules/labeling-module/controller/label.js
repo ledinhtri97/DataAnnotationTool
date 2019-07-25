@@ -8,6 +8,8 @@ import {configureCircle, configurePoly, configureLinePoly} from "../drawtool";
 import {Color} from "../style/color"
 import AlertDialog from "../../../materialui/dialog";
 
+const ROUND = 100000;
+
 const alertWarning = () => {
 	var dialog = document.getElementById('dialog');
 
@@ -295,6 +297,12 @@ class LabelControl{
 				drawTool.endDraw();
 			}
 			else{
+				this.obj.set({
+					xmin: Math.round(this.obj.left * ROUND / __canvas__.getWidth()) / ROUND,
+					ymin: Math.round(this.obj.top * ROUND / __canvas__.getHeight()) / ROUND,
+					xmax: Math.round((this.obj.left + this.obj.width) * ROUND / __canvas__.getWidth()) / ROUND,
+					ymax: Math.round((this.obj.top + this.obj.height) * ROUND / __canvas__.getHeight()) / ROUND,
+				});
 				__canvas__.discardActiveObject();
 			}		
 
@@ -356,6 +364,15 @@ class LabelControl{
 				else{
 					lbc.cleanPolygonStuff();
 					delete drawStatus.getActivePolygons()[lbc.id];
+
+					let rpoints = [];
+					for (var p of this.obj.points){
+						rpoints.push({
+							x: Math.round(p.x * ROUND / __canvas__.getWidth()) / ROUND,
+							y: Math.round(p.y * ROUND / __canvas__.getHeight()) / ROUND
+						});
+					}
+					this.obj.set('rpoints', rpoints);
 				}
 			}
 

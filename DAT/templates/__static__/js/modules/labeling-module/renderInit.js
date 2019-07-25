@@ -26,19 +26,32 @@ const create_shape = (bb, canvas) => {
 		  (position[3]-position[1])*canvas.getHeight(),
 		  bb.tag_label,
 		);
+
+		shape.set({
+			xmin: position[0],
+			ymin: position[1],
+			xmax: position[2],
+			ymax: position[3],
+		});
 	}
 	else{
-		var points = [];
-		var bbs = bb.position.split(',');
+		let points = [];
+		let rpoints = [];
+		let bbs = bb.position.split(',');
 		bbs.forEach(function(p, i){
 		  if (i%2==0) {
 		    points.push({
 		      x:bbs[i]*canvas.getWidth(),
 		      y:bbs[i+1]*canvas.getHeight(),
 		    });
+		    rpoints.push({
+		    	x: bbs[i],
+		    	y: bbs[i+1],
+		    });
 		  }
 		})
 	  	shape = configurePoly(points, bb.tag_label);
+	  	shape.set('rpoints', rpoints);
 	}
 	shape.set('type_label', bb.type_label);
 	shape.set('stroke', bb.color);
@@ -57,6 +70,8 @@ const initCanvas = function(canvas, meta, only_view=false) {
 				img.scaleToHeight(wh[1]);
 				canvas.setWidth(wh[0]);
 				canvas.setHeight(wh[1]);
+				canvas.set('originWidth', wh[0]);
+				canvas.set('originHeight', wh[1]);
 
 				canvas.setBackgroundImage(img);
 

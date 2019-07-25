@@ -1,10 +1,11 @@
-import {createItemToList} from "./controller/label"
-import {Color} from "./style/color"
+import {createItemToList} from "./controller/label";
+import {Color} from "./style/color";
 import {fabric} from "fabric";
 import {drawStatus} from "../../labeling";
 
 const MIN = 99;
 const MAX = 999999;
+const ROUND = 100000;
 
 const configureCircle = function(__x__, __y__, __name__=''){
 	var circle = new fabric.Circle({
@@ -227,6 +228,13 @@ class DrawTool{
 						drawer.rectangle.left, drawer.rectangle.top, 
 						drawer.rectangle.width, drawer.rectangle.height);
 
+					new_object.set({
+						xmin: Math.round(drawer.rectangle.left * ROUND / drawer.canvas.getWidth()) / ROUND,
+						ymin: Math.round(drawer.rectangle.top * ROUND / drawer.canvas.getHeight()) / ROUND,
+						xmax: Math.round((drawer.rectangle.left + drawer.rectangle.width) * ROUND / drawer.canvas.getWidth()) / ROUND,
+						ymax: Math.round((drawer.rectangle.top + drawer.rectangle.height) * ROUND / drawer.canvas.getHeight()) / ROUND,
+					});
+
 					if (listRectLabel.length === 1){
 						let values = listRectLabel[0].info.split(','); //tag_label, type_label, color
 						new_object.set('name', values[0]);
@@ -245,11 +253,21 @@ class DrawTool{
 
 						new_object = configurePoly(drawer.pointArray);
 
+						let rpoints = [];
+						for (var p of new_object.points){
+							rpoints.push({
+								x: Math.round(p.x * ROUND / drawer.canvas.getWidth()) / ROUND,
+								y: Math.round(p.y * ROUND / drawer.canvas.getHeight()) / ROUND
+							});
+						}
+						new_object.set('rpoints', rpoints);
+
 						if (listPolyLabel.length === 1){
 							let values = listPolyLabel[0].info.split(','); //tag_label, type_label, color
 							new_object.set('name', values[0]);
 							new_object.set('stroke', values[2]);
 							new_object.icon.set('fill', values[2]);
+
 							only = true;
 						}
 
@@ -395,7 +413,7 @@ class DrawTool{
 		this.endDraw();
 
 		this.canvas.getObjects().forEach(function(obj){
-			if(obj.labelControl){
+			if(obj.labelControl && obj.labelControl.getIsEdit()){
 				obj.labelControl.__editITEM__(false);
 			}
 		});
