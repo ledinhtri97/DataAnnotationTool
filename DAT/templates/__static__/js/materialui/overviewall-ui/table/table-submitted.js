@@ -168,7 +168,7 @@ class SubmittedTable extends React.Component {
 						<TableFooter>
 							<TableRow className={classes.tablePagniation}>
 								<TablePagination
-									rowsPerPageOptions={[10]} //[5, 10, 15]
+									rowsPerPageOptions={[5, 10, 20, 30, 40, 50]} //[5, 10, 15]
 									colSpan={2}
 									count={submitted.length}
 									rowsPerPage={rowsPerPage}

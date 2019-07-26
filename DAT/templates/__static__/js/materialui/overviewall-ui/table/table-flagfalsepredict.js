@@ -203,7 +203,7 @@ class FlagFalsePredictTable extends React.Component {
 						<TableFooter>
 							<TableRow className={classes.tablePagniation}>
 								<TablePagination
-									rowsPerPageOptions={[10]} //5, 10, 25
+									rowsPerPageOptions={[5, 10, 20, 30, 40, 50]} //5, 10, 25
 									colSpan={3}
 									count={flaged.length}
 									rowsPerPage={rowsPerPage}
