@@ -78,7 +78,7 @@ def wsm_index(request, id_workspace):
                 }
             )
 
-        mSkipped = metadata.exclude(skipped_by_user=None, is_annotated=1)
+        mSkipped = metadata.exclude(skipped_by_user=None)
         for meta in mSkipped.distinct():
             data['metadata']['skipped'].append(
                 {
