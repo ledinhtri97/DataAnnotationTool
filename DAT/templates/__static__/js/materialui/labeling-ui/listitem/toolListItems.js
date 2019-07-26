@@ -280,6 +280,8 @@ class ToolListItems extends React.Component {
         var ratio_w = new_w / canvas.getWidth();
         var ratio_h = new_h / canvas.getHeight();
 
+        drawStatus.setFactor(factor_choose);
+
         canvas.setWidth(new_w);
         canvas.setHeight(new_h);
         
@@ -291,14 +293,31 @@ class ToolListItems extends React.Component {
         }
         
         var objects = canvas.getObjects();
+
         for (var i in objects) {
+            if (objects[i].type_label === 'poly'){
+                if (objects[i].labelControl.getIsEdit()){
+                    objects[i].labelControl.cleanPolygonStuff(false);
+                }
+                objects[i].points.forEach(function(point, i){
+                    point.x *= ratio_w;
+                    point.y *= ratio_h;
+                });
+                objects[i].labelControl.circlesHandle();
 
-            objects[i].scaleX *= ratio_w;
-            objects[i].scaleY *= ratio_h;
-            objects[i].left *= ratio_w;
-            objects[i].top *= ratio_h;
-
-            objects[i].setCoords();
+                // for (let c in objects[i].aCoords){
+                //     objects[i].aCoords[c].x *= ratio_w;
+                //     objects[i].aCoords[c].y *= ratio_h;
+                //     console.log(c+','+objects[i].aCoords[c].x+','+objects[i].aCoords[c].y);
+                // }
+            }
+            else{
+                objects[i].scaleX *= ratio_w;
+                objects[i].scaleY *= ratio_h;
+                objects[i].left *= ratio_w;
+                objects[i].top *= ratio_h;
+                objects[i].setCoords();
+            }
         }
         canvas.renderAll();
         canvas.calcOffset();
@@ -368,7 +387,7 @@ class ToolListItems extends React.Component {
                         defaultValue={100}
                         onChange={tool.zoomIt}
                         step={20}
-                        min={40} />
+                        min={60} />
                 </div>
             </div>
             

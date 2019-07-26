@@ -81,7 +81,6 @@ class LabelControl{
 		}
 	}
 
-
 	cleanPolygonStuff(clean_circles=true){
 		let lbc = this;
 		lbc.lineArray.forEach(function(line){
@@ -173,8 +172,6 @@ class LabelControl{
 					new_points.push({x: this.obj.points[i].x, y: this.obj.points[i].y});
 				}
 			}
-
-			
 
 			let new_poly = configurePoly(new_points, this.obj.name, '1.0');
 			new_poly.set('stroke', this.obj.stroke);
@@ -398,7 +395,7 @@ class LabelControl{
 			current_element.parentElement.removeChild(current_element);
 		}
 		else {
-			console.log("noooooooooo delete" + this.id)
+			console.log("no delete " + this.id)
 		}
 	}
 
@@ -433,7 +430,7 @@ class LabelControl{
 	}
 
 	getShortNamelabel(){
-		return this.obj.name.length < 5 ? this.obj.name : this.obj.name.substring(0, 4)+'...';
+		return this.obj.name.length < 5 ? this.obj.name : this.obj.name.substring(0, 4)+'..';
 	}
 }
 

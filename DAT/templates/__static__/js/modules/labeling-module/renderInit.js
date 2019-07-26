@@ -60,6 +60,50 @@ const create_shape = (bb, canvas) => {
 	return shape;
 }
 
+const zoomDefautIt = (canvas) => {
+
+    var factor_choose = drawStatus.getFactor();
+    
+    var new_w = canvas.originWidth * factor_choose;
+    var new_h = canvas.originHeight * factor_choose;
+    var ratio_w = new_w / canvas.getWidth();
+    var ratio_h = new_h / canvas.getHeight();
+
+    canvas.setWidth(new_w);
+    canvas.setHeight(new_h);
+    
+    if (canvas.backgroundImage) {
+        // Need to scale background images as well
+        var bi = canvas.backgroundImage;
+        bi.scaleToWidth(new_w);
+        bi.scaleToHeight(new_h);
+    }
+    
+    var objects = canvas.getObjects();
+
+    for (var i in objects) {
+        if (objects[i].type_label === 'poly'){
+            if (objects[i].labelControl.getIsEdit()){
+                objects[i].labelControl.cleanPolygonStuff(false);
+            }
+            objects[i].points.forEach(function(point, i){
+                point.x *= ratio_w;
+                point.y *= ratio_h;
+            });
+            objects[i].labelControl.circlesHandle();
+        }
+        else{
+            objects[i].scaleX *= ratio_w;
+            objects[i].scaleY *= ratio_h;
+            objects[i].left *= ratio_w;
+            objects[i].top *= ratio_h;
+            objects[i].setCoords();
+        }
+    }
+    canvas.renderAll();
+    canvas.calcOffset();
+};
+
 const initCanvas = function(canvas, meta, only_view=false) {
 	fabric.Image.fromURL(
 		meta.url_meta,
@@ -70,8 +114,13 @@ const initCanvas = function(canvas, meta, only_view=false) {
 				img.scaleToHeight(wh[1]);
 				canvas.setWidth(wh[0]);
 				canvas.setHeight(wh[1]);
+
 				canvas.set('originWidth', wh[0]);
 				canvas.set('originHeight', wh[1]);
+
+				if(drawStatus.getFactor()!=1){
+					zoomDefautIt(canvas);
+				}
 
 				canvas.setBackgroundImage(img);
 

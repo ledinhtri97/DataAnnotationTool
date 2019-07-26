@@ -17,7 +17,16 @@ class DrawStatus{
 		this.popupHover = false;
 		this.modeTool = [0, 0, 0, 0]; //edit, hidden, delete, change mode ===> default is false
 		this.activePolygons = {'zs': false};
+		this.factor = 1; //width, height
 	};
+
+	getFactor(){
+		return this.factor;
+	}
+
+	setFactor(factor){
+		this.factor = factor;
+	}
 
 	getActivePolygons(){
 		return this.activePolygons;
@@ -92,7 +101,7 @@ class DrawStatus{
 
 	getStrokeLabel(){
 		var strokeWidth_id = document.getElementById('width_stroke');
-		return strokeWidth_id ? parseInt(strokeWidth_id.textContent) : 2;
+		return strokeWidth_id ? parseInt(strokeWidth_id.textContent) * this.factor : 2;
 	}
 
 	setIsDrawing(__isDrawing__){

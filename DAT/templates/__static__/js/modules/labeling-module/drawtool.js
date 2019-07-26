@@ -63,6 +63,7 @@ const configureRectangle = function (
 	__left__, __top__, __width__, __height__, __name__='', __accuracy__='1.0'){
 	let name = __name__ != '' ? __name__ : drawStatus.getNameLabel();
 
+
 	let rect = new fabric.Rect({
 		left: __left__,
 		top: __top__,
