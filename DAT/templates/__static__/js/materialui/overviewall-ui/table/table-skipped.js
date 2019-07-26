@@ -61,7 +61,7 @@ class ButtonStatus extends React.Component {
 	handleChangeBlock = () => {
 		this.setState({ isView: true});
 		let {self_table, skd} = this.props;
-		self_table.handleUnBlock(skd.url_meta);
+		self_table.handleUnBlock(skd.meta_id);
 	};
 
 	render(){
