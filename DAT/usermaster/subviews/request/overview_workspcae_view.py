@@ -133,6 +133,7 @@ def get_data_overview_workspace(request, wsid):
                         'flag_count': 'no',
                         'label_count': meta.boxes_position.count(),
                         'notice_review': meta.is_notice_view,
+                        'view': meta.is_allow_view,
                     } for meta in metadatas.filter(is_notice_view=1).all()
                 ],
             }
