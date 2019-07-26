@@ -47,8 +47,9 @@ class EditLabelingView(generics.RetrieveUpdateAPIView):
     
             user_submited = user in meta.submitted_by_user.all()
             user_skipped = user in meta.skipped_by_user.all()
-            notice_view = meta.is_notice_view
-            if user_submited or user_skipped or meta.is_notice_view or user.is_superuser:
+            allow_view = user_submited or user_skipped or meta.is_notice_view or user.is_superuser
+
+            if allow_view and not meta.onviewing_user:
                 data = {'id': metaid, }
             else:
                 data = {'id': '-1', }
