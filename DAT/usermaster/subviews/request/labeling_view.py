@@ -224,8 +224,8 @@ def api_reference_index(request, metaid):
 
 def outws_index(request, metaid):
 	current_meta_data = MetaDataModel.objects.get(id=metaid)
-	print("==============>", request.user is current_meta_data.onviewing_user)
-	if(request.user is current_meta_data.onviewing_user):
+	#print("==============>", request.user == current_meta_data.onviewing_user)
+	if(request.user == current_meta_data.onviewing_user):
 		current_meta_data.onviewing_user =  None
 		current_meta_data.save(update_fields=['onviewing_user'])
 	return JsonResponse(data={})

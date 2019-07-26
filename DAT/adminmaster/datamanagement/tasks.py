@@ -57,7 +57,8 @@ def scanner_dataset(datasetid):
                 continue
 
             if (current_meta_data.is_reference_api):
-                continue
+                #continue
+                pass
 
             for no in range(num_obj):
                 try:
