@@ -164,6 +164,24 @@ class SkippedTable extends React.Component {
 					<Table className={classes.table}>
 
 						<TableHead>
+							<TableRow className={classes.tablePagniation}>
+								<TablePagination
+									rowsPerPageOptions={[10]} //5, 10, 25
+									colSpan={3}
+									count={skipped.length}
+									rowsPerPage={rowsPerPage}
+									page={page}
+									SelectProps={{
+										native: true,
+									}}
+									onChangePage={this.handleChangePage}
+									onChangeRowsPerPage={this.handleChangeRowsPerPage}
+									ActionsComponent={TablePaginationActionsWrapped}
+								/>
+							</TableRow>
+						</TableHead>
+
+						<TableHead>
 						<TableRow>
 						<TableCell className={classes.table_title}>Thumbnail</TableCell>
 						<TableCell className={classes.table_title}>Meta Id</TableCell>
