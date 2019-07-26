@@ -124,7 +124,6 @@ def next_index(request, metaid):
 	print("next:", data)
 	return JsonResponse(data=data)
 
-
 def save_index(request, metaid):
 	data = {}
 
@@ -216,7 +215,6 @@ def savenext_index(request, metaid):
 
 	return JsonResponse(data=data)
 	
-
 def api_reference_index(request, metaid):
 	meta = MetaDataModel.objects.get(id=metaid)
 	workspace = WorkSpaceUserModel.objects.get(dataset=meta.dataset)
@@ -226,11 +224,11 @@ def api_reference_index(request, metaid):
 
 def outws_index(request, metaid):
 	current_meta_data = MetaDataModel.objects.get(id=metaid)
+	print("==============>", request.user is current_meta_data.onviewing_user)
 	if(request.user is current_meta_data.onviewing_user):
 		current_meta_data.onviewing_user =  None
 		current_meta_data.save(update_fields=['onviewing_user'])
 	return JsonResponse(data={})
-
 
 def get_data_settings(request):
     data = {}
