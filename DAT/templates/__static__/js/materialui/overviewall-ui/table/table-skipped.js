@@ -76,7 +76,7 @@ class ButtonStatus extends React.Component {
 				variant="outlined" color="primary" className={classes.button}>
 				View
 				</Button> :
-					<React.Fragment> 
+				<React.Fragment> 
 					{isAdmin ? <Button
 						onClick={function(e){self_button.handleChangeBlock()}}
 						variant="outlined" color="primary" className={classes.button}>
@@ -84,7 +84,7 @@ class ButtonStatus extends React.Component {
 					</Button> :
 					<Button variant="outlined" color="primary" className={classes.button}>
 						Blocked
-				</Button>
+					</Button>
 				}
 				</React.Fragment>
 			}
