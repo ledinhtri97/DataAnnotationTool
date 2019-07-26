@@ -68,7 +68,7 @@ class ButtonStatus extends React.Component {
 	render(){
 		const {isAdmin, classes, skd, self_table} = this.props;
 		const { isView } = this.state;
-
+		const self_button = this;
 		return (
 			<React.Fragment>{
 				isView ? <Button 
@@ -78,7 +78,7 @@ class ButtonStatus extends React.Component {
 				</Button> :
 					<React.Fragment> 
 					{isAdmin ? <Button
-						onClick={function(e){this.handleChangeBlock()}}
+						onClick={function(e){self_button.handleChangeBlock()}}
 						variant="outlined" color="primary" className={classes.button}>
 						UnBlocked
 					</Button> :
