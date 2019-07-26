@@ -43,15 +43,16 @@ class EditLabelingView(generics.RetrieveUpdateAPIView):
         user = request.user
         
         try:
-            if user.is_superuser:
-                meta = MetaDataModel.objects.get(id=metaid)
+            meta = MetaDataModel.objects.get(id=metaid)
+    
+            user_submited = user in meta.submitted_by_user.all()
+            user_skipped = user in meta.skipped_by_user.all()
+            notice_view = meta.is_notice_view
+            if user_submited or user_skipped or meta.is_notice_view or user.is_superuser:
+                data = {'id': metaid, }
             else:
-                try:
-                    meta = MetaDataModel.objects.get(id=metaid, submitted_by_user=user)
-                except MetaDataModel.DoesNotExist:
-                    meta = MetaDataModel.objects.get(id=metaid, skipped_by_user=user)
+                data = {'id': '-1', }
 
-            data = { 'id': metaid, }
         except Exception as e:
             print(e)
             data = { 'id': '-1', }
