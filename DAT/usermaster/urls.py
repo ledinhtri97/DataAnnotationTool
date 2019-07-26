@@ -21,6 +21,7 @@ urlpatterns = [
 
     path('ws-<int:id>/', LabelingView.as_view(), name='maintask'),
     path('edit_metaid-<int:metaid>/', EditLabelingView.as_view(), name='edittask'),
+    
 
     path('api_reference/<int:metaid>/'+settings.SLUG_API_URL,
          labeling_view.api_reference_index, name='api_reference'),

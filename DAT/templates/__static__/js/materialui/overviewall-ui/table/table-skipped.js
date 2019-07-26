@@ -50,6 +50,48 @@ const styles = theme => ({
 	},
 });
 
+class ButtonStatus extends React.Component {
+	constructor(props){
+		super(props);
+		this.state = {
+			isView: props.skd.view,
+		}
+	};
+
+	handleChangeBlock = () => {
+		this.setState({ isView: true});
+		let {self_table, skd} = this.props;
+		self_table.handleUnBlock(skd.url_meta);
+	};
+
+	render(){
+		const {isAdmin, classes, skd, self_table} = this.props;
+		const {isView} = this.state;
+
+		return (
+			<React.Fragment>{
+				isView ? <Button 
+				onClick={function(e){self_table.handleView(skd.url_meta)}}
+				variant="outlined" color="primary" className={classes.button}>
+				View
+				</Button> :
+					<React.Fragment> 
+					{isAdmin ? <Button
+						onClick={this.handleChangeBlock}
+						variant="outlined" color="primary" className={classes.button}>
+						UnBlocked
+					</Button> :
+					<Button variant="outlined" color="primary" className={classes.button}>
+						Blocked
+				</Button>
+				}
+				</React.Fragment>
+			}
+			</React.Fragment>
+		);
+	}
+}
+
 class SkippedTable extends React.Component {
 	state = {
 		page: 0,
@@ -94,10 +136,26 @@ class SkippedTable extends React.Component {
 			});
 	};
 
+	handleUnBlock = (meta_id) => {
+		let url_unblock_meta = '/gvlab-dat/datadmin/workspace/unblock_metaid-'+meta_id;
+
+		fetch(url_unblock_meta, {})
+			.then(response => {
+					if(response.status !== 200){
+						return "FAILED";
+					}
+					return response.json();
+				}
+			).then(re => {
+				if(re === "FAILED") return;
+				console.log(re);
+			});
+	};
+
 	render() {
 		const self_table = this;
-		const { classes, skipped } = this.props;
-		const { rowsPerPage, page } = this.state;
+		const { classes, skipped, isAdmin } = this.props;
+		const { rowsPerPage, page,  } = this.state;
 		const emptyRows = rowsPerPage - Math.min(rowsPerPage, skipped.length - page * rowsPerPage);
 
 		return (
@@ -133,15 +191,9 @@ class SkippedTable extends React.Component {
 								<TableCell className={classes.table_content}>{skd.reason_skipped}</TableCell>
 								<TableCell align="center" className={classes.table_content}>{skd.label_count}</TableCell>
 								<TableCell align="center" className={classes.table_content}>
-								{
-								skd.view ? <Button 
-								onClick={function(e){self_table.handleView(skd.url_meta)}}
-								variant="outlined" color="primary" className={classes.button}>
-								View
-								</Button> : <Button variant="outlined" color="primary" className={classes.button}>
-								Blocked
-								</Button>
-								}
+								<ButtonStatus 
+								isAdmin={isAdmin} self_table={self_table} 
+								classes={classes} skd={skd} />
 								</TableCell>
 								</TableRow>
 							)})}
