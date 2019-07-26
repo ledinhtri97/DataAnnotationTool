@@ -160,7 +160,7 @@ def save_index(request, metaid):
 		current_meta_data.skipped_by_user.remove(user)
 		
 		current_meta_data.is_annotated = 1
-
+		current_meta_data.onviewing_user = None
 		current_meta_data.is_notice_view = 0
 
 		current_meta_data.save(

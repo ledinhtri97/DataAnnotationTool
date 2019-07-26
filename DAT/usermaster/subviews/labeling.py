@@ -51,6 +51,7 @@ class EditLabelingView(generics.RetrieveUpdateAPIView):
 
             if allow_view and not meta.onviewing_user:
                 data = {'id': metaid, }
+                labeling_view.handle_metadata_before_release(meta, user)
             else:
                 data = {'id': '-1', }
 
