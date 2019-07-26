@@ -144,6 +144,7 @@ if(labeling && meta_id && meta_id.textContent){
 		});
 	} catch(e) {
 		// statements
+		
 		console.log(e);
 	}
 }
