@@ -116,6 +116,7 @@ def wsm_index(request, id_workspace):
                     'message': 'sss',
                     'flag_count': 'sss',
                     'label_count': meta.boxes_position.count(),
+                    'view': meta.is_allow_view,
                     'notice_review': meta.is_notice_view,
                 }
             )
