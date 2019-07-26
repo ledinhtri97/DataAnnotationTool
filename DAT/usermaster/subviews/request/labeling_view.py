@@ -161,7 +161,10 @@ def save_index(request, metaid):
 		
 		current_meta_data.is_annotated = 1
 
-		current_meta_data.save(update_fields=['is_annotated', 'onviewing_user'])
+		current_meta_data.is_notice_view = 0
+
+		current_meta_data.save(
+		    update_fields=['is_annotated', 'onviewing_user', 'is_notice_view'])
 
 		#here we will create thumbnail with drawing boxes to display
 		create_thumbnail(current_meta_data)
