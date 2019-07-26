@@ -379,7 +379,7 @@ class ToolListItems extends React.Component {
                         defaultValue={100}
                         onChange={tool.zoomIt}
                         step={20}
-                        min={60} />
+                        min={40} />
                 </div>
             </div>
             
