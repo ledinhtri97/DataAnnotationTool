@@ -61,47 +61,45 @@ const create_shape = (bb, canvas) => {
 }
 
 const zoomDefautIt = (canvas) => {
+    fabric.Image.fromURL(
+    	canvas.url_meta,
+    	function(img) {
+    		var factor_choose = drawStatus.getFactor();
+    		var new_w = canvas.originWidth * factor_choose;
+    		var new_h = canvas.originHeight * factor_choose;
+    		var ratio_w = new_w / canvas.getWidth();
+    		var ratio_h = new_h / canvas.getHeight();
 
-    var factor_choose = drawStatus.getFactor();
-    
-    var new_w = canvas.originWidth * factor_choose;
-    var new_h = canvas.originHeight * factor_choose;
-    var ratio_w = new_w / canvas.getWidth();
-    var ratio_h = new_h / canvas.getHeight();
+    		img.scaleToWidth(new_w);
+			img.scaleToHeight(new_h);
+			canvas.setWidth(new_w);
+    		canvas.setHeight(new_h);
+			canvas.setBackgroundImage(img);
+			var objects = canvas.getObjects();
 
-    canvas.setWidth(new_w);
-    canvas.setHeight(new_h);
-    
-    if (canvas.backgroundImage) {
-        // Need to scale background images as well
-        var bi = canvas.backgroundImage;
-        bi.scaleToWidth(new_w);
-        bi.scaleToHeight(new_h);
-    }
-    
-    var objects = canvas.getObjects();
-
-    for (var i in objects) {
-        if (objects[i].type_label === 'poly'){
-            if (objects[i].labelControl.getIsEdit()){
-                objects[i].labelControl.cleanPolygonStuff(false);
-            }
-            objects[i].points.forEach(function(point, i){
-                point.x *= ratio_w;
-                point.y *= ratio_h;
-            });
-            objects[i].labelControl.circlesHandle();
-        }
-        else{
-            objects[i].scaleX *= ratio_w;
-            objects[i].scaleY *= ratio_h;
-            objects[i].left *= ratio_w;
-            objects[i].top *= ratio_h;
-            objects[i].setCoords();
-        }
-    }
-    canvas.renderAll();
-    canvas.calcOffset();
+		    for (var i in objects) {
+		        if (objects[i].type_label === 'poly'){
+		            if (objects[i].labelControl.getIsEdit()){
+		                objects[i].labelControl.cleanPolygonStuff(false);
+		            }
+		            objects[i].points.forEach(function(point, i){
+		                point.x *= ratio_w;
+		                point.y *= ratio_h;
+		            });
+		            objects[i].labelControl.circlesHandle();
+		        }
+		        else{
+		            objects[i].scaleX *= ratio_w;
+		            objects[i].scaleY *= ratio_h;
+		            objects[i].left *= ratio_w;
+		            objects[i].top *= ratio_h;
+		            objects[i].setCoords();
+		        }
+		    }
+		    canvas.renderAll();
+		    canvas.calcOffset();
+    	}
+    );
 };
 
 const initCanvas = function(canvas, meta, only_view=false) {
@@ -117,12 +115,12 @@ const initCanvas = function(canvas, meta, only_view=false) {
 
 				canvas.set('originWidth', wh[0]);
 				canvas.set('originHeight', wh[1]);
+				canvas.set('url_meta', meta.url_meta);
+				canvas.setBackgroundImage(img);
 
 				if(drawStatus.getFactor()!=1){
 					zoomDefautIt(canvas);
 				}
-
-				canvas.setBackgroundImage(img);
 
 				canvas.renderAll();
 

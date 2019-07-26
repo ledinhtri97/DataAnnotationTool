@@ -68,7 +68,7 @@ class TabShowLabels extends React.Component {
         </AppBar>
         {value === 0 && <TabContainer><SubmittedTable submitted={submitted}/></TabContainer>}
         {value === 1 && <TabContainer><FlagFalsePredictTable flaged={flaged} isAdmin={isAdmin}/></TabContainer>}
-        {value === 2 && <TabContainer><SkippedTable skipped={skipped}/></TabContainer>}
+        {value === 2 && <TabContainer><SkippedTable skipped={skipped} isAdmin={isAdmin}/></TabContainer>}
         {value === 3 && <TabContainer><NoticeReviewTable notice_review={notice_review}/></TabContainer>}
       </div>
     );

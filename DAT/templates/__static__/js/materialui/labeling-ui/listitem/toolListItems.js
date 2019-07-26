@@ -22,7 +22,7 @@ import PartyModeOutlined from '@material-ui/icons/PartyModeOutlined';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
-
+import {fabric} from 'fabric';
 import Slider from '@material-ui/core/Slider';
 
 const styles = theme => ({
@@ -273,54 +273,46 @@ class ToolListItems extends React.Component {
     zoomIt = (event, value) => {
         var {canvas, drawStatus} = this.props;
 
-        var factor_choose = value / 100;
-        
+        var factor_choose = value / 100;   
         var new_w = canvas.originWidth * factor_choose;
         var new_h = canvas.originHeight * factor_choose;
         var ratio_w = new_w / canvas.getWidth();
         var ratio_h = new_h / canvas.getHeight();
-
         drawStatus.setFactor(factor_choose);
 
-        canvas.setWidth(new_w);
-        canvas.setHeight(new_h);
-        
-        if (canvas.backgroundImage) {
-            // Need to scale background images as well
-            var bi = canvas.backgroundImage;
-            bi.scaleToWidth(new_w);
-            bi.scaleToHeight(new_h);
-        }
-        
-        var objects = canvas.getObjects();
+        fabric.Image.fromURL(
+            canvas.url_meta,
+            function(img) {
+                img.scaleToWidth(new_w);
+                img.scaleToHeight(new_h);
+                canvas.setWidth(new_w);
+                canvas.setHeight(new_h);
+                canvas.setBackgroundImage(img);
 
-        for (var i in objects) {
-            if (objects[i].type_label === 'poly'){
-                if (objects[i].labelControl.getIsEdit()){
-                    objects[i].labelControl.cleanPolygonStuff(false);
+                var objects = canvas.getObjects();
+                for (var i in objects) {
+                    if (objects[i].type_label === 'poly'){
+                        if (objects[i].labelControl.getIsEdit()){
+                            objects[i].labelControl.cleanPolygonStuff(false);
+                        }
+                        objects[i].points.forEach(function(point, i){
+                            point.x *= ratio_w;
+                            point.y *= ratio_h;
+                        });
+                        objects[i].labelControl.circlesHandle();
+                    }
+                    else{
+                        objects[i].scaleX *= ratio_w;
+                        objects[i].scaleY *= ratio_h;
+                        objects[i].left *= ratio_w;
+                        objects[i].top *= ratio_h;
+                        objects[i].setCoords();
+                    }
                 }
-                objects[i].points.forEach(function(point, i){
-                    point.x *= ratio_w;
-                    point.y *= ratio_h;
-                });
-                objects[i].labelControl.circlesHandle();
-
-                // for (let c in objects[i].aCoords){
-                //     objects[i].aCoords[c].x *= ratio_w;
-                //     objects[i].aCoords[c].y *= ratio_h;
-                //     console.log(c+','+objects[i].aCoords[c].x+','+objects[i].aCoords[c].y);
-                // }
+                canvas.renderAll();
+                canvas.calcOffset();
             }
-            else{
-                objects[i].scaleX *= ratio_w;
-                objects[i].scaleY *= ratio_h;
-                objects[i].left *= ratio_w;
-                objects[i].top *= ratio_h;
-                objects[i].setCoords();
-            }
-        }
-        canvas.renderAll();
-        canvas.calcOffset();
+        ); 
     };
 
     render() {

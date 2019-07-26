@@ -317,12 +317,17 @@ const init_event = function(__canvas__, popupControllers){
 					let rd = drawStatus.getIsZoom() ? 2 : 4;
 					obj.set('radius', rd);
 				}
-				__canvas__.renderAll();
 			}
 			catch(error) {
-
+				if (!e.target){
+					__canvas__.remove(bigplus[0]);
+					__canvas__.remove(bigplus[1]);
+					reset_when_go();
+				}
 			}
+			__canvas__.renderAll();
 		},
+
 		'object:selected': function(e){
 			let obj = e.target;
 			if(isLabel(obj)){
