@@ -200,6 +200,7 @@ class MainFrameLabeling extends React.Component {
 		const { classes } = this.props;
 		const { anchorEl, expanded } = this.state;
 		const open = Boolean(anchorEl);
+		const on_edit = document.getElementById('on_edit') != null;
 
 		return (	
 			<div className={classes.root} >
@@ -210,12 +211,15 @@ class MainFrameLabeling extends React.Component {
 				}}
 				open={this.state.open}
 				>
-				<div className={classes.homeIcon}>
+				{
+					!on_edit && (<div className={classes.homeIcon}>
 				<p style={{paddingRight: 20}}>DAT - GVLab</p>
 				<IconButton onClick={this.handleWorkspace}>
 				<Home />
 				</IconButton>
-				</div>
+				</div>)
+				}
+				
 
 				<div className={classes.toolbarIcon}>
 				<span id="settings" title="Settings" className={classes.span} />
