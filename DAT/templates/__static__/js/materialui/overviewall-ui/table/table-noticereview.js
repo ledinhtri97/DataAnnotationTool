@@ -63,7 +63,7 @@ class NoticeReviewTable extends React.Component {
 	};
 
 	handleChangeRowsPerPage = event => {
-		this.setState({ page: 0, rowsPerPage: event.target.value });
+		this.setState({ page: 0, rowsPerPage: parseInt(event.target.value) });
 	};
 
 	handleView = (url_meta) => {
@@ -110,7 +110,7 @@ class NoticeReviewTable extends React.Component {
 						<TableHead>
 							<TableRow className={classes.tablePagniation}>
 								<TablePagination
-									rowsPerPageOptions={[10]} //5, 10, 25
+									rowsPerPageOptions={[5, 10, 20, 30, 40, 50]} //5, 10, 25
 									colSpan={3}
 									count={notice_review.length}
 									rowsPerPage={rowsPerPage}

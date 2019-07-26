@@ -55,18 +55,8 @@ class ButtonStatus extends React.Component {
 		super(props);
 		
 		this.state = {
-			isView: false,
+			isView: props.skd.view,
 		};
-	};
-
-	componentDidMount(){
-    	if(this.props.skd.meta_id===70961){
-			console.log(props.skd);
-
-		}
-		this.setState({
-			isView: this.props.skd.view,
-		})
 	};
 
 	handleChangeBlock = () => {
@@ -88,7 +78,7 @@ class ButtonStatus extends React.Component {
 				</Button> :
 					<React.Fragment> 
 					{isAdmin ? <Button
-						onClick={this.handleChangeBlock}
+						onClick={function(e){this.handleChangeBlock()}}
 						variant="outlined" color="primary" className={classes.button}>
 						UnBlocked
 					</Button> :
@@ -114,7 +104,7 @@ class SkippedTable extends React.Component {
 	};
 
 	handleChangeRowsPerPage = event => {
-		this.setState({ page: 0, rowsPerPage: event.target.value });
+		this.setState({ page: 0, rowsPerPage: parseInt(event.target.value) });
 	};
 
 	handleView = (url_meta) => {
@@ -177,7 +167,7 @@ class SkippedTable extends React.Component {
 						<TableHead>
 							<TableRow className={classes.tablePagniation}>
 								<TablePagination
-									rowsPerPageOptions={[10]} //5, 10, 25
+									rowsPerPageOptions={[5, 10, 20, 30, 40, 50]} //5, 10, 25
 									colSpan={3}
 									count={skipped.length}
 									rowsPerPage={rowsPerPage}

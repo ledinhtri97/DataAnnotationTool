@@ -62,7 +62,7 @@ class UserTable extends React.Component {
 	};
 
 	handleChangeRowsPerPage = event => {
-		this.setState({ page: 0, rowsPerPage: event.target.value });
+		this.setState({ page: 0, rowsPerPage: parseInt(event.target.value) });
 	};
 	
 	render() {
@@ -106,7 +106,7 @@ class UserTable extends React.Component {
 						<TableFooter>
 							<TableRow className={classes.tablePagniation}>
 								<TablePagination
-									rowsPerPageOptions={[5, 10, 25]}
+									rowsPerPageOptions={[5, 10, 20, 30, 40, 50]}
 									colSpan={3}
 									count={users.length}
 									rowsPerPage={rowsPerPage}
