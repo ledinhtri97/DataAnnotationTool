@@ -53,6 +53,9 @@ const styles = theme => ({
 class ButtonStatus extends React.Component {
 	constructor(props){
 		super(props);
+		if(props.skd.meta_id===70961){
+			console.log(props.skd);
+		}
 		this.state = {
 			isView: props.skd.view,
 		}
@@ -66,7 +69,7 @@ class ButtonStatus extends React.Component {
 
 	render(){
 		const {isAdmin, classes, skd, self_table} = this.props;
-		const {isView} = this.state;
+		const { isView } = this.state;
 
 		return (
 			<React.Fragment>{
@@ -199,7 +202,7 @@ class SkippedTable extends React.Component {
 								<TableCell className={classes.table_content}>
 									<img style={{ height: '200px'}} src={skd.url_thumb} 
 										onClick={function(e){ if(skd.view){self_table.handleView(skd.url_meta)}}}/>
-								</TableCell>                
+								</TableCell>
 								<TableCell component="th" scope="row" className={classes.table_content}>
 								{skd.meta_id}
 								</TableCell>
