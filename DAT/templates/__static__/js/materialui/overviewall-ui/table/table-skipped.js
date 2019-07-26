@@ -53,12 +53,20 @@ const styles = theme => ({
 class ButtonStatus extends React.Component {
 	constructor(props){
 		super(props);
-		if(props.skd.meta_id===70961){
-			console.log(props.skd);
-		}
+		
 		this.state = {
-			isView: props.skd.view,
+			isView: false,
+		};
+	};
+
+	componentDidMount(){
+    	if(this.props.skd.meta_id===70961){
+			console.log(props.skd);
+
 		}
+		this.setState({
+			isView: this.props.skd.view,
+		})
 	};
 
 	handleChangeBlock = () => {
