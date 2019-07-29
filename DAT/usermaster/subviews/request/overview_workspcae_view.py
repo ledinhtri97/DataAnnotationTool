@@ -56,8 +56,7 @@ def get_data_overview_workspace(request, wsid):
 
             #total - filter
             total = metadatas.count()
-            remaining = metadatas.filter(
-                is_annotated=False).exclude(skipped_by_user__isnull=False).count()
+            remaining = metadatas.filter(is_annotated=False).count()
 
             not_submitted = metadatas.filter(
                 is_annotated=False, is_allow_view=True).exclude(skipped_by_user=user).count()
