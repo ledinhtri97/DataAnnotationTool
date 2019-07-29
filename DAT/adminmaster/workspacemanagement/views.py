@@ -32,7 +32,18 @@ def unblock_index(request, metaid):
         data['error'] = str(e)
 
     return JsonResponse(data=data)
-    
+
+def unnoticed_index(request, metaid):
+    data = {}
+    try:
+        meta = MetaDataModel.objects.get(id=metaid)
+        meta.is_notice_view = 0
+        meta.save(update_fields=['is_notice_view'])
+        data['status'] = 'OK!'
+    except Exception as e:
+        data['error'] = str(e)
+
+    return JsonResponse(data=data)
 
 def wsm_index(request, id_workspace):
     data = {
