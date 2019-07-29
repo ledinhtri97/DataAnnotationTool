@@ -86,7 +86,7 @@ class Workspaces extends React.Component {
 					workspaces: data,
 				})
 			}), 100);
-	}
+	};
 
 	componentDidMount(){
         this.getData();
@@ -183,7 +183,7 @@ class Workspaces extends React.Component {
           </main>
           </React.Fragment>
           );
-	}
+	};
 }
 
 Workspaces.propTypes = {
