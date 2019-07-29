@@ -22,16 +22,22 @@ class WorkspaceSerializer(serializers.ModelSerializer):
 
   num_allmeta = serializers.SerializerMethodField('def_num_allmeta')
   num_annotated_meta = serializers.SerializerMethodField('def_num_annotated_meta')
+  img_rep = serializers.SerializerMethodField('def_img_rep')
 
-  def def_num_allmeta(self, wsum):
-    return MetaDataModel.objects.filter(dataset=wsum.dataset).count()
+  def def_img_rep(self, ws):
+    meta = MetaDataModel.objects.filter(dataset=ws.dataset).first()
+    return meta.get_url_meta()
 
-  def def_num_annotated_meta(self, wsum):
-    return MetaDataModel.objects.filter(dataset=wsum.dataset, is_annotated=1).count()
+  def def_num_allmeta(self, ws):
+    return MetaDataModel.objects.filter(dataset=ws.dataset).count()
+
+  def def_num_annotated_meta(self, ws):
+    return MetaDataModel.objects.filter(dataset=ws.dataset, is_annotated=1).count()
 
   class Meta:
     model = WorkSpaceUserModel
-    fields = ('nameworkspace', 'user', 'dataset', 'num_allmeta', 'num_annotated_meta')
+    fields = ('nameworkspace', 'user', 'dataset',
+              'num_allmeta', 'num_annotated_meta', 'img_rep')
 
 class MainTaskDataseteSerializer(serializers.ModelSerializer):
   class Meta:

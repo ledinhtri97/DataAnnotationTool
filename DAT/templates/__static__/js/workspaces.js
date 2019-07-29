@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Workspaces from "./materialui/workspaces-ui"
+import Workspaces from "./materialui/workspaces-ui";
 import Header from "./materialui/header";
 import Footer from "./materialui/footer";
 
