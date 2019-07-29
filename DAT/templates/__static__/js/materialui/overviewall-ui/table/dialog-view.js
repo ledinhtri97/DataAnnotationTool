@@ -40,6 +40,18 @@ class AlertDialogView extends React.Component {
 	};
 
 	handleClose = () => {
+		let {metaid} = this.props;
+		
+		fetch("/gvlab-dat/workspace/outworkspace/"+metaid, {metaid: metaid})
+		.then(response => {
+			if(response.status !== 200){
+			return "Out Workspace Failed";
+			}
+			return response.json();
+		})
+		.then(data => {
+		});
+
 		this.setState({ open: false });
 	};
 
