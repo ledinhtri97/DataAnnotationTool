@@ -242,7 +242,6 @@ def get_data_settings(request):
 
     return JsonResponse(data=data)
 
-
 def saveseting_index(request):
     if request.method == 'POST':
         try:
