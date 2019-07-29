@@ -83,7 +83,6 @@ def get_query_meta_general(dataset_id=None, user=None):
 		handle_metadata_before_release(meta_data, user)
 	return meta_data
 
-
 def handle_metadata_before_release(meta_data, user):
 	if(not meta_data.onviewing_user):
 		#print("no one view, now add", user)
@@ -201,9 +200,11 @@ def savenext_index(request, metaid):
 	
 		current_meta_data.submitted_by_user.add(user)
 		current_meta_data.is_annotated = 1
+		current_meta_data.is_notice_view = 0
 		current_meta_data.onviewing_user=None
 	
-		current_meta_data.save(update_fields=['is_annotated', 'onviewing_user'])
+		current_meta_data.save(
+		    update_fields=['is_annotated', 'onviewing_user', 'is_notice_view'])
 		
 		#here we will create thumbnail with drawing boxes to display
 		create_thumbnail(current_meta_data)

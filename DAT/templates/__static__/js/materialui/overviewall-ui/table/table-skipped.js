@@ -66,7 +66,7 @@ class ButtonStatus extends React.Component {
 		}
 		this.setState({
 			isView: this.props.skd.view,
-		})
+		});
 	};
 
 	handleChangeBlock = () => {
