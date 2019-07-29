@@ -59,6 +59,12 @@ class ButtonStatus extends React.Component {
 		};
 	};
 
+	componentDidMount(){
+		this.setState({
+			isView: this.props.skd.view,
+		});
+	};
+
 	handleChangeBlock = () => {
 		this.setState({ isView: true});
 		let {self_table, skd} = this.props;
