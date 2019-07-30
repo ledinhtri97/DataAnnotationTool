@@ -1,4 +1,3 @@
-from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from adminmaster.datamanagement.models import DataSetModel
 from adminmaster.datamanagement.models import MetaDataModel
 from adminmaster.workspacemanagement.models import UserSettingsModel
@@ -24,7 +23,8 @@ class LabelingView(generics.RetrieveUpdateAPIView):
     def retrieve(self, request, *args, **kwargs):
     
         meta_data = self.get_queryset()
-        type_labeling = WorkSpaceUserModel.objects.get(dataset=request.parser_context['kwargs']['id']).type_labeling
+        type_labeling = DataSetModel.objects.get(
+            id=request.parser_context['kwargs']['id']).type_labeling
         if meta_data:
             data = { 'id': meta_data.id, 'tl': type_labeling}
         else:

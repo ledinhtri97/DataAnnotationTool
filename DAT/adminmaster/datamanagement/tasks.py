@@ -1,4 +1,6 @@
 # Create your tasks here
+import numpy as np
+from os.path import isfile, join
 from __future__ import absolute_import, unicode_literals
 
 from celery import shared_task
@@ -11,6 +13,7 @@ def scanner_dataset(datasetid):
     from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
     from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
     from adminmaster.datamanagement.submodels.dataset import DataSetModel
+    from adminmaster.datamanagement.submodels.utils.ziprar import ZipRarExtractor
 
     is_done = False
     while not is_done:
@@ -21,6 +24,8 @@ def scanner_dataset(datasetid):
             print('still not found dataset')
             is_done = False
     inputFileQuery = dataSetModel.input_file
+    zipRarer = ZipRarExtractor(inputFileQuery)
+    zipRarer.do_extract_all()
 
     def is_label(v):
         try:
@@ -95,6 +100,47 @@ def scanner_dataset(datasetid):
             lookfiles(input_data.get_output_path())
             if (input_data.groundtruth):
                 INPUT_FILE = os.path.join(settings.BASE_DIR, str(input_data.groundtruth))
+                with open(INPUT_FILE, "r") as f:
+                    lines = f.readlines()
+                    readlines_to_database(lines, input_data.get_output_path())
+        print("all file is import successful")
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
+@shared_task
+def extract_seqframevideo(datasetid):
+    from adminmaster.datamanagement.submodels.metadata import MetaDataModel
+    from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
+    from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
+    from adminmaster.datamanagement.submodels.dataset import DataSetModel
+
+    is_done = False
+    while not is_done:
+        try:
+            dataSetModel = DataSetModel.objects.get(id=datasetid)
+            is_done = True
+        except:
+            print('still not found dataset')
+            is_done = False
+
+    inputFileQuery = dataSetModel.input_file
+
+
+
+    try:
+        for input_data in inputFileQuery.all():
+            
+            # folders = os.listdir(os.path.join(
+            #     settings.STORAGE_DIR, full_path_folder))
+
+            # lookfiles(input_data.get_output_path())
+            
+            if (input_data.groundtruth):
+                INPUT_FILE = os.path.join(
+                    settings.BASE_DIR, str(input_data.groundtruth))
                 with open(INPUT_FILE, "r") as f:
                     lines = f.readlines()
                     readlines_to_database(lines, input_data.get_output_path())

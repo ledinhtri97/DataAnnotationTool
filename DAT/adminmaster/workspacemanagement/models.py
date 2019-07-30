@@ -7,23 +7,9 @@ from django.utils.html import format_html
 
 # Create your models here.
 class WorkSpaceUserModel(models.Model):
-    DETECTING = "de"
-    TRACKING = "tr"
-    CLASSIFICATION = "cl"
-    TYPE_LABELING_CHOICES = (
-        (DETECTING, 'Detecting'),
-        (TRACKING, 'Tracking'),
-        (CLASSIFICATION, 'Classification'),
-    )
 
     nameworkspace = models.CharField(max_length=100, default="workspace", blank=True, null=True)
     
-    type_labeling = models.CharField(
-        max_length=50,
-        choices=TYPE_LABELING_CHOICES,
-        default=DETECTING,
-    )
-
     user = models.ManyToManyField('auth.user', blank=True)
 
     dataset = models.OneToOneField(DataSetModel, on_delete=models.CASCADE)
