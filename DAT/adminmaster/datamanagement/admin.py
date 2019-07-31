@@ -28,6 +28,10 @@ class DataSetForm(forms.ModelForm):
 			scanner_dataset.delay(instance_dataset.id)
 		elif self.cleaned_data['type_labeling'] == 'tr':	
 			from adminmaster.datamanagement.tasks import extract_seqframevideo
+			#delay several seconds
+			s = 100000
+			while s>0:
+				s-=.5
 			extract_seqframevideo.delay(instance_dataset.id)
 
 		"""End of scan, Done!!"""
@@ -52,8 +56,6 @@ class DataSetForm(forms.ModelForm):
 			data = DataSetModel.objects.get(id=instance_dataset.id)
 			if (self.check_change_filezip(data.input_file.all(), self.cleaned_data['input_file'])):
 				self.scanner_database(instance_dataset)
-				
- 
 		if(commit):
 			instance_dataset.save()
 

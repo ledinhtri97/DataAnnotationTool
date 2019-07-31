@@ -105,12 +105,6 @@ if(labeling && meta_id && meta_id.textContent){
 				controllerRequest={controllerRequest}/>, 
 				tools_list_items);
 
-			// const image_tool = document.getElementById("image_tool");
-			// image_tool && ReactDOM.render(<ImageTool
-			// 	drawTool={drawTool} 
-			// 	drawStatus={drawStatus}/>, 
-			// 	image_tool);
-
 			const keyboard = document.getElementById("keyboard");
 			keyboard && ReactDOM.render(<TemporaryDrawerInstruction label_select={meta.label_select}/>, keyboard);
 

@@ -59,33 +59,30 @@ def create_thumbnail(meta):
 	im.thumbnail((im.size[0]*thumb_height/im.size[1], thumb_height), Image.ANTIALIAS)
 	im.save(thumb + ".thumbnail", "JPEG")
 
-def get_query_meta_general(dataset_id=None, user=None):
-	base_request = MetaDataModel.objects.filter(
-            dataset_id=dataset_id, is_annotated=False, is_allow_view=True)
 
-	try:
-		query_meta_data = base_request.filter(onviewing_user=user)
-		# print("try: ", query_meta_data)
-		if(query_meta_data.count() == 0):
-			# print('a', query_meta_data)
-			query_meta_data = base_request.filter(onviewing_user__isnull=True).exclude(
-				skipped_by_user=user)
-
-			#print("try-again: ", query_meta_data, '\n', query_meta_data.first())
-	except Exception as e:
-		print(e)
-		query_meta_data = base_request.filter(onviewing_user__isnull=True)
-		#print("except: ", query_meta_data)
-
-	meta_data = query_meta_data.first()
-
-	if (meta_data):
-		handle_metadata_before_release(meta_data, user)
+def get_query_meta_general(dataset_id=None, user=None, type_labeling='de'):
+	if type_labeling == 'de':
+		base_request = MetaDataModel.objects.filter(
+				dataset_id=dataset_id, is_annotated=False, is_allow_view=True)
+		try:
+			query_meta_data = base_request.filter(onviewing_user=user)
+			if(query_meta_data.count() == 0):
+				query_meta_data = base_request.filter(onviewing_user__isnull=True).exclude(
+					skipped_by_user=user)
+		except Exception as e:
+			print(e)
+			query_meta_data = base_request.filter(onviewing_user__isnull=True)
+		meta_data = query_meta_data.first()
+		if (meta_data):
+			handle_metadata_before_release(meta_data, user)
+	elif type_labeling == 'tr':
+		
+		meta_data = None
+	
 	return meta_data
 
 def handle_metadata_before_release(meta_data, user):
 	if(not meta_data.onviewing_user):
-		#print("no one view, now add", user)
 		try:
 			meta_data.onviewing_user = user
 			meta_data.save(update_fields=['onviewing_user'])

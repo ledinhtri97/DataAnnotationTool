@@ -26,6 +26,12 @@ class MetaDataModel(models.Model):
     is_reference_api = models.BooleanField(
         default=False, verbose_name="using reference api?")
 
+    is_head = models.BooleanField(
+        default=False, verbose_name="[tracking] is head meta?")
+    
+    is_tail_merger = models.BooleanField(
+        default=False, verbose_name="[tracking] is tail_merger meta?")
+
     onviewing_user = models.OneToOneField(
        'auth.User', blank=True, null=True, verbose_name="User Viewing", on_delete=models.CASCADE)
 

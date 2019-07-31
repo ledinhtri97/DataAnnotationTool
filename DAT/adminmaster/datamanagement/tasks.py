@@ -1,6 +1,4 @@
 # Create your tasks here
-import numpy as np
-from os.path import isfile, join
 from __future__ import absolute_import, unicode_literals
 
 from celery import shared_task
@@ -123,46 +121,68 @@ def extract_seqframevideo(datasetid):
             dataSetModel = DataSetModel.objects.get(id=datasetid)
             is_done = True
         except:
-            print('still not found dataset')
             is_done = False
 
     inputFileQuery = dataSetModel.input_file
 
+    def create_folder(folder_out):
+           #check exist then remove
+        if (os.path.exists(folder_out)):
+            import shutil
+            try:
+                shutil.rmtree(folder_out)
+            except Exception as e:
+                print("delete folder error: ", e)
+        os.makedirs(folder_out, exist_ok=True)
+        return True
+    
+    def do_extract(videofile, folder_out):
+        print(videofile)
+        import cv2
+        vidcap = cv2.VideoCapture(videofile)
+        sec = 0
+        frameRate = 1.0/dataSetModel.num_fps  
+        #it will capture image in each 1/fps second
+        count = 1
 
-
+        def getFrame(sec):
+            vidcap.set(cv2.CAP_PROP_POS_MSEC, sec*1000)
+            hasFrames, image = vidcap.read()
+            if hasFrames:
+                # save frame as JPG file
+                file_name = f'{count:09}' + '.jpg'
+                print(file_name)
+                cv2.imwrite(os.path.join(folder_out, file_name), image)
+                is_head = (count - 1) % 4 == 0
+                is_tail_merger = (count - 4) % 4 == 0
+                MetaDataModel.objects.get_or_create(
+                    dataset=dataSetModel, name=file_name, full_path=folder_out,
+                    is_head=is_head, is_tail_merger=is_tail_merger,
+                )
+                
+            return hasFrames
+        
+        success = getFrame(sec)
+        while success:
+            count = count + 1
+            sec = sec + frameRate
+            sec = round(sec, 2)
+            success = getFrame(sec)
+    
     try:
+        print(inputFileQuery.all())
         for input_data in inputFileQuery.all():
-            
-            # folders = os.listdir(os.path.join(
-            #     settings.STORAGE_DIR, full_path_folder))
-
-            # lookfiles(input_data.get_output_path())
-
-            """ import cv2
-                vidcap = cv2.VideoCapture('video.mp4')
-                def getFrame(sec):
-                    vidcap.set(cv2.CAP_PROP_POS_MSEC,sec*1000)
-                    hasFrames,image = vidcap.read()
-                    if hasFrames:
-                        cv2.imwrite("image"+str(count)+".jpg", image)     # save frame as JPG file
-                    return hasFrames
-                sec = 0
-                frameRate = 0.5 #//it will capture image in each 0.5 second
-                count=1
-                success = getFrame(sec)
-                while success:
-                    count = count + 1
-                    sec = sec + frameRate
-                    sec = round(sec, 2)
-                    success = getFrame(sec)
-            """
+            print(input_data)
+            folder_out = input_data.get_output_path()
+            create_folder(folder_out)
+            do_extract(input_data.get_full_path_file(), folder_out)
             
             if (input_data.groundtruth):
                 INPUT_FILE = os.path.join(
                     settings.BASE_DIR, str(input_data.groundtruth))
-                with open(INPUT_FILE, "r") as f:
-                    lines = f.readlines()
-                    readlines_to_database(lines, input_data.get_output_path())
+                # with open(INPUT_FILE, "r") as f:
+                #     lines = f.readlines()
+                #     readlines_to_database(lines, input_data.get_output_path())
         print("all file is import successful")
         return True
     except Exception as e:

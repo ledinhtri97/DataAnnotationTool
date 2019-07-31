@@ -35,9 +35,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
-import Labeling from './labeling-main'
-import generalListItems from './listitem/generalListItems';
-import toolListItems from './listitem/toolListItems';
+import Tracking from './tracking-main'
+import generalListItems from '../labeling-ui/listitem/generalListItems';
+import toolListItems from '../labeling-ui/listitem/toolListItems';
 
 import {outWorkSpace} from "../../modules/dat-utils"
 
@@ -130,7 +130,7 @@ const styles = theme =>({
 });
 
 
-class MainFrameLabeling extends React.Component {
+class MainFrameTracking extends React.Component {
 	
 	state = {
 		anchorEl: null,
@@ -255,15 +255,15 @@ class MainFrameLabeling extends React.Component {
 				</Drawer>
 
 				<div className={classes.labeling}>
-					<Labeling />
+					<Tracking />
 				</div>
 			</div>
 		);
 	}
 }
 
-MainFrameLabeling.propTypes = {
+MainFrameTracking.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MainFrameLabeling);
+export default withStyles(styles)(MainFrameTracking);
