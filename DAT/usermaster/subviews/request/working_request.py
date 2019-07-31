@@ -15,16 +15,48 @@ class OverViewWorkspaceView(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         return Response()
 
-
-def get_meta_overview(request, mtid):
-    meta = MetaDataModel.objects.get(id=mtid)
-    dataset = DataSetModel.objects.get(id=meta.dataset.id)
-    data = {}
+def allow_view(dataset, user):
     try:
         if request.user.is_superuser:
             allow = True
         else:
-            allow = WorkSpaceUserModel.objects.get(dataset=dataset, user=request.user)
+            allow = WorkSpaceUserModel.objects.get(dataset=dataset, user=user)
+    except:
+        allow = False
+    return allow
+
+def get_list_meta_tracking(request, mtid):
+    data = {}
+    meta = MetaDataModel.objects.get(id=mtid)
+    try:
+        allow = allow_view(meta.dataset, request.user)
+        if allow and meta:
+            data['tl'] = query_meta(meta)
+            data['tr'] = query_meta(meta)
+            data['bl'] = query_meta(meta)
+            data['br'] = query_meta(meta)
+            label_select = request.GET.get('label_select', '')
+            if label_select == 'true':
+                data['label_select'] = [
+                    {
+                        'tag_label': lb.tag_label,
+                        'type_label': lb.type_label,
+                        'color': lb.color,
+                    } for lb in dataset.labels.all()
+                ]
+    except Exception as e:
+        data['Error'] = 'Data is not available'
+        data['Messenger'] = str(e)
+        print(e)
+
+    return JsonResponse(data=data)
+
+def get_meta_detecting(request, mtid):
+    meta = MetaDataModel.objects.get(id=mtid)
+    dataset = meta.dataset
+    data = {}
+    try:
+        allow = allow_view(meta.dataset, request.user)
 
         if allow and meta:
             data = query_meta(meta)

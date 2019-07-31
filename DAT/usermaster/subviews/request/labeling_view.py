@@ -59,11 +59,10 @@ def create_thumbnail(meta):
 	im.thumbnail((im.size[0]*thumb_height/im.size[1], thumb_height), Image.ANTIALIAS)
 	im.save(thumb + ".thumbnail", "JPEG")
 
-
 def get_query_meta_general(dataset_id=None, user=None, type_labeling='de'):
+	base_request = MetaDataModel.objects.filter(
+        dataset_id=dataset_id, is_annotated=False, is_allow_view=True)
 	if type_labeling == 'de':
-		base_request = MetaDataModel.objects.filter(
-				dataset_id=dataset_id, is_annotated=False, is_allow_view=True)
 		try:
 			query_meta_data = base_request.filter(onviewing_user=user)
 			if(query_meta_data.count() == 0):
@@ -72,12 +71,32 @@ def get_query_meta_general(dataset_id=None, user=None, type_labeling='de'):
 		except Exception as e:
 			print(e)
 			query_meta_data = base_request.filter(onviewing_user__isnull=True)
-		meta_data = query_meta_data.first()
-		if (meta_data):
-			handle_metadata_before_release(meta_data, user)
 	elif type_labeling == 'tr':
-		
-		meta_data = None
+		if base_request.count() != 0 :
+			try:
+				query_meta_data = base_request.filter(onviewing_user=user)
+				if(query_meta_data.count() == 0):
+					query_meta_data = base_request.filter(
+						onviewing_user__isnull=True, is_head=1)
+			except Exception as e:
+				print('[ERROR] Detecting mode: ', e)
+				query_meta_data = base_request.filter(
+					onviewing_user__isnull=True, is_head=1)
+		else:
+			#merger time
+			merger_data = MetaDataModel.objects.filter(
+				dataset_id=dataset_id, is_allow_view=True, is_tail_merger=1)
+			try:
+				query_meta_data = merger_data.filter(onviewing_user=user)
+				if(query_meta_data.count() == 0):
+					query_meta_data = merger_data.filter(onviewing_user__isnull=True)
+			except Exception as e:
+				print('[ERROR] Tracking mode: ', e)
+				query_meta_data = merger_data.filter(onviewing_user__isnull=True)
+
+	meta_data = query_meta_data.first()
+	if (meta_data):
+		handle_metadata_before_release(meta_data, user)
 	
 	return meta_data
 

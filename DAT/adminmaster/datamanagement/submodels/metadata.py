@@ -62,10 +62,10 @@ class MetaDataModel(models.Model):
         return '/gvlab-dat/workspace/metaview/{}/api-get-data/'.format(self.id)
     
     def get_url_meta(self):
-        return "/gvlab-dat/dataset/{}".format(self.get_rel_path())
+        return "/gvlab-dat/dataset/{}".format(self.get_rel_path()).replace('\\', '/')
     
     def get_url_thumbnail(self):
-        return "/gvlab-dat/imagethumb/{}".format(self.get_thumbnail_path())
+        return "/gvlab-dat/imagethumb/{}".format(self.get_thumbnail_path()).replace('\\', '/')
     
     def get_url_accept(self):
         return "/gvlab-dat/datadmin/dataman/flagfalse-accept/mt-{}".format(self.id)
