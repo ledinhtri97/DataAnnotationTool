@@ -35,11 +35,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
-import Labeling from './labeling-main'
-import generalListItems from './listitem/generalListItems';
-import toolListItems from './listitem/toolListItems';
-
-import {outWorkSpace} from "../../modules/dat-utils"
+import Labeling from './labeling-main';
+import {outWorkSpace} from "../../modules/general-mod/request/outWorking";
 
 const drawerWidth = 240;
 

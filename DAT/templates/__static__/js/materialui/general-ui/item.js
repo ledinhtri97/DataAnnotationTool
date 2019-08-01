@@ -19,7 +19,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import { withStyles } from '@material-ui/core/styles';
 
-import AlertDialogChangeClass from "./dialog-changeclass";
+import AlertDialogChangeClass from "./dialogChangeClass";
 
 const styles = theme => ({
 	lightTooltip: {

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import LabelItem from "../../../materialui/labeling-ui/item";
+import LabelItem from "../../../materialui/general-ui/item";
 import uniqid from "uniqid";
 import {fabric} from "fabric";
 import {drawTool, quickSettings, drawStatus} from "../../../labeling";

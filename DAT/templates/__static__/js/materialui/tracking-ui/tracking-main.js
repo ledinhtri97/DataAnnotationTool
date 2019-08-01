@@ -25,14 +25,22 @@ const styles = theme => ({
 		overflow: 'auto',
 	},
 	firstcontainer: {
-		width: '99%',
-		height: '99%',
+		width: '98%',
+		height: '96%',
 	},
-	secondcontainer:{
+	secondcontainer_cvleft:{
 		width: '100%',
 		height: '100%',
 		display: 'flex',
-		justifyContent: 'center',
+		justifyContent: 'flex-end',
+		alignItems: 'center',
+		position: 'relative',
+	},
+	secondcontainer_cvright:{
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		justifyContent: 'flex-start',
 		alignItems: 'center',
 		position: 'relative',
 	},
@@ -58,7 +66,7 @@ const styles = theme => ({
 		width: '50%',
     	height: '100%',
     	display: 'flex',
-		justifyContent: 'center',
+    	justifyContent: 'center',
 		alignItems: 'center',
 	},
 });
@@ -71,10 +79,10 @@ class Subframe extends React.Component{
 	render(){
 
 		const {classes, idframe} = this.props;
-
+		const style_secondcontainer = (idframe == '_tl' || idframe == '_bl') ? classes.secondcontainer_cvleft : classes.secondcontainer_cvright;
 		return (
 			<div className={classes.firstcontainer}>
-			<div className={classes.secondcontainer} id="cvcontainer" onContextMenu={this.contextMenu}>
+			<div className={style_secondcontainer} id={"cvcontainer"+idframe} onContextMenu={this.contextMenu}>
 				<canvas id={"canvas"+idframe} className={classes.canvas}></canvas>
 				<div id={"group_control"+idframe} style={{display: 'none', position: 'absolute',}}>
 						{<label id={"label_popup"+idframe} className={classes.label}></label>}
@@ -99,12 +107,12 @@ class Tracking extends React.Component {
 		return (
 			<main className={classes.content}>
 			<div className={classes.horizontal}>
-				<div className={classes.vertical}><Subframe classes={classes} idframe={"_1"}/></div>
-				<div className={classes.vertical}><Subframe classes={classes} idframe={"_2"}/></div>
+				<div className={classes.vertical}><Subframe classes={classes} idframe={"_tl"}/></div>
+				<div className={classes.vertical}><Subframe classes={classes} idframe={"_tr"}/></div>
 			</div>
 			<div className={classes.horizontal}>
-				<div className={classes.vertical}><Subframe classes={classes} idframe={"_3"}/></div>
-				<div className={classes.vertical}><Subframe classes={classes} idframe={"_4"}/></div>
+				<div className={classes.vertical}><Subframe classes={classes} idframe={"_bl"}/></div>
+				<div className={classes.vertical}><Subframe classes={classes} idframe={"_br"}/></div>
 			</div>
 			<div className={classes.hidden}>
 				<span id="show_popup"></span>

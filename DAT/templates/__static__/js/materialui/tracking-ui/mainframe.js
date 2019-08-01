@@ -36,10 +36,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
 import Tracking from './tracking-main'
-import generalListItems from '../labeling-ui/listitem/generalListItems';
-import toolListItems from '../labeling-ui/listitem/toolListItems';
-
-import {outWorkSpace} from "../../modules/dat-utils"
+import {outWorkSpace} from "../../modules/general-mod/request/outWorking";
 
 const drawerWidth = 240;
 

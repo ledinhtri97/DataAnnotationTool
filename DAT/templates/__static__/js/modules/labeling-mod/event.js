@@ -1,11 +1,11 @@
-import {ask_before_out} from "../dat-utils"
-import {drawStatus, drawTool, controllerRequest, quickSettings} from "../../labeling"
-import {Color} from './style/color'
-import {configureLine, configureFlag} from "./drawtool"
+import {ask_before_out} from "../general-mod/request/outWorking";
+import {drawStatus, drawTool, controllerRequest, quickSettings} from "../../labeling";
+import {Color} from './style/color';
+import {configureLine, configureFlag} from "./drawtool";
 import React from "react";
 import ReactDOM from "react-dom";
 import AlertDialog from "../../materialui/dialog";
-import AlertDialogChangeClass from "../../materialui/labeling-ui/dialog-changeclass";
+import AlertDialogChangeClass from "../../materialui/general-ui/dialogChangeClass";
 
 
 var Direction = {
@@ -139,7 +139,7 @@ const init_event = function(__canvas__, popupControllers){
 				ReactDOM.unmountComponentAtNode(dialog);
 				let message = "Skip this data and continue?";
 				let request = "rqnext";
-				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
+				ReactDOM.render(<AlertDialog message={message} request={request} controllerRequest={controllerRequest}/>, dialog);
 			}
 			else{
 				controllerRequest('rqnext');
@@ -150,7 +150,7 @@ const init_event = function(__canvas__, popupControllers){
 				ReactDOM.unmountComponentAtNode(dialog);
 				let message = "All labels will be save and continue?";
 				let request = on_edit ? "rqsave" : "rqsavenext";
-				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
+				ReactDOM.render(<AlertDialog message={message} request={request} controllerRequest={controllerRequest}/>, dialog);
 			}
 			else{
 				controllerRequest('rqsavenext');

@@ -6,17 +6,18 @@ import MainFrameLabeling from "./materialui/labeling-ui/mainframe";
 import TemporaryDrawerInstruction from "./materialui/labeling-ui/drawerInstruction"
 import TemporaryDrawerSettings from "./materialui/labeling-ui/drawerSettings";
 import ToolListItems from './materialui/labeling-ui/listitem/toolListItems';
-import ImageTool from './materialui/labeling-ui/listitem/imageTool';
 
-import {outWorkSpace} from "./modules/dat-utils";
-import {rqnext, rqsavenext, rqsave} from  "./modules/request"
-import {initCanvas, initPredict} from "./modules/labeling-module/renderInit"
-import {init_event} from "./modules/labeling-module/event"
-import {PopupControllers} from "./modules/labeling-module/controller/popup";
-import {DrawTool} from "./modules/labeling-module/drawtool"
-import {Color} from "./modules/labeling-module/style/color";
-import DrawStatus from './modules/labeling-module/drawstatus';
-import QuickSettings from './modules/labeling-module/settings'
+import rqnext from  "./modules/labeling-mod/request/next";
+import rqsavenext from  "./modules/labeling-mod/request/saveNext";
+import rqsave from  "./modules/labeling-mod/request/save";
+
+import {initCanvas, initPredict} from "./modules/labeling-mod/renderInit"
+import {init_event} from "./modules/labeling-mod/event"
+import {PopupControllers} from "./modules/labeling-mod/controller/popup";
+import {DrawTool} from "./modules/labeling-mod/drawtool"
+import {Color} from "./modules/labeling-mod/style/color";
+import DrawStatus from './modules/labeling-mod/drawstatus';
+import QuickSettings from './modules/labeling-mod/settings';
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -51,12 +52,12 @@ const controllerRequest = (callback_cl) => {
 
 	if(callback_cl == 'rqnext'){
 		drawStatus.resetDrawStatus();
-		rqnext(meta_id.textContent, canvas);
+		rqnext(meta_id.textContent, canvas, drawTool, drawStatus);
 		
 	}
 	if (callback_cl == 'rqsavenext') {
 		drawStatus.resetDrawStatus();
-		rqsavenext(meta_id.textContent, canvas);
+		rqsavenext(meta_id.textContent, canvas, drawTool, drawStatus);
 	}
 	if (callback_cl == 'rqsave') {
 		drawStatus.resetDrawStatus();
