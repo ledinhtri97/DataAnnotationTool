@@ -277,14 +277,12 @@ class DrawTool{
 					}
 				}
 
-				//hardcode here
-				drawStatus.setRenewLabel(true);
-				
+				if(!drawStatus.getTurnRenewLabel()){
+					drawStatus.setRenewLabel(true);
+				}
 
 				if (new_object && !only && drawStatus.getRenewLabel()) {
-					//hardcode here
 					new_object.set('name', '');
-					
 					drawStatus.setIsChangingLabel(true);
 					let changelb = document.getElementById(new_object.labelControl.getId()+"_changelabel");
 					changelb && changelb.click();
@@ -395,7 +393,7 @@ class DrawTool{
 			if(drawer.typeLabel === 'rect') {
 				let __width__ = drawer.rectangle.width, 
 				__height__ = drawer.rectangle.height;
-				if(__width__ > 13 && __height__ > 8) {
+				if(__width__ > 6 && __height__ > 6) {
 					drawer.canvas.remove(drawer.firstPoint);
 					drawer.firstPoint = null;
 					drawer.tool.generateShapeLabel();
@@ -419,7 +417,7 @@ class DrawTool{
 			}
 		});
 
-		this.canvas.defaultCursor = 'crosshair';
+		this.canvas.set('defaultCursor', 'crosshair');
 
 		if(typelabel){
 			this.typeLabel = typelabel	
@@ -434,7 +432,7 @@ class DrawTool{
 	}
 
 	endDraw(){
-		this.canvas.defaultCursor = 'default';
+		this.canvas.set('defaultCursor', 'default');
 		
 		drawStatus.stopDrawStatus();
 

@@ -18,6 +18,7 @@ class DrawStatus{
 		this.modeTool = [0, 0, 0, 0]; //edit, hidden, delete, change mode ===> default is false
 		this.activePolygons = {'zs': false};
 		this.factor = 1; //width, height
+		this.turnRL = true;
 	};
 
 	getFactor(){
@@ -81,6 +82,18 @@ class DrawStatus{
 
 	setRenewLabel(value) {
 		this.renewlabel = value;
+	}
+
+	setRenewLabel(value) {
+		this.renewlabel = value;
+	}
+
+	setTurnRenewLabel(value) {
+		this.turnRL = value;
+	}
+
+	getTurnRenewLabel() {
+		return this.turnRL;
 	}
 
 	getNameLabel(){

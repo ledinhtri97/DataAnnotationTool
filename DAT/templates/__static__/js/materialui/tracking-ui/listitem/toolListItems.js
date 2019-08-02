@@ -25,6 +25,9 @@ import { withStyles } from '@material-ui/core/styles';
 import {fabric} from 'fabric';
 import Slider from '@material-ui/core/Slider';
 
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
 const styles = theme => ({
     lightTooltip: {
         backgroundColor: theme.palette.common.white,
@@ -120,6 +123,7 @@ class ToolListItems extends React.Component {
 
     state = {
         open: false,
+        changeReLabel: true,
         messageInfo: {},
     };
 
@@ -200,10 +204,6 @@ class ToolListItems extends React.Component {
         this.props.controllerRequest('rqsavenext');
     };
 
-    handleSkipNext = () => {
-        this.props.controllerRequest('rqnext');
-    };
-
     handleSave = () => {
         this.props.controllerRequest('rqsave');
     };
@@ -270,54 +270,14 @@ class ToolListItems extends React.Component {
         }
     };
 
-    zoomIt = (event, value) => {
-        var {canvas, drawStatus} = this.props;
-
-        var factor_choose = value / 100;   
-        var new_w = canvas.originWidth * factor_choose;
-        var new_h = canvas.originHeight * factor_choose;
-        var ratio_w = new_w / canvas.getWidth();
-        var ratio_h = new_h / canvas.getHeight();
-        drawStatus.setFactor(factor_choose);
-
-        fabric.Image.fromURL(
-            canvas.url_meta,
-            function(img) {
-                img.scaleToWidth(new_w);
-                img.scaleToHeight(new_h);
-                canvas.setWidth(new_w);
-                canvas.setHeight(new_h);
-                canvas.setBackgroundImage(img);
-
-                var objects = canvas.getObjects();
-                for (var i in objects) {
-                    if (objects[i].type_label === 'poly'){
-                        if (objects[i].labelControl.getIsEdit()){
-                            objects[i].labelControl.cleanPolygonStuff(false);
-                        }
-                        objects[i].points.forEach(function(point, i){
-                            point.x *= ratio_w;
-                            point.y *= ratio_h;
-                        });
-                        objects[i].labelControl.circlesHandle();
-                    }
-                    else{
-                        objects[i].scaleX *= ratio_w;
-                        objects[i].scaleY *= ratio_h;
-                        objects[i].left *= ratio_w;
-                        objects[i].top *= ratio_h;
-                        objects[i].setCoords();
-                    }
-                }
-                canvas.renderAll();
-                canvas.calcOffset();
-            }
-        ); 
+    handleChangeReLabel = name => event => {
+        this.props.drawStatus.setTurnRenewLabel(event.target.checked);
+        this.setState({ ...this.state, [name]: event.target.checked });
     };
 
     render() {
         const { classes } = this.props;
-        const { messageInfo } = this.state;
+        const { messageInfo, changeReLabel } = this.state;
         const tool = this;
 
         const on_edit = document.getElementById('on_edit') != null;
@@ -327,42 +287,56 @@ class ToolListItems extends React.Component {
 
             <div><ListItem button className={classes.splitTool}></ListItem></div>
 
-            <ItemTool 
+            <div>
+            <ListItem button classes={{root: classes.listItemRoot}}>
+                <FormControlLabel
+                control={
+                  <Switch
+                    checked={changeReLabel}
+                    onChange={tool.handleChangeReLabel('changeReLabel')}
+                    value="changeReLabel"
+                    color="primary"
+                  />
+                }
+            />
+            </ListItem>
+            </div>
+
+           <ItemTool 
                 classes={classes} idI="renew_label" callBackFunc={tool.handleRenewLabel} 
-                Micon={Autorenew} text="(R) = Renew Label"/>
+                Micon={Autorenew} text="Renew Label (R)"/>
 
             <ItemTool 
                 classes={classes} idI="stop_draw" callBackFunc={tool.handleStopDrawing} 
-                Micon={Brush} text="(Q) = Labeling"/>
+                Micon={Brush} text="Labeling (Q)"/>
 
             <ItemTool 
                 classes={classes} idI="edit_tool" callBackFunc={tool.handleEdit} 
-                Micon={ExtensionOutlined} text="(E) = Edit"/>
+                Micon={ExtensionOutlined} text="Edit (E)"/>
 
             <ItemTool 
                 classes={classes} idI="hidden_tool" callBackFunc={tool.handleHidden} 
-                Micon={ControlCameraOutlined} text="(H) = Hidden"/>
+                Micon={ControlCameraOutlined} text="Hidden (H)"/>
 
             <ItemTool 
                 classes={classes} idI="delete_tool" callBackFunc={tool.handleDelete} 
-                Micon={CancelPresentationOutlined} text="(D) = Delete"/>
+                Micon={CancelPresentationOutlined} text="Delete (D)"/>
 
             <ItemTool 
                 classes={classes} idI="change_tool" callBackFunc={tool.handleChange} 
-                Micon={PartyModeOutlined} text="(C) = Change Class"/>
+                Micon={PartyModeOutlined} text="Change Class (C)"/>
 
             <div><ListItem button className={classes.splitTool}></ListItem></div>
 
             {
                 on_edit ? (<ItemTool 
                 classes={classes} idI="only_save" callBackFunc={tool.handleSave} 
-                Micon={BeenhereOutlined} text="(S) = Save"/>
+                Micon={BeenhereOutlined} text="Save (S)"/>
                 ) : (<React.Fragment>
                 
                 <ItemTool 
                 classes={classes} idI="save_next" callBackFunc={tool.handleSaveNext} 
-                Micon={BeenhereOutlined} text="(S) = Save & Next"/>
-                
+                Micon={BeenhereOutlined} text="Save & Next (S)"/>
                 </React.Fragment>)
             }
 

@@ -525,8 +525,8 @@ const init_event = function(__canvas__){
 				}
 		var key = options.which || options.keyCode; // key detection
 		if (key == 32) { // handle Space key
-			__canvas__.defaultCursor = 'move';
-			__canvas__.selection = false;
+			__canvas__.set('defaultCursor', 'move');
+			__canvas__.set('selection', false);
 			spaceKeyDown = true;
 		} else if (key === 37) { // handle Left key
 			move(Direction.LEFT);
@@ -544,8 +544,8 @@ const init_event = function(__canvas__){
 		var key = options.which || options.keyCode; // key detection
 		if (key == 32) { // handle Shift key
 			var typeCursor = drawStatus.getIsDrawing() ? 'crosshair' : 'default';
-			__canvas__.defaultCursor = typeCursor;
-			__canvas__.selection = true;
+			__canvas__.set('defaultCursor', typeCursor);
+			__canvas__.set('selection', true);
 			spaceKeyDown = false;
 		}
 		drawStatus.setZoomSpaceKey(spaceKeyDown);
