@@ -33,6 +33,7 @@ const general_setting_canvas = (pos) => {
 		uniScaleTransform: true,
 		fireRightClick: true,
 		pos: pos,
+		zoomLevel: 0,
 	}
 }
 

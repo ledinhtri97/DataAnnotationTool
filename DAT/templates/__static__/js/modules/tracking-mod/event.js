@@ -451,9 +451,9 @@ const init_event = function(__canvas__){
 
 
 	function zoomIn(point) {
-		if (zoomLevel < zoomLevelMax) {
-			zoomLevel++;
-			__canvas__.zoomToPoint(point, Math.pow(2, zoomLevel));
+		if (__canvas__.zoomLevel < zoomLevelMax) {
+			__canvas__.zoomLevel++;
+			__canvas__.zoomToPoint(point, Math.pow(2, __canvas__.zoomLevel));
 			keepPositionInBounds();
 
 			if(!drawStatus.getActivePolygons()['zs']){
@@ -471,12 +471,12 @@ const init_event = function(__canvas__){
 	}
 
 	function zoomOut(point) {
-		if (zoomLevel > zoomLevelMin) {
-			zoomLevel--;
-			__canvas__.zoomToPoint(point, Math.pow(2, zoomLevel));
+		if (__canvas__.zoomLevel > zoomLevelMin) {
+			__canvas__.zoomLevel--;
+			__canvas__.zoomToPoint(point, Math.pow(2, __canvas__.zoomLevel));
 			keepPositionInBounds();
 		}
-		if(zoomLevel == 0){
+		if(__canvas__.zoomLevel == 0){
 			drawStatus.getActivePolygons()['zs'] = false;
 			let listActivePolygons = drawStatus.getActivePolygons();
 			for (let id in listActivePolygons){
@@ -529,13 +529,17 @@ const init_event = function(__canvas__){
 			__canvas__.set('selection', false);
 			spaceKeyDown = true;
 		} else if (key === 37) { // handle Left key
-			move(Direction.LEFT);
-		} else if (key === 38) { // handle Up key
-			move(Direction.UP);
-		} else if (key === 39) { // handle Right key
+			// move(Direction.LEFT);
 			move(Direction.RIGHT);
-		} else if (key === 40) { // handle Down key
+		} else if (key === 38) { // handle Up key
+			// move(Direction.UP);
 			move(Direction.DOWN);
+		} else if (key === 39) { // handle Right key
+			// move(Direction.RIGHT);
+			move(Direction.LEFT);
+		} else if (key === 40) { // handle Down key
+			// move(Direction.DOWN);
+			move(Direction.UP);
 		}
 		drawStatus.setZoomSpaceKey(spaceKeyDown);
 	});
