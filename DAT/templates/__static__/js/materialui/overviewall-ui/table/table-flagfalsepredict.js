@@ -19,7 +19,7 @@ import dateFormat from 'dateformat';
 import AlertDialogView from "./dialog-view";
 import AlertDialogAccept from "./dialog-accept";
 import {fabric} from 'fabric';
-import {initCanvas} from '../../../modules/labeling-module/renderInit';
+import {initCanvas} from '../../../modules/labeling-mod/renderInit';
 
 const styles = theme => ({
 	root: {

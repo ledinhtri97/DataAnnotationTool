@@ -16,7 +16,7 @@ import Home from '@material-ui/icons/Home';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
-import {outWorkSpace} from "../modules/dat-utils"
+import {outWorkSpace} from "../modules/general-mod/request/outWorking";
 
 const drawerWidth = 240;
 
