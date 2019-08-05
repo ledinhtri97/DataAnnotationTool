@@ -71,13 +71,6 @@ const init_event = function(__canvas__, popupControllers){
 
 		group_control.addEventListener('mouseover', function(e){
 			var pointer = __canvas__.getPointer(e.e, true);
-			group_control.style["display"] = "";
-			drawStatus.setPopuHover(true);
-			controll_bigplus(__canvas__, pointer);
-		});
-		
-		group_control.addEventListener('mouseout', function(e){
-			var pointer = __canvas__.getPointer(e.e, true);
 			group_control.style["display"] = "none";
 			drawStatus.setPopuHover(false);
 			controll_bigplus(__canvas__, pointer);
@@ -320,11 +313,12 @@ const init_event = function(__canvas__, popupControllers){
 			}
 			catch(error) {
 				if (!e.target){
-					__canvas__.remove(bigplus[0]);
-					__canvas__.remove(bigplus[1]);
-					reset_when_go();
-				}
+				__canvas__.remove(bigplus[0]);
+				__canvas__.remove(bigplus[1]);
+				reset_when_go();
 			}
+			}
+			
 			__canvas__.renderAll();
 		},
 

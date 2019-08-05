@@ -42,14 +42,21 @@ const canvas_tr = new fabric.Canvas('canvas_tr', general_setting_canvas('_tr'));
 const canvas_bl = new fabric.Canvas('canvas_bl', general_setting_canvas('_bl'));
 const canvas_br = new fabric.Canvas('canvas_br', general_setting_canvas('_br'));
 
+const canvas = {
+	_tl: canvas_tl,
+	_tr: canvas_tr,
+	_bl: canvas_bl,
+	_br: canvas_br,
+}
+
 const settings = document.getElementById("settings");
-settings && ReactDOM.render(<TemporaryDrawerSettings canvas={canvas_tl}/>, settings);
+settings && ReactDOM.render(<TemporaryDrawerSettings canvas={canvas}/>, settings);
 
 // const group_control =  document.getElementById("group_control");
 const meta_id = document.getElementById("meta_id");
 const drawStatus = new DrawStatus();
-const drawTool = new DrawTool(canvas_tl);
-const popupControllers = new PopupControllers(); 
+const drawTool = new DrawTool(canvas);
+const popupControllers = new PopupControllers();
 const quickSettings = new QuickSettings();
 
 const controllerRequest = (callback_cl) => {
@@ -111,7 +118,6 @@ if(labeling && meta_id && meta_id.textContent){
 
 			const tools_list_items = document.getElementById("tools_list_items");
 			tools_list_items && ReactDOM.render(<ToolListItems
-				canvas={canvas_tl}
 				drawTool={drawTool} 
 				drawStatus={drawStatus}
 				quickSettings={quickSettings}

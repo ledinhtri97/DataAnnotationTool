@@ -5,7 +5,6 @@ import {configureLine, configureFlag} from "./drawtool"
 import React from "react";
 import ReactDOM from "react-dom";
 import AlertDialog from "../../materialui/dialog";
-import AlertDialogChangeClass from "../../materialui/general-ui/dialogChangeClass";
 
 
 var Direction = {
@@ -70,13 +69,6 @@ const init_event = function(__canvas__){
 	if(group_control) {
 
 		group_control.addEventListener('mouseover', function(e){
-			var pointer = __canvas__.getPointer(e.e, true);
-			group_control.style["display"] = "";
-			drawStatus.setPopuHover(true);
-			controll_bigplus(__canvas__, pointer);
-		});
-		
-		group_control.addEventListener('mouseout', function(e){
 			var pointer = __canvas__.getPointer(e.e, true);
 			group_control.style["display"] = "none";
 			drawStatus.setPopuHover(false);
@@ -295,6 +287,10 @@ const init_event = function(__canvas__){
 					obj.set('radius', 7);
 				}
 			}
+			else{
+				drawTool.setCanvas(__canvas__);
+				
+			}
 			__canvas__.renderAll();
 		},
 		'mouse:out': function(e){
@@ -323,6 +319,9 @@ const init_event = function(__canvas__){
 					__canvas__.remove(bigplus[0]);
 					__canvas__.remove(bigplus[1]);
 					reset_when_go();
+					if(group_control) {
+						group_control.style["display"] = "none";
+					}
 				}
 			}
 			__canvas__.renderAll();

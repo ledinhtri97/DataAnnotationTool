@@ -185,17 +185,44 @@ const configureFlag = function(master) {
 	return flag;
 }
 
+const cloneObject = function(obj){
+	var new_object;
+	if(obj.type_label == 'rect'){
+		new_object = configureRectangle(obj.left, obj.top, obj.width, obj.height);
+		new_object.set({
+			stroke: obj.stroke,
+			name: obj.name,
+			xmin: obj.xmin,
+			ymin: obj.ymin,
+			xmax: obj.xmax,
+			ymax: obj.ymax,
+		});
+		new_object.icon.set('fill', obj.stroke);
+	}
+	else if (obj.type_label == 'poly'){
+		new_object = configurePoly(obj.points);
+		new_object.set({
+			stroke: obj.stroke,
+			name: obj.name,
+			rpoints: obj.rpoints,
+		});
+		new_object.icon.set('fill', obj.stroke);
+	}
+
+	return new_object;
+}
+
 class DrawTool{
-	constructor(__canvas__) {
+	constructor(ls_canvas) {
 
 		const drawer = this;
 		
 		drawer.rectangle;
 
 		//variable in use
-		drawer.canvas = __canvas__;
 		drawer.pointArray = new Array();
 		drawer.lineArray = new Array();
+		drawer.ls_canvas = ls_canvas;
 
 		//new variable
 		drawer.typeLabel = null;
@@ -295,6 +322,15 @@ class DrawTool{
 				drawer.lastLine = null;
 				drawer.firstPoint = null;
 				drawer.canvas.selection = true;
+
+				// while(drawStatus.getDoneChangeClass()){
+				// 	for (let pos in drawer.ls_canvas){
+				// 		if (pos != drawer.canvas.pos){
+				// 			let cloneObj = cloneObject(new_object);
+				// 			drawer.ls_canvas[pos].add(cloneObj);
+				// 		}
+				// 	}
+				// }
 
 				//end new code
 				drawer.startDraw();
@@ -409,6 +445,18 @@ class DrawTool{
 		}
 	}
 
+	setCanvas(cv) {
+		var drawer = this;
+		if(drawer.canvas){
+			drawer.quickDraw();
+		}
+		drawer.canvas = cv;
+	}
+
+	getCanvas(){
+		return this.canvas.pos;
+	}
+
 	startDraw(id, namelabel, typelabel){
 		this.endDraw();
 
@@ -445,6 +493,8 @@ class DrawTool{
 	quickDraw() {
 
 		var drawer = this;
+		if (!drawer.canvas) return;
+
 		drawer.canvas.remove(drawer.firstPoint);
 		drawer.canvas.remove(drawer.lastLine);
 		drawer.canvas.remove(drawer.rectangle);
