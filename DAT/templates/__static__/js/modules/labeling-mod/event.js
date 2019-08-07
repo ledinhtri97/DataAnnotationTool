@@ -15,7 +15,11 @@ var Direction = {
 	DOWN: 3
 };
 
-var bigplus = [];
+var bigplus = [
+	configureLine([0, 0, 0, 0], Color.WHITE),
+	configureLine([0, 0, 0, 0], Color.WHITE),
+];
+
 var zoomLevel = 0;
 var zoomLevelMin = 0;
 var zoomLevelMax = 3;
@@ -35,45 +39,36 @@ const isLabel = function(obj){
 }
 
 const reset_when_go =  function(){
-	bigplus.length = 0;
+	bigplus[0].set({y1: 0, x2: 0, y2: 0});
+	bigplus[1].set({x1: 0, x2: 0, y2: 0});
 }
 
 
-const controll_bigplus = function(__canvas__, pointer){
-	if(drawStatus.getIsDrawing() && !drawStatus.getIsZoom() && !drawStatus.getPopuHover()){
-		if(bigplus.length == 0){
-
-			var x = configureLine([0, pointer.y, __canvas__.getWidth(), pointer.y], Color.WHITE);
-			var y = configureLine([pointer.x, 0, pointer.x,__canvas__.getHeight()], Color.WHITE);
-			bigplus.push(x);
-			bigplus.push(y);
-			__canvas__.add(x);
-			__canvas__.add(y);
-
-		}
-		else{
-			bigplus[0].set({ y1: pointer.y, y2: pointer.y });
-			bigplus[1].set({ x1: pointer.x, x2: pointer.x });
-		}
+const controll_bigplus = function(__canvas__, pointer, out_canvas=true){
+	if(drawStatus.getIsDrawing() && !drawStatus.getIsZoom() && !drawStatus.getPopuHover() && out_canvas){
+		bigplus[0].set({ y1: pointer.y, x2: __canvas__.getWidth(), y2: pointer.y });
+		bigplus[1].set({ x1: pointer.x, x2: pointer.x, y2: __canvas__.getHeight()});
 	}
 	else{
-		if(bigplus.length != 0){
-			__canvas__.remove(bigplus[0]);
-			__canvas__.remove(bigplus[1]);
-			reset_when_go();
-		}
+		bigplus[0].set({y1: 0, x2: 0, y2: 0});
+		bigplus[1].set({x1: 0, x2: 0, y2: 0});
 	}
 }
 
 const init_event = function(__canvas__, popupControllers){
+	
 	var group_control = document.getElementById("group_control");
+
+	__canvas__.add(bigplus[0]);
+	__canvas__.add(bigplus[1]);
+
 	if(group_control) {
 
 		group_control.addEventListener('mouseover', function(e){
 			var pointer = __canvas__.getPointer(e.e, true);
 			group_control.style["display"] = "none";
 			drawStatus.setPopuHover(false);
-			controll_bigplus(__canvas__, pointer);
+			controll_bigplus(__canvas__, pointer, false);
 		});
 
 		try {
@@ -313,10 +308,11 @@ const init_event = function(__canvas__, popupControllers){
 			}
 			catch(error) {
 				if (!e.target){
-				__canvas__.remove(bigplus[0]);
-				__canvas__.remove(bigplus[1]);
-				reset_when_go();
-			}
+					controll_bigplus(__canvas__, null, false);
+					if(group_control) {
+						group_control.style["display"] = "none";
+					}
+				}
 			}
 			
 			__canvas__.renderAll();

@@ -399,7 +399,7 @@ class DrawTool{
 			}
 		}
 
-		drawer.mouseMove= function(o){
+		drawer.mouseMove = function(o){
 
 			//check firstPoint or typeLabel same time for sure;
 			if (drawer.firstPoint && drawer.typeLabel === 'rect') {
@@ -424,7 +424,7 @@ class DrawTool{
 			}
 		}
 
-		drawer.mouseUp= function(o){
+		drawer.mouseUp = function(o){
 			drawStatus.setIsWaiting(drawer.typeLabel === null);
 
 			if(drawer.typeLabel === 'rect') {
@@ -447,10 +447,16 @@ class DrawTool{
 
 	setCanvas(cv) {
 		var drawer = this;
-		if(drawer.canvas){
+		if(drawer.canvas && drawStatus.getIsDrawing()) {
 			drawer.quickDraw();
 		}
 		drawer.canvas = cv;
+		if(!drawStatus.getIsDrawing()){
+			drawer.endDraw();
+		}
+		else{
+			drawer.canvas.set('defaultCursor', 'crosshair');
+		}
 	}
 
 	getCanvas(){
@@ -465,9 +471,8 @@ class DrawTool{
 				obj.labelControl.__editITEM__(false);
 			}
 		});
-
+		
 		this.canvas.set('defaultCursor', 'crosshair');
-
 		if(typelabel){
 			this.typeLabel = typelabel	
 		}

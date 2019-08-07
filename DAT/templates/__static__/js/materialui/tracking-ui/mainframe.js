@@ -97,10 +97,6 @@ const styles = theme =>({
     	width: '100%',
     	height: '100%',
     },
-    span:{
-    	display: 'inline-flex',
-    	paddingRight: 20,
-    },
     tabExpandTitle:{
     	paddingRight: '0 !important',
     	paddingLeft: '0 !important',
@@ -123,6 +119,9 @@ const styles = theme =>({
     button: {
     	margin: theme.spacing(1),
     	width: '150px',
+    },
+    hidden: {
+    	display: 'none',
     },
 });
 
@@ -210,7 +209,6 @@ class MainFrameTracking extends React.Component {
 				>
 				{
 					!on_edit && (<div className={classes.homeIcon}>
-				<p style={{paddingRight: 20}}>DAT - GVLab</p>
 				<IconButton onClick={this.handleWorkspace}>
 				<Home />
 				</IconButton>
@@ -219,10 +217,7 @@ class MainFrameTracking extends React.Component {
 				
 
 				<div className={classes.toolbarIcon}>
-				<span id="settings" title="Settings" className={classes.span} />
-				<IconButton onClick={this.handleDrawerChange}>
-					{this.state.open ? <ChevronLeftIcon /> : <MenuIcon /> }
-				</IconButton>
+					<span id="settings" title="Settings"/>
 				</div>
 
 				<ExpansionPanel expanded={expanded === 'p1'} onChange={this.handleExpandInDrawer('p1')}>
@@ -237,7 +232,7 @@ class MainFrameTracking extends React.Component {
 				</ExpansionPanelDetails>
 				</ExpansionPanel>
 
-				<ExpansionPanel expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
+				<ExpansionPanel className={classes.hidden} expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Labels"/>

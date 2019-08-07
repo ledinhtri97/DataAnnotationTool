@@ -210,7 +210,6 @@ class MainFrameLabeling extends React.Component {
 				>
 				{
 					!on_edit && (<div className={classes.homeIcon}>
-				<p style={{paddingRight: 20}}>DAT - GVLab</p>
 				<IconButton onClick={this.handleWorkspace}>
 				<Home />
 				</IconButton>
@@ -219,10 +218,7 @@ class MainFrameLabeling extends React.Component {
 				
 
 				<div className={classes.toolbarIcon}>
-				<span id="settings" title="Settings" className={classes.span} />
-				<IconButton onClick={this.handleDrawerChange}>
-					{this.state.open ? <ChevronLeftIcon /> : <MenuIcon /> }
-				</IconButton>
+					<span id="settings" title="Settings"/>
 				</div>
 
 				<ExpansionPanel expanded={expanded === 'p1'} onChange={this.handleExpandInDrawer('p1')}>

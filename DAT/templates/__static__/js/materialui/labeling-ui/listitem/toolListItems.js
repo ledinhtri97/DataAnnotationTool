@@ -36,8 +36,7 @@ const styles = theme => ({
         fontSize: 11,
     },
     icon: {
-        paddingLeft: "5px",
-        paddingRight: "5px",
+        padding: "5px",
     },
     close: {
         padding: theme.spacing(0.5),
@@ -80,7 +79,6 @@ class ItemTool extends React.Component {
             <Micon />
             </ListItemIcon>
             </Tooltip>
-            <ListItemText primary={text}/>
             </ListItem>
             </div>
         );

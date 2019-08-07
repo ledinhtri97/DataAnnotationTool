@@ -20,7 +20,7 @@ import QuickSettings from './modules/tracking-mod/settings';
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 const labeling = document.getElementById("labeling");
-// const on_edit = document.getElementById("on_edit");
+const on_edit = document.getElementById("on_edit");
 
 labeling && ReactDOM.render(<MainFrameTracking />, labeling);
 
@@ -152,7 +152,8 @@ if(labeling && meta_id && meta_id.textContent){
 			
 			// if (!on_edit){
 			// 	document.getElementById("stop_draw").style['backgroundColor'] = "#B6F3F2";
-			// 	setTimeout(function(){drawTool.startDraw();}, 500);
+			// 	// setTimeout(function(){drawTool.startDraw();}, 500);
+			// 	drawStatus.startDrawStatus();
 			// }
 		});
 	} catch(e) {
