@@ -19,7 +19,6 @@ const rqnext = function(meta_id, canvas, drawTool, drawStatus){
 			initCanvas(canvas, metadata);
 			
 			if(drawStatus.getNameLabel() != ''){
-				reset_when_go();
 				drawTool.startDraw();
 			}
 

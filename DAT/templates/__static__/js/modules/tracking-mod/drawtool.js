@@ -323,15 +323,22 @@ class DrawTool{
 				drawer.firstPoint = null;
 				drawer.canvas.selection = true;
 
-				// while(drawStatus.getDoneChangeClass()){
-				// 	for (let pos in drawer.ls_canvas){
-				// 		if (pos != drawer.canvas.pos){
-				// 			let cloneObj = cloneObject(new_object);
-				// 			drawer.ls_canvas[pos].add(cloneObj);
-				// 		}
-				// 	}
-				// }
-
+				if (new_object) {
+					const pos_id = new_object.labelControl.getId().split('_')[0];
+					let fObjects = {};
+					fObjects[drawer.canvas.pos] = new_object;
+					for (let pos in drawer.ls_canvas){
+						if (pos != drawer.canvas.pos){
+							let cloneObj = cloneObject(new_object);
+							drawer.ls_canvas[pos].add(cloneObj);
+							createItemToList(drawer.ls_canvas[pos], cloneObj, pos_id+pos);
+							fObjects[pos] = cloneObj;
+						}
+					}
+					console.log(fObjects);
+					drawStatus.pushObjectsToLTM(pos_id, fObjects);
+				}
+				
 				//end new code
 				drawer.startDraw();
 
@@ -471,7 +478,7 @@ class DrawTool{
 				obj.labelControl.__editITEM__(false);
 			}
 		});
-		
+
 		this.canvas.set('defaultCursor', 'crosshair');
 		if(typelabel){
 			this.typeLabel = typelabel	

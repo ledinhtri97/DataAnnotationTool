@@ -204,9 +204,21 @@ class LabelControl{
 
 	__changeClass__(tag_label, type_label, color){
 		if(this.obj.type_label == type_label){
-			this.obj.set('name', tag_label);
-			this.obj.set('stroke', color);
-			this.obj.icon.set('fill', color);
+			let pos_id = this.id.split('_')[0];
+			let list_fObj = drawStatus.getObjectsLTM(pos_id);
+
+			for (let pos in list_fObj) {
+				
+				if (!list_fObj[pos].canvas) continue;
+
+				list_fObj[pos].set('name', tag_label);
+				list_fObj[pos].set('stroke', color);
+				list_fObj[pos].icon.set('fill', color);
+				list_fObj[pos].canvas.renderAll();
+			}
+			// this.obj.set('name', tag_label);
+			// this.obj.set('stroke', color);
+			// this.obj.icon.set('fill', color);
 
 			drawStatus.setRenewLabel(false);
 			drawStatus.setNameLabel(tag_label);
@@ -230,7 +242,7 @@ class LabelControl{
 			if (checkbox_hidden.checked) {
 				this.obj.visible = checkbox_hidden.checked;
 			}
-			this.obj.setColor(Color.Opacity_GREEN);
+			this.obj.setColor(Color.Opacity_RED);
 		}
 	}
 
@@ -434,10 +446,10 @@ class LabelControl{
 	}
 }
 
-const createItemToList = function(canvas, object){
+const createItemToList = function(canvas, object, id){
 	var label_list_items = document.getElementById("label_list_items");
 	var new_element =  document.createElement("div");
-	new_element.id = uniqid();
+	new_element.id = id ? id : uniqid()+canvas.pos;
 	label_list_items.appendChild(new_element);
 	object.labelControl = new LabelControl(canvas, object, new_element.id);
 	ReactDOM.render(<LabelItem labelControl={object.labelControl}/>, new_element);

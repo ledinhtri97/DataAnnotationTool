@@ -19,7 +19,20 @@ class DrawStatus{
 		this.activePolygons = {'zs': false};
 		this.factor = 1; //width, height
 		this.turnRL = true;
+		this.labelTrackingManagement = {};
 	};
+
+	getObjectsLTM(id) {
+		return this.labelTrackingManagement[id];
+	}
+
+	pushObjectsToLTM(id, fObjects) {
+		this.labelTrackingManagement[id] = fObjects;
+	}
+
+	resetLTM() {
+		this.labelTrackingManagement = {};
+	}
 
 	getFactor(){
 		return this.factor;

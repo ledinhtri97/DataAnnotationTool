@@ -105,8 +105,7 @@ if(labeling && meta_id && meta_id.textContent){
 			// 			return response.json();
 			// 		}
 			// 	).then(data => {
-			// 		if(data === "FAILED") return;
-					
+			// 		if(data === "FAILED") return;	
 			// 		setTimeout(function(){initPredict(canvas, data)}, 200);
 			// 	});
 			// }

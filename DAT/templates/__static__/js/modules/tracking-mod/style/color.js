@@ -8,6 +8,7 @@ const Color = {
 	WHITE: "#FDFEFE",
 
 	Opacity_GREEN: "rgba(0,255,0,0.2)",
+	Opacity_RED: "rgba(255,0,0,0.2)",
 	
 	Transparent: "transparent",
 }

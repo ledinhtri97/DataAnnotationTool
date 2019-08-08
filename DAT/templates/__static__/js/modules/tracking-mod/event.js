@@ -14,11 +14,6 @@ var Direction = {
 	DOWN: 3
 };
 
-var bigplus = [
-	configureLine([0, 0, 0, 0], Color.WHITE),
-	configureLine([0, 0, 0, 0], Color.WHITE),
-];
-
 var zoomLevel = 0;
 var zoomLevelMin = 0;
 var zoomLevelMax = 3;
@@ -37,26 +32,27 @@ const isLabel = function(obj){
 	return obj.islabel;
 }
 
-const reset_when_go =  function(){
-	bigplus[0].set({y1: 0, x2: 0, y2: 0});
-	bigplus[1].set({x1: 0, x2: 0, y2: 0});
-}
-
-
 const controll_bigplus = function(__canvas__, pointer, out_canvas=true){
 	if(drawStatus.getIsDrawing() && !drawStatus.getIsZoom() && !drawStatus.getPopuHover() && out_canvas){
-		bigplus[0].set({ y1: pointer.y, x2: __canvas__.getWidth(), y2: pointer.y });
-		bigplus[1].set({ x1: pointer.x, x2: pointer.x, y2: __canvas__.getHeight()});
+		__canvas__.bigplus[0].set({ y1: pointer.y, x2: __canvas__.getWidth(), y2: pointer.y });
+		__canvas__.bigplus[1].set({ x1: pointer.x, x2: pointer.x, y2: __canvas__.getHeight()});
 	}
 	else{
-		bigplus[0].set({y1: 0, x2: 0, y2: 0});
-		bigplus[1].set({x1: 0, x2: 0, y2: 0});
+		__canvas__.bigplus[0].set({y1: 0, x2: 0, y2: 0});
+		__canvas__.bigplus[1].set({x1: 0, x2: 0, y2: 0});
 	}
 }
 
 const init_event = function(__canvas__){
 	var group_control = document.getElementById("group_control"+__canvas__.pos);
 	
+	var bigplus = [
+		configureLine([0, 0, 0, 0], Color.WHITE),
+		configureLine([0, 0, 0, 0], Color.WHITE),
+	];
+
+	__canvas__.set('bigplus', bigplus);
+
 	__canvas__.add(bigplus[0]);
 	__canvas__.add(bigplus[1]);
 
@@ -256,30 +252,50 @@ const init_event = function(__canvas__){
 
 			if (obj){
 				objectGlobal = obj;
+				
+				let pos_id;
+				
+				if(obj.islabel) {
+					pos_id = obj.labelControl.getId().split('_')[0];
+				}
+				else if (obj.isIcon) {
+					pos_id = obj.object.labelControl.getId().split('_')[0];
+				}
 
-				if (isLabel(obj)){
-					if (obj.labelControl && !obj.hidden) {
-						obj.set('fill', Color.Opacity_GREEN);
-						if(obj.type != 'polygon'){
-							obj.selectable = obj.labelControl.getIsEdit();
+				let list_fObj = drawStatus.getObjectsLTM(pos_id);
+
+				for (let pos in list_fObj) {
+					
+					let temp_obj = list_fObj[pos];
+					
+					if (!temp_obj.canvas) continue;
+
+					if (!temp_obj.hidden) {
+						temp_obj.set('fill', Color.Opacity_RED);
+						if(temp_obj.type != 'polygon'){
+							temp_obj.selectable = temp_obj.labelControl.getIsEdit();
 						}
 						else{
-							obj.selectable = false;
+							temp_obj.set('selectable', false);
 						}
-						popupControllers.popup(obj, __canvas__);
+						popupControllers.popup(temp_obj, temp_obj.canvas);
 					}
-				}
-				else if(obj.isIcon){
-					obj.object.visible = true;
-					if(obj.object.shapeflag) {
-						obj.object.shapeflag.visible = true;
+					else{
+						temp_obj.visible = true;
+						if(temp_obj.shapeflag) {
+							temp_obj.shapeflag.set('visible', true);
+						}
+						popupControllers.popup(temp_obj, temp_obj.canvas);
 					}
-					popupControllers.popup(obj, __canvas__);
+
+					temp_obj.canvas.renderAll();
 				}
+
 
 				if(obj.isEditPolygonIcon && !drawStatus.getIsZoom()){
 					obj.set('radius', 7);
 				}
+
 			}
 			else{
 				drawTool.setCanvas(__canvas__);
@@ -290,18 +306,39 @@ const init_event = function(__canvas__){
 			objectGlobal = null;
 			let obj = e.target;
 			try {
-				if (isLabel(obj)){
-					obj.set('fill', Color.Transparent);
+
+				let pos_id;
+				
+				if(obj.islabel) {
+					pos_id = obj.labelControl.getId().split('_')[0];
 				}
-				else if(obj.isIcon){
-					obj.object.visible = false;
-					if(obj.object.shapeflag) {
-						obj.object.shapeflag.visible = false;
-					}
-					if(group_control) {
-						group_control.style["display"] = "none";
-					}
+				else if (obj.isIcon) {
+					pos_id = obj.object.labelControl.getId().split('_')[0];
 				}
+
+				let list_fObj = drawStatus.getObjectsLTM(pos_id);
+
+				for (let pos in list_fObj) {
+					
+					let temp_obj = list_fObj[pos];
+
+					if (!temp_obj.canvas) continue;
+
+					if (!temp_obj.hidden) {
+						temp_obj.set('fill', Color.Transparent);
+					}
+					else{
+						temp_obj.visible = false;
+						if(temp_obj.shapeflag) {
+							temp_obj.shapeflag.set('visible', false);
+						}
+						if(group_control) {
+							group_control.style["display"] = "none";
+						}
+					}
+					temp_obj.canvas.renderAll();
+				}
+
 				if(obj.isEditPolygonIcon){
 					let rd = drawStatus.getIsZoom() ? 2 : 4;
 					obj.set('radius', rd);
@@ -574,4 +611,4 @@ const init_event = function(__canvas__){
 	//
 }
 
-export {init_event, reset_when_go};
+export {init_event};
