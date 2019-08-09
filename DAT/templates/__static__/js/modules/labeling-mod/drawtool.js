@@ -441,9 +441,9 @@ class DrawTool{
 		this.canvas.off('mouse:up', this.mouseUp);
 	}
 
-	quickDraw() {
-
+	removeStuff() {
 		var drawer = this;
+
 		drawer.canvas.remove(drawer.firstPoint);
 		drawer.canvas.remove(drawer.lastLine);
 		drawer.canvas.remove(drawer.rectangle);
@@ -458,6 +458,12 @@ class DrawTool{
 		drawer.lastLine = null;
 		drawer.firstPoint = null;
 		drawer.canvas.selection = true;
+	}
+
+	quickDraw() {
+
+		var drawer = this;
+		drawer.removeStuff();
 
 		drawStatus.setIsWaiting(true);
 		drawer.startDraw();

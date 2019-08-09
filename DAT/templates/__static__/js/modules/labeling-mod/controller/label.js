@@ -291,6 +291,9 @@ class LabelControl{
 				if(this.obj.type == 'rect'){
 					__canvas__.setActiveObject(this.obj);
 				}
+				if (!drawStatus.getIsWaiting()){
+					drawTool.removeStuff();
+				}
 				drawTool.endDraw();
 			}
 			else{
