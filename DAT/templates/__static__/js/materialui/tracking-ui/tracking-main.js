@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import DirectionsOutlined from '@material-ui/icons/DirectionsOutlined';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import Chip from '@material-ui/core/Chip';
 
@@ -69,6 +70,12 @@ const styles = theme => ({
     	justifyContent: 'center',
 		alignItems: 'center',
 	},
+	synchstyle:{
+		position: 'absolute',
+    	zIndex: 1,
+    	backgroundColor: 'rgba(199, 228, 38, 0.6)',
+    	borderRadius: '30px',
+	},
 });
 
 class Subframe extends React.Component{
@@ -82,6 +89,11 @@ class Subframe extends React.Component{
 		const style_secondcontainer = (idframe == '_tl' || idframe == '_bl') ? classes.secondcontainer_cvleft : classes.secondcontainer_cvright;
 		return (
 			<div className={classes.firstcontainer}>
+			<div className={classes.synchstyle} id={"synch"+idframe}>
+				<IconButton size="small">
+					<DirectionsOutlined />
+				</IconButton>
+			</div>
 			<div className={style_secondcontainer} id={"cvcontainer"+idframe} onContextMenu={this.contextMenu}>
 				<canvas id={"canvas"+idframe} className={classes.canvas}></canvas>
 				<div id={"group_control"+idframe} style={{display: 'none', position: 'absolute',}}>

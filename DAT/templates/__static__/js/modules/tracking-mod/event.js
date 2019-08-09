@@ -256,10 +256,10 @@ const init_event = function(__canvas__){
 				let pos_id;
 				
 				if(obj.islabel) {
-					pos_id = obj.labelControl.getId().split('_')[0];
+					pos_id = obj.labelControl.getPosId();
 				}
 				else if (obj.isIcon) {
-					pos_id = obj.object.labelControl.getId().split('_')[0];
+					pos_id = obj.object.labelControl.getPosId();
 				}
 
 				let list_fObj = drawStatus.getObjectsLTM(pos_id);
@@ -310,10 +310,10 @@ const init_event = function(__canvas__){
 				let pos_id;
 				
 				if(obj.islabel) {
-					pos_id = obj.labelControl.getId().split('_')[0];
+					pos_id = obj.labelControl.getPosId();
 				}
 				else if (obj.isIcon) {
-					pos_id = obj.object.labelControl.getId().split('_')[0];
+					pos_id = obj.object.labelControl.getPosId();
 				}
 
 				let list_fObj = drawStatus.getObjectsLTM(pos_id);

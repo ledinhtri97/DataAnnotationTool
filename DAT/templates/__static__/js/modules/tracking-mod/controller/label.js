@@ -216,9 +216,6 @@ class LabelControl{
 				list_fObj[pos].icon.set('fill', color);
 				list_fObj[pos].canvas.renderAll();
 			}
-			// this.obj.set('name', tag_label);
-			// this.obj.set('stroke', color);
-			// this.obj.icon.set('fill', color);
 
 			drawStatus.setRenewLabel(false);
 			drawStatus.setNameLabel(tag_label);
@@ -302,6 +299,9 @@ class LabelControl{
 			if (lbc.edit) {
 				if(this.obj.type == 'rect'){
 					__canvas__.setActiveObject(this.obj);
+				}
+				if (!drawStatus.getIsWaiting()){
+					drawTool.removeStuff();
 				}
 				drawTool.endDraw();
 			}
@@ -405,6 +405,30 @@ class LabelControl{
 			this.canvas.remove(this.obj);
 			this.canvas.remove(this.obj.icon);
 			current_element.parentElement.removeChild(current_element);
+
+			//remove hover on objects in other canvas
+			let list_fObj = drawStatus.getObjectsLTM(this.getPosId());
+			for (let pos in list_fObj) {
+				
+				let temp_obj = list_fObj[pos];
+
+				if (!temp_obj.canvas) continue;
+
+				if (!temp_obj.hidden) {
+					temp_obj.set('fill', Color.Transparent);
+				}
+				else{
+					temp_obj.visible = false;
+					if(temp_obj.shapeflag) {
+						temp_obj.shapeflag.set('visible', false);
+					}
+					if(group_control) {
+						group_control.style["display"] = "none";
+					}
+				}
+				temp_obj.canvas.renderAll();
+			}
+
 		}
 		else {
 			console.log("no delete " + this.id)
@@ -433,6 +457,10 @@ class LabelControl{
 		return this.id;
 	}
 
+	getPosId(){
+		return this.id.split('_')[0];
+	}
+
 	getIsEdit(){
 		return this.edit;
 	}
@@ -449,7 +477,9 @@ class LabelControl{
 const createItemToList = function(canvas, object, id){
 	var label_list_items = document.getElementById("label_list_items");
 	var new_element =  document.createElement("div");
-	new_element.id = id ? id : uniqid()+canvas.pos;
+	let pos_id = uniqid();
+	object.set('pos_id', pos_id);
+	new_element.id = id ? id : pos_id+canvas.pos;
 	label_list_items.appendChild(new_element);
 	object.labelControl = new LabelControl(canvas, object, new_element.id);
 	ReactDOM.render(<LabelItem labelControl={object.labelControl}/>, new_element);

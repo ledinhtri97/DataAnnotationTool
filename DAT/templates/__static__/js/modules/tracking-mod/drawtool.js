@@ -462,7 +462,7 @@ class DrawTool{
 			drawer.endDraw();
 		}
 		else{
-			drawer.canvas.set('defaultCursor', 'crosshair');
+			drawer.startDraw();
 		}
 	}
 
@@ -502,8 +502,7 @@ class DrawTool{
 		this.canvas.off('mouse:up', this.mouseUp);
 	}
 
-	quickDraw() {
-
+	removeStuff() {
 		var drawer = this;
 		if (!drawer.canvas) return;
 
@@ -521,6 +520,12 @@ class DrawTool{
 		drawer.lastLine = null;
 		drawer.firstPoint = null;
 		drawer.canvas.selection = true;
+	}
+
+	quickDraw() {
+
+		var drawer = this;
+		drawer.removeStuff();
 
 		drawStatus.setIsWaiting(true);
 		drawer.startDraw();
