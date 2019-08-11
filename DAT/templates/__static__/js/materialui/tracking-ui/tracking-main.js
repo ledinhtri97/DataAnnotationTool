@@ -71,10 +71,11 @@ const styles = theme => ({
 		alignItems: 'center',
 	},
 	synchstyle:{
+		top: '0',
 		position: 'absolute',
     	zIndex: 1,
     	backgroundColor: 'rgba(199, 228, 38, 0.6)',
-    	borderRadius: '30px',
+    	borderRadius: '15px',
 	},
 });
 
@@ -89,13 +90,15 @@ class Subframe extends React.Component{
 		const style_secondcontainer = (idframe == '_tl' || idframe == '_bl') ? classes.secondcontainer_cvleft : classes.secondcontainer_cvright;
 		return (
 			<div className={classes.firstcontainer}>
-			<div className={classes.synchstyle} id={"synch"+idframe}>
-				<IconButton size="small">
-					<DirectionsOutlined />
-				</IconButton>
-			</div>
+
 			<div className={style_secondcontainer} id={"cvcontainer"+idframe} onContextMenu={this.contextMenu}>
-				<canvas id={"canvas"+idframe} className={classes.canvas}></canvas>
+				<div className={classes.synchstyle} id={"synch"+'idframe'}>
+					<IconButton size="small">
+						<DirectionsOutlined />
+					</IconButton>
+				</div>
+				<canvas id={"canvas"+idframe} className={classes.canvas}>
+				</canvas>
 				<div id={"group_control"+idframe} style={{display: 'none', position: 'absolute',}}>
 						{<label id={"label_popup"+idframe} className={classes.label}></label>}
 						{<label id={"accuracy_popup"+idframe} className={classes.label}></label>}
