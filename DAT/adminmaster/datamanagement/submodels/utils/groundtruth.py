@@ -34,7 +34,12 @@ class GroundTruther(object):
                 line = [meta.get_rel_path(), str(meta.boxes_position.count())]
                 for bb in meta.boxes_position.all():
                     line.append(bb.label.tag_label)
-                    line.append(bb.position)
+                    if bb.label.tag_label == 'license_plate' and bb.label.type_label == 'rect':
+                        lpo = bb.position.split(',')
+                        position = ','.join([lpo[0], lpo[1], lpo[2], lpo[1], lpo[2], lpo[3], lpo[0], lpo[3]])
+                        line.append(position)
+                    else:
+                        line.append(bb.position)
                 txt_file.write(','.join(line)+'\n')
 
         return path_file_groundtruth
