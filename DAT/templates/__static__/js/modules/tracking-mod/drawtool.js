@@ -317,8 +317,8 @@ class DrawTool{
 					changelb && changelb.click();
 				}
 
-				drawer.pointArray.lenth = new Array();;
-				drawer.lineArray.lenth = new Array();;
+				drawer.pointArray.lenth = new Array();
+				drawer.lineArray.lenth = new Array();
 				drawer.typeLabel = null;
 				drawer.lastLine = null;
 				drawer.firstPoint = null;
@@ -444,6 +444,18 @@ class DrawTool{
 					drawer.firstPoint = null;
 					drawer.tool.generateShapeLabel();
 				}
+				// else if (drawStatus.getListLabelPoly().length == 0) {
+
+				// 	drawer.pointArray.lenth = new Array();
+				// 	drawer.lineArray.lenth = new Array();
+				// 	drawer.typeLabel = null;
+				// 	drawer.lastLine = null;
+				// 	drawer.firstPoint = null;
+				// 	drawer.canvas.selection = true;
+
+				// 	drawer.canvas.remove(drawer.firstPoint);
+				// 	drawer.firstPoint = null;
+				// }
 				else {
 					drawer.canvas.remove(drawer.rectangle);
 					drawer.rectangle = null;
