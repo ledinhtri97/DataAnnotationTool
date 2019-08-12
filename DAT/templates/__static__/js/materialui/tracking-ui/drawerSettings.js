@@ -91,7 +91,7 @@ class TemporaryDrawerSettings extends React.Component {
 					'show_label': str2var(sett.show_label),
 					'auto_hidden': str2var(sett.auto_hidden),
 					'ask_dialog': str2var(sett.ask_dialog),
-					'color_background': "#1B1616",
+					'color_background': str2var(sett.color_background),
 				},
 				width_stroke: str2var(sett.width_stroke),
 				size_icon: str2var(sett.size_icon),
