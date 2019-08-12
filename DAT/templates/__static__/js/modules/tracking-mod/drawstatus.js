@@ -20,7 +20,21 @@ class DrawStatus{
 		this.factor = 1; //width, height
 		this.turnRL = true;
 		this.labelTrackingManagement = {};
+		this.autoSynchs = {
+			_tl: false,
+			_tr: false,
+			_bl: false,
+			_br: false,
+		}
 	};
+
+	setAutoSynch(pos, value){
+		this.autoSynchs[pos] = value;
+	}
+
+	getAutoSynchs(pos){
+		return pos ? this.autoSynchs[pos] : this.autoSynchs;
+	}
 
 	getObjectsLTM(id) {
 		return this.labelTrackingManagement[id];

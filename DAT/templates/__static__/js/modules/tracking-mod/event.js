@@ -583,15 +583,24 @@ const init_event = function(__canvas__){
 	});
 
 	var idx = 0;
-	if(__canvas__.pos == '_tr'){
-		idx = 1;
-	}
-	else if(__canvas__.pos == '_bl'){
-		idx = 2;
-	}
-	else if(__canvas__.pos == '_br'){
-		idx = 3;
-	}
+
+	switch (__canvas__.pos) {
+		case '_full':
+			idx = 0;
+			break;
+		case '_tl':
+			idx = 1;
+			break;
+		case '_tr':
+			idx = 2;
+			break;
+		case '_bl':
+			idx = 3;
+			break;
+		case '_br':
+			idx = 4;
+			break;
+	};
 
 	var cv_container = document.getElementsByClassName('canvas-container')[idx];
 

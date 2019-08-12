@@ -6,6 +6,7 @@ import MainFrameTracking from "./materialui/tracking-ui/mainframe";
 import TemporaryDrawerInstruction from "./materialui/tracking-ui/drawerInstruction"
 import TemporaryDrawerSettings from "./materialui/tracking-ui/drawerSettings";
 import ToolListItems from './materialui/tracking-ui/listitem/toolListItems';
+import SynchControl from './materialui/tracking-ui/synch-control/SynchControl';
 
 import {initCanvas, initPredict} from "./modules/tracking-mod/renderInit"
 import {init_event} from "./modules/tracking-mod/event";
@@ -14,8 +15,6 @@ import {DrawTool} from "./modules/tracking-mod/drawtool";
 import {Color} from "./modules/tracking-mod/style/color";
 import DrawStatus from './modules/tracking-mod/drawstatus';
 import QuickSettings from './modules/tracking-mod/settings';
-
-
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -41,12 +40,14 @@ const canvas_tl = new fabric.Canvas('canvas_tl', general_setting_canvas('_tl'));
 const canvas_tr = new fabric.Canvas('canvas_tr', general_setting_canvas('_tr'));
 const canvas_bl = new fabric.Canvas('canvas_bl', general_setting_canvas('_bl'));
 const canvas_br = new fabric.Canvas('canvas_br', general_setting_canvas('_br'));
+const canvas_full = new fabric.Canvas('canvas_full', general_setting_canvas('_full'));
 
 const canvas = {
 	_tl: canvas_tl,
 	_tr: canvas_tr,
 	_bl: canvas_bl,
 	_br: canvas_br,
+	_full: canvas_full,
 }
 
 const settings = document.getElementById("settings");
@@ -95,6 +96,8 @@ if(labeling && meta_id && meta_id.textContent){
 			initCanvas(canvas_tr, data.tr);
 			initCanvas(canvas_bl, data.bl);
 			initCanvas(canvas_br, data.br);
+
+
 
 			// if (!on_edit){
 			// 	fetch('/gvlab-dat/workspace/api_reference/'+meta_id.textContent+'/api-get-data/', {})
@@ -154,7 +157,27 @@ if(labeling && meta_id && meta_id.textContent){
 			// 	// setTimeout(function(){drawTool.startDraw();}, 500);
 			// 	drawStatus.startDrawStatus();
 			// }
+
+			const synch_tl = document.getElementById("synch_tl");
+			const synch_tr = document.getElementById("synch_tr");
+			const synch_bl = document.getElementById("synch_bl");
+			const synch_br = document.getElementById("synch_br");
+			const synch_full = document.getElementById("synch_full");
+
+			synch_tl && ReactDOM.render(<SynchControl 
+				drawStatus={drawStatus} drawTool={drawTool} idframe={'_tl'} />, synch_tl);
+			synch_tr && ReactDOM.render(<SynchControl 
+				drawStatus={drawStatus} drawTool={drawTool} idframe={'_tr'} />, synch_tr);
+			synch_bl && ReactDOM.render(<SynchControl 
+				drawStatus={drawStatus} drawTool={drawTool} idframe={'_bl'} />, synch_bl);
+			synch_br && ReactDOM.render(<SynchControl 
+				drawStatus={drawStatus} drawTool={drawTool} idframe={'_br'} />, synch_br);
+			synch_full && ReactDOM.render(<SynchControl 
+				drawStatus={drawStatus} drawTool={drawTool} idframe={'_full'} />, synch_full);
 		});
+
+		document.getElementById("labeling").style['backgroundColor'] = "#1B1616";
+		
 	} catch(e) {
 		// statements
 		

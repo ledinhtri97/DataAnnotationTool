@@ -1,6 +1,7 @@
 import {createItemToList} from "./controller/label";
 import {Color} from "./style/color";
 import {fabric} from "fabric";
+import {initCanvas} from "./renderInit";
 import {drawStatus} from "../../tracking";
 
 const MIN = 99;
@@ -328,14 +329,15 @@ class DrawTool{
 					let fObjects = {};
 					fObjects[drawer.canvas.pos] = new_object;
 					for (let pos in drawer.ls_canvas){
-						if (pos != drawer.canvas.pos){
+						let isAutoSynch = drawStatus.getAutoSynchs(pos);
+						if (isAutoSynch && pos != drawer.canvas.pos){
 							let cloneObj = cloneObject(new_object);
 							drawer.ls_canvas[pos].add(cloneObj);
 							createItemToList(drawer.ls_canvas[pos], cloneObj, pos_id+pos);
 							fObjects[pos] = cloneObj;
 						}
 					}
-					console.log(fObjects);
+					// console.log(fObjects);
 					drawStatus.pushObjectsToLTM(pos_id, fObjects);
 				}
 				
@@ -531,6 +533,15 @@ class DrawTool{
 		drawer.startDraw();
 	}
 
+	initFullScreen(pos) {
+		var drawer = this;
+		var meta = {
+			url_meta: drawer.canvas.url_meta,
+		}
+		initCanvas(drawer.ls_canvas['_full'], meta);
+
+
+	}
 }
 
 export {configureFlag, configureCircle, configureLine, configureLinePoly, configureRectangle, configurePoly, DrawTool};

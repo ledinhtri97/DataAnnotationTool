@@ -124,6 +124,9 @@ const styles = theme =>({
     	margin: theme.spacing(1),
     	width: '150px',
     },
+    hidden: {
+    	display: 'none',
+    },
 });
 
 
@@ -233,7 +236,7 @@ class MainFrameLabeling extends React.Component {
 				</ExpansionPanelDetails>
 				</ExpansionPanel>
 
-				<ExpansionPanel expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
+				<ExpansionPanel className={classes.hidden} expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Labels"/>

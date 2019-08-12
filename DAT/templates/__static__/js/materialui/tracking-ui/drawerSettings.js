@@ -91,7 +91,7 @@ class TemporaryDrawerSettings extends React.Component {
 					'show_label': str2var(sett.show_label),
 					'auto_hidden': str2var(sett.auto_hidden),
 					'ask_dialog': str2var(sett.ask_dialog),
-					'color_background': str2var(sett.color_background),
+					'color_background': "#1B1616",
 				},
 				width_stroke: str2var(sett.width_stroke),
 				size_icon: str2var(sett.size_icon),
@@ -102,7 +102,7 @@ class TemporaryDrawerSettings extends React.Component {
 			document.getElementById("show_label").textContent = sett.show_label;
 			document.getElementById("auto_hidden").textContent = sett.auto_hidden;
 			document.getElementById("ask_dialog").textContent = sett.ask_dialog;
-			document.getElementById("color_background").textContent = sett.color_background;
+			document.getElementById("color_background").textContent = "#1B1616";
 			document.getElementById("width_stroke").textContent = sett.width_stroke;
 			document.getElementById("size_icon").textContent = sett.size_icon;
 			
@@ -149,7 +149,7 @@ class TemporaryDrawerSettings extends React.Component {
 
 		}
 		if(name == 'color_background'){
-			document.getElementById("labeling").style['backgroundColor'] = (event.target.checked) ? "#FFFFFF" : "#332F2F";
+			document.getElementById("labeling").style['backgroundColor'] = (event.target.checked) ? "#FFFFFF" : "#1B1616";
 		}
 	};
 

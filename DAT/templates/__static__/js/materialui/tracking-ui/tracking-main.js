@@ -1,21 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import DirectionsOutlined from '@material-ui/icons/DirectionsOutlined';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import Chip from '@material-ui/core/Chip';
+import Fade from '@material-ui/core/Fade';
 
 const styles = theme => ({
 	appBarSpacer: theme.mixins.toolbar,
@@ -25,11 +12,18 @@ const styles = theme => ({
 		height: '100%',
 		overflow: 'auto',
 	},
-	firstcontainer: {
+	firstcontainerFull: {
+		width: '97%',
+		height: '97%',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	firstcontainerNoneFull: {
 		width: '98%',
 		height: '96%',
 	},
-	secondcontainer_cvleft:{
+	secondContainerCVLeft:{
 		width: '100%',
 		height: '100%',
 		display: 'flex',
@@ -37,7 +31,7 @@ const styles = theme => ({
 		alignItems: 'center',
 		position: 'relative',
 	},
-	secondcontainer_cvright:{
+	secondContainerCVRight:{
 		width: '100%',
 		height: '100%',
 		display: 'flex',
@@ -74,28 +68,57 @@ const styles = theme => ({
 		top: '0',
 		position: 'absolute',
     	zIndex: 1,
-    	backgroundColor: 'rgba(199, 228, 38, 0.6)',
-    	borderRadius: '15px',
+    	backgroundColor: 'rgba(255, 255, 255, 0.74)',
+    	borderRadius: '4px',
+	},
+	noneFullView: {
+		width: '100%',
+		height: '100%',
+	},
+	fullView: {
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	generalSecondContainer: {
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		position: 'relative',
 	},
 });
 
 class Subframe extends React.Component{
-	state = {
-
-	};
 
 	render(){
 
 		const {classes, idframe} = this.props;
-		const style_secondcontainer = (idframe == '_tl' || idframe == '_bl') ? classes.secondcontainer_cvleft : classes.secondcontainer_cvright;
-		return (
-			<div className={classes.firstcontainer}>
+		let secondcontainer, firstcontainer;
+		switch (idframe) {
+			case '_full':
+				secondcontainer = classes.generalSecondContainer;
+				firstcontainer = classes.firstcontainerFull;
+				break;
+			case '_tl':
+			case '_bl':
+				secondcontainer = classes.secondContainerCVLeft;
+				firstcontainer = classes.firstcontainerNoneFull;
+				break;
+			case '_tr':
+			case '_br':
+				secondcontainer = classes.secondContainerCVRight;
+				firstcontainer = classes.firstcontainerNoneFull;
+				break;
+		}
 
-			<div className={style_secondcontainer} id={"cvcontainer"+idframe} onContextMenu={this.contextMenu}>
-				<div className={classes.synchstyle} id={"synch"+'idframe'}>
-					<IconButton size="small">
-						<DirectionsOutlined />
-					</IconButton>
+		return (
+			<div className={firstcontainer}>
+			<div className={secondcontainer} id={"cvcontainer"+idframe} onContextMenu={this.contextMenu}>
+				<div className={classes.synchstyle} id={"synch"+idframe}>
 				</div>
 				<canvas id={"canvas"+idframe} className={classes.canvas}>
 				</canvas>
@@ -112,23 +135,37 @@ class Subframe extends React.Component{
 class Tracking extends React.Component {
 
 	state = {
-		something: null,
+		isFull: false,
 	};
+
+	handleChangeFull = () => {
+		this.setState({'isFull': !this.state.isFull});
+	}
 
 	render() {
 
 		const { classes } = this.props;
-		
+		const { isFull } = this.state;
+
 		return (
 			<main className={classes.content}>
-			<div className={classes.horizontal}>
-				<div className={classes.vertical}><Subframe classes={classes} idframe={"_tl"}/></div>
-				<div className={classes.vertical}><Subframe classes={classes} idframe={"_tr"}/></div>
+			<Fade in={isFull} timeout={1700} >
+			<div className={classes.fullView} id="in_full_screen" style={{display: 'none'}}>
+				<Subframe classes={classes} idframe={"_full"}/>
 			</div>
-			<div className={classes.horizontal}>
-				<div className={classes.vertical}><Subframe classes={classes} idframe={"_bl"}/></div>
-				<div className={classes.vertical}><Subframe classes={classes} idframe={"_br"}/></div>
+			</Fade>
+			
+			<div className={classes.noneFullView} id="out_full_screen">
+				<div className={classes.horizontal}>
+					<div className={classes.vertical}><Subframe classes={classes} idframe={"_tl"}/></div>
+					<div className={classes.vertical}><Subframe classes={classes} idframe={"_tr"}/></div>
+				</div>
+				<div className={classes.horizontal}>
+					<div className={classes.vertical}><Subframe classes={classes} idframe={"_bl"}/></div>
+					<div className={classes.vertical}><Subframe classes={classes} idframe={"_br"}/></div>
+				</div>
 			</div>
+
 			<div className={classes.hidden}>
 				<span id="show_popup"></span>
 				<span id="show_label"></span>
@@ -141,6 +178,7 @@ class Tracking extends React.Component {
 			<div className={classes.hidden}>
 				<span id="label_select"></span>
 			</div>
+			<span id="change_full_view" className={classes.hidden} onClick={this.handleChangeFull}/>
 			</main>
 			);
 	}
