@@ -51,6 +51,9 @@ const init_event = function(__canvas__){
 		configureLine([0, 0, 0, 0], Color.WHITE),
 	];
 
+	bigplus[0].set('isBigPlus', true);
+	bigplus[1].set('isBigPlus', true);
+
 	__canvas__.set('bigplus', bigplus);
 
 	__canvas__.add(bigplus[0]);
@@ -332,9 +335,10 @@ const init_event = function(__canvas__){
 						if(temp_obj.shapeflag) {
 							temp_obj.shapeflag.set('visible', false);
 						}
-						if(group_control) {
-							group_control.style["display"] = "none";
-						}
+					}
+					let temGC = document.getElementById("group_control"+pos);
+					if(temGC) {
+						temGC.style["display"] = "none";
 					}
 					temp_obj.canvas.renderAll();
 				}
@@ -347,9 +351,6 @@ const init_event = function(__canvas__){
 			catch(error) {
 				if (!e.target){
 					controll_bigplus(__canvas__, null, false);
-					if(group_control) {
-						group_control.style["display"] = "none";
-					}
 				}
 			}
 			__canvas__.renderAll();

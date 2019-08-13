@@ -40,6 +40,10 @@ class DrawStatus{
 		return this.labelTrackingManagement[id];
 	}
 
+	pushOneToLTM(id, pos, obj){
+		this.labelTrackingManagement[id][pos] = obj;
+	}
+
 	pushObjectsToLTM(id, fObjects) {
 		this.labelTrackingManagement[id] = fObjects;
 	}

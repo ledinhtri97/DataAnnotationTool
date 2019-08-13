@@ -338,22 +338,23 @@ class DrawTool{
 					}
 					else{
 						//must be polygon, so change type of drawing mode to polygon
-						if (drawer.firstPoint) {
-							drawer.canvas.remove(drawer.firstPoint);
-							drawer.firstPoint = null;
+						if (drawStatus.getListLabelPoly().length == 0) {
+							//last point and new point
+							drawer.quickDraw();
+							//setTimeout(function(){alert("Don't have any polygon label in list");}, 200);
 						}
+						else{
+							let firstpoint = drawer.pointArray[0];
+							let lastpoint = drawer.pointArray[drawer.pointArray.length - 2];
+							let newline = configureLinePoly([lastpoint.x, lastpoint.y, pointer.x, pointer.y]);
 
-						//last point and new point
-						let firstpoint = drawer.pointArray[0];
-						let lastpoint = drawer.pointArray[drawer.pointArray.length - 2];
-						let newline = configureLinePoly([lastpoint.x, lastpoint.y, pointer.x, pointer.y]);
+							drawer.lineArray.push(newline);
+							drawer.canvas.add(newline);
 
-						drawer.lineArray.push(newline);
-						drawer.canvas.add(newline);
-
-						drawer.canvas.remove(drawer.lastLine);
-						drawer.lastLine = configureLinePoly([pointer.x, pointer.y, firstpoint.x, firstpoint.y]);
-						drawer.canvas.add(drawer.lastLine);
+							drawer.canvas.remove(drawer.lastLine);
+							drawer.lastLine = configureLinePoly([pointer.x, pointer.y, firstpoint.x, firstpoint.y]);
+							drawer.canvas.add(drawer.lastLine);
+						}
 					}
 				}
 				else if (clickbtn === 3 && drawer.typeLabel === 'poly') { //right mouse click

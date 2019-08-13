@@ -84,14 +84,16 @@ class SynchControl extends React.Component {
 		document.getElementById('out_full_screen').style["display"] = "none";
 		let c_full = document.getElementById('change_full_view');
 		c_full && c_full.click();
-		drawTool.initFullScreen(idframe);
+		drawTool.inFullScreen(idframe);
   	};
 
   	handleExitFullScreen = () => {
+  		const {drawTool} = this.props;
   		document.getElementById('in_full_screen').style["display"] = "none";
 		document.getElementById('out_full_screen').style["display"] = "";
 		let c_full = document.getElementById('change_full_view');
 		c_full && c_full.click();
+		drawTool.outFullScreen();
   	}
 
 	render(){
@@ -129,25 +131,6 @@ class SynchControl extends React.Component {
 
 					    {idframe != '_full' ?
 					    	<React.Fragment>
-					        <ListItem button classes={{
-					        	root: classes.listItemRoot, 
-					        	gutters: classes.guttersCustom}}>
-					        <Tooltip title="Auto synchronized" TransitionComponent={Zoom} 
-					        	placement="right" classes={{tooltip: classes.lightTooltip}}>
-					        <FormControlLabel
-					        	classes={{root: classes.formControlCustom}}
-						        control={
-						          <Checkbox
-						          	classes={{root: classes.checkedBox}}
-						            checked={cx}
-						            onChange={this.handleChangeCheckedBox('cx')}
-						            value="cx"
-						            color="primary"
-						          />
-						        }
-						    />
-						    </Tooltip>
-						    </ListItem>
 						    {idframe != '_tl' ? <ListItem button classes={{
 						        	root: classes.listItemRoot, 
 						        	gutters: classes.guttersCustom}}>
@@ -184,6 +167,25 @@ class SynchControl extends React.Component {
 						        	</Tooltip>
 						        </ListItem> : null
 					    	}
+					    	<ListItem button classes={{
+					        	root: classes.listItemRoot, 
+					        	gutters: classes.guttersCustom}}>
+					        <Tooltip title="Auto synchronized" TransitionComponent={Zoom} 
+					        	placement="right" classes={{tooltip: classes.lightTooltip}}>
+					        <FormControlLabel
+					        	classes={{root: classes.formControlCustom}}
+						        control={
+						          <Checkbox
+						          	classes={{root: classes.checkedBox}}
+						            checked={cx}
+						            onChange={this.handleChangeCheckedBox('cx')}
+						            value="cx"
+						            color="primary"
+						          />
+						        }
+						    />
+						    </Tooltip>
+						    </ListItem>
 					    </React.Fragment> : null 
 						}
 				    </ExpansionPanelDetails>

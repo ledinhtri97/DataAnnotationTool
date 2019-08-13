@@ -117,6 +117,7 @@ if(labeling && meta_id && meta_id.textContent){
 			init_event(canvas_tr);
 			init_event(canvas_bl);
 			init_event(canvas_br);
+			init_event(canvas_full);
 
 			const tools_list_items = document.getElementById("tools_list_items");
 			tools_list_items && ReactDOM.render(<ToolListItems
@@ -177,7 +178,7 @@ if(labeling && meta_id && meta_id.textContent){
 		});
 
 		document.getElementById("labeling").style['backgroundColor'] = "#1B1616";
-		
+
 	} catch(e) {
 		// statements
 		

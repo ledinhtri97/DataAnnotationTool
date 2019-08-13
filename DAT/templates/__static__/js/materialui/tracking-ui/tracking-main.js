@@ -149,7 +149,7 @@ class Tracking extends React.Component {
 
 		return (
 			<main className={classes.content}>
-			<Fade in={isFull} timeout={1700} >
+			<Fade in={isFull} timeout={1500} >
 			<div className={classes.fullView} id="in_full_screen" style={{display: 'none'}}>
 				<Subframe classes={classes} idframe={"_full"}/>
 			</div>
