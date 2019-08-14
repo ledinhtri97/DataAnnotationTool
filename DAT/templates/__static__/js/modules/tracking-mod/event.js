@@ -118,8 +118,38 @@ const init_event = function(__canvas__){
 	window.onkeypress = function(e){
 		if(drawStatus.getIsChangingLabel()) return;
 		let key = e.keyCode ? e.keyCode : e.which;
+		let isObject = objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon);
+		let labelControl = objectGlobal ? (objectGlobal.labelControl || objectGlobal.object.labelControl) : null;
 		// alert(key);
-		if(key == 97){
+		if(group_control) {
+			group_control.style["display"] = "none";
+		}
+		
+		if(key == 49){
+			//copy_1
+			if(isObject && labelControl){
+				labelControl.__copyToLayer1__();
+			}
+		}
+		else if(key == 50){
+			//copy_2
+			if(isObject && labelControl){
+				labelControl.__copyToLayer2__();
+			}
+		}
+		else if(key == 51){
+			//copy_3
+			if(isObject && labelControl){
+				labelControl.__copyToLayer3__();
+			}
+		}
+		else if(key == 52){
+			//copy_4
+			if(isObject && labelControl){
+				labelControl.__copyToLayer4__();
+			}
+		}
+		else if(key == 97){
 			if(dialog && quickSettings.getAtt('ask_dialog')){
 				ReactDOM.unmountComponentAtNode(dialog);
 				let message = "Skip this data and continue?";
@@ -144,41 +174,23 @@ const init_event = function(__canvas__){
 
 		else if(key == 99){
 			//C key -> Change class label
-			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
-				if(group_control) {
-					group_control.style["display"] = "none";
-				}
-				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
-
-				if(labelControl){
-					setTimeout(function(){
+			if(isObject && labelControl){
+				setTimeout(function(){
 						drawStatus.setIsChangingLabel(true);
 						let changelb = document.getElementById(labelControl.getId()+"_changelabel");
 						changelb && changelb.click();
-					}, 10);
-				}
+				}, 10);
 			}
 		}
 		else if(key == 101){
 			//E key -> Edit
-			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
-				if(group_control) {
-					group_control.style["display"] = "none";
-				}
-				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
-
-				if(labelControl){
-					labelControl.__editITEM__();
-				}
+			if(isObject && labelControl){
+				labelControl.__editITEM__();
 			}
 		}
 		else if (key == 102){
 			//F key -> mark flag false predict
-			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
-				if(group_control) {
-					group_control.style["display"] = "none";
-				}
-
+			if(isObject){
 				let o = objectGlobal.object || objectGlobal;
 				
 				if(o.flag != -1 && !o.accept_edit){
@@ -197,27 +209,15 @@ const init_event = function(__canvas__){
 		}
 		else if (key == 104){
 			//H key -> hidden
-			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
-				if(group_control) {
-					group_control.style["display"] = "none";
-				}
-				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
-				if(labelControl){
-					let e_hidden = document.getElementById(labelControl.getId()+"_hidden");
-					e_hidden && e_hidden.click();
-				}
+			if(isObject && labelControl){
+				let e_hidden = document.getElementById(labelControl.getId()+"_hidden");
+				e_hidden && e_hidden.click();
 			}
 		}
 		else if (key == 100){
 			//D key -> Delete
-			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
-				if(group_control) {
-					group_control.style["display"] = "none";
-				}
-				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
-				if(labelControl){
-					labelControl.__deleteITEM__();
-				}
+			if(isObject && labelControl){
+				labelControl.__deleteITEM__();
 			}
 		}
 		else if(key == 113) {

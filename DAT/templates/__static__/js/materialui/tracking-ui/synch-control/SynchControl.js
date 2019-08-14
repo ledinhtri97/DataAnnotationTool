@@ -13,6 +13,7 @@ import Filter1 from '@material-ui/icons/Filter1';
 import Filter2 from '@material-ui/icons/Filter2';
 import Filter3 from '@material-ui/icons/Filter3';
 import Filter4 from '@material-ui/icons/Filter4';
+import DeleteSweepOutlined from '@material-ui/icons/DeleteSweepOutlined';
 import Fullscreen from '@material-ui/icons/Fullscreen';
 import FullscreenExit from '@material-ui/icons/FullscreenExit';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -94,7 +95,31 @@ class SynchControl extends React.Component {
 		let c_full = document.getElementById('change_full_view');
 		c_full && c_full.click();
 		drawTool.outFullScreen();
-  	}
+  	};
+
+  	copyAllToLayer1 = () => {
+  		// alert("copy to layer 1");
+
+  	};
+
+  	copyAllToLayer2 = () => {
+  		// alert("copy to layer 2");
+
+  	};
+
+  	copyAllToLayer3 = () => {
+  		// alert("copy to layer 3");
+
+  	};
+
+  	copyAllToLayer4 = () => {
+  		// alert("copy to layer 4");
+
+  	};
+
+  	deleteAllObjects = () => {
+
+  	};
 
 	render(){
 		
@@ -136,7 +161,7 @@ class SynchControl extends React.Component {
 						        	gutters: classes.guttersCustom}}>
 						        	<Tooltip title="Copy to layer 1" TransitionComponent={Zoom}
 						        		placement="right" classes={{tooltip: classes.lightTooltip}}>
-						        	<Filter1 />
+						        	<Filter1 onClick={synthis.copyAllToLayer1}/>
 						        	</Tooltip>
 					        	</ListItem> : null
 					    	}
@@ -145,7 +170,7 @@ class SynchControl extends React.Component {
 						        	gutters: classes.guttersCustom}}>
 						        	<Tooltip title="Copy to layer 2" TransitionComponent={Zoom}
 						        		placement="right" classes={{tooltip: classes.lightTooltip}}>
-						        	<Filter2 />
+						        	<Filter2 onClick={synthis.copyAllToLayer2}/>
 						        	</Tooltip>
 						        </ListItem> : null
 					    	}
@@ -154,7 +179,7 @@ class SynchControl extends React.Component {
 						        	gutters: classes.guttersCustom}}>
 						        	<Tooltip title="Copy to layer 3" TransitionComponent={Zoom}
 						        		placement="right" classes={{tooltip: classes.lightTooltip}}>
-						        	<Filter3 />
+						        	<Filter3 onClick={synthis.copyAllToLayer3}/>
 						        	</Tooltip>
 						        </ListItem> : null
 					    	}
@@ -163,10 +188,20 @@ class SynchControl extends React.Component {
 						        	gutters: classes.guttersCustom}}>
 						        	<Tooltip title="Copy to layer 4" TransitionComponent={Zoom}
 						        		placement="right" classes={{tooltip: classes.lightTooltip}}>
-						        	<Filter4 />
+						        	<Filter4 onClick={synthis.copyAllToLayer4}/>
 						        	</Tooltip>
 						        </ListItem> : null
 					    	}
+
+					    	<ListItem button classes={{
+					        	root: classes.listItemRoot, 
+					        	gutters: classes.guttersCustom}}>
+					        	<Tooltip title="Delete all labels" TransitionComponent={Zoom}
+					        		placement="right" classes={{tooltip: classes.lightTooltip}}>
+					        	<DeleteSweepOutlined onClick={synthis.deleteAllObjects}/>
+					        	</Tooltip>
+					        </ListItem>
+
 					    	<ListItem button classes={{
 					        	root: classes.listItemRoot, 
 					        	gutters: classes.guttersCustom}}>

@@ -9,7 +9,7 @@ class PopupControllers{
 
 		var group_control = document.getElementById("group_control"+canvas.pos);
 		var canPopup = !drawStatus.getIsDrawing() || (drawStatus.getIsWaiting() && drawStatus.getIsDrawing());
-		if(quickSettings.getAtt('show_label') && group_control && canPopup && !drawStatus.getIsZoom()) {
+		if(quickSettings.getAtt('show_label') && group_control && canPopup && canvas.zoomLevel==0) {
 			
 			var cvcontainer = document.getElementById("cvcontainer"+canvas.pos);
 			var cv_element = document.getElementById("canvas"+canvas.pos);

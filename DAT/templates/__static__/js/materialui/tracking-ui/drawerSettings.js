@@ -102,7 +102,7 @@ class TemporaryDrawerSettings extends React.Component {
 			document.getElementById("show_label").textContent = sett.show_label;
 			document.getElementById("auto_hidden").textContent = sett.auto_hidden;
 			document.getElementById("ask_dialog").textContent = sett.ask_dialog;
-			document.getElementById("color_background").textContent = "#1B1616";
+			document.getElementById("color_background").textContent = sett.color_background;
 			document.getElementById("width_stroke").textContent = sett.width_stroke;
 			document.getElementById("size_icon").textContent = sett.size_icon;
 			

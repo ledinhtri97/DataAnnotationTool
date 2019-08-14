@@ -435,6 +435,30 @@ class LabelControl{
 		}
 	}
 
+	__copyToLayer1__() {
+		let lbc = this;
+		if (lbc.canvas.pos == '_tl') return;
+		drawTool.copyObject(lbc.obj, '_tl');
+	}
+
+	__copyToLayer2__() {
+		let lbc = this;
+		if (lbc.canvas.pos == '_tr') return;
+		drawTool.copyObject(lbc.obj, '_tr');
+	}
+
+	__copyToLayer3__() {
+		let lbc = this;
+		if (lbc.canvas.pos == '_bl') return;
+		drawTool.copyObject(lbc.obj, '_bl');
+	}
+
+	__copyToLayer4__() {
+		let lbc = this;
+		if (lbc.canvas.pos == '_br') return;
+		drawTool.copyObject(lbc.obj, '_br');
+	}
+
 	getListLabel() {
 		if(this.obj.type_label === 'rect'){
 			return drawStatus.getListLabelRect();

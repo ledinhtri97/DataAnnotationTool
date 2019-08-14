@@ -552,6 +552,23 @@ class DrawTool{
 		drawer.startDraw();
 	}
 
+	copyObject(obj, topos) {
+		let drawer = this;
+		if (obj.labelControl.getIsEdit()) {
+			obj.labelControl.__editITEM__(false);
+		}
+		let pos_id = obj.labelControl.getPosId();
+		let cloneObj = cloneObject(obj, drawer.ls_canvas[topos]);
+
+		let preObj = drawStatus.getOneFromLTM(pos_id, topos);
+		if (preObj) {
+			preObj.labelControl.__deleteITEM__();
+		}
+		drawer.ls_canvas[topos].add(cloneObj);
+		createItemToList(drawer.ls_canvas[topos], cloneObj, pos_id+topos);
+		drawStatus.pushOneToLTM(pos_id, topos, cloneObj);
+	}
+
 	translateObjects(fromCanvas, toCanvas){
 		var drawer = this;
 

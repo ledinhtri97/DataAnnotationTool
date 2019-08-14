@@ -28,6 +28,11 @@ import Slider from '@material-ui/core/Slider';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
+import LooksOneOutlined from '@material-ui/icons/LooksOneOutlined';
+import LooksTwoOutlined from '@material-ui/icons/LooksTwoOutlined';
+import Looks3Outlined from '@material-ui/icons/Looks3Outlined';
+import Looks4Outlined from '@material-ui/icons/Looks4Outlined';
+
 const styles = theme => ({
     lightTooltip: {
         backgroundColor: theme.palette.common.white,
@@ -257,7 +262,7 @@ class ToolListItems extends React.Component {
     };
 
     handleChange = () => {
-         let {drawTool, drawStatus} = this.props;
+        let {drawTool, drawStatus} = this.props;
         
         drawTool.endDraw();
         if(drawStatus.getModeTool(3) === 1){
@@ -275,6 +280,22 @@ class ToolListItems extends React.Component {
         this.setState({ ...this.state, [name]: event.target.checked });
     };
 
+    handleCopyL1 = () => {
+
+    };
+
+    handleCopyL2 = () => {
+
+    };
+
+    handleCopyL3 = () => {
+
+    };
+
+    handleCopyL4 = () => {
+
+    };
+
     render() {
         const { classes } = this.props;
         const { messageInfo, changeReLabel } = this.state;
@@ -286,6 +307,22 @@ class ToolListItems extends React.Component {
             <div>
 
             <div><ListItem button className={classes.splitTool}></ListItem></div>
+
+            <ItemTool 
+                classes={classes} idI="copy_1" callBackFunc={tool.handleCopyL1} 
+                Micon={LooksOneOutlined} text="Copy label to layer 1 (1)"/>
+            
+            <ItemTool 
+                classes={classes} idI="copy_2" callBackFunc={tool.handleCopyL2} 
+                Micon={LooksTwoOutlined} text="Copy label to layer 2 (2)"/>
+
+            <ItemTool 
+                classes={classes} idI="copy_3" callBackFunc={tool.handleCopyL3} 
+                Micon={Looks3Outlined} text="Copy label to layer 3 (3)"/>
+            
+            <ItemTool 
+                classes={classes} idI="copy_4" callBackFunc={tool.handleCopyL4} 
+                Micon={Looks4Outlined} text="Copy label to layer 4 (4)"/>
 
             <div>
             <ListItem button classes={{root: classes.listItemRoot}}>
@@ -302,7 +339,7 @@ class ToolListItems extends React.Component {
             </ListItem>
             </div>
 
-           <ItemTool 
+            <ItemTool 
                 classes={classes} idI="renew_label" callBackFunc={tool.handleRenewLabel} 
                 Micon={Autorenew} text="Renew Label (R)"/>
 
