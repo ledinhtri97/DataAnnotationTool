@@ -89,7 +89,7 @@ class SynchControl extends React.Component {
   	};
 
   	handleExitFullScreen = () => {
-  		const {drawTool} = this.props;
+  		const {idframe, drawTool} = this.props;
   		document.getElementById('in_full_screen').style["display"] = "none";
 		document.getElementById('out_full_screen').style["display"] = "";
 		let c_full = document.getElementById('change_full_view');
@@ -98,23 +98,23 @@ class SynchControl extends React.Component {
   	};
 
   	copyAllToLayer1 = () => {
-  		// alert("copy to layer 1");
-
+  		const {idframe, drawTool} = this.props;
+  		drawTool.copyAllObjects(idframe, '_tl');
   	};
 
   	copyAllToLayer2 = () => {
-  		// alert("copy to layer 2");
-
+  		const {idframe, drawTool} = this.props;
+  		drawTool.copyAllObjects(idframe, '_tr');
   	};
 
   	copyAllToLayer3 = () => {
-  		// alert("copy to layer 3");
-
+  		const {idframe, drawTool} = this.props;
+  		drawTool.copyAllObjects(idframe, '_bl');
   	};
 
   	copyAllToLayer4 = () => {
-  		// alert("copy to layer 4");
-
+  		const {idframe, drawTool} = this.props;
+  		drawTool.copyAllObjects(idframe, '_br');
   	};
 
   	deleteAllObjects = () => {

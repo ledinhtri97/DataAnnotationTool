@@ -569,29 +569,38 @@ class DrawTool{
 		drawStatus.pushOneToLTM(pos_id, topos, cloneObj);
 	}
 
-	translateObjects(fromCanvas, toCanvas){
+	copyAllObjects(frompos, topos){
+		let drawer = this;
+		drawer.ls_canvas[frompos].getObjects().forEach(function(obj) {
+			if (obj.islabel) {	
+				drawer.copyObject(obj, topos);
+			}
+		});
+	}
+
+	reTransformedObjects(frompos, topos){
 		var drawer = this;
 
 		var meta = {
-			url_meta: drawer.ls_canvas[fromCanvas].url_meta,
+			url_meta: drawer.ls_canvas[frompos].url_meta,
 			status: 'OK',
 			boxes_position: [],
 		}
 
-		drawer.prePos = fromCanvas;
+		drawer.prePos = frompos;
 
-		drawer.ls_canvas[toCanvas].getObjects().forEach( function(obj) {
+		drawer.ls_canvas[topos].getObjects().forEach( function(obj) {
 			if (!obj.isBigPlus){
 				if (obj.islabel){
 					obj.labelControl.__deleteITEM__();
 				}
 				else{
-					drawer.ls_canvas[toCanvas].remove(obj);
+					drawer.ls_canvas[topos].remove(obj);
 				}
 			}
 		});
 
-		drawer.ls_canvas[fromCanvas].getObjects().forEach(function(obj) {
+		drawer.ls_canvas[frompos].getObjects().forEach(function(obj) {
 			if (obj.islabel) {
 				let position;
 
@@ -622,22 +631,20 @@ class DrawTool{
 			}
 		});
 		
-		initCanvas(drawer.ls_canvas[toCanvas], meta);
+		initCanvas(drawer.ls_canvas[topos], meta);
 	}
 
 	outFullScreen() {
 		var drawer = this;
 		let prePos = drawer.prePos;
-		drawer.translateObjects('_full', prePos);
+		drawer.reTransformedObjects('_full', prePos);
 		drawer.setCanvas(drawer.ls_canvas[prePos]);
-		//drawer.canvas.renderAll();
 	}
 
 	inFullScreen(pos) {
 		var drawer = this;
-		drawer.translateObjects(pos, '_full');
+		drawer.reTransformedObjects(pos, '_full');
 		drawer.setCanvas(drawer.ls_canvas['_full']);
-		//drawer.canvas.renderAll();
 	}
 }
 
