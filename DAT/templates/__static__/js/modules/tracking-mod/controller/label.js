@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import LabelItem from "../../../materialui/general-ui/item";
 import uniqid from "uniqid";
 import {fabric} from "fabric";
-import {drawTool, quickSettings, drawStatus} from "../../../tracking";
+import {drawTool, quickSettings, drawStatus, popupControllers} from "../../../tracking";
 import {configureCircle, configurePoly, configureLinePoly} from "../drawtool";
 import {Color} from "../style/color"
 import AlertDialog from "../../../materialui/dialog";
@@ -59,6 +59,7 @@ class LabelControl{
 		lbc.canvas = __canvas__;
 		lbc.obj = __obj__;
 		lbc.id =  __id__;
+		lbc.isLinkLabel = false;
 		lbc.edit = false;
 		
 		if(lbc.obj.type_label === 'poly'){
@@ -234,23 +235,54 @@ class LabelControl{
 	}
 
 	__overITEM__(){
-		var checkbox_hidden = document.getElementById(this.id+"_hidden");
-		if(checkbox_hidden){
-			if (checkbox_hidden.checked) {
-				this.obj.visible = checkbox_hidden.checked;
+
+		let lbc = this;
+
+		if (!lbc.obj.canvas || lbc.isLinkLabel) return false;
+
+		if (!lbc.obj.hidden) {
+			lbc.obj.set('fill', Color.Opacity_RED);
+			if(lbc.obj.type != 'polygon'){
+				lbc.obj.set('selectable', lbc.getIsEdit());
 			}
-			this.obj.setColor(Color.Opacity_RED);
+			else{
+				lbc.obj.set('selectable', false);
+			}
+			popupControllers.popup(lbc.obj, lbc.canvas);
 		}
+		else{
+			lbc.obj.set('visible', true);
+			if(lbc.obj.shapeflag) {
+				lbc.obj.shapeflag.set('visible', true);
+			}
+			popupControllers.popup(lbc.obj, lbc.canvas);
+		}
+
+		lbc.canvas.renderAll();
+
+		return true;
 	}
 
 	__outITEM__(){
-		var checkbox_hidden = document.getElementById(this.id+"_hidden");
-		if(checkbox_hidden){
-			if (checkbox_hidden.checked) {
-				this.obj.visible = !checkbox_hidden.checked;
-			}
-			this.obj.setColor(Color.Transparent);
+		let lbc = this;
+
+		if (!lbc.obj.canvas || lbc.isLinkLabel) return false;
+		if (!lbc.obj.hidden) {
+			lbc.obj.set('fill', Color.Transparent);
 		}
+		else{
+			lbc.obj.set('visible', false);
+			if(lbc.obj.shapeflag) {
+				lbc.obj.shapeflag.set('visible', false);
+			}
+		}
+		let temGC = document.getElementById("group_control"+lbc.canvas.pos);
+		if(temGC) {
+			temGC.style["display"] = "none";
+		}
+		lbc.canvas.renderAll();
+
+		return true;
 	}
 
 	__hiddenITEM__(){
@@ -457,6 +489,19 @@ class LabelControl{
 		let lbc = this;
 		if (lbc.canvas.pos == '_br') return;
 		drawTool.copyObject(lbc.obj, '_br');
+	}
+
+	getIsLinkLabel() {
+		return this.isLinkLabel;
+	}
+
+	controlIsLinkLabel() {
+		let lbc = this;
+		lbc.isLinkLabel = !lbc.isLinkLabel;
+		if (lbc.isLinkLabel){
+			lbc.obj.set('fill', Color.Opacity_YELLOW);
+			lbc.canvas.renderAll();
+		}
 	}
 
 	getListLabel() {

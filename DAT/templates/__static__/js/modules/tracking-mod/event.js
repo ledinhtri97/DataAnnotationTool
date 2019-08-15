@@ -176,9 +176,9 @@ const init_event = function(__canvas__){
 			//C key -> Change class label
 			if(isObject && labelControl){
 				setTimeout(function(){
-						drawStatus.setIsChangingLabel(true);
-						let changelb = document.getElementById(labelControl.getId()+"_changelabel");
-						changelb && changelb.click();
+					drawStatus.setIsChangingLabel(true);
+					let changelb = document.getElementById(labelControl.getId()+"_changelabel");
+					changelb && changelb.click();
 				}, 10);
 			}
 		}
@@ -230,6 +230,14 @@ const init_event = function(__canvas__){
 			let renew_label = document.getElementById("renew_label");
 			renew_label && renew_label.click();
 		}
+		else if(key == 116){
+			//t link label
+			if(isObject && labelControl) {
+				drawTool.endDraw();
+				document.getElementById('stop_draw').style['backgroundColor'] = "#FFFFFF";
+				
+			}
+		}
 	}
 
 	__canvas__.on({
@@ -253,7 +261,7 @@ const init_event = function(__canvas__){
 		'mouse:over': function(e){
 			let obj = e.target;
 
-			if (obj){
+			if (obj) {
 				objectGlobal = obj;
 				
 				let pos_id;
@@ -268,32 +276,9 @@ const init_event = function(__canvas__){
 				let list_fObj = drawStatus.getObjectsLTM(pos_id);
 
 				for (let pos in list_fObj) {
-					
 					let temp_obj = list_fObj[pos];
-					
-					if (!temp_obj.canvas) continue;
-
-					if (!temp_obj.hidden) {
-						temp_obj.set('fill', Color.Opacity_RED);
-						if(temp_obj.type != 'polygon'){
-							temp_obj.selectable = temp_obj.labelControl.getIsEdit();
-						}
-						else{
-							temp_obj.set('selectable', false);
-						}
-						popupControllers.popup(temp_obj, temp_obj.canvas);
-					}
-					else{
-						temp_obj.visible = true;
-						if(temp_obj.shapeflag) {
-							temp_obj.shapeflag.set('visible', true);
-						}
-						popupControllers.popup(temp_obj, temp_obj.canvas);
-					}
-
-					temp_obj.canvas.renderAll();
+					temp_obj.labelControl.__overITEM__();
 				}
-
 
 				if(obj.isEditPolygonIcon && !drawStatus.getIsZoom()){
 					obj.set('radius', 7);
@@ -322,25 +307,8 @@ const init_event = function(__canvas__){
 				let list_fObj = drawStatus.getObjectsLTM(pos_id);
 
 				for (let pos in list_fObj) {
-					
 					let temp_obj = list_fObj[pos];
-
-					if (!temp_obj.canvas) continue;
-
-					if (!temp_obj.hidden) {
-						temp_obj.set('fill', Color.Transparent);
-					}
-					else{
-						temp_obj.visible = false;
-						if(temp_obj.shapeflag) {
-							temp_obj.shapeflag.set('visible', false);
-						}
-					}
-					let temGC = document.getElementById("group_control"+pos);
-					if(temGC) {
-						temGC.style["display"] = "none";
-					}
-					temp_obj.canvas.renderAll();
+					temp_obj.labelControl.__outITEM__();
 				}
 
 				if(obj.isEditPolygonIcon){

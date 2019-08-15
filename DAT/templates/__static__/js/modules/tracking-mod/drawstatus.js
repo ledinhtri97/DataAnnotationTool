@@ -25,8 +25,28 @@ class DrawStatus{
 			_tr: false,
 			_bl: false,
 			_br: false,
-		}
+		};
+		this.linkLabels = [];
 	};
+
+	getLinkLabels() {
+		return this.linkLabels;
+	}
+
+	releaseLinkLabels() {
+		alert("done linking");
+	}
+
+	pushLinkLabels(obj) {
+		if (this.linkLabels.length == 4) {
+			//do linking and release
+			alert("linking labels");
+			this.releaseLinkLabels();
+		}
+		else {
+			this.linkLabels.push(obj);	
+		}
+	}
 
 	setAutoSynch(pos, value){
 		this.autoSynchs[pos] = value;

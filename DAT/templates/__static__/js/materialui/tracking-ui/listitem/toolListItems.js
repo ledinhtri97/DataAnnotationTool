@@ -32,6 +32,7 @@ import LooksOneOutlined from '@material-ui/icons/LooksOneOutlined';
 import LooksTwoOutlined from '@material-ui/icons/LooksTwoOutlined';
 import Looks3Outlined from '@material-ui/icons/Looks3Outlined';
 import Looks4Outlined from '@material-ui/icons/Looks4Outlined';
+import SwitchCameraOutlined from '@material-ui/icons/SwitchCameraOutlined';
 
 const styles = theme => ({
     lightTooltip: {
@@ -71,7 +72,7 @@ const styles = theme => ({
     listItemRoot: {
         paddingTop: '2px',
         paddingBottom: '2px',
-    }
+    },
 });
 
 class ItemTool extends React.Component {
@@ -165,11 +166,11 @@ class ToolListItems extends React.Component {
         this.props.drawStatus.setRenewLabel(true);
     };
 
-    handleDisplayTool = (onTool=-1) => {
+    handleDisplayTool = (onTool="") => {
         let listTool = ["stop_draw", "edit_tool", "hidden_tool", "delete_tool", "change_tool"];
         let i = 0;
         for (i; i < 5; i++){
-            if (i === onTool) {
+            if (onTool === listTool[i]) {
                 document.getElementById(listTool[i]).style['backgroundColor'] = "#B6F3F2";
             }
             else{
@@ -181,7 +182,7 @@ class ToolListItems extends React.Component {
     handleStopDrawing = () => {
         const {drawTool, drawStatus, quickSettings} = this.props;
         
-        this.handleDisplayTool(0);
+        this.handleDisplayTool("stop_draw");
 
         let isDrawing = drawStatus.getIsDrawing();
         let isWaiting = drawStatus.getIsWaiting();
@@ -197,7 +198,7 @@ class ToolListItems extends React.Component {
 
         if(isDrawing && isWaiting){
             drawTool.endDraw();
-            stop_draw.style['backgroundColor'] = "#FFFFFF";
+            document.getElementById('stop_draw').style['backgroundColor'] = "#FFFFFF";
         }
         else{
             drawTool.quickDraw();
@@ -296,6 +297,10 @@ class ToolListItems extends React.Component {
 
     };
 
+    handleLinkLabel = () => {
+
+    };
+
     render() {
         const { classes } = this.props;
         const { messageInfo, changeReLabel } = this.state;
@@ -305,8 +310,6 @@ class ToolListItems extends React.Component {
 
         return(
             <div>
-
-            <div><ListItem button className={classes.splitTool}></ListItem></div>
 
             <ItemTool 
                 classes={classes} idI="copy_1" callBackFunc={tool.handleCopyL1} 
@@ -323,6 +326,10 @@ class ToolListItems extends React.Component {
             <ItemTool 
                 classes={classes} idI="copy_4" callBackFunc={tool.handleCopyL4} 
                 Micon={Looks4Outlined} text="Copy label to layer 4 (4)"/>
+
+            <ItemTool 
+                classes={classes} idI="link_label" callBackFunc={tool.handleLinkLabel} 
+                Micon={SwitchCameraOutlined} text="Link labels (T)"/>
 
             <div>
             <ListItem button classes={{root: classes.listItemRoot}}>
@@ -377,8 +384,6 @@ class ToolListItems extends React.Component {
                 </React.Fragment>)
             }
 
-            <div><ListItem button className={classes.splitTool}></ListItem></div>
-            
             <Snackbar
             key={messageInfo.key} anchorOrigin={{vertical: 'bottom', horizontal: 'left',}}
             open={this.state.open} autoHideDuration={6000}

@@ -123,6 +123,13 @@ const styles = theme =>({
     hidden: {
     	display: 'none',
     },
+    expandedCustom: {
+        margin: '0 !important',
+    },
+    paddingCustom: {
+    	paddingTop: 0,
+    	paddingBottom: 0,
+    }
 });
 
 
@@ -220,7 +227,7 @@ class MainFrameTracking extends React.Component {
 					<span id="settings" title="Settings"/>
 				</div>
 
-				<ExpansionPanel expanded={expanded === 'p1'} onChange={this.handleExpandInDrawer('p1')}>
+				<ExpansionPanel classes={{expanded: classes.expandedCustom}} expanded={expanded === 'p1'} onChange={this.handleExpandInDrawer('p1')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Tools"/>
@@ -228,11 +235,11 @@ class MainFrameTracking extends React.Component {
 				</ExpansionPanelSummary>
 				<ExpansionPanelDetails className={classes.tabExpandDetail}>
 				<Divider />
-				<List className={classes.listItem} id="tools_list_items"></List>
+				<List classes={{padding: classes.paddingCustom}} className={classes.listItem} id="tools_list_items"></List>
 				</ExpansionPanelDetails>
 				</ExpansionPanel>
 
-				<ExpansionPanel className={classes.hidden} expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
+				<ExpansionPanel classes={{expanded: classes.expandedCustom}} className={classes.hidden} expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Labels"/>
