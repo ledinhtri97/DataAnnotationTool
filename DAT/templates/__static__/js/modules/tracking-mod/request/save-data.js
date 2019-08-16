@@ -1,3 +1,5 @@
+import {collect_boudingbox, nomoredata_handle} from './utils';
+
 const rqsave = function(meta_id, canvas){
 
 	var myData = collect_boudingbox(canvas);	
@@ -22,4 +24,4 @@ const rqsave = function(meta_id, canvas){
 	});
 }
 
-export rqsave;
+export default rqsave;

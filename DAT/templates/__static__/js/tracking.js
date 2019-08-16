@@ -16,6 +16,9 @@ import {Color} from "./modules/tracking-mod/style/color";
 import DrawStatus from './modules/tracking-mod/drawstatus';
 import QuickSettings from './modules/tracking-mod/settings';
 
+import rqsavenext from './modules/tracking-mod/request/savenext-data';
+import rqsave from './modules/tracking-mod/request/save-data';
+
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 const labeling = document.getElementById("labeling");
@@ -61,22 +64,15 @@ const popupControllers = new PopupControllers();
 const quickSettings = new QuickSettings();
 
 const controllerRequest = (callback_cl) => {
-
-	// if(group_control) group_control.style["display"] = "none";
-
-	// if(callback_cl == 'rqnext'){
-	// 	drawStatus.resetDrawStatus();
-	// 	rqnext(meta_id.textContent, canvas, drawTool, drawStatus);
-		
-	// }
-	// if (callback_cl == 'rqsavenext') {
-	// 	drawStatus.resetDrawStatus();
-	// 	rqsavenext(meta_id.textContent, canvas, drawTool, drawStatus);
-	// }
-	// if (callback_cl == 'rqsave') {
-	// 	drawStatus.resetDrawStatus();
-	// 	rqsave(meta_id.textContent, canvas);
-	// }
+	
+	if (callback_cl == 'rqsavenext') {
+		drawStatus.resetDrawStatus();
+		rqsavenext(drawTool, drawStatus);
+	}
+	if (callback_cl == 'rqsave') {
+		drawStatus.resetDrawStatus();
+		rqsave(meta_id.textContent, canvas);
+	}
 }
 
 if(labeling && meta_id && meta_id.textContent){

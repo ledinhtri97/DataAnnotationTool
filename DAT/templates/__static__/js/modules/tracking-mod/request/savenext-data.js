@@ -4,6 +4,7 @@ const rqsavenext = function(drawTool, drawStatus){
 
 	var myData = collect_boudingbox(drawTool);
 	console.log(myData);
+	return;
 
 	fetch("/gvlab-dat/workspace/savenext/"+meta_id+"/", {
 		method: "POST",
@@ -51,4 +52,4 @@ const rqsavenext = function(drawTool, drawStatus){
 	});
 }
 
-export rqsavenext;
+export default rqsavenext;
