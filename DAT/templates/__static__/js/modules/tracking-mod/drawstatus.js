@@ -15,7 +15,7 @@ class DrawStatus{
 		this.renewlabel = true;
 		this.zoomSpaceKey = false;
 		this.popupHover = false;
-		this.modeTool = [0, 0, 0, 0]; //edit, hidden, delete, change mode ===> default is false
+		this.modeTool = ""; //edit, hidden, delete, change mode ===> default is false
 		this.activePolygons = {'zs': false};
 		this.factor = 1; //width, height
 		this.turnRL = true;
@@ -26,25 +26,77 @@ class DrawStatus{
 			_bl: false,
 			_br: false,
 		};
-		this.linkLabels = [];
+		this.linkLabels = null;
 	};
 
 	getLinkLabels() {
 		return this.linkLabels;
 	}
 
-	releaseLinkLabels() {
-		alert("done linking");
+	resetLinkLabels(out=false) {
+
+		if (!this.linkLabels) return;
+
+		this.linkLabels.labelControl.__controlIsLinkLabel__();
+		if (out) {
+			this.linkLabels.labelControl.__outITEM__();
+		}
+		this.linkLabels = null;
+	}
+
+	releaseLinkLabels(obj) {
+		let sp_from = this.linkLabels.labelControl.getId().split('_'); // [id, pos]
+		let id_from = sp_from[0], pos_from = '_'+sp_from[1];
+		let sp_to = obj.labelControl.getId().split('_'); // [id, pos]
+		let id_to = sp_to[0], pos_to = '_'+sp_to[1];
+
+		if (
+			id_from == id_to || 
+			pos_from == pos_to || 
+			this.linkLabels.type_label != obj.type_label || 
+			this.linkLabels.name != obj.name) {
+				obj.labelControl.__controlIsLinkLabel__();
+				this.resetLinkLabels(true);
+		}
+		else {
+			
+			let preObjectTo = this.getOneFromLTM(id_from, pos_to);
+			if (preObjectTo) {
+				preObjectTo.labelControl.__deleteITEM__();
+			}
+
+			let preLinkObjectsTo = this.getObjectsLTM(id_to);
+
+			for (let pos in preLinkObjectsTo) {
+				preLinkObjectsTo[pos].labelControl.__outITEM__();
+			}
+
+			if (Object.keys(preLinkObjectsTo).length == 1) {
+				this.removeAllFromLTM(id_to);
+			}
+			else if (preLinkObjectsTo[pos_to]){
+				this.removeOneFromLTM(id_to, pos_to);
+			}
+
+			obj.labelControl.setId(id_from+pos_to);
+			this.pushOneToLTM(id_from, pos_to, obj);
+
+			obj.labelControl.__controlIsLinkLabel__();
+			this.resetLinkLabels();
+
+			let preLinkObjectsFrom = this.getObjectsLTM(id_from);
+			for (let pos in preLinkObjectsFrom) {
+				preLinkObjectsFrom[pos].labelControl.__overITEM__();
+			}
+		}
 	}
 
 	pushLinkLabels(obj) {
-		if (this.linkLabels.length == 4) {
-			//do linking and release
-			alert("linking labels");
-			this.releaseLinkLabels();
+		if (this.linkLabels) {
+			this.releaseLinkLabels(obj);
 		}
 		else {
-			this.linkLabels.push(obj);	
+			this.linkLabels = obj;	
 		}
 	}
 
@@ -70,6 +122,14 @@ class DrawStatus{
 
 	pushObjectsToLTM(id, fObjects) {
 		this.labelTrackingManagement[id] = fObjects;
+	}
+
+	removeAllFromLTM(id) {
+		delete this.labelTrackingManagement[id];
+	}
+
+	removeOneFromLTM(id, pos) {
+		delete this.labelTrackingManagement[id][pos];
 	}
 
 	resetLTM() {
@@ -109,26 +169,12 @@ class DrawStatus{
 		this.isChangingLabel = val;
 	}
 
-	getModeTool(imode=null) {
-		if(imode != null) return this.modeTool[imode];
-		
-		let i = 0;
-		for(i; i < this.modeTool.length; i++){
-			if(this.modeTool[i]===1){ return i; }
-		}
-		return -1;
+	getModeTool() {
+		return this.modeTool;
 	}
 
-	setModeTool(imode=-1){
-		let i = 0;
-		for(i; i < this.modeTool.length; i++){
-			if(imode === i){ this.modeTool[i] = 1; }
-			else{ this.modeTool[i] = 0; }
-		}
-	}
-
-	setModeToolOff(imode){
-		this.modeTool[imode] = 0;
+	setModeTool(imode){
+		this.modeTool = imode;
 	}
 
 	getRenewLabel(){

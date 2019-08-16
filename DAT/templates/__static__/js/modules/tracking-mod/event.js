@@ -210,8 +210,7 @@ const init_event = function(__canvas__){
 		else if (key == 104){
 			//H key -> hidden
 			if(isObject && labelControl){
-				let e_hidden = document.getElementById(labelControl.getId()+"_hidden");
-				e_hidden && e_hidden.click();
+				labelControl.__hiddenITEM__();
 			}
 		}
 		else if (key == 100){
@@ -232,11 +231,8 @@ const init_event = function(__canvas__){
 		}
 		else if(key == 116){
 			//t link label
-			if(isObject && labelControl) {
-				drawTool.endDraw();
-				document.getElementById('stop_draw').style['backgroundColor'] = "#FFFFFF";
-				
-			}
+			let e_linkLabel = document.getElementById("linkLabel_tool");
+			e_linkLabel && e_linkLabel.click();
 		}
 	}
 
@@ -341,22 +337,42 @@ const init_event = function(__canvas__){
 			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
 				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 				let i = drawStatus.getModeTool();
-				if(labelControl && i != -1){
-					if (i === 0) {
-						labelControl.__editITEM__();
-						let edit_tool = document.getElementById('edit_tool');
-						edit_tool && edit_tool.click();
-					}
-					else if (i === 1){
-						let e_hidden = document.getElementById(labelControl.getId()+"_hidden");
-						e_hidden && e_hidden.click();
-					}
-					else if (i === 2){
-						labelControl.__deleteITEM__();
-					}
-					else if (i === 3) {
-						let changelb = document.getElementById(labelControl.getId()+"_changelabel");
-						changelb && changelb.click();
+				if(labelControl && i != ""){
+					switch (i) {
+						case "edit_tool":
+							if (!labelControl.getIsEdit()){
+								labelControl.__editITEM__();
+							}
+							break;
+						case "hidden_tool":
+							labelControl.__hiddenITEM__();
+							break;
+						case "delete_tool":
+							labelControl.__deleteITEM__();
+							break;
+						case "change_tool":
+							let changelb = document.getElementById(labelControl.getId()+"_changelabel");
+							changelb && changelb.click();
+							break;
+						case "copy_1":
+							labelControl.__copyToLayer1__();
+							break;
+						case "copy_2":
+							labelControl.__copyToLayer2__();
+							break;
+						case "copy_3":
+							labelControl.__copyToLayer3__();
+							break;
+						case "copy_4":
+							labelControl.__copyToLayer4__();
+							break;
+						case "linkLabel_tool":
+							labelControl.__controlIsLinkLabel__();
+							drawStatus.pushLinkLabels(objectGlobal);
+							break;
+						default:
+							// statements_def
+							break;
 					}
 				}
 			}
@@ -517,8 +533,8 @@ const init_event = function(__canvas__){
 			return;
 		}
 		if(group_control) {
-					group_control.style["display"] = "none";
-				}
+			group_control.style["display"] = "none";
+		}
 		var key = options.which || options.keyCode; // key detection
 		if (key == 32) { // handle Space key
 			__canvas__.set('defaultCursor', 'move');
@@ -542,7 +558,7 @@ const init_event = function(__canvas__){
 
 	fabric.util.addListener(document.body, 'keyup', function(options) {
 		var key = options.which || options.keyCode; // key detection
-		if (key == 32) { // handle Shift key
+		if (key == 32) { // handle Space key
 			var typeCursor = drawStatus.getIsDrawing() ? 'crosshair' : 'default';
 			__canvas__.set('defaultCursor', typeCursor);
 			__canvas__.set('selection', true);

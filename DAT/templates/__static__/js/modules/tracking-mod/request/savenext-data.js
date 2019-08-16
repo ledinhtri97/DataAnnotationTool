@@ -1,6 +1,9 @@
-const rqsavenext = function(meta_id, canvas, drawTool, drawStatus){
+import {collect_boudingbox, nomoredata_handle} from './utils';
 
-	var myData = collect_boudingbox(canvas);	
+const rqsavenext = function(drawTool, drawStatus){
+
+	var myData = collect_boudingbox(drawTool);
+	console.log(myData);
 
 	fetch("/gvlab-dat/workspace/savenext/"+meta_id+"/", {
 		method: "POST",

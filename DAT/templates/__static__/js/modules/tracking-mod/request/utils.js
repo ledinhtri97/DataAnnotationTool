@@ -26,37 +26,45 @@ const outWorkSpace = function(metaid, url){
 	});
 }
 
-const collect_boudingbox = function(canvas){
-	var myData = "";
+const collect_boudingbox = function(drawTool){
+	let resData = {};
+	let list_canvas = drawTool.getListCanvas()
+	for (let pos in list_canvas){
+		let canvas = list_canvas[pos];
 
-	for(var i = 0; i < canvas.getObjects().length; i+=1){
-		var item = canvas.item(i);
-		if (item.islabel) {
-			
-			if (item.labelControl.getIsEdit()){
-				item.labelControl.__editITEM__(false);
-			}
+		let myData = "";
 
-			if (item.type == 'rect'){ 
-				myData += [
-				item.name,
-				item.type_label,
-				item.flag,
-				item.xmin, item.ymin, item.xmax, item.ymax,
-				].join(',') + '\n';
-			}
-			else if(item.type == 'polygon'){
-				var bb = [item.name, item.type_label, item.flag];
-				for (var p of item.rpoints){
-					bb.push(p.x);
-					bb.push(p.y);
+		for(var i = 0; i < canvas.getObjects().length; i+=1){
+			var item = canvas.item(i);
+			if (item.islabel) {
+				
+				if (item.labelControl.getIsEdit()){
+					item.labelControl.__editITEM__(false);
 				}
-				myData += bb.join(',') + '\n';
+
+				if (item.type == 'rect'){ 
+					myData += [
+					item.name,
+					item.labelControl.getPosId(),
+					item.type_label,
+					item.flag,
+					item.xmin, item.ymin, item.xmax, item.ymax,
+					].join(',') + '\n';
+				}
+				else if(item.type == 'polygon'){
+					var bb = [item.name, item.labelControl.getPosId(),, item.type_label, item.flag];
+					for (var p of item.rpoints){
+						bb.push(p.x);
+						bb.push(p.y);
+					}
+					myData += bb.join(',') + '\n';
+				}
 			}
 		}
+		resData[pos] = myData;
 	}
 
-	return myData;
+	return resData;
 }
 
 const nomoredata_handle =  function(){

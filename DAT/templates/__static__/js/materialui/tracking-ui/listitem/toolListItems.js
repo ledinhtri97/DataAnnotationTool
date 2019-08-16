@@ -127,6 +127,8 @@ class ToolListItems extends React.Component {
 
     queue = [];
 
+    current_tool = "";
+
     state = {
         open: false,
         changeReLabel: true,
@@ -166,16 +168,35 @@ class ToolListItems extends React.Component {
         this.props.drawStatus.setRenewLabel(true);
     };
 
-    handleDisplayTool = (onTool="") => {
-        let listTool = ["stop_draw", "edit_tool", "hidden_tool", "delete_tool", "change_tool"];
-        let i = 0;
-        for (i; i < 5; i++){
-            if (onTool === listTool[i]) {
-                document.getElementById(listTool[i]).style['backgroundColor'] = "#B6F3F2";
+    handleDisplayTool = (onTool) => {
+        const {drawStatus, drawTool} = this.props;
+        if (this.current_tool == onTool) {
+            drawStatus.setModeTool("");
+            document.getElementById(this.current_tool).style['backgroundColor'] = "#FFFFFF";
+            if (this.current_tool === "edit_tool") {
+                drawTool.stopEditObjects();
             }
-            else{
-                document.getElementById(listTool[i]).style['backgroundColor'] = "#FFFFFF";
+            else if (this.current_tool === "linkLabel_tool") {
+                drawStatus.resetLinkLabels(true);
             }
+            this.current_tool = "";
+        }
+        else {
+            if (this.current_tool) {
+                document.getElementById(this.current_tool).style['backgroundColor'] = "#FFFFFF";
+                if (this.current_tool === "edit_tool") {
+                    drawTool.stopEditObjects();
+                }
+                else if(this.current_tool === "stop_draw") {
+                    drawTool.endDraw();
+                }
+                else if (this.current_tool === "linkLabel_tool") {
+                    drawStatus.resetLinkLabels();
+                }
+            }
+            drawStatus.setModeTool(onTool);
+            this.current_tool = onTool;
+            document.getElementById(this.current_tool).style['backgroundColor'] = "#B6F3F2";
         }
     };
 
@@ -202,6 +223,7 @@ class ToolListItems extends React.Component {
         }
         else{
             drawTool.quickDraw();
+            document.getElementById('stop_draw').style['backgroundColor'] = "#B6F3F2";
         }
         drawStatus.setModeTool();
     };
@@ -219,61 +241,19 @@ class ToolListItems extends React.Component {
     };
 
     handleEdit = () => {
-        let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-
-        if(drawStatus.getModeTool(0) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool(); //edit
-        }
-        else{
-            this.handleDisplayTool(1);
-            drawStatus.setModeTool(0); //edit
-        }  
+        this.handleDisplayTool("edit_tool");
     };
 
     handleHidden = () => {
-        let {drawTool, drawStatus} = this.props;
-
-        drawTool.endDraw();
-
-        if(drawStatus.getModeTool(1) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(2);
-            drawStatus.setModeTool(1); //hidden
-        }
+        this.handleDisplayTool("hidden_tool");
     };
     
     handleDelete = () => {
-        let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-        if(drawStatus.getModeTool(2) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(3);
-            drawStatus.setModeTool(2); //delete
-        }
+        this.handleDisplayTool("delete_tool");
     };
 
     handleChange = () => {
-        let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-        if(drawStatus.getModeTool(3) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(4);
-            drawStatus.setModeTool(3); //delete
-        }
+        this.handleDisplayTool("change_tool");
     };
 
     handleChangeReLabel = name => event => {
@@ -282,23 +262,23 @@ class ToolListItems extends React.Component {
     };
 
     handleCopyL1 = () => {
-
+        this.handleDisplayTool("copy_1");
     };
 
     handleCopyL2 = () => {
-
+        this.handleDisplayTool("copy_2");        
     };
 
     handleCopyL3 = () => {
-
+        this.handleDisplayTool("copy_3");
     };
 
     handleCopyL4 = () => {
-
+        this.handleDisplayTool("copy_4");
     };
 
     handleLinkLabel = () => {
-
+        this.handleDisplayTool("linkLabel_tool");
     };
 
     render() {
@@ -328,7 +308,7 @@ class ToolListItems extends React.Component {
                 Micon={Looks4Outlined} text="Copy label to layer 4 (4)"/>
 
             <ItemTool 
-                classes={classes} idI="link_label" callBackFunc={tool.handleLinkLabel} 
+                classes={classes} idI="linkLabel_tool" callBackFunc={tool.handleLinkLabel} 
                 Micon={SwitchCameraOutlined} text="Link labels (T)"/>
 
             <div>

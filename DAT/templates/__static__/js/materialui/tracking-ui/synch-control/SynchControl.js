@@ -118,7 +118,7 @@ class SynchControl extends React.Component {
   	};
 
   	deleteAllObjects = () => {
-
+  		alert("Feature in future!");
   	};
 
 	render(){

@@ -491,14 +491,18 @@ class DrawTool{
 		return this.canvas.pos;
 	}
 
-	startDraw(id, namelabel, typelabel){
-		this.endDraw();
-
+	stopEditObjects() {
 		this.canvas.getObjects().forEach(function(obj){
 			if(obj.labelControl && obj.labelControl.getIsEdit()){
 				obj.labelControl.__editITEM__(false);
 			}
 		});
+	}
+
+	startDraw(id, namelabel, typelabel){
+		this.endDraw();
+
+		this.stopEditObjects();
 
 		this.canvas.set('defaultCursor', 'crosshair');
 		if(typelabel){
@@ -515,7 +519,7 @@ class DrawTool{
 
 	endDraw(){
 		this.canvas.set('defaultCursor', 'default');
-		
+		this.removeStuff();
 		drawStatus.stopDrawStatus();
 
 		this.canvas.off('mouse:down', this.mouseDown);
@@ -544,7 +548,6 @@ class DrawTool{
 	}
 
 	quickDraw() {
-
 		var drawer = this;
 		drawer.removeStuff();
 
@@ -645,6 +648,10 @@ class DrawTool{
 		var drawer = this;
 		drawer.reTransformedObjects(pos, '_full');
 		drawer.setCanvas(drawer.ls_canvas['_full']);
+	}
+
+	getListCanvas(){
+		return this.ls_canvas;
 	}
 }
 

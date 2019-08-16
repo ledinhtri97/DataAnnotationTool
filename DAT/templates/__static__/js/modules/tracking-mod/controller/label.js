@@ -61,6 +61,7 @@ class LabelControl{
 		lbc.id =  __id__;
 		lbc.isLinkLabel = false;
 		lbc.edit = false;
+		lbc.isHidden = false;
 		
 		if(lbc.obj.type_label === 'poly'){
 			lbc.pointArray = new Array();
@@ -286,21 +287,21 @@ class LabelControl{
 	}
 
 	__hiddenITEM__(){
-		var checkbox_hidden = document.getElementById(this.id+"_hidden");
-		if(checkbox_hidden){
-			this.obj.setColor(Color.Transparent);
-			this.obj.set('visible', !checkbox_hidden.checked);
-			if(this.obj.shapeflag) {
-				this.obj.shapeflag.set('visible', !checkbox_hidden.checked);
-			}
-			this.obj.set('hidden', checkbox_hidden.checked);
-			if(checkbox_hidden.checked) {
-				this.__editITEM__(false); 
-				this.canvas.add(this.obj.icon);
-			}
-			else{
-				this.canvas.remove(this.obj.icon);	
-			}
+		let lbc = this;
+		lbc.isHidden = !lbc.isHidden;
+		
+		lbc.obj.set('visible', !lbc.isHidden);
+		if(lbc.obj.shapeflag) {
+			lbc.obj.shapeflag.set('visible', !lbc.isHidden);
+		}
+		lbc.obj.set('hidden', lbc.isHidden);
+
+		if (lbc.isHidden) {
+			lbc.__editITEM__(false); 
+			lbc.canvas.add(lbc.obj.icon);
+		}
+		else {
+			lbc.canvas.remove(lbc.obj.icon);
 		}
 	}
 
@@ -310,6 +311,7 @@ class LabelControl{
 			alertWarning();
 			return;
 		}
+
 		var __canvas__ = this.canvas;
 		var lbc = this;
 		var current_element = document.getElementById(this.id);
@@ -427,43 +429,54 @@ class LabelControl{
 			return;
 		}
 		var lbc = this;
-		var current_element = document.getElementById(this.id);
+		var current_element = document.getElementById(lbc.id);
 		if(current_element){
 
 			//remove circle if available in object poly
 			if(lbc.obj.type == 'polygon'){
 				lbc.cleanPolygonStuff();
 			}
-			this.canvas.remove(this.obj);
-			this.canvas.remove(this.obj.icon);
+			lbc.canvas.remove(lbc.obj);
+			lbc.canvas.remove(lbc.obj.icon);
 			current_element.parentElement.removeChild(current_element);
 
+
+			let spl_id = lbc.getId().split('_');
+			let id = spl_id[0], pos = '_' + spl_id[1];
+			//remove obj in LTM
+			drawStatus.removeOneFromLTM(id, pos);
+
 			//remove hover on objects in other canvas
-			let list_fObj = drawStatus.getObjectsLTM(this.getPosId());
-			for (let pos in list_fObj) {
-				
-				let temp_obj = list_fObj[pos];
+			let list_fObj = drawStatus.getObjectsLTM(id);
 
-				if (!temp_obj.canvas) continue;
-
-				if (!temp_obj.hidden) {
-					temp_obj.set('fill', Color.Transparent);
-				}
-				else{
-					temp_obj.visible = false;
-					if(temp_obj.shapeflag) {
-						temp_obj.shapeflag.set('visible', false);
-					}
-					if(group_control) {
-						group_control.style["display"] = "none";
-					}
-				}
-				temp_obj.canvas.renderAll();
+			if (Object.keys(list_fObj).length == 0) {
+				drawStatus.removeAllFromLTM(id);
 			}
+			else {
+				for (let pos in list_fObj) {
+					
+					let temp_obj = list_fObj[pos];
 
+					if (!temp_obj.canvas) continue;
+
+					if (!temp_obj.hidden) {
+						temp_obj.set('fill', Color.Transparent);
+					}
+					else{
+						temp_obj.visible = false;
+						if(temp_obj.shapeflag) {
+							temp_obj.shapeflag.set('visible', false);
+						}
+						if(group_control) {
+							group_control.style["display"] = "none";
+						}
+					}
+					temp_obj.canvas.renderAll();
+				}
+			}
 		}
 		else {
-			console.log("no delete " + this.id)
+			console.log("no delete " + lbc.id)
 		}
 	}
 
@@ -491,17 +504,20 @@ class LabelControl{
 		drawTool.copyObject(lbc.obj, '_br');
 	}
 
-	getIsLinkLabel() {
-		return this.isLinkLabel;
-	}
-
-	controlIsLinkLabel() {
+	__controlIsLinkLabel__() {
 		let lbc = this;
 		lbc.isLinkLabel = !lbc.isLinkLabel;
 		if (lbc.isLinkLabel){
 			lbc.obj.set('fill', Color.Opacity_YELLOW);
-			lbc.canvas.renderAll();
 		}
+		else {
+			lbc.obj.set('fill', Color.Opacity_RED);
+		}
+		lbc.canvas.renderAll();
+	}
+
+	getIsLinkLabel() {
+		return this.isLinkLabel;
 	}
 
 	getListLabel() {
@@ -524,6 +540,11 @@ class LabelControl{
 
 	getId(){
 		return this.id;
+	}
+
+	setId(id) {
+		document.getElementById(this.id).id = id;
+		this.id = id;
 	}
 
 	getPosId(){
