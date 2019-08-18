@@ -5,6 +5,7 @@ from usermaster.subviews.workspaces import WorkspaceView, get_data_workspaces
 from usermaster.subviews.labeling import LabelingView, EditLabelingView
 from usermaster.subviews.contribute import ContributeView
 from usermaster.subviews.request import labeling_view
+from usermaster.subviews.request import tracking_view
 
 from usermaster.subviews.request import contribute_view
 # from usermaster.subviews import apiview
@@ -29,6 +30,8 @@ urlpatterns = [
     path('save/<int:metaid>/', labeling_view.save_index, name='save'),
     path('savenext/<int:metaid>/', labeling_view.savenext_index, name='savenext'),
     
+    path('tracking/savenext/<int:metaid>/', tracking_view.savenext_index, name='trsavenext'),
+
     path('outworkspace/<int:metaid>/', labeling_view.outws_index, name='outws'),
     
     path('savesettings/', labeling_view.saveseting_index, name='savesettings'),

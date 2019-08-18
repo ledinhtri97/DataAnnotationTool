@@ -2,7 +2,8 @@ import {collect_boudingbox, nomoredata_handle} from './utils';
 
 const rqsave = function(meta_id, canvas){
 
-	var myData = collect_boudingbox(canvas);	
+	var myData = collect_boudingbox(canvas);
+	console.log(myData);	
 
 	fetch("/gvlab-dat/workspace/save/"+meta_id+"/", {
 		method: "POST",

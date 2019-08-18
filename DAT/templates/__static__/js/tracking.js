@@ -67,7 +67,7 @@ const controllerRequest = (callback_cl) => {
 	
 	if (callback_cl == 'rqsavenext') {
 		drawStatus.resetDrawStatus();
-		rqsavenext(drawTool, drawStatus);
+		rqsavenext(meta_id.textContent);
 	}
 	if (callback_cl == 'rqsave') {
 		drawStatus.resetDrawStatus();

@@ -30,6 +30,9 @@ const collect_boudingbox = function(drawTool){
 	let resData = {};
 	let list_canvas = drawTool.getListCanvas()
 	for (let pos in list_canvas){
+		
+		if (pos == '_full') continue;
+
 		let canvas = list_canvas[pos];
 
 		let myData = "";
@@ -44,16 +47,16 @@ const collect_boudingbox = function(drawTool){
 
 				if (item.type == 'rect'){ 
 					myData += [
-					item.name,
-					item.labelControl.getPosId(),
-					item.type_label,
-					item.flag,
-					item.xmin, item.ymin, item.xmax, item.ymax,
+						item.name,
+						item.labelControl.getPosId(),
+						item.type_label,
+						item.flag,
+						item.xmin, item.ymin, item.xmax, item.ymax,
 					].join(',') + '\n';
 				}
 				else if(item.type == 'polygon'){
-					var bb = [item.name, item.labelControl.getPosId(),, item.type_label, item.flag];
-					for (var p of item.rpoints){
+					var bb = [item.name, item.labelControl.getPosId(), item.type_label, item.flag];
+					for (var p of item.rpoints) {
 						bb.push(p.x);
 						bb.push(p.y);
 					}

@@ -1,12 +1,14 @@
+import Cookie from 'js-cookie';
+import {drawTool, drawStatus} from '../../../tracking';
+import {initCanvas, initPredict} from '../renderInit';
 import {collect_boudingbox, nomoredata_handle} from './utils';
 
-const rqsavenext = function(drawTool, drawStatus){
+const rqsavenext = function(meta_id){
 
 	var myData = collect_boudingbox(drawTool);
 	console.log(myData);
-	return;
 
-	fetch("/gvlab-dat/workspace/savenext/"+meta_id+"/", {
+	fetch("/gvlab-dat/workspace/tracking/savenext/"+meta_id+"/", {
 		method: "POST",
 		credentials: "same-origin",
 		headers: {
@@ -14,13 +16,13 @@ const rqsavenext = function(drawTool, drawStatus){
 			"Accept": "application/json",
 			"Content-Type": "application/json"
 		},
-		body: myData
+		body: JSON.stringify(myData)
 	}).then(function(response) {
 		return response.json();
 	}).then(function(metadata) {
 
 		if(!metadata.id){
-			nomoredata_handle();
+			//nomoredata_handle();
 		}
 		else{
 			document.getElementById("meta_id").textContent = metadata.id;
