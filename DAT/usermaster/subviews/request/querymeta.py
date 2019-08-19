@@ -1,4 +1,6 @@
 import requests
+from adminmaster.datamanagement.submodels.metadata import MetaDataModel
+
 #widget = Widget.objects.get(id=18)
 #next_widget = Widget.objects.filter(id__gt=widget.id).order_by('id').first()
 def get_fake_api(meta, api_ref):
@@ -112,6 +114,8 @@ def query_meta(meta):
             {
                 'tag_label': bb.label.tag_label,
                 'type_label': bb.label.type_label,
+                'from_id': bb.from_id,
+                'to_id': bb.to_id,
                 'color': bb.label.color,
                 'flag': bb.flag,
                 'accept_report_flag': bb.accept_report_flag,
@@ -121,4 +125,36 @@ def query_meta(meta):
         'status': 'OK',
     }
 
+    return data
+
+def query_list_meta(meta):
+    data = {}
+    mtid = meta.id
+    data['tl'] = query_meta(meta)
+    data['tr'] = {}
+    data['bl'] = {}
+    data['br'] = {}
+
+    if meta.is_head:
+        tr = MetaDataModel.objects.get(id=mtid+1)
+        if tr.dataset.id == meta.dataset.id:
+            data['tr'] = query_meta(tr)
+        bl = MetaDataModel.objects.get(id=mtid+2)
+        if tr.dataset.id == meta.dataset.id:
+            data['bl'] = query_meta(bl)
+        br = MetaDataModel.objects.get(id=mtid+3)
+        if tr.dataset.id == meta.dataset.id:
+            data['br'] = query_meta(br)
+
+    elif meta.is_tail_merger:
+        tr = MetaDataModel.objects.get(id=mtid+1)
+        if tr.dataset.id == meta.dataset.id:
+            data['tr'] = query_meta(tr)
+        bl = MetaDataModel.objects.get(id=mtid+4)
+        if tr.dataset.id == meta.dataset.id:
+            data['bl'] = query_meta(bl)
+        br = MetaDataModel.objects.get(id=mtid+5)
+        if tr.dataset.id == meta.dataset.id:
+            data['br'] = query_meta(br)
+    
     return data

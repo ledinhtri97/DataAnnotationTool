@@ -116,6 +116,7 @@ const initCanvas = function(canvas, meta) {
 				canvas.set('originWidth', wh[0]);
 				canvas.set('originHeight', wh[1]);
 				canvas.set('url_meta', meta.url_meta);
+				canvas.set('id_meta', meta.id);
 				canvas.setBackgroundImage(img);
 
 				if(drawStatus.getFactor()!=1){
@@ -130,9 +131,12 @@ const initCanvas = function(canvas, meta) {
 						meta.boxes_position.forEach(function(bb){
 				            var shape = create_shape(bb, canvas);
 				            canvas.add(shape);
-				            if(bb.pos_id){
-				            	createItemToList(canvas, shape, bb.pos_id+canvas.pos);
-				            	drawStatus.pushOneToLTM(bb.pos_id, canvas.pos, shape);
+				            if(bb.to_id){
+				            	createItemToList(canvas, shape, bb.to_id+canvas.pos);
+				            	if(bb.from_id != '') {
+				            		shape.labelControl.setFromId(bb.from_id);
+				            	}
+				            	drawStatus.pushOneToLTM(bb.to_id, canvas.pos, shape);
 				            }
 				            else {
 				            	createItemToList(canvas, shape);

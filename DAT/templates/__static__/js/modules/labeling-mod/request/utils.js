@@ -1,7 +1,5 @@
-import {ask_before_out, outWorkSpace} from '../../general-mod/request/outWorking';
-
 const collect_boudingbox = function(canvas){
-	var myData = "";
+	var myData = {data: []};
 
 	for(var i = 0; i < canvas.getObjects().length; i+=1){
 		var item = canvas.item(i);
@@ -12,20 +10,39 @@ const collect_boudingbox = function(canvas){
 			}
 
 			if (item.type == 'rect'){ 
-				myData += [
-				item.name,
-				item.type_label,
-				item.flag,
-				item.xmin, item.ymin, item.xmax, item.ymax,
-				].join(',') + '\n';
+				myData.data.push({
+						tag_label: item.name,
+						type_label: item.type_label,
+						flag: item.flag,
+						position: [item.xmin, item.ymin, item.xmax, item.ymax].join(',')
+				});
+
+				// myData += [
+				// item.name,
+				// item.type_label,
+				// item.flag,
+				// item.xmin, item.ymin, item.xmax, item.ymax,
+				// ].join(',') + '\n';
 			}
 			else if(item.type == 'polygon'){
-				var bb = [item.name, item.type_label, item.flag];
-				for (var p of item.rpoints){
-					bb.push(p.x);
-					bb.push(p.y);
+				let position = [];
+				for (var p of item.rpoints) {
+					position.push(p.x);
+					position.push(p.y);
 				}
-				myData += bb.join(',') + '\n';
+				myData.data.push({
+					tag_label: item.name,
+					type_label: item.type_label,
+					flag: item.flag,
+					position: position.join(',')
+				});
+
+				// var bb = [item.name, item.type_label, item.flag];
+				// for (var p of item.rpoints){
+				// 	bb.push(p.x);
+				// 	bb.push(p.y);
+				// }
+				// myData += bb.join(',') + '\n';
 			}
 		}
 	}
@@ -33,17 +50,4 @@ const collect_boudingbox = function(canvas){
 	return myData;
 }
 
-const nomoredata_handle =  function(){
-
-	var url_workspace = document.getElementById("url_workspace").textContent;
-	
-	var meta_id = document.getElementById("meta_id");
-
-	window.removeEventListener("beforeunload", ask_before_out);
-	
-	alert("Look like have no more data!!! return to workspace");
-	
-	outWorkSpace(meta_id.textContent, url_workspace);
-}
-
-export {collect_boudingbox, nomoredata_handle};
+export {collect_boudingbox};

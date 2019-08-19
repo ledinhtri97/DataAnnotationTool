@@ -8,7 +8,7 @@ const rqnext = function(meta_id, canvas, drawTool, drawStatus){
 	})
 	.then(metadata => {
 		if(!metadata.id){
-			nomoredata_handle();
+			//nomoredata_handle();
 		}
 		else{
 			document.getElementById("meta_id").textContent = metadata.id;

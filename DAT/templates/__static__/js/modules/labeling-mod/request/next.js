@@ -1,4 +1,3 @@
-import {nomoredata_handle} from './utils';
 import {initCanvas, initPredict} from '../renderInit';
 import {drawTool, drawStatus} from '../../../labeling';
 import {reset_when_go} from '../event';
@@ -13,7 +12,7 @@ const rqnext = function(meta_id, canvas){
 	})
 	.then(metadata => {
 		if(!metadata.id){
-			nomoredata_handle();
+			//nomoredata_handle();
 		}
 		else{
 			document.getElementById("meta_id").textContent = metadata.id;

@@ -6,7 +6,7 @@ from adminmaster.datamanagement.models import DataSetModel
 from adminmaster.datamanagement.submodels.metadata import MetaDataModel
 from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from rest_framework.response import Response
-from .querymeta import query_meta
+from .querymeta import query_meta, query_list_meta
 
 class OverViewWorkspaceView(generics.RetrieveAPIView):
     lookup_field = 'id'
@@ -29,13 +29,12 @@ def allow_view(dataset, user):
 def get_list_meta_tracking(request, mtid):
     data = {}
     meta = MetaDataModel.objects.get(id=mtid)
+
     try:
         allow = allow_view(meta.dataset, request.user)
         if allow and meta:
-            data['tl'] = query_meta(meta)
-            data['tr'] = query_meta(MetaDataModel.objects.get(id=mtid+1))
-            data['bl'] = query_meta(MetaDataModel.objects.get(id=mtid+2))
-            data['br'] = query_meta(MetaDataModel.objects.get(id=mtid+3))
+            data = query_list_meta(meta)
+
             label_select = request.GET.get('label_select', '')
             if label_select == 'true':
                 data['label_select'] = [

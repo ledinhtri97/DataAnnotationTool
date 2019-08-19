@@ -20,7 +20,7 @@ class LabelingView(generics.RetrieveUpdateAPIView):
         user = self.request.user
         meta_data = labeling_view.get_query_meta_general(
             dataset_id, user, type_labeling)
-            
+
         return meta_data, type_labeling
 
     def retrieve(self, request, *args, **kwargs):

@@ -4,14 +4,15 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 import os
 from django.conf import settings
+from PIL import Image, ImageFont, ImageDraw, ImageEnhance
+from adminmaster.datamanagement.submodels.metadata import MetaDataModel
+from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
+from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
+from adminmaster.datamanagement.submodels.dataset import DataSetModel
+from adminmaster.datamanagement.submodels.utils.ziprar import ZipRarExtractor
 
 @shared_task
 def scanner_dataset(datasetid):
-    from adminmaster.datamanagement.submodels.metadata import MetaDataModel
-    from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
-    from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
-    from adminmaster.datamanagement.submodels.dataset import DataSetModel
-    from adminmaster.datamanagement.submodels.utils.ziprar import ZipRarExtractor
 
     is_done = False
     while not is_done:
@@ -110,11 +111,6 @@ def scanner_dataset(datasetid):
 
 @shared_task
 def extract_seqframevideo(datasetid):
-    from adminmaster.datamanagement.submodels.metadata import MetaDataModel
-    from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
-    from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
-    from adminmaster.datamanagement.submodels.dataset import DataSetModel
-
     is_done = False
     while not is_done:
         try:
@@ -154,7 +150,7 @@ def extract_seqframevideo(datasetid):
                 print(file_name)
                 cv2.imwrite(os.path.join(folder_out, file_name), image)
                 is_head = (count - 1) % 4 == 0
-                is_tail_merger = (count - 4) % 4 == 0
+                is_tail_merger = (count - 4) % 8 == 0
                 MetaDataModel.objects.get_or_create(
                     dataset=dataSetModel, name=file_name, full_path=folder_out,
                     is_head=is_head, is_tail_merger=is_tail_merger,
@@ -188,3 +184,54 @@ def extract_seqframevideo(datasetid):
     except Exception as e:
         print(e)
         return False
+
+
+@shared_task
+def create_thumbnail(metaid):
+
+    meta = MetaDataModel.objects.get(id=metaid)
+
+    def hex_to_rgba(value):
+        value = value.lstrip('#')
+        lv = len(value)
+        return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3)) + (127,)
+
+    thumb_height = 200
+    TINT_COLOR = (0, 0, 0)  # Black
+    path_mt = meta.get_full_origin()
+    file, ext = os.path.splitext(path_mt)
+    thumb = file.replace('storage_data', 'thumbnail')
+
+    try:
+        folder = os.path.dirname(thumb)
+        os.makedirs(folder)
+    except FileExistsError:
+        print("Directory ", folder,  " already exists")
+
+    im = Image.open(path_mt)
+    im = im.convert("RGBA")
+    tmp = Image.new('RGBA', im.size, TINT_COLOR+(0,))
+
+    draw = ImageDraw.Draw(tmp)
+
+    for bb in meta.boxes_position.all():
+        positions = bb.position.split(',')
+        color = hex_to_rgba(bb.label.color)
+        if(len(positions) == 4):
+            draw.rectangle(
+                ((float(positions[0])*im.size[0], float(positions[1])*im.size[1]),
+                (float(positions[2])*im.size[0], float(positions[3])*im.size[1])),
+                fill=color)
+        else:
+            poly = []
+            for i in range(0, len(positions), 2):
+                poly.append((float(positions[i])*im.size[0],
+                                    float(positions[i+1])*im.size[1]))
+            draw.polygon(poly, fill=color)
+    del draw
+
+    im = Image.alpha_composite(im, tmp)
+    im = im.convert("RGB")
+    im.thumbnail((im.size[0]*thumb_height/im.size[1],
+            thumb_height), Image.ANTIALIAS)
+    im.save(thumb + ".thumbnail", "JPEG")

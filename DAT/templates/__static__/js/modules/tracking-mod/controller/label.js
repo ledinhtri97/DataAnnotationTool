@@ -59,6 +59,7 @@ class LabelControl{
 		lbc.canvas = __canvas__;
 		lbc.obj = __obj__;
 		lbc.id =  __id__;
+		lbc.from_id = '';
 		lbc.isLinkLabel = false;
 		lbc.edit = false;
 		lbc.isHidden = false;
@@ -551,6 +552,14 @@ class LabelControl{
 		return this.id.split('_')[0];
 	}
 
+	getFromId() {
+		return this.from_id;
+	}
+
+	setFromId(v) {
+		this.from_id = v;
+	}
+
 	getIsEdit(){
 		return this.edit;
 	}
@@ -568,7 +577,6 @@ const createItemToList = function(canvas, object, id){
 	var label_list_items = document.getElementById("label_list_items");
 	var new_element =  document.createElement("div");
 	let pos_id = uniqid();
-	object.set('pos_id', pos_id);
 	new_element.id = id ? id : pos_id+canvas.pos;
 	label_list_items.appendChild(new_element);
 	object.labelControl = new LabelControl(canvas, object, new_element.id);

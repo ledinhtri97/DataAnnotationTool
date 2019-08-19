@@ -1,4 +1,5 @@
-import {collect_boudingbox, nomoredata_handle} from './utils';
+import Cookie from 'js-cookie';
+import {collect_boudingbox} from './utils';
 
 const rqsave = function(meta_id, canvas){
 

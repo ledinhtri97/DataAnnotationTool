@@ -500,6 +500,8 @@ class DrawTool{
 	}
 
 	startDraw(id, namelabel, typelabel){
+		if (!this.canvas) return;
+		
 		this.endDraw();
 
 		this.stopEditObjects();
@@ -629,7 +631,8 @@ class DrawTool{
 					color: obj.stroke,
 					flag: obj.flag,
 					position: position,
-					pos_id: obj.labelControl.getPosId(),
+					to_id: obj.labelControl.getPosId(),
+					from_id: obj.labelControl.getFromId(),
 				});
 			}
 		});

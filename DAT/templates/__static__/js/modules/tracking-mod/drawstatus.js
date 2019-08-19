@@ -117,6 +117,9 @@ class DrawStatus{
 	}
 
 	pushOneToLTM(id, pos, obj){
+		if (!this.labelTrackingManagement[id]) {
+			this.labelTrackingManagement[id] = {};
+		}
 		this.labelTrackingManagement[id][pos] = obj;
 	}
 

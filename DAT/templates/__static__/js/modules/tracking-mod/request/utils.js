@@ -35,7 +35,7 @@ const collect_boudingbox = function(drawTool){
 
 		let canvas = list_canvas[pos];
 
-		let myData = "";
+		let myData = [];
 
 		for(var i = 0; i < canvas.getObjects().length; i+=1){
 			var item = canvas.item(i);
@@ -45,26 +45,34 @@ const collect_boudingbox = function(drawTool){
 					item.labelControl.__editITEM__(false);
 				}
 
-				if (item.type == 'rect'){ 
-					myData += [
-						item.name,
-						item.labelControl.getPosId(),
-						item.type_label,
-						item.flag,
-						item.xmin, item.ymin, item.xmax, item.ymax,
-					].join(',') + '\n';
+				if (item.type == 'rect'){
+					myData.push({
+						tag_label: item.name,
+						from_id: item.labelControl.getFromId(),
+						to_id: item.labelControl.getPosId(),
+						type_label: item.type_label,
+						flag: item.flag,
+						position: [item.xmin, item.ymin, item.xmax, item.ymax].join(',')
+					});
 				}
 				else if(item.type == 'polygon'){
-					var bb = [item.name, item.labelControl.getPosId(), item.type_label, item.flag];
+					let position = [];
 					for (var p of item.rpoints) {
-						bb.push(p.x);
-						bb.push(p.y);
+						position.push(p.x);
+						position.push(p.y);
 					}
-					myData += bb.join(',') + '\n';
+					myData.push({
+						tag_label: item.name,
+						from_id: item.labelControl.getFromId(),
+						to_id: item.labelControl.getPosId(),
+						type_label: item.type_label,
+						flag: item.flag,
+						position: position.join(',')
+					});
 				}
 			}
 		}
-		resData[pos] = myData;
+		resData[canvas.id_meta] = myData;
 	}
 
 	return resData;

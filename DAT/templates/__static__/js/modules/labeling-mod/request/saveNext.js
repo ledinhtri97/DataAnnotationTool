@@ -1,6 +1,6 @@
 import Cookie from 'js-cookie';
 import {drawTool, drawStatus} from '../../../labeling';
-import {collect_boudingbox, nomoredata_handle} from './utils';
+import {collect_boudingbox} from './utils';
 import {initCanvas, initPredict} from '../renderInit';
 import {reset_when_go} from '../event';
 
@@ -22,7 +22,7 @@ const rqsavenext = function(meta_id, canvas){
 	}).then(function(metadata) {
 
 		if(!metadata.id){
-			nomoredata_handle();
+			//nomoredata_handle();
 		}
 		else{
 			document.getElementById("meta_id").textContent = metadata.id;
