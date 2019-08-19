@@ -31,7 +31,7 @@ const collect_boudingbox = function(drawTool){
 	let list_canvas = drawTool.getListCanvas()
 	for (let pos in list_canvas){
 		
-		if (pos == '_full') continue;
+		if (pos == '_full' || !pos) continue;
 
 		let canvas = list_canvas[pos];
 

@@ -24,21 +24,17 @@ def get_query_meta_general(dataset_id=None, user=None, type_labeling='de'):
 			print(e)
 			query_meta_data = base_request.filter(onviewing_user__isnull=True)
 	elif type_labeling == 'tr':
-		if base_request.count() != 0 :
-			try:
-				query_meta_data = base_request.filter(onviewing_user=user)
-				if(query_meta_data.count() == 0):
-					query_meta_data = base_request.filter(
-						onviewing_user__isnull=True, is_head=1)
-			except Exception as e:
-				print('[ERROR] Detecting mode: ', e)
+		try:
+			query_meta_data = base_request.filter(onviewing_user=user)
+			if(query_meta_data.count() == 0):
 				query_meta_data = base_request.filter(
 					onviewing_user__isnull=True, is_head=1)
-		
-		if(query_meta_data.count() == 0):
-			#merger time
-			query_meta_data = base_request.filter(
+			if(query_meta_data.count() == 0):
+				#merger time
+				query_meta_data = base_request.filter(
 						onviewing_user__isnull=True, is_tail_merger=1)
+		except Exception as e:
+			print('[ERROR] tracking mode: ', e)
 
 	meta_data = query_meta_data.first()
 	if (meta_data):
@@ -221,10 +217,7 @@ def savenext_v2index(request, metaid):
                                 flag=bb['flag'], position=bb['position'],
                                 from_id=bb['to_id'], to_id=bb['to_id']
                             )
-							if created:
-								cur_meta.boxes_position.add(new_bb)
-							else:
-								print('existed\n', new_bb)
+							cur_meta.boxes_position.add(new_bb)
 				
 				cur_meta.submitted_by_user.add(user)
 				cur_meta.is_annotated = 0 if (current_meta_data.is_head and cur_meta.is_tail_merger) else 1

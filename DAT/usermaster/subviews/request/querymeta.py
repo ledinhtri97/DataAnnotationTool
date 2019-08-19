@@ -136,25 +136,43 @@ def query_list_meta(meta):
     data['br'] = {}
 
     if meta.is_head:
-        tr = MetaDataModel.objects.get(id=mtid+1)
-        if tr.dataset.id == meta.dataset.id:
-            data['tr'] = query_meta(tr)
-        bl = MetaDataModel.objects.get(id=mtid+2)
-        if tr.dataset.id == meta.dataset.id:
-            data['bl'] = query_meta(bl)
-        br = MetaDataModel.objects.get(id=mtid+3)
-        if tr.dataset.id == meta.dataset.id:
-            data['br'] = query_meta(br)
+        try:
+            tr = MetaDataModel.objects.get(id=mtid+1)
+            if tr.dataset.id == meta.dataset.id:
+                data['tr'] = query_meta(tr)
+        except:
+            pass
+        try:
+            bl = MetaDataModel.objects.get(id=mtid+2)
+            if tr.dataset.id == meta.dataset.id:
+                data['bl'] = query_meta(bl)
+        except:
+            pass
+        try:
+            br = MetaDataModel.objects.get(id=mtid+3)
+            if tr.dataset.id == meta.dataset.id:
+                data['br'] = query_meta(br)
+        except:
+            pass
 
     elif meta.is_tail_merger:
-        tr = MetaDataModel.objects.get(id=mtid+1)
-        if tr.dataset.id == meta.dataset.id:
-            data['tr'] = query_meta(tr)
-        bl = MetaDataModel.objects.get(id=mtid+4)
-        if tr.dataset.id == meta.dataset.id:
-            data['bl'] = query_meta(bl)
-        br = MetaDataModel.objects.get(id=mtid+5)
-        if tr.dataset.id == meta.dataset.id:
-            data['br'] = query_meta(br)
+        try:
+            tr = MetaDataModel.objects.get(id=mtid+1)
+            if tr.dataset.id == meta.dataset.id:
+                data['tr'] = query_meta(tr)
+        except:
+            pass
+        try:
+            bl = MetaDataModel.objects.get(id=mtid+4)
+            if tr.dataset.id == meta.dataset.id:
+                data['bl'] = query_meta(bl)
+        except:
+            pass
+        try:
+            br = MetaDataModel.objects.get(id=mtid+5)
+            if tr.dataset.id == meta.dataset.id:
+                data['br'] = query_meta(br)
+        except:
+            pass 
     
     return data
