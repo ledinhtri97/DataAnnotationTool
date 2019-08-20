@@ -1,7 +1,6 @@
 import {fabric} from 'fabric';
 import {createItemToList} from "./controller/label"
 import {configurePoly, configureRectangle, configureFlag} from './drawtool';
-import {Color} from "./style/color";
 import {drawStatus} from "../../labeling";
 
 function image_convert(img){

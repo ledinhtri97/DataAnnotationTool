@@ -1,6 +1,6 @@
 import {ask_before_out} from "../general-mod/request/outWorking";
 import {drawStatus, drawTool, controllerRequest, quickSettings} from "../../labeling";
-import {Color} from './style/color';
+import Color from "../general-mod/style/color";
 import {configureLine, configureFlag} from "./drawtool";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -19,6 +19,9 @@ var bigplus = [
 	configureLine([0, 0, 0, 0], Color.WHITE),
 	configureLine([0, 0, 0, 0], Color.WHITE),
 ];
+
+bigplus[0].set('isBigPlus', true);
+bigplus[1].set('isBigPlus', true);
 
 var zoomLevel = 0;
 var zoomLevelMin = 0;
@@ -58,6 +61,8 @@ const controll_bigplus = function(__canvas__, pointer, out_canvas=true){
 const init_event = function(__canvas__, popupControllers){
 	
 	var group_control = document.getElementById("group_control");
+
+	__canvas__.set('bigplus', bigplus);
 
 	__canvas__.add(bigplus[0]);
 	__canvas__.add(bigplus[1]);
@@ -121,6 +126,13 @@ const init_event = function(__canvas__, popupControllers){
 	window.onkeypress = function(e){
 		if(drawStatus.getIsChangingLabel()) return;
 		let key = e.keyCode ? e.keyCode : e.which;
+		let isObject = objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon);
+		let labelControl = objectGlobal ? (objectGlobal.labelControl || objectGlobal.object.labelControl) : null;
+
+		if(group_control) {
+			group_control.style["display"] = "none";
+		}
+
 		// alert(key);
 		if(key == 97){
 			if(dialog && quickSettings.getAtt('ask_dialog')){
@@ -147,41 +159,23 @@ const init_event = function(__canvas__, popupControllers){
 
 		else if(key == 99){
 			//C key -> Change class label
-			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
-				if(group_control) {
-					group_control.style["display"] = "none";
-				}
-				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
-
-				if(labelControl){
-					setTimeout(function(){
-						drawStatus.setIsChangingLabel(true);
-						let changelb = document.getElementById(labelControl.getId()+"_changelabel");
-						changelb && changelb.click();
-					}, 10);
-				}
+			if(isObject && labelControl){
+				setTimeout(function(){
+					drawStatus.setIsChangingLabel(true);
+					let changelb = document.getElementById(labelControl.getId()+"_changelabel");
+					changelb && changelb.click();
+				}, 10);
 			}
 		}
 		else if(key == 101){
 			//E key -> Edit
-			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
-				if(group_control) {
-					group_control.style["display"] = "none";
-				}
-				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
-
-				if(labelControl){
-					labelControl.__editITEM__();
-				}
+			if(isObject && labelControl){
+				labelControl.__editITEM__();
 			}
 		}
 		else if (key == 102){
 			//F key -> mark flag false predict
-			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
-				if(group_control) {
-					group_control.style["display"] = "none";
-				}
-
+			if(isObject){
 				let o = objectGlobal.object || objectGlobal;
 				
 				if(o.flag != -1 && !o.accept_edit){
@@ -200,27 +194,14 @@ const init_event = function(__canvas__, popupControllers){
 		}
 		else if (key == 104){
 			//H key -> hidden
-			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
-				if(group_control) {
-					group_control.style["display"] = "none";
-				}
-				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
-				if(labelControl){
-					let e_hidden = document.getElementById(labelControl.getId()+"_hidden");
-					e_hidden && e_hidden.click();
-				}
+			if(isObject && labelControl){
+				labelControl.__hiddenITEM__();
 			}
 		}
 		else if (key == 100){
 			//D key -> Delete
-			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
-				if(group_control) {
-					group_control.style["display"] = "none";
-				}
-				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
-				if(labelControl){
-					labelControl.__deleteITEM__();
-				}
+			if(isObject && labelControl){
+				labelControl.__deleteITEM__();
 			}
 		}
 		else if(key == 113) {
@@ -259,25 +240,18 @@ const init_event = function(__canvas__, popupControllers){
 			if (obj){
 				objectGlobal = obj;
 
-				if (isLabel(obj)){
-					if (obj.labelControl && !obj.hidden) {
-						obj.set('fill', Color.Opacity_GREEN);
-						if(obj.type != 'polygon'){
-							obj.selectable = obj.labelControl.getIsEdit();
-						}
-						else{
-							obj.selectable = false;
-						}
-						popupControllers.popup(obj);
-					}
+				let temp_obj;
+				if(obj.islabel) {
+					temp_obj = obj;
 				}
-				else if(obj.isIcon){
-					obj.object.visible = true;
-					if(obj.object.shapeflag) {
-						obj.object.shapeflag.visible = true;
-					}
-					popupControllers.popup(obj);
+				else if (obj.isIcon) {
+					temp_obj = obj.object;
 				}
+
+				if (temp_obj){
+					temp_obj.labelControl.__overITEM__();
+				}
+
 
 				if(obj.isEditPolygonIcon && !drawStatus.getIsZoom()){
 					obj.set('radius', 7);
@@ -289,18 +263,15 @@ const init_event = function(__canvas__, popupControllers){
 			objectGlobal = null;
 			let obj = e.target;
 			try {
-				if (isLabel(obj)){
-					obj.set('fill', Color.Transparent);
+				let temp_obj;
+				if(obj.islabel) {
+					temp_obj = obj;
 				}
-				else if(obj.isIcon){
-					obj.object.visible = false;
-					if(obj.object.shapeflag) {
-						obj.object.shapeflag.visible = false;
-					}
-					if(group_control) {
-						group_control.style["display"] = "none";
-					}
+				else if (obj.isIcon) {
+					temp_obj = obj.object;
 				}
+				temp_obj.labelControl.__outITEM__();
+
 				if(obj.isEditPolygonIcon){
 					let rd = drawStatus.getIsZoom() ? 2 : 4;
 					obj.set('radius', rd);
@@ -309,12 +280,8 @@ const init_event = function(__canvas__, popupControllers){
 			catch(error) {
 				if (!e.target){
 					controll_bigplus(__canvas__, null, false);
-					if(group_control) {
-						group_control.style["display"] = "none";
-					}
 				}
 			}
-			
 			__canvas__.renderAll();
 		},
 
@@ -335,22 +302,26 @@ const init_event = function(__canvas__, popupControllers){
 			if(objectGlobal && (isLabel(objectGlobal) || objectGlobal.isIcon)){
 				let labelControl = objectGlobal.labelControl || objectGlobal.object.labelControl;
 				let i = drawStatus.getModeTool();
-				if(labelControl && i != -1){
-					if (i === 0) {
-						labelControl.__editITEM__();
-						let edit_tool = document.getElementById('edit_tool');
-						edit_tool && edit_tool.click();
-					}
-					else if (i === 1){
-						let e_hidden = document.getElementById(labelControl.getId()+"_hidden");
-						e_hidden && e_hidden.click();
-					}
-					else if (i === 2){
-						labelControl.__deleteITEM__();
-					}
-					else if (i === 3) {
-						let changelb = document.getElementById(labelControl.getId()+"_changelabel");
-						changelb && changelb.click();
+				if(labelControl && i != ""){
+					switch (i) {
+						case "edit_tool":
+							if (!labelControl.getIsEdit()){
+								labelControl.__editITEM__();
+							}
+							break;
+						case "hidden_tool":
+							labelControl.__hiddenITEM__();
+							break;
+						case "delete_tool":
+							labelControl.__deleteITEM__();
+							break;
+						case "change_tool":
+							let changelb = document.getElementById(labelControl.getId()+"_changelabel");
+							changelb && changelb.click();
+							break;
+						default:
+							// statements_def
+							break;
 					}
 				}
 			}
@@ -393,8 +364,8 @@ const init_event = function(__canvas__, popupControllers){
 		},
 		'object:moving': function(e){
 			if(group_control) {
-					group_control.style["display"] = "none";
-				}
+				group_control.style["display"] = "none";
+			}
 		},});
 
 	//===================BEGIN ZOOM PART======================//

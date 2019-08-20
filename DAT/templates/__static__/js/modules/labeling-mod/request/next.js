@@ -18,9 +18,11 @@ const rqnext = function(meta_id, canvas){
 			document.getElementById("meta_id").textContent = metadata.id;
 			document.getElementById("label_list_items").innerHTML = "";
 
+			let keep_bigplus = canvas.bigplus;
 			canvas.clear();
-
 			initCanvas(canvas, metadata);
+			canvas.add(keep_bigplus[0]);
+			canvas.add(keep_bigplus[1]);
 			
 			if(drawStatus.getNameLabel() != ''){
 				reset_when_go();

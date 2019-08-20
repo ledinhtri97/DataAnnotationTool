@@ -108,7 +108,6 @@ def scanner_dataset(datasetid):
         print(e)
         return False
 
-
 @shared_task
 def extract_seqframevideo(datasetid):
     is_done = False
@@ -185,7 +184,6 @@ def extract_seqframevideo(datasetid):
         print(e)
         return False
 
-
 @shared_task
 def create_thumbnail(metaid):
 
@@ -235,3 +233,56 @@ def create_thumbnail(metaid):
     im.thumbnail((im.size[0]*thumb_height/im.size[1],
             thumb_height), Image.ANTIALIAS)
     im.save(thumb + ".thumbnail", "JPEG")
+    return True
+
+@shared_task
+def tracking_handle(id_meta, data):
+    cur_meta = MetaDataModel.objects.get(id=id_meta)
+    for bb in data:
+        if bb['from_id'] == '':
+            new_bb, created = BoundingBoxModel.objects.get_or_create(
+                label=LabelDataModel.objects.get(
+                    tag_label=bb['tag_label'], type_label=bb['type_label']),
+                flag=bb['flag'], position=bb['position'],
+                from_id=bb['to_id'], to_id=bb['to_id']
+            )
+            cur_meta.boxes_position.add(new_bb)
+        else:
+            try:
+                pre_bb = cur_meta.boxes_position.get(from_id=bb['from_id'])
+                pre_bb.label.tag_label = bb['tag_label']
+                pre_bb.label.save(update_fields=['tag_label'])
+                pre_bb.position = bb['position']
+                pre_bb.flag = bb['flag']
+                pre_bb.save(update_fields=['flag', 'position'])
+
+                pre_from_id = pre_bb.from_id
+                pre_to_id = pre_bb.to_id
+
+                change_from_bbes = BoundingBoxModel.objects.filter(from_id=pre_from_id)
+                for fbb in change_from_bbes.all():
+                    fbb.label.tag_label = bb['tag_label']
+                    fbb.label.save(update_fields=['tag_label'])
+                    fbb.to_id = bb['to_id']
+                    fbb.save(update_fields=['to_id'])
+                
+                change_to_bbes = BoundingBoxModel.objects.filter(to_id=pre_to_id)
+                for tbb in change_to_bbes.all():
+                    tbb.label.tag_label = bb['tag_label']
+                    tbb.label.save(update_fields=['tag_label'])
+
+                    tbb.to_id = bb['to_id']
+                    tbb.save(update_fields=['to_id'])
+            except Exception as e:
+                print(e)
+
+                new_bb, created = BoundingBoxModel.objects.get_or_create(
+                    label=LabelDataModel.objects.get(
+                        tag_label=bb['tag_label'], type_label=bb['type_label']),
+                    flag=bb['flag'], position=bb['position'],
+                    from_id=bb['to_id'], to_id=bb['to_id']
+                )
+                cur_meta.boxes_position.add(new_bb)
+                return str(e) + " [handle OK]"
+    create_thumbnail(id_meta)
+    return str(id_meta) + " - [successful !]"

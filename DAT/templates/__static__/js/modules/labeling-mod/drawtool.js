@@ -1,5 +1,5 @@
 import {createItemToList} from "./controller/label";
-import {Color} from "./style/color";
+import Color from "../general-mod/style/color";
 import {fabric} from "fabric";
 import {drawStatus} from "../../labeling";
 
@@ -409,17 +409,20 @@ class DrawTool{
 		}
 	}
 
-	startDraw(id, namelabel, typelabel){
-		this.endDraw();
-
+	stopEditObjects() {
 		this.canvas.getObjects().forEach(function(obj){
 			if(obj.labelControl && obj.labelControl.getIsEdit()){
 				obj.labelControl.__editITEM__(false);
 			}
 		});
+	}
+
+	startDraw(id, namelabel, typelabel){
+		this.endDraw();
+
+		this.stopEditObjects();
 
 		this.canvas.set('defaultCursor', 'crosshair');
-
 		if(typelabel){
 			this.typeLabel = typelabel	
 		}
@@ -434,7 +437,7 @@ class DrawTool{
 
 	endDraw(){
 		this.canvas.set('defaultCursor', 'default');
-		
+		this.removeStuff();
 		drawStatus.stopDrawStatus();
 
 		this.canvas.off('mouse:down', this.mouseDown);

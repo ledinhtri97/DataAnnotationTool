@@ -225,7 +225,6 @@ class ToolListItems extends React.Component {
             drawTool.quickDraw();
             document.getElementById('stop_draw').style['backgroundColor'] = "#B6F3F2";
         }
-        drawStatus.setModeTool();
     };
 
     handleSaveNext = () => {

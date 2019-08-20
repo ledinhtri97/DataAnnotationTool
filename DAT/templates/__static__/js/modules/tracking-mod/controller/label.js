@@ -5,7 +5,7 @@ import uniqid from "uniqid";
 import {fabric} from "fabric";
 import {drawTool, quickSettings, drawStatus, popupControllers} from "../../../tracking";
 import {configureCircle, configurePoly, configureLinePoly} from "../drawtool";
-import {Color} from "../style/color"
+import Color from "../../general-mod/style/color"
 import AlertDialog from "../../../materialui/dialog";
 
 const ROUND = 100000;

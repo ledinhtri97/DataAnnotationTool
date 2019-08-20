@@ -1,5 +1,5 @@
 import {createItemToList} from "./controller/label";
-import {Color} from "./style/color";
+import Color from "../general-mod/style/color";
 import {fabric} from "fabric";
 import {initCanvas} from "./renderInit";
 import {init_event} from "./event";

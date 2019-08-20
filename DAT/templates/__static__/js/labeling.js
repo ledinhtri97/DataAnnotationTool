@@ -14,8 +14,8 @@ import rqsave from  "./modules/labeling-mod/request/save";
 import {initCanvas, initPredict} from "./modules/labeling-mod/renderInit"
 import {init_event} from "./modules/labeling-mod/event"
 import {PopupControllers} from "./modules/labeling-mod/controller/popup";
-import {DrawTool} from "./modules/labeling-mod/drawtool"
-import {Color} from "./modules/labeling-mod/style/color";
+import {DrawTool} from "./modules/labeling-mod/drawtool";
+import Color from "./modules/general-mod/style/color";
 import DrawStatus from './modules/labeling-mod/drawstatus';
 import QuickSettings from './modules/labeling-mod/settings';
 
@@ -52,12 +52,12 @@ const controllerRequest = (callback_cl) => {
 
 	if(callback_cl == 'rqnext'){
 		drawStatus.resetDrawStatus();
-		rqnext(meta_id.textContent, canvas, drawTool, drawStatus);
+		rqnext(meta_id.textContent, canvas);
 		
 	}
 	if (callback_cl == 'rqsavenext') {
 		drawStatus.resetDrawStatus();
-		rqsavenext(meta_id.textContent, canvas, drawTool, drawStatus);
+		rqsavenext(meta_id.textContent, canvas);
 	}
 	if (callback_cl == 'rqsave') {
 		drawStatus.resetDrawStatus();
@@ -98,7 +98,9 @@ if(labeling && meta_id && meta_id.textContent){
 			init_event(canvas, popupControllers);
 
 			const tools_list_items = document.getElementById("tools_list_items");
-			tools_list_items && ReactDOM.render(<ToolListItems
+        	const tracking = document.getElementById('tracking');
+
+			(tools_list_items && !tracking) && ReactDOM.render(<ToolListItems
 				canvas={canvas}
 				drawTool={drawTool} 
 				drawStatus={drawStatus}
@@ -144,4 +146,4 @@ if(labeling && meta_id && meta_id.textContent){
 	}
 }
 
-export {quickSettings, drawStatus, drawTool, controllerRequest}
+export {quickSettings, drawStatus, drawTool, controllerRequest, popupControllers}

@@ -4,11 +4,6 @@ import {quickSettings, drawStatus} from '../../../labeling'
 
 class PopupControllers{
 
-	constructor(__canvas__){
-		const PC = this;
-		PC.canvas = __canvas__;
-	}
-
 	popup = function(__obj__){
 		this.objshape = __obj__.isIcon ? __obj__.object : __obj__;
 
