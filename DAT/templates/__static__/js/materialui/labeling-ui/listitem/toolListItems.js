@@ -119,6 +119,8 @@ class ToolListItems extends React.Component {
 
     queue = [];
 
+    current_tool = "";
+
     state = {
         open: false,
         changeReLabel: true,
@@ -159,22 +161,35 @@ class ToolListItems extends React.Component {
     };
 
     handleDisplayTool = (onTool=-1) => {
-        let listTool = ["stop_draw", "edit_tool", "hidden_tool", "delete_tool", "change_tool"];
-        let i = 0;
-        for (i; i < 5; i++){
-            if (i === onTool) {
-                document.getElementById(listTool[i]).style['backgroundColor'] = "#B6F3F2";
+        const {drawStatus, drawTool} = this.props;
+        if (this.current_tool == onTool) {
+            drawStatus.setModeTool("");
+            document.getElementById(this.current_tool).style['backgroundColor'] = "#FFFFFF";
+            if (this.current_tool === "edit_tool") {
+                drawTool.stopEditObjects();
             }
-            else{
-                document.getElementById(listTool[i]).style['backgroundColor'] = "#FFFFFF";
+            this.current_tool = "";
+        }
+        else {
+            if (this.current_tool) {
+                document.getElementById(this.current_tool).style['backgroundColor'] = "#FFFFFF";
+                if (this.current_tool === "edit_tool") {
+                    drawTool.stopEditObjects();
+                }
+                else if(this.current_tool === "stop_draw") {
+                    drawTool.endDraw();
+                }
             }
+            drawStatus.setModeTool(onTool);
+            this.current_tool = onTool;
+            document.getElementById(this.current_tool).style['backgroundColor'] = "#B6F3F2";
         }
     };
 
     handleStopDrawing = () => {
         const {drawTool, drawStatus, quickSettings} = this.props;
         
-        this.handleDisplayTool(0);
+        this.handleDisplayTool("stop_draw");
 
         let isDrawing = drawStatus.getIsDrawing();
         let isWaiting = drawStatus.getIsWaiting();
@@ -190,12 +205,12 @@ class ToolListItems extends React.Component {
 
         if(isDrawing && isWaiting){
             drawTool.endDraw();
-            stop_draw.style['backgroundColor'] = "#FFFFFF";
+            document.getElementById('stop_draw').style['backgroundColor'] = "#FFFFFF";
         }
         else{
             drawTool.quickDraw();
+            document.getElementById('stop_draw').style['backgroundColor'] = "#B6F3F2";
         }
-        drawStatus.setModeTool();
     };
 
     handleSaveNext = () => {
@@ -215,61 +230,19 @@ class ToolListItems extends React.Component {
     };
 
     handleEdit = () => {
-        let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-
-        if(drawStatus.getModeTool(0) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool(); //edit
-        }
-        else{
-            this.handleDisplayTool(1);
-            drawStatus.setModeTool(0); //edit
-        }  
+        this.handleDisplayTool("edit_tool");
     };
 
     handleHidden = () => {
-        let {drawTool, drawStatus} = this.props;
-
-        drawTool.endDraw();
-
-        if(drawStatus.getModeTool(1) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(2);
-            drawStatus.setModeTool(1); //hidden
-        }
+        this.handleDisplayTool("hidden_tool");
     };
     
     handleDelete = () => {
-        let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-        if(drawStatus.getModeTool(2) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(3);
-            drawStatus.setModeTool(2); //delete
-        }
+        this.handleDisplayTool("delete_tool");
     };
 
     handleChange = () => {
-         let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-        if(drawStatus.getModeTool(3) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(4);
-            drawStatus.setModeTool(3); //delete
-        }
+        this.handleDisplayTool("change_tool");
     };
 
     zoomIt = (event, value) => {

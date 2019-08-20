@@ -6,9 +6,10 @@ import {reset_when_go} from '../event';
 
 const rqsavenext = function(meta_id, canvas){
 
-	var myData = collect_boudingbox(canvas);	
+	var myData = collect_boudingbox(canvas);
+	console.log(myData);
 
-	fetch("/gvlab-dat/workspace/savenext/"+meta_id+"/", {
+	fetch("/gvlab-dat/workspace/savenext_v2/"+meta_id+"/", {
 		method: "POST",
 		credentials: "same-origin",
 		headers: {
@@ -16,7 +17,7 @@ const rqsavenext = function(meta_id, canvas){
 			"Accept": "application/json",
 			"Content-Type": "application/json"
 		},
-		body: myData
+		body: JSON.stringify(myData)
 	}).then(function(response) {
 		return response.json();
 	}).then(function(metadata) {
@@ -27,11 +28,13 @@ const rqsavenext = function(meta_id, canvas){
 		else{
 			document.getElementById("meta_id").textContent = metadata.id;
 			document.getElementById("label_list_items").innerHTML = "";
-
-			canvas.clear();
-
-			initCanvas(canvas, metadata);
 			
+			let keep_bigplus = canvas.bigplus;
+			canvas.clear();
+			initCanvas(canvas, metadata);
+			canvas.add(keep_bigplus[0]);
+			canvas.add(keep_bigplus[1]);
+
 			if(drawStatus.getNameLabel() != ''){
 				reset_when_go();
 				drawTool.startDraw();

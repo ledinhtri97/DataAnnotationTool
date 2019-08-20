@@ -13,7 +13,7 @@ const rqsave = function(meta_id, canvas){
 			"Accept": "application/json",
 			"Content-Type": "application/json"
 		},
-		body: myData
+		body: JSON.stringify(myData)
 	})
 	.then(response => {
 		if(response.status == 200){

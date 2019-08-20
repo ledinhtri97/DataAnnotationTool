@@ -1,3 +1,4 @@
+
 const collect_boudingbox = function(canvas){
 	var myData = {data: []};
 

@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import LabelItem from "../../../materialui/general-ui/item";
 import uniqid from "uniqid";
 import {fabric} from "fabric";
-import {drawTool, quickSettings, drawStatus} from "../../../labeling";
+import {drawTool, quickSettings, drawStatus, popupControllers} from "../../../labeling";
 import {configureCircle, configurePoly, configureLinePoly} from "../drawtool";
-import {Color} from "../style/color"
+import Color from "../../general-mod/style/color";
 import AlertDialog from "../../../materialui/dialog";
 
 const ROUND = 100000;
@@ -60,6 +60,7 @@ class LabelControl{
 		lbc.obj = __obj__;
 		lbc.id =  __id__;
 		lbc.edit = false;
+		lbc.isHidden = false;
 		
 		if(lbc.obj.type_label === 'poly'){
 			lbc.pointArray = new Array();
@@ -225,41 +226,69 @@ class LabelControl{
 	}
 
 	__overITEM__(){
-		var checkbox_hidden = document.getElementById(this.id+"_hidden");
-		if(checkbox_hidden){
-			if (checkbox_hidden.checked) {
-				this.obj.visible = checkbox_hidden.checked;
+
+		let lbc = this;
+
+		if (!lbc.obj.hidden) {
+			lbc.obj.set('fill', Color.Opacity_RED);
+			if(lbc.obj.type != 'polygon'){
+				lbc.obj.set('selectable', lbc.getIsEdit());
 			}
-			this.obj.setColor(Color.Opacity_GREEN);
+			else{
+				lbc.obj.set('selectable', false);
+			}
+			popupControllers.popup(lbc.obj);
 		}
+		else{
+			lbc.obj.set('visible', true);
+			if(lbc.obj.shapeflag) {
+				lbc.obj.shapeflag.set('visible', true);
+			}
+			popupControllers.popup(lbc.obj);
+		}
+
+		lbc.canvas.renderAll();
+
+		return true;
 	}
 
 	__outITEM__(){
-		var checkbox_hidden = document.getElementById(this.id+"_hidden");
-		if(checkbox_hidden){
-			if (checkbox_hidden.checked) {
-				this.obj.visible = !checkbox_hidden.checked;
-			}
-			this.obj.setColor(Color.Transparent);
+		let lbc = this;
+
+		if (!lbc.obj.hidden) {
+			lbc.obj.set('fill', Color.Transparent);
 		}
+		else{
+			lbc.obj.set('visible', false);
+			if(lbc.obj.shapeflag) {
+				lbc.obj.shapeflag.set('visible', false);
+			}
+		}
+		let temGC = document.getElementById("group_control");
+		if(temGC) {
+			temGC.style["display"] = "none";
+		}
+		lbc.canvas.renderAll();
+
+		return true;
 	}
 
 	__hiddenITEM__(){
-		var checkbox_hidden = document.getElementById(this.id+"_hidden");
-		if(checkbox_hidden){
-			this.obj.setColor(Color.Transparent);
-			this.obj.set('visible', !checkbox_hidden.checked);
-			if(this.obj.shapeflag) {
-				this.obj.shapeflag.set('visible', !checkbox_hidden.checked);
-			}
-			this.obj.set('hidden', checkbox_hidden.checked);
-			if(checkbox_hidden.checked) {
-				this.__editITEM__(false); 
-				this.canvas.add(this.obj.icon);
-			}
-			else{
-				this.canvas.remove(this.obj.icon);	
-			}
+		let lbc = this;
+		lbc.isHidden = !lbc.isHidden;
+		
+		lbc.obj.set('visible', !lbc.isHidden);
+		if(lbc.obj.shapeflag) {
+			lbc.obj.shapeflag.set('visible', !lbc.isHidden);
+		}
+		lbc.obj.set('hidden', lbc.isHidden);
+
+		if (lbc.isHidden) {
+			lbc.__editITEM__(false); 
+			lbc.canvas.add(lbc.obj.icon);
+		}
+		else {
+			lbc.canvas.remove(lbc.obj.icon);
 		}
 	}
 
