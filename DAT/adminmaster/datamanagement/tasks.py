@@ -145,7 +145,7 @@ def extract_seqframevideo(datasetid):
             hasFrames, image = vidcap.read()
             if hasFrames:
                 # save frame as JPG file
-                file_name = f'{count:09}' + '.jpg'
+                file_name = '{:09d}'.format(count) + '.jpg'
                 print(file_name)
                 cv2.imwrite(os.path.join(folder_out, file_name), image)
                 is_head = (count - 1) % 4 == 0
