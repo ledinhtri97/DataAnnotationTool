@@ -9,7 +9,7 @@ Click==7.0
 colorama==0.4.1
 decorator==4.4.0
 defusedxml==0.5.0
-Django==2.1.9
+Django==2.1.11
 django-colorfield==0.1.15
 django-cors-headers==3.0.2
 django-crispy-forms==1.7.2
