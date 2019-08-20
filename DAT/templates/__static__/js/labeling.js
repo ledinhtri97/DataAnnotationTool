@@ -6,17 +6,18 @@ import MainFrameLabeling from "./materialui/labeling-ui/mainframe";
 import TemporaryDrawerInstruction from "./materialui/labeling-ui/drawerInstruction"
 import TemporaryDrawerSettings from "./materialui/labeling-ui/drawerSettings";
 import ToolListItems from './materialui/labeling-ui/listitem/toolListItems';
-import ImageTool from './materialui/labeling-ui/listitem/imageTool';
 
-import {outWorkSpace} from "./modules/dat-utils";
-import {rqnext, rqsavenext, rqsave} from  "./modules/request"
-import {initCanvas, initPredict} from "./modules/labeling-module/renderInit"
-import {init_event} from "./modules/labeling-module/event"
-import {PopupControllers} from "./modules/labeling-module/controller/popup";
-import {DrawTool} from "./modules/labeling-module/drawtool"
-import {Color} from "./modules/labeling-module/style/color";
-import DrawStatus from './modules/labeling-module/drawstatus';
-import QuickSettings from './modules/labeling-module/settings'
+import rqnext from  "./modules/labeling-mod/request/next";
+import rqsavenext from  "./modules/labeling-mod/request/saveNext";
+import rqsave from  "./modules/labeling-mod/request/save";
+
+import {initCanvas, initPredict} from "./modules/labeling-mod/renderInit"
+import {init_event} from "./modules/labeling-mod/event"
+import {PopupControllers} from "./modules/labeling-mod/controller/popup";
+import {DrawTool} from "./modules/labeling-mod/drawtool";
+import Color from "./modules/general-mod/style/color";
+import DrawStatus from './modules/labeling-mod/drawstatus';
+import QuickSettings from './modules/labeling-mod/settings';
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -97,19 +98,15 @@ if(labeling && meta_id && meta_id.textContent){
 			init_event(canvas, popupControllers);
 
 			const tools_list_items = document.getElementById("tools_list_items");
-			tools_list_items && ReactDOM.render(<ToolListItems
+        	const tracking = document.getElementById('tracking');
+
+			(tools_list_items && !tracking) && ReactDOM.render(<ToolListItems
 				canvas={canvas}
 				drawTool={drawTool} 
 				drawStatus={drawStatus}
 				quickSettings={quickSettings}
 				controllerRequest={controllerRequest}/>, 
 				tools_list_items);
-
-			// const image_tool = document.getElementById("image_tool");
-			// image_tool && ReactDOM.render(<ImageTool
-			// 	drawTool={drawTool} 
-			// 	drawStatus={drawStatus}/>, 
-			// 	image_tool);
 
 			const keyboard = document.getElementById("keyboard");
 			keyboard && ReactDOM.render(<TemporaryDrawerInstruction label_select={meta.label_select}/>, keyboard);
@@ -149,4 +146,4 @@ if(labeling && meta_id && meta_id.textContent){
 	}
 }
 
-export {quickSettings, drawStatus, drawTool, controllerRequest}
+export {quickSettings, drawStatus, drawTool, controllerRequest, popupControllers}

@@ -1,4 +1,3 @@
-
 var formSubmitting = false;
 var setFormSubmitting = function() { formSubmitting = true; };
 

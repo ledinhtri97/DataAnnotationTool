@@ -14,12 +14,6 @@ import Paper from '@material-ui/core/Paper';
 import TablePaginationActionsWrapped from '../overviewall-ui/table/pagination-actions'
 
 import TableHead from '@material-ui/core/TableHead';
-import Button from '@material-ui/core/Button';
-import dateFormat from 'dateformat';
-
-import AlertDialogView from "../overviewall-ui/table/dialog-view";
-import {fabric} from 'fabric';
-import {initCanvas} from '../../modules/labeling-module/renderInit';
 
 const styles = theme => ({
 	root: {

@@ -33,13 +33,8 @@ class GroundTruther(object):
             for meta in self.metas:
                 line = [meta.get_rel_path(), str(meta.boxes_position.count())]
                 for bb in meta.boxes_position.all():
-                    line.append(bb.label.tag_label)
-                    if bb.label.tag_label == 'license_plate' and bb.label.type_label == 'rect':
-                        lpo = bb.position.split(',')
-                        position = ','.join([lpo[0], lpo[1], lpo[2], lpo[1], lpo[2], lpo[3], lpo[0], lpo[3]])
-                        line.append(position)
-                    else:
-                        line.append(bb.position)
+                    line.append(bb.label.tag_label+'.'+bb.to_id)
+                    line.append(bb.position)
                 txt_file.write(','.join(line)+'\n')
 
         return path_file_groundtruth
@@ -90,7 +85,7 @@ class GroundTruther(object):
             for bb in meta.boxes_position.all():
                 if bb.label.type_label == 'rect':
                     root = create_object_annotation(
-                        root, bb.label.tag_label, bb.position.split(','))
+                        root, bb.label.tag_label+'.'+bb.to_id, bb.position.split(','))
 
         tree = ET.ElementTree(root)
         tree.write("{}/{}.xml".format(DESTINATION_DIR, file_prefix)) 

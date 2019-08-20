@@ -35,7 +35,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
-import Labeling from './labeling-main';
+import Tracking from './tracking-main'
 import {outWorkSpace} from "../../modules/general-mod/request/outWorking";
 
 const drawerWidth = 240;
@@ -97,10 +97,6 @@ const styles = theme =>({
     	width: '100%',
     	height: '100%',
     },
-    span:{
-    	display: 'inline-flex',
-    	paddingRight: 20,
-    },
     tabExpandTitle:{
     	paddingRight: '0 !important',
     	paddingLeft: '0 !important',
@@ -127,10 +123,17 @@ const styles = theme =>({
     hidden: {
     	display: 'none',
     },
+    expandedCustom: {
+        margin: '0 !important',
+    },
+    paddingCustom: {
+    	paddingTop: 0,
+    	paddingBottom: 0,
+    }
 });
 
 
-class MainFrameLabeling extends React.Component {
+class MainFrameTracking extends React.Component {
 	
 	state = {
 		anchorEl: null,
@@ -224,7 +227,7 @@ class MainFrameLabeling extends React.Component {
 					<span id="settings" title="Settings"/>
 				</div>
 
-				<ExpansionPanel expanded={expanded === 'p1'} onChange={this.handleExpandInDrawer('p1')}>
+				<ExpansionPanel classes={{expanded: classes.expandedCustom}} expanded={expanded === 'p1'} onChange={this.handleExpandInDrawer('p1')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Tools"/>
@@ -232,11 +235,11 @@ class MainFrameLabeling extends React.Component {
 				</ExpansionPanelSummary>
 				<ExpansionPanelDetails className={classes.tabExpandDetail}>
 				<Divider />
-				<List className={classes.listItem} id="tools_list_items"></List>
+				<List classes={{padding: classes.paddingCustom}} className={classes.listItem} id="tools_list_items"></List>
 				</ExpansionPanelDetails>
 				</ExpansionPanel>
 
-				<ExpansionPanel className={classes.hidden} expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
+				<ExpansionPanel classes={{expanded: classes.expandedCustom}} className={classes.hidden} expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Labels"/>
@@ -251,15 +254,15 @@ class MainFrameLabeling extends React.Component {
 				</Drawer>
 
 				<div className={classes.labeling}>
-					<Labeling />
+					<Tracking />
 				</div>
 			</div>
 		);
 	}
 }
 
-MainFrameLabeling.propTypes = {
+MainFrameTracking.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MainFrameLabeling);
+export default withStyles(styles)(MainFrameTracking);

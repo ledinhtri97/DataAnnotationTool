@@ -1,11 +1,10 @@
 import {fabric} from 'fabric';
 import {createItemToList} from "./controller/label"
 import {configurePoly, configureRectangle, configureFlag} from './drawtool';
-import {Color} from "./style/color";
-import {drawStatus} from "../../labeling";
+import {drawStatus} from "../../tracking";
 
-function image_convert(img){
-	var parent = document.getElementById("cvcontainer");
+function image_convert(img, pos){
+	var parent = document.getElementById("cvcontainer"+pos);
 	if(parent){
 		var scale = Math.min( 
 			parent.clientWidth / img.width, 
@@ -102,11 +101,11 @@ const zoomDefautIt = (canvas) => {
     );
 };
 
-const initCanvas = function(canvas, meta, only_view=false) {
+const initCanvas = function(canvas, meta) {
 	fabric.Image.fromURL(
 		meta.url_meta,
 		function(img) {
-			var wh = image_convert(img);
+			var wh = image_convert(img, canvas.pos);
 			if(wh){
 				img.scaleToWidth(wh[0]);
 				img.scaleToHeight(wh[1]);
@@ -116,6 +115,7 @@ const initCanvas = function(canvas, meta, only_view=false) {
 				canvas.set('originWidth', wh[0]);
 				canvas.set('originHeight', wh[1]);
 				canvas.set('url_meta', meta.url_meta);
+				canvas.set('id_meta', meta.id);
 				canvas.setBackgroundImage(img);
 
 				if(drawStatus.getFactor()!=1){
@@ -130,7 +130,14 @@ const initCanvas = function(canvas, meta, only_view=false) {
 						meta.boxes_position.forEach(function(bb){
 				            var shape = create_shape(bb, canvas);
 				            canvas.add(shape);
-				            if(!only_view) {
+				            if(bb.to_id){
+				            	createItemToList(canvas, shape, bb.to_id+canvas.pos);
+				            	if(bb.from_id != '') {
+				            		shape.labelControl.setFromId(bb.from_id);
+				            	}
+				            	drawStatus.pushOneToLTM(bb.to_id, canvas.pos, shape);
+				            }
+				            else {
 				            	createItemToList(canvas, shape);
 				    			// var e_hidden = document.getElementById(shape.labelControl.getId()+"_hidden");
 								// e_hidden && e_hidden.click();
@@ -139,7 +146,7 @@ const initCanvas = function(canvas, meta, only_view=false) {
 
 			            canvas.renderAll();
 					}
-				}, 500);	
+				}, 200);	
 			}
 		}
 	);

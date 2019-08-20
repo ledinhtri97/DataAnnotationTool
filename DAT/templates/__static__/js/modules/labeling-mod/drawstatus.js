@@ -15,9 +15,10 @@ class DrawStatus{
 		this.renewlabel = true;
 		this.zoomSpaceKey = false;
 		this.popupHover = false;
-		this.modeTool = [0, 0, 0, 0]; //edit, hidden, delete, change mode ===> default is false
+		this.modeTool = ""; //edit, hidden, delete, change mode ===> default is false
 		this.activePolygons = {'zs': false};
 		this.factor = 1; //width, height
+		this.turnRL = true;
 	};
 
 	getFactor(){
@@ -53,26 +54,12 @@ class DrawStatus{
 		this.isChangingLabel = val;
 	}
 
-	getModeTool(imode=null) {
-		if(imode != null) return this.modeTool[imode];
-		
-		let i = 0;
-		for(i; i < this.modeTool.length; i++){
-			if(this.modeTool[i]===1){ return i; }
-		}
-		return -1;
+	getModeTool() {
+		return this.modeTool;
 	}
 
-	setModeTool(imode=-1){
-		let i = 0;
-		for(i; i < this.modeTool.length; i++){
-			if(imode === i){ this.modeTool[i] = 1; }
-			else{ this.modeTool[i] = 0; }
-		}
-	}
-
-	setModeToolOff(imode){
-		this.modeTool[imode] = 0;
+	setModeTool(imode){
+		this.modeTool = imode;
 	}
 
 	getRenewLabel(){
@@ -81,6 +68,18 @@ class DrawStatus{
 
 	setRenewLabel(value) {
 		this.renewlabel = value;
+	}
+
+	setRenewLabel(value) {
+		this.renewlabel = value;
+	}
+
+	setTurnRenewLabel(value) {
+		this.turnRL = value;
+	}
+
+	getTurnRenewLabel() {
+		return this.turnRL;
 	}
 
 	getNameLabel(){
@@ -166,7 +165,7 @@ class DrawStatus{
 		this.renewlabel = true;
 		this.zoomSpaceKey = false;
 		this.popupHover = false;
-		this.modeTool = [0, 0, 0, 0];
+		this.modeTool = "";
 	}
 }
 

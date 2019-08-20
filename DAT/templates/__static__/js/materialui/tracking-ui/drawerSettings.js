@@ -18,7 +18,7 @@ import Zoom from '@material-ui/core/Zoom';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import {quickSettings} from '../../labeling';
+import {quickSettings} from '../../tracking';
 import AlertDialog from "../dialog";
 
 const styles = theme =>({
@@ -149,12 +149,13 @@ class TemporaryDrawerSettings extends React.Component {
 
 		}
 		if(name == 'color_background'){
-			document.getElementById("labeling").style['backgroundColor'] = (event.target.checked) ? "#FFFFFF" : "#332F2F";
+			document.getElementById("labeling").style['backgroundColor'] = (event.target.checked) ? "#FFFFFF" : "#1B1616";
 		}
 	};
 
-	handleNumberChange = (id, canvas) => event => {
+	handleNumberChange = (id) => event => {
 		var val = event.target.value;
+		var ls_canvas = this.props.canvas;
 
 		if(val >= 0){
 			
@@ -165,22 +166,27 @@ class TemporaryDrawerSettings extends React.Component {
 			if(id == 'size_icon'){
 				this.setState({size_icon: val});
 
-				canvas.getObjects().forEach(function(obj){
-					if(obj.islabel){
-						obj.icon.set('radius', parseInt(val));
-					}
-				});
-				canvas.renderAll();
+				for(let pos in ls_canvas){
+					ls_canvas[pos].getObjects().forEach(function(obj){
+						if(obj.islabel){
+							obj.icon.set('radius', parseInt(val));
+						}
+					});
+					ls_canvas[pos].renderAll();
+				}
 			}
 			else{
 				this.setState({'width_stroke': val});
 
-				canvas.getObjects().forEach(function(obj){
-					if(obj.islabel){
-						obj.set('strokeWidth', parseInt(val));
-					}
-				});
-				canvas.renderAll();
+				for(let pos in ls_canvas){
+					ls_canvas[pos].getObjects().forEach(function(obj){
+						if(obj.islabel){
+							obj.set('strokeWidth', parseInt(val));
+						}
+					});
+					ls_canvas[pos].renderAll();
+				}
+
 			}
 			quickSettings.setAtt(id, val);
 		}
@@ -203,7 +209,7 @@ class TemporaryDrawerSettings extends React.Component {
 	render() {
 		const { classes } = this.props;
 		
-		const canvas = this.props.canvas;
+		
 
 		const setts = (
 			<div className={classes.list}>
@@ -236,7 +242,7 @@ class TemporaryDrawerSettings extends React.Component {
 			<TextField
 			label="Number"
 			value={this.state.size_icon}
-			onChange={this.handleNumberChange('size_icon', canvas)}
+			onChange={this.handleNumberChange('size_icon')}
 			type="number"
 			className={classes.textField}
 			InputLabelProps={{
@@ -251,7 +257,7 @@ class TemporaryDrawerSettings extends React.Component {
 			<TextField
 			label="Number"
 			value={this.state.width_stroke}
-			onChange={this.handleNumberChange('width_stroke', canvas)}
+			onChange={this.handleNumberChange('width_stroke')}
 			type="number"
 			className={classes.textField}
 			InputLabelProps={{
