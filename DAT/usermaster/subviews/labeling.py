@@ -41,22 +41,22 @@ class EditLabelingView(generics.RetrieveUpdateAPIView):
     def retrieve(self, request, *args, **kwargs):
         metaid = request.parser_context['kwargs']['metaid']
         user = request.user
-        
+
         try:
             meta = MetaDataModel.objects.get(id=metaid)
-    
+            type_labeling = meta.dataset.type_labeling
             user_submited = user in meta.submitted_by_user.all()
             user_skipped = user in meta.skipped_by_user.all()
             allow_view = user_submited or user_skipped or meta.is_notice_view or user.is_superuser
 
             if allow_view and not meta.onviewing_user:
-                data = {'id': metaid, }
+                data = {'id': metaid, 'tl': type_labeling}
                 labeling_view.handle_metadata_before_release(meta, user)
             else:
-                data = {'id': '-1', }
+                data = {'id': '-1', 'tl': type_labeling}
 
         except Exception as e:
             print(e)
-            data = { 'id': '-1', }
+            data = {'id': '-1', 'tl': type_labeling}
 
         return Response(data=data)

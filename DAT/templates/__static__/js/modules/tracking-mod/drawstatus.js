@@ -279,7 +279,7 @@ class DrawStatus{
 		this.renewlabel = true;
 		this.zoomSpaceKey = false;
 		this.popupHover = false;
-		this.modeTool = [0, 0, 0, 0];
+		this.modeTool = "";
 	}
 }
 

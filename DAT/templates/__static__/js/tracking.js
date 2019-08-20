@@ -12,7 +12,7 @@ import {initCanvas, initPredict} from "./modules/tracking-mod/renderInit"
 import {init_event} from "./modules/tracking-mod/event";
 import PopupControllers from "./modules/tracking-mod/controller/popup";
 import {DrawTool} from "./modules/tracking-mod/drawtool";
-import {Color} from "./modules/tracking-mod/style/color";
+import Color from "./modules/general-mod/style/color";
 import DrawStatus from './modules/tracking-mod/drawstatus';
 import QuickSettings from './modules/tracking-mod/settings';
 

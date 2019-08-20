@@ -26,13 +26,18 @@ const rqsavenext = function(meta_id){
 		else{
 			document.getElementById("meta_id").textContent = metadata.tl.id;
 			document.getElementById("label_list_items").innerHTML = "";
+			drawStatus.resetLTM();
 
 			let list_canvas = drawTool.getListCanvas()
 			for (let pos in list_canvas){
+				if (pos == '_full' || !pos) continue;
 				let canvas = list_canvas[pos];
+				let keep_bigplus = canvas.bigplus;
 				canvas.clear();
 				let rpos = pos.replace('_', '')
 				initCanvas(canvas, metadata[rpos]);
+				canvas.add(keep_bigplus[0]);
+				canvas.add(keep_bigplus[1]);
 			}
 			
 			if(drawStatus.getNameLabel() != ''){

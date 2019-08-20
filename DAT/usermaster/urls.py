@@ -27,7 +27,7 @@ urlpatterns = [
          labeling_view.api_reference_index, name='api_reference'),
     path('next/<int:metaid>/', labeling_view.next_index, name='next'),
     path('save/<int:metaid>/', labeling_view.save_index, name='save'),
-    path('savenext/<int:metaid>/', labeling_view.savenext_index, name='savenext'),
+    #path('savenext/<int:metaid>/', labeling_view.savenext_index, name='savenext'),
     
     path('savenext_v2/<int:metaid>/',
          labeling_view.savenext_v2index, name='savenext_v2'),

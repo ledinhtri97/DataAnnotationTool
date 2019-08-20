@@ -1,11 +1,10 @@
 import {ask_before_out} from "../general-mod/request/outWorking";
 import {drawStatus, drawTool, controllerRequest, quickSettings, popupControllers} from "../../tracking";
-import {Color} from './style/color'
+import Color from "../general-mod/style/color";
 import {configureLine, configureFlag} from "./drawtool"
 import React from "react";
 import ReactDOM from "react-dom";
 import AlertDialog from "../../materialui/dialog";
-
 
 var Direction = {
 	LEFT: 0,
@@ -415,8 +414,8 @@ const init_event = function(__canvas__){
 		},
 		'object:moving': function(e){
 			if(group_control) {
-					group_control.style["display"] = "none";
-				}
+				group_control.style["display"] = "none";
+			}
 		},});
 
 	//===================BEGIN ZOOM PART======================//

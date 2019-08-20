@@ -28,7 +28,7 @@ const outWorkSpace = function(metaid, url){
 
 const collect_boudingbox = function(drawTool){
 	let resData = {};
-	let list_canvas = drawTool.getListCanvas()
+	let list_canvas = drawTool.getListCanvas();
 	for (let pos in list_canvas){
 		
 		if (pos == '_full' || !pos) continue;
@@ -72,7 +72,7 @@ const collect_boudingbox = function(drawTool){
 				}
 			}
 		}
-		resData[canvas.id_meta] = myData;
+		if (canvas.id_meta != undefined) resData[canvas.id_meta] = myData;
 	}
 
 	return resData;
