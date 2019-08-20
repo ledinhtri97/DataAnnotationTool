@@ -1,11 +1,11 @@
-import {ask_before_out} from "../dat-utils"
-import {drawStatus, drawTool, controllerRequest, quickSettings} from "../../labeling"
-import {Color} from './style/color'
-import {configureLine, configureFlag} from "./drawtool"
+import {ask_before_out} from "../general-mod/request/outWorking";
+import {drawStatus, drawTool, controllerRequest, quickSettings} from "../../labeling";
+import {Color} from './style/color';
+import {configureLine, configureFlag} from "./drawtool";
 import React from "react";
 import ReactDOM from "react-dom";
 import AlertDialog from "../../materialui/dialog";
-import AlertDialogChangeClass from "../../materialui/labeling-ui/dialog-changeclass";
+import AlertDialogChangeClass from "../../materialui/general-ui/dialogChangeClass";
 
 
 var Direction = {
@@ -15,7 +15,11 @@ var Direction = {
 	DOWN: 3
 };
 
-var bigplus = [];
+var bigplus = [
+	configureLine([0, 0, 0, 0], Color.WHITE),
+	configureLine([0, 0, 0, 0], Color.WHITE),
+];
+
 var zoomLevel = 0;
 var zoomLevelMin = 0;
 var zoomLevelMax = 3;
@@ -35,52 +39,36 @@ const isLabel = function(obj){
 }
 
 const reset_when_go =  function(){
-	bigplus.length = 0;
+	bigplus[0].set({y1: 0, x2: 0, y2: 0});
+	bigplus[1].set({x1: 0, x2: 0, y2: 0});
 }
 
 
-const controll_bigplus = function(__canvas__, pointer){
-	if(drawStatus.getIsDrawing() && !drawStatus.getIsZoom() && !drawStatus.getPopuHover()){
-		if(bigplus.length == 0){
-
-			var x = configureLine([0, pointer.y, __canvas__.getWidth(), pointer.y], Color.WHITE);
-			var y = configureLine([pointer.x, 0, pointer.x,__canvas__.getHeight()], Color.WHITE);
-			bigplus.push(x);
-			bigplus.push(y);
-			__canvas__.add(x);
-			__canvas__.add(y);
-
-		}
-		else{
-			bigplus[0].set({ y1: pointer.y, y2: pointer.y });
-			bigplus[1].set({ x1: pointer.x, x2: pointer.x });
-		}
+const controll_bigplus = function(__canvas__, pointer, out_canvas=true){
+	if(drawStatus.getIsDrawing() && !drawStatus.getIsZoom() && !drawStatus.getPopuHover() && out_canvas){
+		bigplus[0].set({ y1: pointer.y, x2: __canvas__.getWidth(), y2: pointer.y });
+		bigplus[1].set({ x1: pointer.x, x2: pointer.x, y2: __canvas__.getHeight()});
 	}
 	else{
-		if(bigplus.length != 0){
-			__canvas__.remove(bigplus[0]);
-			__canvas__.remove(bigplus[1]);
-			reset_when_go();
-		}
+		bigplus[0].set({y1: 0, x2: 0, y2: 0});
+		bigplus[1].set({x1: 0, x2: 0, y2: 0});
 	}
 }
 
 const init_event = function(__canvas__, popupControllers){
+	
 	var group_control = document.getElementById("group_control");
+
+	__canvas__.add(bigplus[0]);
+	__canvas__.add(bigplus[1]);
+
 	if(group_control) {
 
 		group_control.addEventListener('mouseover', function(e){
 			var pointer = __canvas__.getPointer(e.e, true);
-			group_control.style["display"] = "";
-			drawStatus.setPopuHover(true);
-			controll_bigplus(__canvas__, pointer);
-		});
-		
-		group_control.addEventListener('mouseout', function(e){
-			var pointer = __canvas__.getPointer(e.e, true);
 			group_control.style["display"] = "none";
 			drawStatus.setPopuHover(false);
-			controll_bigplus(__canvas__, pointer);
+			controll_bigplus(__canvas__, pointer, false);
 		});
 
 		try {
@@ -139,7 +127,7 @@ const init_event = function(__canvas__, popupControllers){
 				ReactDOM.unmountComponentAtNode(dialog);
 				let message = "Skip this data and continue?";
 				let request = "rqnext";
-				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
+				ReactDOM.render(<AlertDialog message={message} request={request} controllerRequest={controllerRequest}/>, dialog);
 			}
 			else{
 				controllerRequest('rqnext');
@@ -150,7 +138,7 @@ const init_event = function(__canvas__, popupControllers){
 				ReactDOM.unmountComponentAtNode(dialog);
 				let message = "All labels will be save and continue?";
 				let request = on_edit ? "rqsave" : "rqsavenext";
-				ReactDOM.render(<AlertDialog message={message} request={request}/>, dialog);
+				ReactDOM.render(<AlertDialog message={message} request={request} controllerRequest={controllerRequest}/>, dialog);
 			}
 			else{
 				controllerRequest('rqsavenext');
@@ -320,11 +308,13 @@ const init_event = function(__canvas__, popupControllers){
 			}
 			catch(error) {
 				if (!e.target){
-					__canvas__.remove(bigplus[0]);
-					__canvas__.remove(bigplus[1]);
-					reset_when_go();
+					controll_bigplus(__canvas__, null, false);
+					if(group_control) {
+						group_control.style["display"] = "none";
+					}
 				}
 			}
+			
 			__canvas__.renderAll();
 		},
 
@@ -525,8 +515,8 @@ const init_event = function(__canvas__, popupControllers){
 				}
 		var key = options.which || options.keyCode; // key detection
 		if (key == 32) { // handle Space key
-			__canvas__.defaultCursor = 'move';
-			__canvas__.selection = false;
+			__canvas__.set('defaultCursor', 'move');
+			__canvas__.set('selection', false);
 			spaceKeyDown = true;
 		} else if (key === 37) { // handle Left key
 			move(Direction.LEFT);
@@ -544,8 +534,8 @@ const init_event = function(__canvas__, popupControllers){
 		var key = options.which || options.keyCode; // key detection
 		if (key == 32) { // handle Shift key
 			var typeCursor = drawStatus.getIsDrawing() ? 'crosshair' : 'default';
-			__canvas__.defaultCursor = typeCursor;
-			__canvas__.selection = true;
+			__canvas__.set('defaultCursor', typeCursor);
+			__canvas__.set('selection', true);
 			spaceKeyDown = false;
 		}
 		drawStatus.setZoomSpaceKey(spaceKeyDown);

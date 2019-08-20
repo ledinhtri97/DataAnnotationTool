@@ -5,87 +5,45 @@ from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from adminmaster.workspacemanagement.models import UserSettingsModel
 from django.http import JsonResponse
 from django.conf import settings
-from usermaster.subviews.request.querymeta import query_meta, query_meta_reference
+from .querymeta import query_meta, query_meta_reference, query_list_meta
 import json
 import os
 from apimodel.models import ApiReferenceModel
-from PIL import Image, ImageFont, ImageDraw, ImageEnhance
+from adminmaster.datamanagement.tasks import create_thumbnail
 
-def hex_to_rgba(value):
-    value = value.lstrip('#')
-    lv = len(value)
-    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3)) + (127,)
-
-def create_thumbnail(meta):
-	thumb_height = 200
-	TINT_COLOR = (0, 0, 0)  # Black
-	path_mt = meta.get_full_origin()
-	file, ext = os.path.splitext(path_mt)
-	thumb = file.replace('storage_data', 'thumbnail')
-
-	try:
-		folder = os.path.dirname(thumb)
-		os.makedirs(folder)
-	except FileExistsError:
-		print("Directory ", folder,  " already exists")
-
-	im = Image.open(path_mt)
-	im = im.convert("RGBA")
-	tmp = Image.new('RGBA', im.size, TINT_COLOR+(0,))
-
-	draw = ImageDraw.Draw(tmp)
-
-	for bb in meta.boxes_position.all():
-		positions = bb.position.split(',')
-		color = hex_to_rgba(bb.label.color)
-		print(color)
-		if(len(positions)==4):
-			draw.rectangle(
-				(
-                    (float(positions[0])*im.size[0], float(positions[1])*im.size[1]),
-                    (float(positions[2])*im.size[0], float(positions[3])*im.size[1])),
-					fill=color
-				)
-		else:
-			poly = []
-			for i in range(0, len(positions), 2):
-				poly.append((float(positions[i])*im.size[0], float(positions[i+1])*im.size[1]))
-			
-			draw.polygon(poly, fill=color)
-	del draw
-
-	im = Image.alpha_composite(im, tmp)
-	im = im.convert("RGB")
-	im.thumbnail((im.size[0]*thumb_height/im.size[1], thumb_height), Image.ANTIALIAS)
-	im.save(thumb + ".thumbnail", "JPEG")
-
-def get_query_meta_general(dataset_id=None, user=None):
+def get_query_meta_general(dataset_id=None, user=None, type_labeling='de'):
 	base_request = MetaDataModel.objects.filter(
-            dataset_id=dataset_id, is_annotated=False, is_allow_view=True)
-
-	try:
-		query_meta_data = base_request.filter(onviewing_user=user)
-		# print("try: ", query_meta_data)
-		if(query_meta_data.count() == 0):
-			# print('a', query_meta_data)
-			query_meta_data = base_request.filter(onviewing_user__isnull=True).exclude(
-				skipped_by_user=user)
-
-			#print("try-again: ", query_meta_data, '\n', query_meta_data.first())
-	except Exception as e:
-		print(e)
-		query_meta_data = base_request.filter(onviewing_user__isnull=True)
-		#print("except: ", query_meta_data)
+        dataset_id=dataset_id, is_annotated=False, is_allow_view=True)
+	if type_labeling == 'de':
+		try:
+			query_meta_data = base_request.filter(onviewing_user=user)
+			if(query_meta_data.count() == 0):
+				query_meta_data = base_request.filter(onviewing_user__isnull=True).exclude(
+					skipped_by_user=user)
+		except Exception as e:
+			print(e)
+			query_meta_data = base_request.filter(onviewing_user__isnull=True)
+	elif type_labeling == 'tr':
+		try:
+			query_meta_data = base_request.filter(onviewing_user=user)
+			if(query_meta_data.count() == 0):
+				query_meta_data = base_request.filter(
+					onviewing_user__isnull=True, is_head=1)
+			if(query_meta_data.count() == 0):
+				#merger time
+				query_meta_data = base_request.filter(
+						onviewing_user__isnull=True, is_tail_merger=1)
+		except Exception as e:
+			print('[ERROR] tracking mode: ', e)
 
 	meta_data = query_meta_data.first()
-
 	if (meta_data):
 		handle_metadata_before_release(meta_data, user)
+	
 	return meta_data
 
 def handle_metadata_before_release(meta_data, user):
 	if(not meta_data.onviewing_user):
-		#print("no one view, now add", user)
 		try:
 			meta_data.onviewing_user = user
 			meta_data.save(update_fields=['onviewing_user'])
@@ -105,6 +63,7 @@ def next_index(request, metaid):
 	# print(metaid)
 	#reuser code get query metadata from querymeta
 	dataset_id = current_meta_data.dataset.id
+	type_labeling = current_meta_data.dataset.type_labeling
 	user = request.user
 
 	current_meta_data.onviewing_user=None
@@ -114,8 +73,8 @@ def next_index(request, metaid):
 		current_meta_data.save(update_fields=['is_allow_view'])
 		
 	current_meta_data.save(update_fields=['onviewing_user'])
-	create_thumbnail(current_meta_data)
-	meta = get_query_meta_general(dataset_id, user)
+	create_thumbnail.delay(metaid)
+	meta = get_query_meta_general(dataset_id, user, type_labeling)
 	
 	if meta:
 		data = query_meta(meta)
@@ -165,9 +124,116 @@ def save_index(request, metaid):
 		    update_fields=['is_annotated', 'onviewing_user', 'is_notice_view'])
 
 		#here we will create thumbnail with drawing boxes to display
-		create_thumbnail(current_meta_data)
+		create_thumbnail.delay(metaid)
 
 	return JsonResponse(data=data)
+
+def savenext_v2index(request, metaid):
+	data = {}
+	if request.method == 'POST':
+		current_meta_data = MetaDataModel.objects.get(id=metaid)
+		body_unicode = json.loads(request.body.decode('utf-8'))
+		dataset_id = current_meta_data.dataset.id
+		type_labeling = current_meta_data.dataset.type_labeling
+		user = request.user
+		
+		if type_labeling == 'de':
+			for bb in current_meta_data.boxes_position.all():
+				bb.delete()
+
+			for bb in body_unicode:
+				new_bb, created = BoundingBoxModel.objects.get_or_create(
+                        label=LabelDataModel.objects.get(
+                            tag_label=bb['tag_label'], type_label=bb['type_label'],
+							flag=bb['flag'], position=bb['position']))
+				if created:
+					current_meta_data.boxes_position.add(new_bb)
+				else:
+					print('existed\n', current_meta_data.boxes_position.all())
+			
+			current_meta_data.submitted_by_user.add(user)
+			current_meta_data.is_annotated=1
+			current_meta_data.is_notice_view=0
+			current_meta_data.onviewing_user=None
+			current_meta_data.save(update_fields=['is_annotated', 'onviewing_user', 'is_notice_view'])
+			create_thumbnail.delay(metaid)
+
+			meta = get_query_meta_general(dataset_id, user, type_labeling)
+			if meta:
+				data = query_meta(meta)
+
+		elif type_labeling == 'tr':
+			for id_meta in body_unicode:
+				cur_meta = MetaDataModel.objects.get(id=id_meta)
+
+				for bb in body_unicode[id_meta]:
+					if bb['from_id'] == '':
+						new_bb, created = BoundingBoxModel.objects.get_or_create(
+                        	label=LabelDataModel.objects.get(tag_label=bb['tag_label'], type_label=bb['type_label']),
+							flag=bb['flag'], position=bb['position'],
+							from_id=bb['to_id'], to_id=bb['to_id']
+						)
+						if created:
+							cur_meta.boxes_position.add(new_bb)
+						else:
+							print('existed\n', cur_meta.boxes_position.all())
+					else:
+						try:
+							pre_bb = cur_meta.boxes_position.get(from_id=bb['from_id'])
+							pre_bb.label.tag_label = bb['tag_label']
+							pre_bb.label.save(update_fields=['tag_label'])
+							pre_bb.position = bb['position']
+							pre_bb.flag = bb['flag']
+							pre_bb.save(update_fields=['flag', 'position'])
+							
+							pre_from_id = pre_bb.from_id
+							pre_to_id = pre_bb.to_id
+
+							change_from_bbes = BoundingBoxModel.objects.filter(from_id=pre_from_id)
+							
+							print(change_from_bbes.all())
+							for fbb in change_from_bbes.all():
+								fbb.label.tag_label = bb['tag_label']
+								fbb.label.save(update_fields=['tag_label'])
+
+								fbb.to_id = bb['to_id']
+								fbb.save(update_fields=['to_id'])
+							change_to_bbes = BoundingBoxModel.objects.filter(to_id=pre_to_id)
+							
+							print(change_to_bbes.all())
+							for tbb in change_to_bbes.all():
+								tbb.label.tag_label = bb['tag_label']
+								tbb.label.save(update_fields=['tag_label'])
+
+								tbb.to_id = bb['to_id']
+								tbb.save(update_fields=['to_id'])
+							print('successful!!!')
+						except Exception as e:
+							print(e)
+							
+							new_bb, created = BoundingBoxModel.objects.get_or_create(
+                                label=LabelDataModel.objects.get(
+                                    tag_label=bb['tag_label'], type_label=bb['type_label']),
+                                flag=bb['flag'], position=bb['position'],
+                                from_id=bb['to_id'], to_id=bb['to_id']
+                            )
+							cur_meta.boxes_position.add(new_bb)
+				
+				cur_meta.submitted_by_user.add(user)
+				cur_meta.is_annotated = 0 if (current_meta_data.is_head and cur_meta.is_tail_merger) else 1
+				cur_meta.is_notice_view = 0
+				cur_meta.onviewing_user = None
+				cur_meta.save(
+			    	update_fields=['is_annotated', 'onviewing_user', 'is_notice_view'])
+				create_thumbnail.delay(id_meta)
+			
+			meta = get_query_meta_general(dataset_id, user, type_labeling)
+			if meta:
+				data = query_list_meta(meta)
+	print(data)
+	return JsonResponse(data = data)
+		
+
 
 def savenext_index(request, metaid):
 	data = {}
@@ -176,7 +242,9 @@ def savenext_index(request, metaid):
 	
 		current_meta_data = MetaDataModel.objects.get(id=metaid)
 		body_unicode = request.body.decode('utf-8')
+		#body_unicode = json.loads(request.body.decode('utf-8'))
 		dataset_id = current_meta_data.dataset.id
+		type_labeling = current_meta_data.dataset.type_labeling
 		user = request.user
 	
 		for bb in current_meta_data.boxes_position.all():
@@ -206,9 +274,9 @@ def savenext_index(request, metaid):
 		    update_fields=['is_annotated', 'onviewing_user', 'is_notice_view'])
 		
 		#here we will create thumbnail with drawing boxes to display
-		create_thumbnail(current_meta_data)
+		create_thumbnail.delay(metaid)
 
-		meta = get_query_meta_general(dataset_id, user)
+		meta = get_query_meta_general(dataset_id, user, type_labeling)
 
 		#print('meta: ', meta)
 		if meta:

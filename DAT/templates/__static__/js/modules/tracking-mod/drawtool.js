@@ -1,7 +1,9 @@
 import {createItemToList} from "./controller/label";
 import {Color} from "./style/color";
 import {fabric} from "fabric";
-import {drawStatus} from "../../labeling";
+import {initCanvas} from "./renderInit";
+import {init_event} from "./event";
+import {drawStatus} from "../../tracking";
 
 const MIN = 99;
 const MAX = 999999;
@@ -185,17 +187,57 @@ const configureFlag = function(master) {
 	return flag;
 }
 
+const cloneObject = function(obj, canvas){
+	var new_object;
+	let wc = canvas.getWidth();
+	let hc = canvas.getHeight();
+	if(obj.type_label == 'rect') {
+		let left = obj.xmin * wc;
+		let top = obj.ymin * hc;
+		let width = (obj.xmax-obj.xmin) * wc;
+		let height = (obj.ymax-obj.ymin) * hc;
+		new_object = configureRectangle(left, top, width, height);
+		new_object.set({
+			stroke: obj.stroke,
+			name: obj.name,
+			xmin: obj.xmin,
+			ymin: obj.ymin,
+			xmax: obj.xmax,
+			ymax: obj.ymax,
+		});
+		new_object.icon.set('fill', obj.stroke);
+	}
+	else if (obj.type_label == 'poly') {
+		let points = [];
+		obj.rpoints.forEach(function(p) {
+			points.push({
+				x: p.x * wc,
+				y: p.y * hc,
+			});
+		});
+		new_object = configurePoly(points);
+		new_object.set({
+			stroke: obj.stroke,
+			name: obj.name,
+			rpoints: obj.rpoints,
+		});
+		new_object.icon.set('fill', obj.stroke);
+	}
+
+	return new_object;
+}
+
 class DrawTool{
-	constructor(__canvas__) {
+	constructor(ls_canvas) {
 
 		const drawer = this;
 		
 		drawer.rectangle;
 
 		//variable in use
-		drawer.canvas = __canvas__;
 		drawer.pointArray = new Array();
 		drawer.lineArray = new Array();
+		drawer.ls_canvas = ls_canvas;
 
 		//new variable
 		drawer.typeLabel = null;
@@ -277,26 +319,41 @@ class DrawTool{
 					}
 				}
 
-				//hardcode here
-				drawStatus.setRenewLabel(true);
-				
+				if(!drawStatus.getTurnRenewLabel()){
+					drawStatus.setRenewLabel(true);
+				}
 
 				if (new_object && !only && drawStatus.getRenewLabel()) {
-					//hardcode here
 					new_object.set('name', '');
-					
 					drawStatus.setIsChangingLabel(true);
 					let changelb = document.getElementById(new_object.labelControl.getId()+"_changelabel");
 					changelb && changelb.click();
 				}
 
-				drawer.pointArray.lenth = new Array();;
-				drawer.lineArray.lenth = new Array();;
+				drawer.pointArray.lenth = new Array();
+				drawer.lineArray.lenth = new Array();
 				drawer.typeLabel = null;
 				drawer.lastLine = null;
 				drawer.firstPoint = null;
 				drawer.canvas.selection = true;
 
+				if (new_object) {
+					const pos_id = new_object.labelControl.getId().split('_')[0];
+					let fObjects = {};
+					fObjects[drawer.canvas.pos] = new_object;
+					for (let pos in drawer.ls_canvas){
+						let isAutoSynch = drawStatus.getAutoSynchs(pos);
+						if (isAutoSynch && pos != drawer.canvas.pos) {
+							let cloneObj = cloneObject(new_object, drawer.ls_canvas[pos]);
+							drawer.ls_canvas[pos].add(cloneObj);
+							createItemToList(drawer.ls_canvas[pos], cloneObj, pos_id+pos); //xyz + _tf
+							fObjects[pos] = cloneObj;
+						}
+					}
+					// console.log(fObjects);
+					drawStatus.pushObjectsToLTM(pos_id, fObjects);
+				}
+				
 				//end new code
 				drawer.startDraw();
 
@@ -345,17 +402,23 @@ class DrawTool{
 							drawer.firstPoint = null;
 						}
 
-						//last point and new point
-						let firstpoint = drawer.pointArray[0];
-						let lastpoint = drawer.pointArray[drawer.pointArray.length - 2];
-						let newline = configureLinePoly([lastpoint.x, lastpoint.y, pointer.x, pointer.y]);
+						if (drawStatus.getListLabelPoly().length == 0) {
+							//last point and new point
+							drawer.quickDraw();
+							//setTimeout(function(){alert("Don't have any polygon label in list");}, 200);
+						}
+						else{
+							let firstpoint = drawer.pointArray[0];
+							let lastpoint = drawer.pointArray[drawer.pointArray.length - 2];
+							let newline = configureLinePoly([lastpoint.x, lastpoint.y, pointer.x, pointer.y]);
 
-						drawer.lineArray.push(newline);
-						drawer.canvas.add(newline);
+							drawer.lineArray.push(newline);
+							drawer.canvas.add(newline);
 
-						drawer.canvas.remove(drawer.lastLine);
-						drawer.lastLine = configureLinePoly([pointer.x, pointer.y, firstpoint.x, firstpoint.y]);
-						drawer.canvas.add(drawer.lastLine);
+							drawer.canvas.remove(drawer.lastLine);
+							drawer.lastLine = configureLinePoly([pointer.x, pointer.y, firstpoint.x, firstpoint.y]);
+							drawer.canvas.add(drawer.lastLine);
+						}
 					}
 				}
 				else if (clickbtn === 3 && drawer.typeLabel === 'poly') { //right mouse click
@@ -364,14 +427,14 @@ class DrawTool{
 			}
 		}
 
-		drawer.mouseMove= function(o){
+		drawer.mouseMove = function(o){
 
 			//check firstPoint or typeLabel same time for sure;
 			if (drawer.firstPoint && drawer.typeLabel === 'rect') {
 				drawStatus.setIsWaiting(false);
 				let pointer = drawer.canvas.getPointer(o.e);
 				if(drawer.origX > pointer.x){
-					drawer.rectangle.set({ left: Math.abs(pointer.x) });
+					drawer.rectangle.set({ left: Math.abs(pointer.x)});
 				}
 				else {
 					drawer.rectangle.set({ left: drawer.origX });
@@ -389,13 +452,13 @@ class DrawTool{
 			}
 		}
 
-		drawer.mouseUp= function(o){
+		drawer.mouseUp = function(o){
 			drawStatus.setIsWaiting(drawer.typeLabel === null);
 
 			if(drawer.typeLabel === 'rect') {
-				let __width__ = drawer.rectangle.width, 
+				let __width__ = drawer.rectangle.width,
 				__height__ = drawer.rectangle.height;
-				if(__width__ > 13 && __height__ > 8) {
+				if(__width__ > 5 && __height__ > 5) {
 					drawer.canvas.remove(drawer.firstPoint);
 					drawer.firstPoint = null;
 					drawer.tool.generateShapeLabel();
@@ -410,17 +473,40 @@ class DrawTool{
 		}
 	}
 
-	startDraw(id, namelabel, typelabel){
-		this.endDraw();
+	setCanvas(cv) {
+		var drawer = this;
+		if(drawer.canvas && drawStatus.getIsDrawing()) {
+			drawer.quickDraw();
+		}
+		drawer.canvas = cv;
+		if(!drawStatus.getIsDrawing()){
+			drawer.endDraw();
+		}
+		else{
+			drawer.startDraw();
+		}
+	}
 
+	getCanvas(){
+		return this.canvas.pos;
+	}
+
+	stopEditObjects() {
 		this.canvas.getObjects().forEach(function(obj){
 			if(obj.labelControl && obj.labelControl.getIsEdit()){
 				obj.labelControl.__editITEM__(false);
 			}
 		});
+	}
 
-		this.canvas.defaultCursor = 'crosshair';
+	startDraw(id, namelabel, typelabel){
+		if (!this.canvas) return;
+		
+		this.endDraw();
 
+		this.stopEditObjects();
+
+		this.canvas.set('defaultCursor', 'crosshair');
 		if(typelabel){
 			this.typeLabel = typelabel	
 		}
@@ -434,8 +520,8 @@ class DrawTool{
 	}
 
 	endDraw(){
-		this.canvas.defaultCursor = 'default';
-		
+		this.canvas.set('defaultCursor', 'default');
+		this.removeStuff();
 		drawStatus.stopDrawStatus();
 
 		this.canvas.off('mouse:down', this.mouseDown);
@@ -443,9 +529,10 @@ class DrawTool{
 		this.canvas.off('mouse:up', this.mouseUp);
 	}
 
-	quickDraw() {
-
+	removeStuff() {
 		var drawer = this;
+		if (!drawer.canvas) return;
+
 		drawer.canvas.remove(drawer.firstPoint);
 		drawer.canvas.remove(drawer.lastLine);
 		drawer.canvas.remove(drawer.rectangle);
@@ -460,11 +547,115 @@ class DrawTool{
 		drawer.lastLine = null;
 		drawer.firstPoint = null;
 		drawer.canvas.selection = true;
+	}
+
+	quickDraw() {
+		var drawer = this;
+		drawer.removeStuff();
 
 		drawStatus.setIsWaiting(true);
 		drawer.startDraw();
 	}
 
+	copyObject(obj, topos) {
+		let drawer = this;
+		if (obj.labelControl.getIsEdit()) {
+			obj.labelControl.__editITEM__(false);
+		}
+		let pos_id = obj.labelControl.getPosId();
+		let cloneObj = cloneObject(obj, drawer.ls_canvas[topos]);
+
+		let preObj = drawStatus.getOneFromLTM(pos_id, topos);
+		if (preObj) {
+			preObj.labelControl.__deleteITEM__();
+		}
+		drawer.ls_canvas[topos].add(cloneObj);
+		createItemToList(drawer.ls_canvas[topos], cloneObj, pos_id+topos);
+		drawStatus.pushOneToLTM(pos_id, topos, cloneObj);
+	}
+
+	copyAllObjects(frompos, topos){
+		let drawer = this;
+		drawer.ls_canvas[frompos].getObjects().forEach(function(obj) {
+			if (obj.islabel) {	
+				drawer.copyObject(obj, topos);
+			}
+		});
+	}
+
+	reTransformedObjects(frompos, topos){
+		var drawer = this;
+
+		var meta = {
+			url_meta: drawer.ls_canvas[frompos].url_meta,
+			status: 'OK',
+			boxes_position: [],
+		}
+
+		drawer.prePos = frompos;
+
+		drawer.ls_canvas[topos].getObjects().forEach( function(obj) {
+			if (!obj.isBigPlus){
+				if (obj.islabel){
+					obj.labelControl.__deleteITEM__();
+				}
+				else{
+					drawer.ls_canvas[topos].remove(obj);
+				}
+			}
+		});
+
+		drawer.ls_canvas[frompos].getObjects().forEach(function(obj) {
+			if (obj.islabel) {
+				let position;
+
+				if (obj.labelControl.getIsEdit()){
+					obj.labelControl.__editITEM__(false);
+				}
+				
+				if (obj.type_label == 'rect') {
+					position = [obj.xmin, obj.ymin, obj.xmax, obj.ymax].join(',')
+				}
+				else if(obj.type_label == 'poly') {
+					let temp = [];
+					for (var p of obj.rpoints){
+						position.push(p.x);
+						position.push(p.y);
+					}
+					position = temp.join(',')
+				}
+
+				meta.boxes_position.push({
+					type_label: obj.type_label,
+					tag_label: obj.name,
+					color: obj.stroke,
+					flag: obj.flag,
+					position: position,
+					to_id: obj.labelControl.getPosId(),
+					from_id: obj.labelControl.getFromId(),
+				});
+			}
+		});
+		
+		initCanvas(drawer.ls_canvas[topos], meta);
+	}
+
+	outFullScreen() {
+		var drawer = this;
+		let prePos = drawer.prePos;
+		drawer.reTransformedObjects('_full', prePos);
+		drawer.setCanvas(drawer.ls_canvas[prePos]);
+	}
+
+	inFullScreen(pos) {
+		var drawer = this;
+		drawer.reTransformedObjects(pos, '_full');
+		drawer.setCanvas(drawer.ls_canvas['_full']);
+	}
+
+	getListCanvas(){
+		return this.ls_canvas;
+	}
 }
 
 export {configureFlag, configureCircle, configureLine, configureLinePoly, configureRectangle, configurePoly, DrawTool};

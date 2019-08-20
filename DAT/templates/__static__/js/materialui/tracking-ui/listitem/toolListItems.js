@@ -28,6 +28,12 @@ import Slider from '@material-ui/core/Slider';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
+import LooksOneOutlined from '@material-ui/icons/LooksOneOutlined';
+import LooksTwoOutlined from '@material-ui/icons/LooksTwoOutlined';
+import Looks3Outlined from '@material-ui/icons/Looks3Outlined';
+import Looks4Outlined from '@material-ui/icons/Looks4Outlined';
+import SwitchCameraOutlined from '@material-ui/icons/SwitchCameraOutlined';
+
 const styles = theme => ({
     lightTooltip: {
         backgroundColor: theme.palette.common.white,
@@ -36,6 +42,8 @@ const styles = theme => ({
         fontSize: 11,
     },
     icon: {
+        // paddingLeft: "5px",
+        // paddingRight: "5px",
         padding: "5px",
     },
     close: {
@@ -64,7 +72,7 @@ const styles = theme => ({
     listItemRoot: {
         paddingTop: '2px',
         paddingBottom: '2px',
-    }
+    },
 });
 
 class ItemTool extends React.Component {
@@ -119,6 +127,8 @@ class ToolListItems extends React.Component {
 
     queue = [];
 
+    current_tool = "";
+
     state = {
         open: false,
         changeReLabel: true,
@@ -158,23 +168,42 @@ class ToolListItems extends React.Component {
         this.props.drawStatus.setRenewLabel(true);
     };
 
-    handleDisplayTool = (onTool=-1) => {
-        let listTool = ["stop_draw", "edit_tool", "hidden_tool", "delete_tool", "change_tool"];
-        let i = 0;
-        for (i; i < 5; i++){
-            if (i === onTool) {
-                document.getElementById(listTool[i]).style['backgroundColor'] = "#B6F3F2";
+    handleDisplayTool = (onTool) => {
+        const {drawStatus, drawTool} = this.props;
+        if (this.current_tool == onTool) {
+            drawStatus.setModeTool("");
+            document.getElementById(this.current_tool).style['backgroundColor'] = "#FFFFFF";
+            if (this.current_tool === "edit_tool") {
+                drawTool.stopEditObjects();
             }
-            else{
-                document.getElementById(listTool[i]).style['backgroundColor'] = "#FFFFFF";
+            else if (this.current_tool === "linkLabel_tool") {
+                drawStatus.resetLinkLabels(true);
             }
+            this.current_tool = "";
+        }
+        else {
+            if (this.current_tool) {
+                document.getElementById(this.current_tool).style['backgroundColor'] = "#FFFFFF";
+                if (this.current_tool === "edit_tool") {
+                    drawTool.stopEditObjects();
+                }
+                else if(this.current_tool === "stop_draw") {
+                    drawTool.endDraw();
+                }
+                else if (this.current_tool === "linkLabel_tool") {
+                    drawStatus.resetLinkLabels();
+                }
+            }
+            drawStatus.setModeTool(onTool);
+            this.current_tool = onTool;
+            document.getElementById(this.current_tool).style['backgroundColor'] = "#B6F3F2";
         }
     };
 
     handleStopDrawing = () => {
         const {drawTool, drawStatus, quickSettings} = this.props;
         
-        this.handleDisplayTool(0);
+        this.handleDisplayTool("stop_draw");
 
         let isDrawing = drawStatus.getIsDrawing();
         let isWaiting = drawStatus.getIsWaiting();
@@ -190,20 +219,17 @@ class ToolListItems extends React.Component {
 
         if(isDrawing && isWaiting){
             drawTool.endDraw();
-            stop_draw.style['backgroundColor'] = "#FFFFFF";
+            document.getElementById('stop_draw').style['backgroundColor'] = "#FFFFFF";
         }
         else{
             drawTool.quickDraw();
+            document.getElementById('stop_draw').style['backgroundColor'] = "#B6F3F2";
         }
         drawStatus.setModeTool();
     };
 
     handleSaveNext = () => {
         this.props.controllerRequest('rqsavenext');
-    };
-
-    handleSkipNext = () => {
-        this.props.controllerRequest('rqnext');
     };
 
     handleSave = () => {
@@ -215,111 +241,44 @@ class ToolListItems extends React.Component {
     };
 
     handleEdit = () => {
-        let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-
-        if(drawStatus.getModeTool(0) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool(); //edit
-        }
-        else{
-            this.handleDisplayTool(1);
-            drawStatus.setModeTool(0); //edit
-        }  
+        this.handleDisplayTool("edit_tool");
     };
 
     handleHidden = () => {
-        let {drawTool, drawStatus} = this.props;
-
-        drawTool.endDraw();
-
-        if(drawStatus.getModeTool(1) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(2);
-            drawStatus.setModeTool(1); //hidden
-        }
+        this.handleDisplayTool("hidden_tool");
     };
     
     handleDelete = () => {
-        let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-        if(drawStatus.getModeTool(2) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(3);
-            drawStatus.setModeTool(2); //delete
-        }
+        this.handleDisplayTool("delete_tool");
     };
 
     handleChange = () => {
-         let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-        if(drawStatus.getModeTool(3) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(4);
-            drawStatus.setModeTool(3); //delete
-        }
-    };
-
-    zoomIt = (event, value) => {
-        var {canvas, drawStatus} = this.props;
-
-        var factor_choose = value / 100;   
-        var new_w = canvas.originWidth * factor_choose;
-        var new_h = canvas.originHeight * factor_choose;
-        var ratio_w = new_w / canvas.getWidth();
-        var ratio_h = new_h / canvas.getHeight();
-        drawStatus.setFactor(factor_choose);
-
-        fabric.Image.fromURL(
-            canvas.url_meta,
-            function(img) {
-                img.scaleToWidth(new_w);
-                img.scaleToHeight(new_h);
-                canvas.setWidth(new_w);
-                canvas.setHeight(new_h);
-                canvas.setBackgroundImage(img);
-
-                var objects = canvas.getObjects();
-                for (var i in objects) {
-                    if (objects[i].type_label === 'poly'){
-                        if (objects[i].labelControl.getIsEdit()){
-                            objects[i].labelControl.cleanPolygonStuff(false);
-                        }
-                        objects[i].points.forEach(function(point, i){
-                            point.x *= ratio_w;
-                            point.y *= ratio_h;
-                        });
-                        objects[i].labelControl.circlesHandle();
-                    }
-                    else{
-                        objects[i].scaleX *= ratio_w;
-                        objects[i].scaleY *= ratio_h;
-                        objects[i].left *= ratio_w;
-                        objects[i].top *= ratio_h;
-                        objects[i].setCoords();
-                    }
-                }
-                canvas.renderAll();
-                canvas.calcOffset();
-            }
-        ); 
+        this.handleDisplayTool("change_tool");
     };
 
     handleChangeReLabel = name => event => {
         this.props.drawStatus.setTurnRenewLabel(event.target.checked);
         this.setState({ ...this.state, [name]: event.target.checked });
+    };
+
+    handleCopyL1 = () => {
+        this.handleDisplayTool("copy_1");
+    };
+
+    handleCopyL2 = () => {
+        this.handleDisplayTool("copy_2");        
+    };
+
+    handleCopyL3 = () => {
+        this.handleDisplayTool("copy_3");
+    };
+
+    handleCopyL4 = () => {
+        this.handleDisplayTool("copy_4");
+    };
+
+    handleLinkLabel = () => {
+        this.handleDisplayTool("linkLabel_tool");
     };
 
     render() {
@@ -332,7 +291,25 @@ class ToolListItems extends React.Component {
         return(
             <div>
 
-            <div><ListItem button className={classes.splitTool}></ListItem></div>
+            <ItemTool 
+                classes={classes} idI="copy_1" callBackFunc={tool.handleCopyL1} 
+                Micon={LooksOneOutlined} text="Copy label to layer 1 (1)"/>
+            
+            <ItemTool 
+                classes={classes} idI="copy_2" callBackFunc={tool.handleCopyL2} 
+                Micon={LooksTwoOutlined} text="Copy label to layer 2 (2)"/>
+
+            <ItemTool 
+                classes={classes} idI="copy_3" callBackFunc={tool.handleCopyL3} 
+                Micon={Looks3Outlined} text="Copy label to layer 3 (3)"/>
+            
+            <ItemTool 
+                classes={classes} idI="copy_4" callBackFunc={tool.handleCopyL4} 
+                Micon={Looks4Outlined} text="Copy label to layer 4 (4)"/>
+
+            <ItemTool 
+                classes={classes} idI="linkLabel_tool" callBackFunc={tool.handleLinkLabel} 
+                Micon={SwitchCameraOutlined} text="Link labels (T)"/>
 
             <div>
             <ListItem button classes={{root: classes.listItemRoot}}>
@@ -384,27 +361,8 @@ class ToolListItems extends React.Component {
                 <ItemTool 
                 classes={classes} idI="save_next" callBackFunc={tool.handleSaveNext} 
                 Micon={BeenhereOutlined} text="Save & Next (S)"/>
-                <ItemTool 
-                    classes={classes} idI="skip_next" callBackFunc={tool.handleSkipNext} 
-                    Micon={SkipNext} text="Skip & Next (A)"/>
                 </React.Fragment>)
             }
-
-            <div><ListItem button className={classes.splitTool}></ListItem></div>
-
-
-            <div className={classes.scaleCanvas}>
-                <div className={classes.sliderS}>
-                    <PrettoSlider
-                        valueLabelDisplay="auto" 
-                        aria-label="Pretto slider" 
-                        defaultValue={100}
-                        onChange={tool.zoomIt}
-                        step={20}
-                        min={40} />
-                </div>
-            </div>
-            
 
             <Snackbar
             key={messageInfo.key} anchorOrigin={{vertical: 'bottom', horizontal: 'left',}}

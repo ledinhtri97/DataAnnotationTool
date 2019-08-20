@@ -35,6 +35,12 @@ class BoundingBoxModel(models.Model):
         default=CREATED,
     )
 
+    from_id = models.CharField(max_length=100, default='',
+        blank=True, verbose_name="From")
+
+    to_id = models.CharField(max_length=100, default='',
+        blank=True, verbose_name="To")
+
     accept_report_flag = models.BooleanField(
         default=False, verbose_name="accept report flag false positive?")
 

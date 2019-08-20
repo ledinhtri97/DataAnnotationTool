@@ -9,7 +9,7 @@ from usermaster.subviews.request import labeling_view
 from usermaster.subviews.request import contribute_view
 # from usermaster.subviews import apiview
 from usermaster.subviews.request.overview_all_view import OverViewAllView
-from usermaster.subviews.request import overview_workspcae_view as owv
+from usermaster.subviews.request import working_request as owv
 
 urlpatterns = [
     
@@ -29,10 +29,11 @@ urlpatterns = [
     path('save/<int:metaid>/', labeling_view.save_index, name='save'),
     path('savenext/<int:metaid>/', labeling_view.savenext_index, name='savenext'),
     
+    path('savenext_v2/<int:metaid>/',
+         labeling_view.savenext_v2index, name='savenext_v2'),
 
     path('outworkspace/<int:metaid>/', labeling_view.outws_index, name='outws'),
     
-
     path('savesettings/', labeling_view.saveseting_index, name='savesettings'),
     path('settings/'+settings.SLUG_API_URL, labeling_view.get_data_settings),
 
@@ -45,6 +46,7 @@ urlpatterns = [
     path('overview/<int:wsid>/'+settings.SLUG_API_URL, 
           owv.get_data_overview_workspace),
     path('metaview/<int:mtid>/'+settings.SLUG_API_URL,
-         owv.get_meta_overview),
-
+         owv.get_meta_detecting),
+     path('listmetaview/<int:mtid>/'+settings.SLUG_API_URL,
+          owv.get_list_meta_tracking),
 ]

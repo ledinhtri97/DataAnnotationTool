@@ -18,7 +18,7 @@ import dateFormat from 'dateformat';
 
 import AlertDialogView from "./dialog-view";
 import {fabric} from 'fabric';
-import {initCanvas} from '../../../modules/labeling-module/renderInit';
+import {initCanvas} from '../../../modules/labeling-mod/renderInit';
 
 
 
