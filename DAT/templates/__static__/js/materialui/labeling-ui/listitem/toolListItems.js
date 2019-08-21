@@ -387,7 +387,7 @@ class ToolListItems extends React.Component {
             <div><ListItem button className={classes.splitTool}></ListItem></div>
 
             <div>
-            <Tooltip title="Number of annotated" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+            <Tooltip title="Images submitted" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
             <ListItem button classes={{root: classes.countAnnotated}}>
             <span id="annotated_number">...</span>
             </ListItem>
