@@ -47,21 +47,21 @@ const popupControllers = new PopupControllers(canvas);
 const quickSettings = new QuickSettings();
 
 const controllerRequest = (callback_cl) => {
-
-	if(group_control) group_control.style["display"] = "none";
-
+	let isDrawing = drawStatus.getIsDrawing();
 	if(callback_cl == 'rqnext'){
 		drawStatus.resetDrawStatus();
 		rqnext(meta_id.textContent, canvas);
-		
 	}
-	if (callback_cl == 'rqsavenext') {
+	else if (callback_cl == 'rqsavenext') {
 		drawStatus.resetDrawStatus();
 		rqsavenext(meta_id.textContent, canvas);
 	}
-	if (callback_cl == 'rqsave') {
+	else if (callback_cl == 'rqsave') {
 		drawStatus.resetDrawStatus();
 		rqsave(meta_id.textContent, canvas);
+	}
+	if(isDrawing){
+		drawTool.quickDraw();
 	}
 }
 

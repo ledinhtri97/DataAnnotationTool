@@ -465,7 +465,6 @@ class DrawTool{
 	}
 
 	quickDraw() {
-
 		var drawer = this;
 		drawer.removeStuff();
 

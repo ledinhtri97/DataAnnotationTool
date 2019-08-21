@@ -636,7 +636,6 @@ class DrawTool{
 				});
 			}
 		});
-		
 		initCanvas(drawer.ls_canvas[topos], meta);
 	}
 

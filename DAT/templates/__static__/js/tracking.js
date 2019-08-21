@@ -64,14 +64,17 @@ const popupControllers = new PopupControllers();
 const quickSettings = new QuickSettings();
 
 const controllerRequest = (callback_cl) => {
-	
+	let isDrawing = drawStatus.getIsDrawing();
 	if (callback_cl == 'rqsavenext') {
 		drawStatus.resetDrawStatus();
 		rqsavenext(meta_id.textContent);
 	}
-	if (callback_cl == 'rqsave') {
+	else if (callback_cl == 'rqsave') {
 		drawStatus.resetDrawStatus();
 		rqsave(meta_id.textContent, canvas);
+	}
+	if(isDrawing){
+		drawTool.quickDraw();
 	}
 }
 
@@ -92,8 +95,6 @@ if(labeling && meta_id && meta_id.textContent){
 			initCanvas(canvas_tr, data.tr);
 			initCanvas(canvas_bl, data.bl);
 			initCanvas(canvas_br, data.br);
-
-
 
 			// if (!on_edit){
 			// 	fetch('/gvlab-dat/workspace/api_reference/'+meta_id.textContent+'/api-get-data/', {})

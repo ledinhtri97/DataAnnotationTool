@@ -23,11 +23,6 @@ const rqnext = function(meta_id, canvas){
 			initCanvas(canvas, metadata);
 			canvas.add(keep_bigplus[0]);
 			canvas.add(keep_bigplus[1]);
-			
-			if(drawStatus.getNameLabel() != ''){
-				reset_when_go();
-				drawTool.startDraw();
-			}
 
 			fetch('/gvlab-dat/workspace/api_reference/'+metadata.id+'/api-get-data/', {})
 			.then(response => {

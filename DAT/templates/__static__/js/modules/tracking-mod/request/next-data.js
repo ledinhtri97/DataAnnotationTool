@@ -19,10 +19,6 @@ const rqnext = function(meta_id, canvas, drawTool, drawStatus){
 			initCanvas(canvas, metadata);
 			canvas.add(keep_bigplus[0]);
 			canvas.add(keep_bigplus[1]);
-			
-			if(drawStatus.getNameLabel() != ''){
-				drawTool.startDraw();
-			}
 
 			fetch('/gvlab-dat/workspace/api_reference/'+metadata.id+'/api-get-data/', {})
 			.then(response => {

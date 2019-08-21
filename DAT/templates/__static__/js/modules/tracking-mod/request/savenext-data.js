@@ -40,10 +40,6 @@ const rqsavenext = function(meta_id){
 				canvas.add(keep_bigplus[1]);
 			}
 			
-			if(drawStatus.getNameLabel() != ''){
-				drawTool.startDraw();
-			}
-			
 			// fetch('/gvlab-dat/workspace/api_reference/'+metadata.id+'/api-get-data/', {})
 			// .then(response => {
 			// 	if(response.status !== 200){
