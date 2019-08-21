@@ -64,6 +64,12 @@ const styles = theme => ({
     listItemRoot: {
         paddingTop: '2px',
         paddingBottom: '2px',
+    },
+    countAnnotated: {
+        paddingTop: '2px',
+        paddingBottom: '2px',
+        display: 'flex',
+        justifyContent: 'center',
     }
 });
 
@@ -376,6 +382,16 @@ class ToolListItems extends React.Component {
                         step={20}
                         min={40} />
                 </div>
+            </div>
+
+            <div><ListItem button className={classes.splitTool}></ListItem></div>
+
+            <div>
+            <Tooltip title="Number of annotated" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+            <ListItem button classes={{root: classes.countAnnotated}}>
+            <span id="annotated_number">...</span>
+            </ListItem>
+            </Tooltip>
             </div>
             
 

@@ -28,6 +28,7 @@ const rqsavenext = function(meta_id, canvas){
 		else{
 			document.getElementById("meta_id").textContent = metadata.id;
 			document.getElementById("label_list_items").innerHTML = "";
+			document.getElementById("annotated_number").innerHTML = metadata.annotated_number;
 			
 			let keep_bigplus = canvas.bigplus;
 			canvas.clear();

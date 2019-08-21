@@ -138,6 +138,9 @@ if(labeling && meta_id && meta_id.textContent){
 				document.getElementById("stop_draw").style['backgroundColor'] = "#B6F3F2";
 				setTimeout(function(){drawTool.startDraw();}, 500);
 			}
+
+			document.getElementById("annotated_number").innerHTML = meta.annotated_number;
+			
 		});
 	} catch(e) {
 		// statements

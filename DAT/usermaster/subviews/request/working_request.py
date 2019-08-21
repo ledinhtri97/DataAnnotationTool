@@ -56,7 +56,7 @@ def get_meta_detecting(request, mtid):
     dataset = meta.dataset
     data = {}
     try:
-        allow = allow_view(meta.dataset, request.user)
+        allow = allow_view(dataset, request.user)
 
         if allow and meta:
             data = query_meta(meta)
@@ -69,6 +69,13 @@ def get_meta_detecting(request, mtid):
                         'color': lb.color,
                     } for lb in dataset.labels.all()
                 ]
+                try:
+                    metadatas = MetaDataModel.objects.filter(dataset=dataset)
+                    data['annotated_number'] = metadatas.filter(submitted_by_user=request.user).count()
+                except Exception as e:
+                    print(e)
+                    data['annotated_number'] = '...'
+                
     except Exception as e:
         data['Error'] = 'Data is not available'
         data['Messenger'] = str(e)

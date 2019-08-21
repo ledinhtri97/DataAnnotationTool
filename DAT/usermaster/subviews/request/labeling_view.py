@@ -171,7 +171,15 @@ def savenext_v2index(request, metaid):
 			meta = get_query_meta_general(dataset_id, user, type_labeling)
 			if meta:
 				data = query_list_meta(meta)
-	return JsonResponse(data = data)
+	
+	try:
+		metadatas = MetaDataModel.objects.filter(dataset=dataset_id)
+		data['annotated_number'] = metadatas.filter(submitted_by_user=user).count()
+	except Exception as e:
+		print(e)
+		data['annotated_number'] = '...'
+
+	return JsonResponse(data=data)
 
 # def savenext_index(request, metaid):
 # 	data = {}
