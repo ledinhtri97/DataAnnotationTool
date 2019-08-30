@@ -21,75 +21,75 @@ class ScanMetaToDatabase(object):
       folders_availiable = self.scan_folders()
       for fa in folders_availiable:
          self.lookfiles(fa['inputfile'])
-         # if(fa['groundtruth']):
-         #    # print(fa['groundtruth'])
-         #    try:
-         #       INPUT_FILE = os.path.join(settings.BASE_DIR, str(fa['groundtruth']))
-         #       with open(INPUT_FILE, "r") as f:
-         #          lines = f.readlines()
-         #       self.readlines_to_database(lines, fa['inputfile'])
-         #    except Exception as e:
-         #       print(e)
+         if(fa['groundtruth']):
+            # print(fa['groundtruth'])
+            try:
+               INPUT_FILE = os.path.join(settings.BASE_DIR, str(fa['groundtruth']))
+               with open(INPUT_FILE, "r") as f:
+                  lines = f.readlines()
+               self.readlines_to_database(lines, fa['inputfile'])
+            except Exception as e:
+               print(e)
 
-   # def readlines_to_database(self, lines, path_origin):
-   #    from adminmaster.datamanagement.submodels.metadata import MetaDataModel
-   #    from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
-   #    from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
+   def readlines_to_database(self, lines, path_origin):
+      from adminmaster.datamanagement.submodels.metadata import MetaDataModel
+      from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
+      from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
 
-   #    def is_label(v):
-   #       try:
-   #          c = float(v)
-   #          return len(v.split('.')) == 1
-   #       except:
-   #          return True
+      def is_label(v):
+         try:
+            c = float(v)
+            return len(v.split('.')) == 1
+         except:
+            return True
 
-   #    for line in lines:
-   #       sline = line.split('\n')[0].split(',')
-   #       path_meta, num_obj = sline[0].split('/'), int(sline[1])
-   #       info_list = sline[2:]
-   #       current_idx = 0
+      for line in lines:
+         sline = line.split('\n')[0].split(',')
+         path_meta, num_obj = sline[0].split('/'), int(sline[1])
+         info_list = sline[2:]
+         current_idx = 0
 
-   #       for no in range(num_obj):
-   #          try:
-   #             label_str = info_list[current_idx]
-   #          except:
-   #             continue
-   #          current_idx += 1
-   #          index_from = current_idx
-   #          num_xy = 0
+         for no in range(num_obj):
+            try:
+               label_str = info_list[current_idx]
+            except:
+               continue
+            current_idx += 1
+            index_from = current_idx
+            num_xy = 0
 
-   #          while True:
-   #             try:
-   #                if(is_label(info_list[current_idx])):
-   #                   break
-   #             except:
-   #                break
-   #             current_idx += 2
-   #             num_xy += 1
+            while True:
+               try:
+                  if(is_label(info_list[current_idx])):
+                     break
+               except:
+                  break
+               current_idx += 2
+               num_xy += 1
             
-   #          type_label = 'rect' if num_xy == 2 else 'poly'
+            type_label = 'rect' if num_xy == 2 else 'poly'
             
-   #          position = ','.join(info_list[index_from:current_idx])
+            position = ','.join(info_list[index_from:current_idx])
 
-   #          name_file = path_meta[-1]
+            name_file = path_meta[-1]
             
-   #          full_path_folder = os.path.join(path_origin, '/'.join(path_meta[:-1]))
+            full_path_folder = os.path.join(path_origin, '/'.join(path_meta[:-1]))
 
-   #          new_bb, created = BoundingBoxModel.objects.get_or_create(
-	# 			   label=LabelDataModel.objects.get(tag_label=label_str, type_label=type_label),
-	# 			   flag=1,
-	# 			   position=position,
-	# 		   )
+            new_bb, created = BoundingBoxModel.objects.get_or_create(
+				   label=LabelDataModel.objects.get(tag_label=label_str, type_label=type_label),
+				   flag=1,
+				   position=position,
+			   )
 
-   #          try:
-   #             current_meta_data = MetaDataModel.objects.get(
-   #                dataset=self.dataSetModel, name=name_file, full_path=full_path_folder
-   #             )
+            try:
+               current_meta_data = MetaDataModel.objects.get(
+                  dataset=self.dataSetModel, name=name_file, full_path=full_path_folder
+               )
 
-   #             if created:
-   #                current_meta_data.boxes_position.add(new_bb)
-   #          except Exception as e:
-   #             print(e)
+               if created:
+                  current_meta_data.boxes_position.add(new_bb)
+            except Exception as e:
+               print(e)
                
 
    def lookfiles(self, full_path_folder):

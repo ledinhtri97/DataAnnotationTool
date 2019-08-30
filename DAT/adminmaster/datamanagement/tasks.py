@@ -58,6 +58,7 @@ def scanner_dataset(datasetid):
                     dataset=dataSetModel, name=name_file, full_path=full_path_folder
                 )
             except:
+                print('no metadata')
                 continue
 
             if (current_meta_data.is_reference_api):
@@ -85,7 +86,7 @@ def scanner_dataset(datasetid):
                 type_label = 'rect' if num_xy == 2 else 'poly'
                 position = ','.join(info_list[index_from:current_idx])
                 new_bb, created = BoundingBoxModel.objects.get_or_create(
-                     label=LabelDataModel.objects.get(tag_label=label_str, type_label=type_label),
+                     label=LabelDataModel.objects.get_or_create(tag_label=label_str, type_label=type_label)[0],
                      flag=1,
                      position=position,
                 )
@@ -96,14 +97,16 @@ def scanner_dataset(datasetid):
             if(valid_num_object != num_obj):
                 print('{} miss {} objects'.format(path_meta[-1], str(num_obj-valid_num_object)))
     try:
+        gt_import = "Without groundtruth"
         for input_data in inputFileQuery.all():
             lookfiles(input_data.get_output_path())
             if (input_data.groundtruth):
+                gt_import = "and with groundtruth"
                 INPUT_FILE = os.path.join(settings.BASE_DIR, str(input_data.groundtruth))
                 with open(INPUT_FILE, "r") as f:
                     lines = f.readlines()
                     readlines_to_database(lines, input_data.get_output_path())
-        print("all file is import successful")
+        print("all file is import successful " + gt_import)
         return True
     except Exception as e:
         print(e)

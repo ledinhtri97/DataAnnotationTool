@@ -33,7 +33,10 @@ class GroundTruther(object):
             for meta in self.metas:
                 line = [meta.get_rel_path(), str(meta.boxes_position.count())]
                 for bb in meta.boxes_position.all():
-                    line.append(bb.label.tag_label+'.'+bb.to_id)
+                    if bb.to_id != '':
+                        line.append(bb.label.tag_label+'.'+bb.to_id)
+                    else:
+                        line.append(bb.label.tag_label)
                     line.append(bb.position)
                 txt_file.write(','.join(line)+'\n')
 
@@ -84,8 +87,12 @@ class GroundTruther(object):
             meta_path = meta.get_rel_path()
             for bb in meta.boxes_position.all():
                 if bb.label.type_label == 'rect':
+                    if bb.to_id != '':
+                        label = bb.label.tag_label+'.'+bb.to_id
+                    else:
+                        label = bb.label.tag_label
                     root = create_object_annotation(
-                        root, bb.label.tag_label+'.'+bb.to_id, bb.position.split(','))
+                        root, label, bb.position.split(','))
 
         tree = ET.ElementTree(root)
         tree.write("{}/{}.xml".format(DESTINATION_DIR, file_prefix)) 

@@ -54,8 +54,9 @@ class DataSetForm(forms.ModelForm):
 			self.scanner_database(instance_dataset)
 		else:
 			data = DataSetModel.objects.get(id=instance_dataset.id)
-			if (self.check_change_filezip(data.input_file.all(), self.cleaned_data['input_file'])):
-				self.scanner_database(instance_dataset)
+			#if (self.check_change_filezip(data.input_file.all(), self.cleaned_data['input_file'])):
+			#	self.scanner_database(instance_dataset)
+			self.scanner_database(instance_dataset)
 		if(commit):
 			instance_dataset.save()
 
