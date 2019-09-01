@@ -14,12 +14,6 @@ import Paper from '@material-ui/core/Paper';
 import TablePaginationActionsWrapped from '../overviewall-ui/table/pagination-actions'
 
 import TableHead from '@material-ui/core/TableHead';
-import Button from '@material-ui/core/Button';
-import dateFormat from 'dateformat';
-
-import AlertDialogView from "../overviewall-ui/table/dialog-view";
-import {fabric} from 'fabric';
-import {initCanvas} from '../../modules/labeling-module/renderInit';
 
 const styles = theme => ({
 	root: {
@@ -62,7 +56,7 @@ class UserTable extends React.Component {
 	};
 
 	handleChangeRowsPerPage = event => {
-		this.setState({ page: 0, rowsPerPage: event.target.value });
+		this.setState({ page: 0, rowsPerPage: parseInt(event.target.value) });
 	};
 	
 	render() {
@@ -106,7 +100,7 @@ class UserTable extends React.Component {
 						<TableFooter>
 							<TableRow className={classes.tablePagniation}>
 								<TablePagination
-									rowsPerPageOptions={[5, 10, 25]}
+									rowsPerPageOptions={[5, 10, 20, 30, 40, 50]}
 									colSpan={3}
 									count={users.length}
 									rowsPerPage={rowsPerPage}

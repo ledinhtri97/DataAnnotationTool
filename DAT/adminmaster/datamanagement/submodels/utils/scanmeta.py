@@ -16,7 +16,6 @@ class ScanMetaToDatabase(object):
       self.ACCEPTED_GT = [
          'txt', 'csv'
       ]
-      # self.scanFolders()
    
    def scan_all_into_database(self):
       folders_availiable = self.scan_folders()
@@ -31,9 +30,7 @@ class ScanMetaToDatabase(object):
                self.readlines_to_database(lines, fa['inputfile'])
             except Exception as e:
                print(e)
-            
 
-   
    def readlines_to_database(self, lines, path_origin):
       from adminmaster.datamanagement.submodels.metadata import MetaDataModel
       from adminmaster.datamanagement.submodels.boudingbox import BoundingBoxModel
@@ -118,17 +115,10 @@ class ScanMetaToDatabase(object):
       for input_data in self.input_files:
          dir_name = {
             'inputfile': input_data.get_output_path(),
-            'groundtruth': input_data.groundtruth,
+            # 'groundtruth': input_data.groundtruth,
          }
 
          folders_availiable.append(dir_name)
       
       # print(folders_availiable)
       return folders_availiable
-
-   
-
-   
-
-
-

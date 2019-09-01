@@ -1,5 +1,10 @@
 {% extends "adminmaster/base.html" %}
 {% block title %}Workspace Manager{% endblock %}
+
+{%block header%}
+<div id="header"></div>
+{%endblock%}
+
 {% block content %}
 	<div id="admin_workspace">{% load static %}<img 
       style="display: block; margin: auto; margin-top: 5rem; width:40%; height:40%;"
@@ -9,6 +14,10 @@
 	<div id="id_workspace" style="display:none;">{{id_ws}}</div>
 	<div id="dialog_view" style="display:none;"></div>
 {% endblock content%}
+
+{%block footer%}
+<div id="footer"></div>
+{%endblock%}
 
 {%block loadjs%} 
 {% load static %}

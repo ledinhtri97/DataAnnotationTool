@@ -31,16 +31,12 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
-import Labeling from './labeling-main'
-import generalListItems from './listitem/generalListItems';
-import toolListItems from './listitem/toolListItems';
-
-import {outWorkSpace} from "../../modules/dat-utils"
+import Labeling from './labeling-main';
+import {outWorkSpace} from "../../modules/general-mod/request/outWorking";
 
 const drawerWidth = 240;
 
@@ -107,7 +103,7 @@ const styles = theme =>({
     },
     tabExpandTitle:{
     	paddingRight: '0 !important',
-    	paddingLeft: '16px !important',
+    	paddingLeft: '0 !important',
     },
     tabExpandSumary:{
     	margin: "3px 0 !important",
@@ -128,7 +124,9 @@ const styles = theme =>({
     	margin: theme.spacing(1),
     	width: '150px',
     },
-	
+    hidden: {
+    	display: 'none',
+    },
 });
 
 
@@ -137,7 +135,7 @@ class MainFrameLabeling extends React.Component {
 	state = {
 		anchorEl: null,
 		open: false,
-		expanded: 'panel1',
+		expanded: 'p1',
 	};
 
 	handleExpandInDrawer = panel => (event, expanded) => {
@@ -202,9 +200,10 @@ class MainFrameLabeling extends React.Component {
 		const { classes } = this.props;
 		const { anchorEl, expanded } = this.state;
 		const open = Boolean(anchorEl);
+		const on_edit = document.getElementById('on_edit') != null;
 
 		return (	
-			<div className={classes.root}>
+			<div className={classes.root} >
 				<Drawer
 				variant="permanent"
 				classes={{
@@ -212,21 +211,20 @@ class MainFrameLabeling extends React.Component {
 				}}
 				open={this.state.open}
 				>
-				<div className={classes.homeIcon}>
-				<p style={{paddingRight: 20}}>DAT - GVLab</p>
+				{
+					!on_edit && (<div className={classes.homeIcon}>
 				<IconButton onClick={this.handleWorkspace}>
 				<Home />
 				</IconButton>
-				</div>
+				</div>)
+				}
+				
 
 				<div className={classes.toolbarIcon}>
-				<span id="settings" title="Settings" className={classes.span} />
-				<IconButton onClick={this.handleDrawerChange}>
-					{this.state.open ? <ChevronLeftIcon /> : <MenuIcon /> }
-				</IconButton>
+					<span id="settings" title="Settings"/>
 				</div>
 
-				<ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleExpandInDrawer('panel1')}>
+				<ExpansionPanel expanded={expanded === 'p1'} onChange={this.handleExpandInDrawer('p1')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Tools"/>
@@ -238,7 +236,7 @@ class MainFrameLabeling extends React.Component {
 				</ExpansionPanelDetails>
 				</ExpansionPanel>
 
-				<ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleExpandInDrawer('panel2')}>
+				<ExpansionPanel className={classes.hidden} expanded={expanded === 'p3'} onChange={this.handleExpandInDrawer('p3')}>
 				<ExpansionPanelSummary classes={{content: classes.tabExpandSumary}}>
 				<ListItem button className={classes.tabExpandTitle}>
 				<ListItemText primary="Labels"/>

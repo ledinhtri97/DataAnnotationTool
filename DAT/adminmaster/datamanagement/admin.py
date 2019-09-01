@@ -6,8 +6,8 @@ from .submodels.inputdata import InputDataModel
 from .submodels.outputdata import OutputDataModel
 from .submodels.labeldata import LabelDataModel
 from .submodels.boudingbox import BoundingBoxModel
-from .submodels.utils.ziprar import ZipRarExtractor
-from .submodels.utils.scanmeta import ScanMetaToDatabase
+# from .submodels.utils.ziprar import ZipRarExtractor
+# from .submodels.utils.scanmeta import ScanMetaToDatabase
 from .submodels.utils.groundtruth import GroundTruther
 import os
 import shutil
@@ -18,25 +18,25 @@ class DataSetForm(forms.ModelForm):
 	class Meta:
 		model = DataSetModel
 		fields = '__all__'
-   
-	def extract_zip(self, instance_dataset):
-	  	"""
-		 	Need to extract file zip
-	  	"""
-	  	zipRarer = ZipRarExtractor(self.cleaned_data['input_file'])
-	  	zipRarer.do_extract_all()
-	  	"""End of extract, Done!"""
-
-	  
 
 	def scanner_database(self, instance_dataset):
 		"""
 			Scanfile was extracted and add to database relationship
 		"""
-		scanner = ScanMetaToDatabase(instance_dataset, self.cleaned_data['input_file'])
-		scanner.scan_all_into_database()
+		if self.cleaned_data['type_labeling'] == 'de':
+			from adminmaster.datamanagement.tasks import scanner_dataset
+			scanner_dataset.delay(instance_dataset.id)
+		elif self.cleaned_data['type_labeling'] == 'tr':	
+			from adminmaster.datamanagement.tasks import extract_seqframevideo
+			#delay several seconds
+			s = 100000
+			while s>0:
+				s-=.5
+			extract_seqframevideo.delay(instance_dataset.id)
+
 		"""End of scan, Done!!"""
-   
+	
+
 	def check_change_filezip(self, old, new):
 		if old.count() != new.count():
 			return True
@@ -51,15 +51,12 @@ class DataSetForm(forms.ModelForm):
 		instance_dataset = super(DataSetForm, self).save(commit=False)
 		instance_dataset.save()
 		if instance_dataset.id is None:
-			self.extract_zip(instance_dataset)
 			self.scanner_database(instance_dataset)
 		else:
-			data = DataSetModel.objects.filter(id=instance_dataset.id).first()
-			if (True or self.check_change_filezip(data.input_file.all(), self.cleaned_data['input_file'])):
-				print("has change")
-				self.extract_zip(instance_dataset)
-				self.scanner_database(instance_dataset)
- 
+			data = DataSetModel.objects.get(id=instance_dataset.id)
+			#if (self.check_change_filezip(data.input_file.all(), self.cleaned_data['input_file'])):
+			#	self.scanner_database(instance_dataset)
+			self.scanner_database(instance_dataset)
 		if(commit):
 			instance_dataset.save()
 
@@ -68,13 +65,13 @@ class DataSetForm(forms.ModelForm):
 class DataSetAdmin(admin.ModelAdmin):
 	#class Meta will not accept this form custom > find out why
 	form = DataSetForm
-	list_display = ('name', 'create_thumbnail',)
+	list_display = ('name',)
 	readonly_fields = ['id', 'dir_path']  # , 'dir_path'
 
 	fieldsets = [
 		(None, 
 				{
-				'fields': ['name']
+                    'fields': ['name', 'type_labeling', 'num_fps']
 				}
 		),
 		('Settings Field',

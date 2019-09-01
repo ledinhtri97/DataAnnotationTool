@@ -1,22 +1,24 @@
-import {createItemToList} from "./controller/label"
-import {Color} from "./style/color"
+import {createItemToList} from "./controller/label";
+import Color from "../general-mod/style/color";
 import {fabric} from "fabric";
 import {drawStatus} from "../../labeling";
 
 const MIN = 99;
 const MAX = 999999;
+const ROUND = 100000;
 
 const configureCircle = function(__x__, __y__, __name__=''){
 	var circle = new fabric.Circle({
-		radius: 3,
+		radius: drawStatus.getIsZoom() ? 2 : 4,
 		fill: Color.YELLOW,
+		stroke: 'red',
 		left: __x__,
 		top: __y__,
 		hasBorders: false,
 		hasControls: false,
 		originX:'center',
 		originY:'center',
-		strokeWidth: 3,
+		strokeWidth: 1,
 		name:__name__,
 	});
 	return circle;
@@ -41,7 +43,7 @@ const configureLine = function(__points__, __color__=Color.WHITE){
 
 const configureLinePoly = function(__points__){
 	let line = new fabric.Line(__points__, {
-		strokeWidth: 4,
+		strokeWidth: drawStatus.getIsZoom() ? 2 : 4,
 		fill: Color.WHITE,
 		stroke: Color.WHITE,
 		strokeDashArray: [8, 8],
@@ -60,6 +62,7 @@ const configureLinePoly = function(__points__){
 const configureRectangle = function (
 	__left__, __top__, __width__, __height__, __name__='', __accuracy__='1.0'){
 	let name = __name__ != '' ? __name__ : drawStatus.getNameLabel();
+
 
 	let rect = new fabric.Rect({
 		left: __left__,
@@ -87,7 +90,6 @@ const configureRectangle = function (
 		selectable: false,
 		name: name,
 		accuracy: __accuracy__,
-		basicColor: drawStatus.getColorLabel(),
 		flag:-1,
 		type_label: 'rect',
 		accept_edit: true,
@@ -124,11 +126,11 @@ const configurePoly = function(__points__, __name__= '', __accuracy__='1.0', __c
 		name: name,
 		accuracy: __accuracy__,
 		circles: __circles__,
-		basicColor: drawStatus.getColorLabel(),
 		flag:-1,
 		type_label: 'poly',
 		accept_edit: true,
 		islabel: true,
+		start_index: -1,
 	});
 
 	var __left__ = polygon.left + polygon.width / 2;
@@ -210,6 +212,7 @@ class DrawTool{
 
 			generateShapeLabel : function(){
 				let new_object;
+				let only = false;
 				drawer.lineArray.forEach(function(line){
 					drawer.canvas.remove(line);
 				});
@@ -226,12 +229,19 @@ class DrawTool{
 						drawer.rectangle.left, drawer.rectangle.top, 
 						drawer.rectangle.width, drawer.rectangle.height);
 
+					new_object.set({
+						xmin: Math.round(drawer.rectangle.left * ROUND / drawer.canvas.getWidth()) / ROUND,
+						ymin: Math.round(drawer.rectangle.top * ROUND / drawer.canvas.getHeight()) / ROUND,
+						xmax: Math.round((drawer.rectangle.left + drawer.rectangle.width) * ROUND / drawer.canvas.getWidth()) / ROUND,
+						ymax: Math.round((drawer.rectangle.top + drawer.rectangle.height) * ROUND / drawer.canvas.getHeight()) / ROUND,
+					});
+
 					if (listRectLabel.length === 1){
-						let values = listRectLabel[0].value.split(','); //tag_label, type_label, color
+						let values = listRectLabel[0].info.split(','); //tag_label, type_label, color
 						new_object.set('name', values[0]);
 						new_object.set('stroke', values[2]);
-						new_object.set('basicColor', values[2]);
 						new_object.icon.set('fill', values[2]);
+						only = true;
 					}
 
 					drawer.canvas.add(new_object);
@@ -244,12 +254,22 @@ class DrawTool{
 
 						new_object = configurePoly(drawer.pointArray);
 
+						let rpoints = [];
+						for (var p of new_object.points){
+							rpoints.push({
+								x: Math.round(p.x * ROUND / drawer.canvas.getWidth()) / ROUND,
+								y: Math.round(p.y * ROUND / drawer.canvas.getHeight()) / ROUND
+							});
+						}
+						new_object.set('rpoints', rpoints);
+
 						if (listPolyLabel.length === 1){
-							let values = listPolyLabel[0].value.split(','); //tag_label, type_label, color
+							let values = listPolyLabel[0].info.split(','); //tag_label, type_label, color
 							new_object.set('name', values[0]);
 							new_object.set('stroke', values[2]);
-							new_object.set('basicColor', values[2]);
 							new_object.icon.set('fill', values[2]);
+
+							only = true;
 						}
 
 						drawer.canvas.add(new_object);
@@ -257,14 +277,19 @@ class DrawTool{
 					}
 				}
 
-				if (new_object && new_object.name === '' && drawStatus.getRenewLabel()) {
+				if(!drawStatus.getTurnRenewLabel()){
+					drawStatus.setRenewLabel(true);
+				}
+
+				if (new_object && !only && drawStatus.getRenewLabel()) {
+					new_object.set('name', '');
 					drawStatus.setIsChangingLabel(true);
 					let changelb = document.getElementById(new_object.labelControl.getId()+"_changelabel");
 					changelb && changelb.click();
 				}
 
-				drawer.pointArray.splice(0, drawer.pointArray.lenth);
-				drawer.lineArray.splice(0, drawer.lineArray.lenth);
+				drawer.pointArray.lenth = new Array();;
+				drawer.lineArray.lenth = new Array();;
 				drawer.typeLabel = null;
 				drawer.lastLine = null;
 				drawer.firstPoint = null;
@@ -272,6 +297,7 @@ class DrawTool{
 
 				//end new code
 				drawer.startDraw();
+
 			},
 		};
 
@@ -286,7 +312,7 @@ class DrawTool{
 						drawer.firstPoint = configureCircle(pointer.x, pointer.y, 'fp');
 						drawer.firstPoint.set({
 							fill:'#FF0000',
-							radius: 6,
+							radius: drawStatus.getIsZoom() ? 2 : 5,
 							selectable: false,
 						});
 
@@ -312,22 +338,23 @@ class DrawTool{
 					}
 					else{
 						//must be polygon, so change type of drawing mode to polygon
-						if (drawer.firstPoint) {
-							drawer.canvas.remove(drawer.firstPoint);
-							drawer.firstPoint = null;
+						if (drawStatus.getListLabelPoly().length == 0) {
+							//last point and new point
+							drawer.quickDraw();
+							//setTimeout(function(){alert("Don't have any polygon label in list");}, 200);
 						}
+						else{
+							let firstpoint = drawer.pointArray[0];
+							let lastpoint = drawer.pointArray[drawer.pointArray.length - 2];
+							let newline = configureLinePoly([lastpoint.x, lastpoint.y, pointer.x, pointer.y]);
 
-						//last point and new point
-						let firstpoint = drawer.pointArray[0];
-						let lastpoint = drawer.pointArray[drawer.pointArray.length - 2];
-						let newline = configureLinePoly([lastpoint.x, lastpoint.y, pointer.x, pointer.y]);
+							drawer.lineArray.push(newline);
+							drawer.canvas.add(newline);
 
-						drawer.lineArray.push(newline);
-						drawer.canvas.add(newline);
-
-						drawer.canvas.remove(drawer.lastLine);
-						drawer.lastLine = configureLinePoly([pointer.x, pointer.y, firstpoint.x, firstpoint.y]);
-						drawer.canvas.add(drawer.lastLine);
+							drawer.canvas.remove(drawer.lastLine);
+							drawer.lastLine = configureLinePoly([pointer.x, pointer.y, firstpoint.x, firstpoint.y]);
+							drawer.canvas.add(drawer.lastLine);
+						}
 					}
 				}
 				else if (clickbtn === 3 && drawer.typeLabel === 'poly') { //right mouse click
@@ -367,7 +394,7 @@ class DrawTool{
 			if(drawer.typeLabel === 'rect') {
 				let __width__ = drawer.rectangle.width, 
 				__height__ = drawer.rectangle.height;
-				if(__width__ > 13 && __height__ > 8) {
+				if(__width__ > 6 && __height__ > 6) {
 					drawer.canvas.remove(drawer.firstPoint);
 					drawer.firstPoint = null;
 					drawer.tool.generateShapeLabel();
@@ -382,22 +409,25 @@ class DrawTool{
 		}
 	}
 
-	startDraw(id, namelabel, typelabel){
-		this.endDraw();
-
+	stopEditObjects() {
 		this.canvas.getObjects().forEach(function(obj){
-			if(obj.labelControl){
+			if(obj.labelControl && obj.labelControl.getIsEdit()){
 				obj.labelControl.__editITEM__(false);
 			}
 		});
+	}
 
-		this.canvas.defaultCursor = 'crosshair';
+	startDraw(id, namelabel, typelabel){
+		this.endDraw();
 
+		this.stopEditObjects();
+
+		this.canvas.set('defaultCursor', 'crosshair');
 		if(typelabel){
 			this.typeLabel = typelabel	
 		}
 
-		drawStatus.startDrawStatus(id, namelabel, typelabel);
+		drawStatus.startDrawStatus();
 		
 		this.tool.initTool();
 		this.canvas.on('mouse:down', this.mouseDown);
@@ -406,8 +436,8 @@ class DrawTool{
 	}
 
 	endDraw(){
-		this.canvas.defaultCursor = 'default';
-		
+		this.canvas.set('defaultCursor', 'default');
+		this.removeStuff();
 		drawStatus.stopDrawStatus();
 
 		this.canvas.off('mouse:down', this.mouseDown);
@@ -415,9 +445,9 @@ class DrawTool{
 		this.canvas.off('mouse:up', this.mouseUp);
 	}
 
-	quickDraw() {
-
+	removeStuff() {
 		var drawer = this;
+
 		drawer.canvas.remove(drawer.firstPoint);
 		drawer.canvas.remove(drawer.lastLine);
 		drawer.canvas.remove(drawer.rectangle);
@@ -426,12 +456,17 @@ class DrawTool{
 			drawer.canvas.remove(line);
 		});
 
-		drawer.pointArray.splice(0, drawer.pointArray.lenth);
-		drawer.lineArray.splice(0, drawer.lineArray.lenth);
+		drawer.pointArray.lenth = 0;
+		drawer.lineArray.lenth = 0;
 		drawer.typeLabel = null;
 		drawer.lastLine = null;
 		drawer.firstPoint = null;
 		drawer.canvas.selection = true;
+	}
+
+	quickDraw() {
+		var drawer = this;
+		drawer.removeStuff();
 
 		drawStatus.setIsWaiting(true);
 		drawer.startDraw();
@@ -439,4 +474,4 @@ class DrawTool{
 
 }
 
-export {configureFlag, configureCircle, configureLine, configureRectangle, configurePoly, DrawTool};
+export {configureFlag, configureCircle, configureLine, configureLinePoly, configureRectangle, configurePoly, DrawTool};

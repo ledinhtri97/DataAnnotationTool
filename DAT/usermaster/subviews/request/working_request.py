@@ -6,7 +6,7 @@ from adminmaster.datamanagement.models import DataSetModel
 from adminmaster.datamanagement.submodels.metadata import MetaDataModel
 from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from rest_framework.response import Response
-from .querymeta import query_meta
+from .querymeta import query_meta, query_list_meta
 
 class OverViewWorkspaceView(generics.RetrieveAPIView):
     lookup_field = 'id'
@@ -15,16 +15,48 @@ class OverViewWorkspaceView(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         return Response()
 
-
-def get_meta_overview(request, mtid):
-    meta = MetaDataModel.objects.get(id=mtid)
-    dataset = DataSetModel.objects.get(id=meta.dataset.id)
-    data = {}
+def allow_view(dataset, user):
     try:
-        if request.user.is_superuser:
+        if user.is_superuser:
             allow = True
         else:
-            allow = WorkSpaceUserModel.objects.get(dataset=dataset, user=request.user)
+            allow = WorkSpaceUserModel.objects.get(dataset=dataset, user=user)
+    except Exception as e:
+        print(e)
+        allow = False
+    return allow
+
+def get_list_meta_tracking(request, mtid):
+    data = {}
+    meta = MetaDataModel.objects.get(id=mtid)
+
+    try:
+        allow = allow_view(meta.dataset, request.user)
+        if allow and meta:
+            data = query_list_meta(meta)
+
+            label_select = request.GET.get('label_select', '')
+            if label_select == 'true':
+                data['label_select'] = [
+                    {
+                        'tag_label': lb.tag_label,
+                        'type_label': lb.type_label,
+                        'color': lb.color,
+                    } for lb in meta.dataset.labels.all()
+                ]
+    except Exception as e:
+        data['Error'] = 'Data is not available'
+        data['Messenger'] = str(e)
+        print(e)
+
+    return JsonResponse(data=data)
+
+def get_meta_detecting(request, mtid):
+    meta = MetaDataModel.objects.get(id=mtid)
+    dataset = meta.dataset
+    data = {}
+    try:
+        allow = allow_view(dataset, request.user)
 
         if allow and meta:
             data = query_meta(meta)
@@ -37,11 +69,18 @@ def get_meta_overview(request, mtid):
                         'color': lb.color,
                     } for lb in dataset.labels.all()
                 ]
+                try:
+                    metadatas = MetaDataModel.objects.filter(dataset=dataset)
+                    data['annotated_number'] = metadatas.filter(submitted_by_user=request.user).count()
+                except Exception as e:
+                    print(e)
+                    data['annotated_number'] = '...'
+                
     except Exception as e:
         data['Error'] = 'Data is not available'
         data['Messenger'] = str(e)
         print(e)
-
+    print(allow, meta)
     return JsonResponse(data=data)
 
 def get_data_overview_workspace(request, wsid):
@@ -56,8 +95,7 @@ def get_data_overview_workspace(request, wsid):
 
             #total - filter
             total = metadatas.count()
-            remaining = metadatas.filter(
-                is_annotated=False).exclude(skipped_by_user__isnull=False).count()
+            remaining = metadatas.filter(is_annotated=False).count()
 
             not_submitted = metadatas.filter(
                 is_annotated=False, is_allow_view=True).exclude(skipped_by_user=user).count()
@@ -133,6 +171,7 @@ def get_data_overview_workspace(request, wsid):
                         'flag_count': 'no',
                         'label_count': meta.boxes_position.count(),
                         'notice_review': meta.is_notice_view,
+                        'view': meta.is_allow_view,
                     } for meta in metadatas.filter(is_notice_view=1).all()
                 ],
             }
@@ -140,6 +179,6 @@ def get_data_overview_workspace(request, wsid):
         data['Error'] = 'Data is not available'
         data['Messenger'] = str(e)
 
-    #print(data['objects'])
+    print(data['submitted'])
     return JsonResponse(data=data)
 

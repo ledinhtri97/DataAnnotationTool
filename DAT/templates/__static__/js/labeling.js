@@ -7,15 +7,17 @@ import TemporaryDrawerInstruction from "./materialui/labeling-ui/drawerInstructi
 import TemporaryDrawerSettings from "./materialui/labeling-ui/drawerSettings";
 import ToolListItems from './materialui/labeling-ui/listitem/toolListItems';
 
-import {outWorkSpace} from "./modules/dat-utils";
-import {rqnext, rqsavenext, rqsave} from  "./modules/request"
-import {initCanvas, initPredict} from "./modules/labeling-module/renderInit"
-import {init_event} from "./modules/labeling-module/event"
-import {PopupControllers} from "./modules/labeling-module/controller/popup";
-import {DrawTool} from "./modules/labeling-module/drawtool"
-import {Color} from "./modules/labeling-module/style/color";
-import DrawStatus from './modules/labeling-module/drawstatus';
-import QuickSettings from './modules/labeling-module/settings'
+import rqnext from  "./modules/labeling-mod/request/next";
+import rqsavenext from  "./modules/labeling-mod/request/saveNext";
+import rqsave from  "./modules/labeling-mod/request/save";
+
+import {initCanvas, initPredict} from "./modules/labeling-mod/renderInit"
+import {init_event} from "./modules/labeling-mod/event"
+import {PopupControllers} from "./modules/labeling-mod/controller/popup";
+import {DrawTool} from "./modules/labeling-mod/drawtool";
+import Color from "./modules/general-mod/style/color";
+import DrawStatus from './modules/labeling-mod/drawstatus';
+import QuickSettings from './modules/labeling-mod/settings';
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -45,20 +47,21 @@ const popupControllers = new PopupControllers(canvas);
 const quickSettings = new QuickSettings();
 
 const controllerRequest = (callback_cl) => {
-
-	if(group_control) group_control.style["display"] = "none";
-
+	let isDrawing = drawStatus.getIsDrawing();
 	if(callback_cl == 'rqnext'){
-		drawStatus.setRenewLabel(true);
+		drawStatus.resetDrawStatus();
 		rqnext(meta_id.textContent, canvas);
 	}
-	if (callback_cl == 'rqsavenext') {
-		drawStatus.setRenewLabel(true);
+	else if (callback_cl == 'rqsavenext') {
+		drawStatus.resetDrawStatus();
 		rqsavenext(meta_id.textContent, canvas);
 	}
-	if (callback_cl == 'rqsave') {
-		drawStatus.setRenewLabel(true);
+	else if (callback_cl == 'rqsave') {
+		drawStatus.resetDrawStatus();
 		rqsave(meta_id.textContent, canvas);
+	}
+	if(isDrawing){
+		drawTool.quickDraw();
 	}
 }
 
@@ -95,7 +98,10 @@ if(labeling && meta_id && meta_id.textContent){
 			init_event(canvas, popupControllers);
 
 			const tools_list_items = document.getElementById("tools_list_items");
-			tools_list_items && ReactDOM.render(<ToolListItems
+        	const tracking = document.getElementById('tracking');
+
+			(tools_list_items && !tracking) && ReactDOM.render(<ToolListItems
+				canvas={canvas}
 				drawTool={drawTool} 
 				drawStatus={drawStatus}
 				quickSettings={quickSettings}
@@ -115,8 +121,9 @@ if(labeling && meta_id && meta_id.textContent){
 			let polyListLabel = [];
 			meta.label_select.map(function(lb){
 				let item_lb = {
-					value: lb.tag_label+','+lb.type_label+','+lb.color,
+					value: lb.tag_label,
 					label: lb.tag_label,
+					info: lb.tag_label+','+lb.type_label+','+lb.color,
 				}
 				if(lb.type_label === 'rect'){
 					rectListLabel.push(item_lb);
@@ -127,14 +134,19 @@ if(labeling && meta_id && meta_id.textContent){
 			});
 			drawStatus.setListLabel(rectListLabel, polyListLabel);
 			
-			document.getElementById("stop_draw").style['backgroundColor'] = "#B6F3F2";
-			setTimeout(function(){drawTool.startDraw();}, 500);
+			if (!on_edit){
+				document.getElementById("stop_draw").style['backgroundColor'] = "#B6F3F2";
+				setTimeout(function(){drawTool.startDraw();}, 500);
+			}
 
+			document.getElementById("annotated_number").innerHTML = meta.annotated_number;
+			
 		});
 	} catch(e) {
 		// statements
+		
 		console.log(e);
 	}
 }
 
-export {quickSettings, drawStatus, drawTool, controllerRequest}
+export {quickSettings, drawStatus, drawTool, controllerRequest, popupControllers}

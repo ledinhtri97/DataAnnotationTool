@@ -22,6 +22,11 @@ import PartyModeOutlined from '@material-ui/icons/PartyModeOutlined';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
+import {fabric} from 'fabric';
+import Slider from '@material-ui/core/Slider';
+
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const styles = theme => ({
     lightTooltip: {
@@ -31,8 +36,7 @@ const styles = theme => ({
         fontSize: 11,
     },
     icon: {
-        paddingLeft: "5px",
-        paddingRight: "5px",
+        padding: "5px",
     },
     close: {
         padding: theme.spacing(0.5),
@@ -46,6 +50,27 @@ const styles = theme => ({
         background: '#4285F4',
         padding: 0,
     },
+    scaleCanvas: {
+        paddingTop: '5px',
+        paddingBottom: '5px',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+    },
+    sliderS: {
+        width: '70%',
+    },
+    listItemRoot: {
+        paddingTop: '2px',
+        paddingBottom: '2px',
+    },
+    countAnnotated: {
+        paddingTop: '2px',
+        paddingBottom: '2px',
+        display: 'flex',
+        justifyContent: 'center',
+    }
 });
 
 class ItemTool extends React.Component {
@@ -54,25 +79,57 @@ class ItemTool extends React.Component {
 
         return(
             <div id={idI} onClick={callBackFunc}>
-            <ListItem button>
+            <ListItem button classes={{root: classes.listItemRoot}}>
             <Tooltip title={text} TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
             <ListItemIcon className={classes.icon}>
             <Micon />
             </ListItemIcon>
             </Tooltip>
-            <ListItemText primary={text}/>
             </ListItem>
             </div>
         );
     }
 };
 
+const PrettoSlider = withStyles({
+  root: {
+    color: '#52af77',
+    height: 6,
+  },
+  thumb: {
+    height: 18,
+    width: 18,
+    backgroundColor: '#fff',
+    border: '2px solid currentColor',
+    marginTop: -6,
+    marginLeft: -10,
+    '&:focus,&:hover,&$active': {
+      boxShadow: 'inherit',
+    },
+  },
+  active: {},
+  valueLabel: {
+    left: 'calc(-85% + 4px)',
+  },
+  track: {
+    height: 8,
+    borderRadius: 4,
+  },
+  rail: {
+    height: 8,
+    borderRadius: 4,
+  },
+})(Slider);
+
 class ToolListItems extends React.Component {
 
     queue = [];
 
+    current_tool = "";
+
     state = {
         open: false,
+        changeReLabel: true,
         messageInfo: {},
     };
 
@@ -110,22 +167,35 @@ class ToolListItems extends React.Component {
     };
 
     handleDisplayTool = (onTool=-1) => {
-        let listTool = ["stop_draw", "edit_tool", "hidden_tool", "delete_tool", "change_tool"];
-        let i = 0;
-        for (i; i < 5; i++){
-            if (i === onTool) {
-                document.getElementById(listTool[i]).style['backgroundColor'] = "#B6F3F2";
+        const {drawStatus, drawTool} = this.props;
+        if (this.current_tool == onTool) {
+            drawStatus.setModeTool("");
+            document.getElementById(this.current_tool).style['backgroundColor'] = "#FFFFFF";
+            if (this.current_tool === "edit_tool") {
+                drawTool.stopEditObjects();
             }
-            else{
-                document.getElementById(listTool[i]).style['backgroundColor'] = "#FFFFFF";
+            this.current_tool = "";
+        }
+        else {
+            if (this.current_tool) {
+                document.getElementById(this.current_tool).style['backgroundColor'] = "#FFFFFF";
+                if (this.current_tool === "edit_tool") {
+                    drawTool.stopEditObjects();
+                }
+                else if(this.current_tool === "stop_draw") {
+                    drawTool.endDraw();
+                }
             }
+            drawStatus.setModeTool(onTool);
+            this.current_tool = onTool;
+            document.getElementById(this.current_tool).style['backgroundColor'] = "#B6F3F2";
         }
     };
 
     handleStopDrawing = () => {
         const {drawTool, drawStatus, quickSettings} = this.props;
         
-        this.handleDisplayTool(0);
+        this.handleDisplayTool("stop_draw");
 
         let isDrawing = drawStatus.getIsDrawing();
         let isWaiting = drawStatus.getIsWaiting();
@@ -141,12 +211,12 @@ class ToolListItems extends React.Component {
 
         if(isDrawing && isWaiting){
             drawTool.endDraw();
-            stop_draw.style['backgroundColor'] = "#FFFFFF";
+            document.getElementById('stop_draw').style['backgroundColor'] = "#FFFFFF";
         }
         else{
             drawTool.quickDraw();
+            document.getElementById('stop_draw').style['backgroundColor'] = "#B6F3F2";
         }
-        drawStatus.setModeTool();
     };
 
     handleSaveNext = () => {
@@ -166,66 +236,74 @@ class ToolListItems extends React.Component {
     };
 
     handleEdit = () => {
-        let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-
-        if(drawStatus.getModeTool(0) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool(); //edit
-        }
-        else{
-            this.handleDisplayTool(1);
-            drawStatus.setModeTool(0); //edit
-        }  
+        this.handleDisplayTool("edit_tool");
     };
 
     handleHidden = () => {
-        let {drawTool, drawStatus} = this.props;
-
-        drawTool.endDraw();
-
-        if(drawStatus.getModeTool(1) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(2);
-            drawStatus.setModeTool(1); //hidden
-        }
+        this.handleDisplayTool("hidden_tool");
     };
     
     handleDelete = () => {
-        let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-        if(drawStatus.getModeTool(2) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(3);
-            drawStatus.setModeTool(2); //delete
-        }
+        this.handleDisplayTool("delete_tool");
     };
 
     handleChange = () => {
-         let {drawTool, drawStatus} = this.props;
-        
-        drawTool.endDraw();
-        if(drawStatus.getModeTool(3) === 1){
-            this.handleDisplayTool();
-            drawStatus.setModeTool();
-        }
-        else{
-            this.handleDisplayTool(4);
-            drawStatus.setModeTool(3); //delete
-        }
+        this.handleDisplayTool("change_tool");
+    };
+
+    zoomIt = (event, value) => {
+        var {canvas, drawStatus} = this.props;
+
+        var factor_choose = value / 100;   
+        var new_w = canvas.originWidth * factor_choose;
+        var new_h = canvas.originHeight * factor_choose;
+        var ratio_w = new_w / canvas.getWidth();
+        var ratio_h = new_h / canvas.getHeight();
+        drawStatus.setFactor(factor_choose);
+
+        fabric.Image.fromURL(
+            canvas.url_meta,
+            function(img) {
+                img.scaleToWidth(new_w);
+                img.scaleToHeight(new_h);
+                canvas.setWidth(new_w);
+                canvas.setHeight(new_h);
+                canvas.setBackgroundImage(img);
+
+                var objects = canvas.getObjects();
+                for (var i in objects) {
+                    if (objects[i].type_label === 'poly'){
+                        if (objects[i].labelControl.getIsEdit()){
+                            objects[i].labelControl.cleanPolygonStuff(false);
+                        }
+                        objects[i].points.forEach(function(point, i){
+                            point.x *= ratio_w;
+                            point.y *= ratio_h;
+                        });
+                        objects[i].labelControl.circlesHandle();
+                    }
+                    else{
+                        objects[i].scaleX *= ratio_w;
+                        objects[i].scaleY *= ratio_h;
+                        objects[i].left *= ratio_w;
+                        objects[i].top *= ratio_h;
+                        objects[i].setCoords();
+                    }
+                }
+                canvas.renderAll();
+                canvas.calcOffset();
+            }
+        ); 
+    };
+
+    handleChangeReLabel = name => event => {
+        this.props.drawStatus.setTurnRenewLabel(event.target.checked);
+        this.setState({ ...this.state, [name]: event.target.checked });
     };
 
     render() {
-        const { classes, drawTool, drawStatus, quickSettings } = this.props;
-        const { messageInfo } = this.state;
+        const { classes } = this.props;
+        const { messageInfo, changeReLabel } = this.state;
         const tool = this;
 
         const on_edit = document.getElementById('on_edit') != null;
@@ -235,46 +313,86 @@ class ToolListItems extends React.Component {
 
             <div><ListItem button className={classes.splitTool}></ListItem></div>
 
-             <ItemTool 
+            <div>
+            <ListItem button classes={{root: classes.listItemRoot}}>
+                <FormControlLabel
+                control={
+                  <Switch
+                    checked={changeReLabel}
+                    onChange={tool.handleChangeReLabel('changeReLabel')}
+                    value="changeReLabel"
+                    color="primary"
+                  />
+                }
+            />
+            </ListItem>
+            </div>
+
+            <ItemTool 
                 classes={classes} idI="renew_label" callBackFunc={tool.handleRenewLabel} 
-                Micon={Autorenew} text="(R) = Renew Label"/>
+                Micon={Autorenew} text="Renew Label (R)"/>
 
             <ItemTool 
                 classes={classes} idI="stop_draw" callBackFunc={tool.handleStopDrawing} 
-                Micon={Brush} text="(Q) = Labeling"/>
+                Micon={Brush} text="Labeling (Q)"/>
 
             <ItemTool 
                 classes={classes} idI="edit_tool" callBackFunc={tool.handleEdit} 
-                Micon={ExtensionOutlined} text="(E) = Edit"/>
+                Micon={ExtensionOutlined} text="Edit (E)"/>
 
             <ItemTool 
                 classes={classes} idI="hidden_tool" callBackFunc={tool.handleHidden} 
-                Micon={ControlCameraOutlined} text="(H) = Hidden"/>
+                Micon={ControlCameraOutlined} text="Hidden (H)"/>
 
             <ItemTool 
                 classes={classes} idI="delete_tool" callBackFunc={tool.handleDelete} 
-                Micon={CancelPresentationOutlined} text="(D) = Delete"/>
+                Micon={CancelPresentationOutlined} text="Delete (D)"/>
 
             <ItemTool 
                 classes={classes} idI="change_tool" callBackFunc={tool.handleChange} 
-                Micon={PartyModeOutlined} text="(C) = Change Class"/>
+                Micon={PartyModeOutlined} text="Change Class (C)"/>
 
             <div><ListItem button className={classes.splitTool}></ListItem></div>
 
             {
                 on_edit ? (<ItemTool 
                 classes={classes} idI="only_save" callBackFunc={tool.handleSave} 
-                Micon={BeenhereOutlined} text="(S) = Save"/>
+                Micon={BeenhereOutlined} text="Save (S)"/>
                 ) : (<React.Fragment>
                 
                 <ItemTool 
                 classes={classes} idI="save_next" callBackFunc={tool.handleSaveNext} 
-                Micon={BeenhereOutlined} text="(S) = Save & Next"/>
+                Micon={BeenhereOutlined} text="Save & Next (S)"/>
                 <ItemTool 
                     classes={classes} idI="skip_next" callBackFunc={tool.handleSkipNext} 
-                    Micon={SkipNext} text="(A) = Skip & Next"/>
+                    Micon={SkipNext} text="Skip & Next (A)"/>
                 </React.Fragment>)
             }
+
+            <div><ListItem button className={classes.splitTool}></ListItem></div>
+
+
+            <div className={classes.scaleCanvas}>
+                <div className={classes.sliderS}>
+                    <PrettoSlider
+                        valueLabelDisplay="auto" 
+                        aria-label="Pretto slider" 
+                        defaultValue={100}
+                        onChange={tool.zoomIt}
+                        step={20}
+                        min={40} />
+                </div>
+            </div>
+
+            <div><ListItem button className={classes.splitTool}></ListItem></div>
+
+            <div>
+            <Tooltip title="Images submitted" TransitionComponent={Zoom} placement="right" classes={{tooltip: classes.lightTooltip}}>
+            <ListItem button classes={{root: classes.countAnnotated}}>
+            <span id="annotated_number">...</span>
+            </ListItem>
+            </Tooltip>
+            </div>
             
 
             <Snackbar

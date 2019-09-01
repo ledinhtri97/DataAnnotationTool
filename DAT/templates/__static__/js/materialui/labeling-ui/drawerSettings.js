@@ -166,8 +166,8 @@ class TemporaryDrawerSettings extends React.Component {
 				this.setState({size_icon: val});
 
 				canvas.getObjects().forEach(function(obj){
-					if(obj.isIcon){
-						obj.set('radius', parseInt(val));
+					if(obj.islabel){
+						obj.icon.set('radius', parseInt(val));
 					}
 				});
 				canvas.renderAll();
@@ -176,7 +176,7 @@ class TemporaryDrawerSettings extends React.Component {
 				this.setState({'width_stroke': val});
 
 				canvas.getObjects().forEach(function(obj){
-					if(obj.type == 'rect' || obj.type == 'polygon'){
+					if(obj.islabel){
 						obj.set('strokeWidth', parseInt(val));
 					}
 				});

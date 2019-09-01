@@ -19,6 +19,32 @@ class WorkspaceView(generics.RetrieveAPIView):
 
         return Response(data=__data__)
 
+
+def unblock_index(request, metaid):
+    data = {}
+    try:
+        meta = MetaDataModel.objects.get(id=metaid)
+        meta.is_allow_view = 1
+        meta.is_notice_view = 1
+        meta.save(update_fields=['is_allow_view', 'is_notice_view'])
+        data['status'] = 'OK!'
+    except Exception as e:
+        data['error'] = str(e)
+
+    return JsonResponse(data=data)
+
+def unnoticed_index(request, metaid):
+    data = {}
+    try:
+        meta = MetaDataModel.objects.get(id=metaid)
+        meta.is_notice_view = 0
+        meta.save(update_fields=['is_notice_view'])
+        data['status'] = 'OK!'
+    except Exception as e:
+        data['error'] = str(e)
+
+    return JsonResponse(data=data)
+
 def wsm_index(request, id_workspace):
     data = {
         'namews': '',
@@ -50,45 +76,48 @@ def wsm_index(request, id_workspace):
                     'label_count': submitted.filter(boxes_position__flag='-1').count(),
                 }
             )
+        mSubmitted = metadata.exclude(submitted_by_user=None)
+        for meta in mSubmitted.distinct():
+            data['metadata']['submitted'].append(
+                {
+                    'url_thumb': meta.get_url_thumbnail(),
+                    'url_meta': meta.get_url_api(),
+                    'meta_id': meta.id,
+                    'meta_user': meta.get_submitted_by_user(),
+                    'last_date_update': meta.history.first().history_date,
+                    'label_count': meta.boxes_position.count(),
+                    'view': meta.is_allow_view,
+                }
+            )
 
-            for meta in submitted.distinct():
-                data['metadata']['submitted'].append(
-                    {
-                        'url_thumb': meta.get_url_thumbnail(),
-                        'url_meta': meta.get_url_api(),
-                        'meta_id': meta.id,
-                        'last_date_update': meta.history.first().history_date,
-                        'label_count': meta.boxes_position.count(),
-                        'view': meta.is_allow_view,
-                    }
-                )
-            
-            for meta in skipped.distinct():
-                data['metadata']['skipped'].append(
-                    {
-                        'url_thumb': meta.get_url_thumbnail(),
-                        'url_meta': meta.get_url_api(),
-                        'meta_id': meta.id,
-                        'last_date_update': meta.history.first().history_date,
-                        'reason_skipped': 'Unknown',
-                        'label_count': meta.boxes_position.count(),
-                        'view': meta.is_allow_view,
-                    }
-                )
+        mSkipped = metadata.exclude(skipped_by_user=None)
+        for meta in mSkipped.distinct():
+            data['metadata']['skipped'].append(
+                {
+                    'url_thumb': meta.get_url_thumbnail(),
+                    'url_meta': meta.get_url_api(),
+                    'meta_id': meta.id,
+                    'meta_user': meta.get_skip_by_user(),
+                    'last_date_update': meta.history.first().history_date,
+                    'reason_skipped': 'Unknown',
+                    'label_count': meta.boxes_position.count(),
+                    'view': meta.is_allow_view,
+                }
+            )
 
-            for meta in submitted.filter(boxes_position__flag='0', is_notice_view=0).distinct():
-                data['metadata']['flaged'].append(
-                    {
-                        'url_thumb': meta.get_url_thumbnail(),
-                        'url_accept': meta.get_url_accept(),
-                        'url_meta': meta.get_url_api(),
-                        'meta_id': meta.id,
-                        'last_date_update': meta.history.first().history_date,
-                        'flag_count': meta.boxes_position.filter(flag='0').count(),
-                        'label_count': meta.boxes_position.count(),
-                        'view': meta.is_allow_view,
-                    }
-                )
+        for meta in mSubmitted.filter(boxes_position__flag='0', is_notice_view=0).distinct():
+            data['metadata']['flaged'].append(
+                {
+                    'url_thumb': meta.get_url_thumbnail(),
+                    'url_accept': meta.get_url_accept(),
+                    'url_meta': meta.get_url_api(),
+                    'meta_id': meta.id,
+                    'last_date_update': meta.history.first().history_date,
+                    'flag_count': meta.boxes_position.filter(flag='0').count(),
+                    'label_count': meta.boxes_position.count(),
+                    'view': meta.is_allow_view,
+                }
+            )
             
         for meta in metadata.filter(is_notice_view=1).all():
             data['metadata']['notice_review'].append(
@@ -100,11 +129,13 @@ def wsm_index(request, id_workspace):
                     'message': 'sss',
                     'flag_count': 'sss',
                     'label_count': meta.boxes_position.count(),
+                    'view': meta.is_allow_view,
                     'notice_review': meta.is_notice_view,
                 }
             )
 
     except Exception as e:
-        print(e)
+        data['error'] = str(e)
 
     return JsonResponse(data=data)
+

@@ -1,10 +1,12 @@
 import requests
+from adminmaster.datamanagement.submodels.metadata import MetaDataModel
+
 #widget = Widget.objects.get(id=18)
 #next_widget = Widget.objects.filter(id__gt=widget.id).order_by('id').first()
 def get_fake_api(meta, api_ref):
 
     files = {'image': open(meta.get_full_origin(), 'rb')}
-    data = [{}]
+    data = []
     
     try:
         print("try 1:", api_ref.local_api_url)
@@ -26,19 +28,20 @@ def get_fake_api(meta, api_ref):
     if r:
         try:
             json_data = r.json()
-            #print(json_data)
-            data = [
-                {
-                    'tag_label': lb['label'],
-                    'type_label': 'rect',
-                    'color': api_ref.get_color_label(lb['label'], 'rect'),
-                    'flag': 1,
-                    'accept_report_flag': False,
-                    'position': ','.join([str(lb['xmin']), str(lb['ymin']), str(lb['xmax']), str(lb['ymax'])]),
-                    'conf': round(lb['conf'], 2),
-                    'accept_edit': lb['conf'] < api_ref.percent_accept/100.0,
-                } for lb in json_data['data']['boxes']
-            ]
+            available_labels = api_ref.available_labels()
+
+            for lb in json_data['data']['boxes']:
+                if lb['label'] in available_labels:
+                    data.append({
+                        'tag_label': lb['label'],
+                        'type_label': 'rect',
+                        'color': api_ref.get_color_label(lb['label'], 'rect'),
+                        'flag': 1,
+                        'accept_report_flag': False,
+                        'position': ','.join([str(lb['xmin']), str(lb['ymin']), str(lb['xmax']), str(lb['ymax'])]),
+                        'conf': round(lb['conf'], 2),
+                        'accept_edit': lb['conf'] < api_ref.percent_accept/100.0,
+                    })
  
             for i in range(len(data)):
                 if data[i]['tag_label'] == 'license_plate':
@@ -49,7 +52,7 @@ def get_fake_api(meta, api_ref):
 
         except Exception as e:
             print(e)
-            data = [{'error': 'Failed to connect'}]
+            data = [{'error': 'Failed to connect', 'catch': str(e)}]
         #{'data':{'boxes':[{'conf', 'label', 'xmax', 'ymax', 'xmin', 'ymin'}], '...parameters'}
     #print(data)
     return data
@@ -111,6 +114,8 @@ def query_meta(meta):
             {
                 'tag_label': bb.label.tag_label,
                 'type_label': bb.label.type_label,
+                'from_id': bb.from_id,
+                'to_id': bb.to_id,
                 'color': bb.label.color,
                 'flag': bb.flag,
                 'accept_report_flag': bb.accept_report_flag,
@@ -120,4 +125,54 @@ def query_meta(meta):
         'status': 'OK',
     }
 
+    return data
+
+def query_list_meta(meta):
+    data = {}
+    mtid = meta.id
+    data['tl'] = query_meta(meta)
+    data['tr'] = {}
+    data['bl'] = {}
+    data['br'] = {}
+
+    if meta.is_head:
+        try:
+            tr = MetaDataModel.objects.get(id=mtid+1)
+            if tr.dataset.id == meta.dataset.id:
+                data['tr'] = query_meta(tr)
+        except:
+            pass
+        try:
+            bl = MetaDataModel.objects.get(id=mtid+2)
+            if tr.dataset.id == meta.dataset.id:
+                data['bl'] = query_meta(bl)
+        except:
+            pass
+        try:
+            br = MetaDataModel.objects.get(id=mtid+3)
+            if tr.dataset.id == meta.dataset.id:
+                data['br'] = query_meta(br)
+        except:
+            pass
+
+    elif meta.is_tail_merger:
+        try:
+            tr = MetaDataModel.objects.get(id=mtid+1)
+            if tr.dataset.id == meta.dataset.id:
+                data['tr'] = query_meta(tr)
+        except:
+            pass
+        try:
+            bl = MetaDataModel.objects.get(id=mtid+4)
+            if tr.dataset.id == meta.dataset.id:
+                data['bl'] = query_meta(bl)
+        except:
+            pass
+        try:
+            br = MetaDataModel.objects.get(id=mtid+5)
+            if tr.dataset.id == meta.dataset.id:
+                data['br'] = query_meta(br)
+        except:
+            pass 
+    
     return data

@@ -66,10 +66,10 @@ class TabShowLabels extends React.Component {
             <Tab label="Notice Review" icon={<NotificationsActive />} />
           </Tabs>
         </AppBar>
-        {value === 0 && <TabContainer><SubmittedTable submitted={submitted}/></TabContainer>}
+        {value === 0 && <TabContainer><SubmittedTable submitted={submitted} isAdmin={isAdmin}/></TabContainer>}
         {value === 1 && <TabContainer><FlagFalsePredictTable flaged={flaged} isAdmin={isAdmin}/></TabContainer>}
-        {value === 2 && <TabContainer><SkippedTable skipped={skipped}/></TabContainer>}
-        {value === 3 && <TabContainer><NoticeReviewTable notice_review={notice_review}/></TabContainer>}
+        {value === 2 && <TabContainer><SkippedTable skipped={skipped} isAdmin={isAdmin}/></TabContainer>}
+        {value === 3 && <TabContainer><NoticeReviewTable notice_review={notice_review} isAdmin={isAdmin}/></TabContainer>}
       </div>
     );
   }

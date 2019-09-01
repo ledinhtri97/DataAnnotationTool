@@ -14,11 +14,14 @@
    {% endblock loadhead%}
 </head>
 <body>
-   <div id="containerapp"></div>
-   <div id="dialog" style="display: none;"></div>
    
+   {%block header%}
+   {%endblock%}
+
    {%block content%}
    {%endblock%}
+
+   <div id="dialog" style="display: none;"></div>
     <div style="display: none;">
       <p id="adminsite"></p>
       <p id="url_home">{% url "admin:index" %}</p>
@@ -26,9 +29,12 @@
       <p id="url_workspace">{% url "admin:index" %}</p>
       <p id="url_logout">{% url "logout" %}</p>
    </div>
+
+   {%block footer%}
+   {%endblock%}
 </body>
-{% load static %}
-<script src="{% static 'js/build/global.js' %}"></script> 
+
 {%block loadjs%} 
 {% endblock loadjs %}
+
 </html>

@@ -34,10 +34,14 @@ class ApiReferenceModel(models.Model):
     def post_request_api(self, parameters):
         return 'Jsonfile {}'
 
+    def available_labels(self):
+        return [lb.tag_label for lb in self.labels.all()]
+
+
     def get_color_label(self, tag_label, type_label):
         try:
-            color = self.labels.filter(
-                tag_label=tag_label, type_label=type_label).first().color
+            color = self.labels.get(
+                tag_label=tag_label, type_label=type_label).color
         except Exception as e:
             print(e)
             color = "#F0F0F1"

@@ -15,7 +15,13 @@
 	<div id="on_edit"></div>
 	{% csrf_token %}
 </div>
+{% if tl == "tr" %}
+	<div id="tracking"></div>
+{% endif %}
+
 {% endblock content %}
+
+
 
 {%block loadjs%}
 {% load static %}

@@ -19,7 +19,7 @@ import dateFormat from 'dateformat';
 import AlertDialogView from "./dialog-view";
 import AlertDialogAccept from "./dialog-accept";
 import {fabric} from 'fabric';
-import {initCanvas} from '../../../modules/labeling-module/renderInit';
+import {initCanvas} from '../../../modules/labeling-mod/renderInit';
 
 const styles = theme => ({
 	root: {
@@ -62,7 +62,7 @@ class FlagFalsePredictTable extends React.Component {
 	};
 
 	handleChangeRowsPerPage = event => {
-		this.setState({ page: 0, rowsPerPage: event.target.value });
+		this.setState({ page: 0, rowsPerPage: parseInt(event.target.value) });
 	};
 
 	handleView = (url_meta) => {
@@ -128,6 +128,24 @@ class FlagFalsePredictTable extends React.Component {
 					<Table className={classes.table}>
 
 						<TableHead>
+							<TableRow className={classes.tablePagniation}>
+								<TablePagination
+									rowsPerPageOptions={[5, 10, 20, 30, 40, 50]} //5, 10, 25
+									colSpan={3}
+									count={flaged.length}
+									rowsPerPage={rowsPerPage}
+									page={page}
+									SelectProps={{
+										native: true,
+									}}
+									onChangePage={this.handleChangePage}
+									onChangeRowsPerPage={this.handleChangeRowsPerPage}
+									ActionsComponent={TablePaginationActionsWrapped}
+								/>
+							</TableRow>
+						</TableHead>
+						
+						<TableHead>
 						<TableRow>
 						<TableCell className={classes.table_title}>Thumbnail</TableCell>
 						<TableCell className={classes.table_title}>Meta Id</TableCell>
@@ -185,7 +203,7 @@ class FlagFalsePredictTable extends React.Component {
 						<TableFooter>
 							<TableRow className={classes.tablePagniation}>
 								<TablePagination
-									rowsPerPageOptions={[10]} //5, 10, 25
+									rowsPerPageOptions={[5, 10, 20, 30, 40, 50]} //5, 10, 25
 									colSpan={3}
 									count={flaged.length}
 									rowsPerPage={rowsPerPage}

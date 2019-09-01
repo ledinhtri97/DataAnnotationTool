@@ -1,5 +1,6 @@
 
 class DrawStatus{
+	
 	constructor(){
 		this.listLabelRect = null;
 		this.listLabelPoly = null;
@@ -14,8 +15,23 @@ class DrawStatus{
 		this.renewlabel = true;
 		this.zoomSpaceKey = false;
 		this.popupHover = false;
-		this.modeTool = [0, 0, 0, 0]; //edit, hidden, delete, change mode ===> default is false
+		this.modeTool = ""; //edit, hidden, delete, change mode ===> default is false
+		this.activePolygons = {'zs': false};
+		this.factor = 1; //width, height
+		this.turnRL = true;
+	};
+
+	getFactor(){
+		return this.factor;
 	}
+
+	setFactor(factor){
+		this.factor = factor;
+	}
+
+	getActivePolygons(){
+		return this.activePolygons;
+	};
 
 	setListLabel(rectList, polyList) {
 		this.listLabelRect = rectList;
@@ -38,26 +54,12 @@ class DrawStatus{
 		this.isChangingLabel = val;
 	}
 
-	getModeTool(imode) {
-		if(imode) return this.modeTool[imode];
-		
-		let i = 0;
-		for(i; i < this.modeTool.length; i++){
-			if(this.modeTool[i]===1){ return i; }
-		}
-		return -1;
+	getModeTool() {
+		return this.modeTool;
 	}
 
-	setModeTool(imode=-1){
-		let i = 0;
-		for(i; i < this.modeTool.length; i++){
-			if(imode === i){ this.modeTool[i] = 1; }
-			else{ this.modeTool[i] = 0; }
-		}
-	}
-
-	setModeToolOff(imode){
-		this.modeTool[imode] = 0;
+	setModeTool(imode){
+		this.modeTool = imode;
 	}
 
 	getRenewLabel(){
@@ -68,11 +70,23 @@ class DrawStatus{
 		this.renewlabel = value;
 	}
 
+	setRenewLabel(value) {
+		this.renewlabel = value;
+	}
+
+	setTurnRenewLabel(value) {
+		this.turnRL = value;
+	}
+
+	getTurnRenewLabel() {
+		return this.turnRL;
+	}
+
 	getNameLabel(){
 		return this.namelabel;
 	}
 
-	setNameLabel(value){
+	setNameLabel(value=''){
 		return this.namelabel = value;
 	}
 
@@ -86,7 +100,7 @@ class DrawStatus{
 
 	getStrokeLabel(){
 		var strokeWidth_id = document.getElementById('width_stroke');
-		return strokeWidth_id ? parseInt(strokeWidth_id.textContent) : 2;
+		return strokeWidth_id ? parseInt(strokeWidth_id.textContent) * this.factor : 2;
 	}
 
 	setIsDrawing(__isDrawing__){
@@ -137,6 +151,21 @@ class DrawStatus{
 	stopDrawStatus(){
 		this.isDrawing = false;
 		this.isWaiting = false;
+	}
+
+	resetDrawStatus(){
+		this.isChangingLabel = false;
+		this.isDrawing = false;
+		this.isWaiting = false;
+		this.isZoom = false;
+		this.idTool = '';
+		this.namelabel = '';
+		this.colorlabel = "#F4D03F";
+		this.typelabel = '';
+		this.renewlabel = true;
+		this.zoomSpaceKey = false;
+		this.popupHover = false;
+		this.modeTool = "";
 	}
 }
 

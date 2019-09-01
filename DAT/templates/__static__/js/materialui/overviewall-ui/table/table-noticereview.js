@@ -18,7 +18,7 @@ import dateFormat from 'dateformat';
 
 import AlertDialogView from "./dialog-view";
 import {fabric} from 'fabric';
-import {initCanvas} from '../../../modules/labeling-module/renderInit';
+import {initCanvas} from '../../../modules/labeling-mod/renderInit';
 
 
 
@@ -63,8 +63,24 @@ class NoticeReviewTable extends React.Component {
 	};
 
 	handleChangeRowsPerPage = event => {
-		this.setState({ page: 0, rowsPerPage: event.target.value });
+		this.setState({ page: 0, rowsPerPage: parseInt(event.target.value) });
 	};
+
+	handleUnnoticedView = (meta_id) => {
+		let url_unnoticed_meta = '/gvlab-dat/datadmin/workspace/unnoticed_metaid-'+meta_id;
+
+		fetch(url_unnoticed_meta, {})
+			.then(response => {
+					if(response.status !== 200){
+						return "FAILED";
+					}
+					return response.json();
+				}
+			).then(re => {
+				if(re === "FAILED") return;
+				console.log(re);
+			});
+	}
 
 	handleView = (url_meta) => {
 		var dialog_view = document.getElementById("dialog_view");
@@ -98,7 +114,7 @@ class NoticeReviewTable extends React.Component {
 
 	render() {
 		const self_table = this;
-		const { classes, notice_review } = this.props;
+		const { classes, notice_review, isAdmin } = this.props;
 		const { rows, rowsPerPage, page } = this.state;
 		const emptyRows = rowsPerPage - Math.min(rowsPerPage, notice_review.length - page * rowsPerPage);
 
@@ -107,6 +123,24 @@ class NoticeReviewTable extends React.Component {
 				<div className={classes.tableWrapper}>
 					<Table className={classes.table}>
 
+						<TableHead>
+							<TableRow className={classes.tablePagniation}>
+								<TablePagination
+									rowsPerPageOptions={[5, 10, 20, 30, 40, 50]} //5, 10, 25
+									colSpan={3}
+									count={notice_review.length}
+									rowsPerPage={rowsPerPage}
+									page={page}
+									SelectProps={{
+										native: true,
+									}}
+									onChangePage={this.handleChangePage}
+									onChangeRowsPerPage={this.handleChangeRowsPerPage}
+									ActionsComponent={TablePaginationActionsWrapped}
+								/>
+							</TableRow>
+						</TableHead>
+						
 						<TableHead>
 						<TableRow>
 						<TableCell className={classes.table_title}>Thumbnail</TableCell>
@@ -137,11 +171,17 @@ class NoticeReviewTable extends React.Component {
 								<TableCell align="center" className={classes.table_content}>{ntv.flag_count}</TableCell>
 								<TableCell align="center" className={classes.table_content}>{ntv.label_count}</TableCell>
 								<TableCell align="center" className={classes.table_content}>
-								<Button 
+								{
+									isAdmin ? <Button 
+								onClick={function(e){self_table.handleUnnoticedView(ntv.meta_id)}}
+								variant="outlined" color="primary" className={classes.button}>
+								Unnoticed
+								</Button> : <Button 
 								onClick={function(e){self_table.handleView(ntv.url_meta)}}
 								variant="outlined" color="primary" className={classes.button}>
 								Review
 								</Button>
+								}
 								</TableCell>
 								</TableRow>
 							)})}
@@ -154,7 +194,7 @@ class NoticeReviewTable extends React.Component {
 						<TableFooter>
 							<TableRow className={classes.tablePagniation}>
 								<TablePagination
-									rowsPerPageOptions={[10]} //5, 10, 25
+									rowsPerPageOptions={[5, 10, 20, 30, 40, 50]} //5, 10, 25
 									colSpan={3}
 									count={notice_review.length}
 									rowsPerPage={rowsPerPage}

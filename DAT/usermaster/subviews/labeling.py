@@ -1,4 +1,3 @@
-from adminmaster.workspacemanagement.models import WorkSpaceUserModel
 from adminmaster.datamanagement.models import DataSetModel
 from adminmaster.datamanagement.models import MetaDataModel
 from adminmaster.workspacemanagement.models import UserSettingsModel
@@ -14,21 +13,22 @@ class LabelingView(generics.RetrieveUpdateAPIView):
     lookup_field = 'id'
     template_name = 'usermaster/labeling.html'
 
-     #@Overwrite
     def get_queryset(self):
         dataset_id = self.request.parser_context['kwargs']['id']
+        type_labeling = DataSetModel.objects.get(id=dataset_id).type_labeling
+
         user = self.request.user
-        meta_data = labeling_view.get_query_meta_general(dataset_id, user)
-        return meta_data
+        meta_data = labeling_view.get_query_meta_general(
+            dataset_id, user, type_labeling)
+
+        return meta_data, type_labeling
 
     def retrieve(self, request, *args, **kwargs):
-    
-        meta_data = self.get_queryset()
-        type_labeling = WorkSpaceUserModel.objects.get(dataset=request.parser_context['kwargs']['id']).type_labeling
+        meta_data, type_labeling = self.get_queryset()
         if meta_data:
-            data = { 'id': meta_data.id, 'tl': type_labeling}
+            data = {'id': meta_data.id, 'tl': type_labeling}
         else:
-            data = { 'id': '-1', 'tl': type_labeling}
+            data = {'id': '-1', 'tl': type_labeling}
 
         return Response(data=data)
 
@@ -41,19 +41,22 @@ class EditLabelingView(generics.RetrieveUpdateAPIView):
     def retrieve(self, request, *args, **kwargs):
         metaid = request.parser_context['kwargs']['metaid']
         user = request.user
-        
-        try:
-            if user.is_superuser:
-                meta = MetaDataModel.objects.get(id=metaid)
-            else:
-                try:
-                    meta = MetaDataModel.objects.get(id=metaid, submitted_by_user=user)
-                except MetaDataModel.DoesNotExist:
-                    meta = MetaDataModel.objects.get(id=metaid, skipped_by_user=user)
 
-            data = { 'id': metaid, }
+        try:
+            meta = MetaDataModel.objects.get(id=metaid)
+            type_labeling = meta.dataset.type_labeling
+            user_submited = user in meta.submitted_by_user.all()
+            user_skipped = user in meta.skipped_by_user.all()
+            allow_view = user_submited or user_skipped or meta.is_notice_view or user.is_superuser
+
+            if allow_view and not meta.onviewing_user:
+                data = {'id': metaid, 'tl': type_labeling}
+                labeling_view.handle_metadata_before_release(meta, user)
+            else:
+                data = {'id': '-1', 'tl': type_labeling}
+
         except Exception as e:
             print(e)
-            data = { 'id': '-1', }
+            data = {'id': '-1', 'tl': type_labeling}
 
         return Response(data=data)

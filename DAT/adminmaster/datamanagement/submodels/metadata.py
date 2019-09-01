@@ -26,6 +26,12 @@ class MetaDataModel(models.Model):
     is_reference_api = models.BooleanField(
         default=False, verbose_name="using reference api?")
 
+    is_head = models.BooleanField(
+        default=False, verbose_name="[tracking] is head meta?")
+    
+    is_tail_merger = models.BooleanField(
+        default=False, verbose_name="[tracking] is tail_merger meta?")
+
     onviewing_user = models.OneToOneField(
        'auth.User', blank=True, null=True, verbose_name="User Viewing", on_delete=models.CASCADE)
 
@@ -35,6 +41,12 @@ class MetaDataModel(models.Model):
     skipped_by_user = models.ManyToManyField('auth.User', blank=True, related_name="skipped_by_user")
 
     history = HistoricalRecords()
+
+    def get_submitted_by_user(self):
+        return ', '.join([user.username for user in self.submitted_by_user.all()])
+    
+    def get_skip_by_user(self):
+        return ', '.join([user.username for user in self.skipped_by_user.all()])
 
     def get_rel_path(self):
         return os.path.relpath(
@@ -56,10 +68,10 @@ class MetaDataModel(models.Model):
         return '/gvlab-dat/workspace/metaview/{}/api-get-data/'.format(self.id)
     
     def get_url_meta(self):
-        return "/gvlab-dat/dataset/{}".format(self.get_rel_path())
+        return "/gvlab-dat/dataset/{}".format(self.get_rel_path()).replace('\\', '/')
     
     def get_url_thumbnail(self):
-        return "/gvlab-dat/imagethumb/{}".format(self.get_thumbnail_path())
+        return "/gvlab-dat/imagethumb/{}".format(self.get_thumbnail_path()).replace('\\', '/')
     
     def get_url_accept(self):
         return "/gvlab-dat/datadmin/dataman/flagfalse-accept/mt-{}".format(self.id)
