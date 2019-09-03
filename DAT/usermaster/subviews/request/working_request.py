@@ -179,6 +179,5 @@ def get_data_overview_workspace(request, wsid):
         data['Error'] = 'Data is not available'
         data['Messenger'] = str(e)
 
-    print(data['submitted'])
     return JsonResponse(data=data)
 
