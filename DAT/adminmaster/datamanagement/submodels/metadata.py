@@ -42,6 +42,12 @@ class MetaDataModel(models.Model):
 
     history = HistoricalRecords()
 
+    def get_submitted_by_user(self):
+        return ', '.join([user.username for user in self.submitted_by_user.all()])
+    
+    def get_skip_by_user(self):
+        return ', '.join([user.username for user in self.skipped_by_user.all()])
+
     def get_rel_path(self):
         return os.path.relpath(
             os.path.join(self.full_path, self.name), 

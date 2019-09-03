@@ -96,7 +96,7 @@ class SubmittedTable extends React.Component {
 
 	render() {
 		const self_table = this;
-		const { classes, submitted } = this.props;
+		const { classes, submitted, isAdmin } = this.props;
 		const { rows, rowsPerPage, page } = this.state;
 		const emptyRows = rowsPerPage - Math.min(rowsPerPage, submitted.length - page * rowsPerPage);
 
@@ -126,7 +126,10 @@ class SubmittedTable extends React.Component {
 						<TableHead>
 						<TableRow>
 						<TableCell className={classes.table_title}>Thumbnail</TableCell>
-						<TableCell className={classes.table_title}>Meta Id</TableCell>            
+						<TableCell className={classes.table_title}>Meta Id</TableCell>
+						{
+							isAdmin ? <TableCell className={classes.table_title}>User</TableCell> : null
+						} 
 						<TableCell className={classes.table_title}>Last Date Update</TableCell>
 						<TableCell align="center" className={classes.table_title}>Labeled Count</TableCell>
 						<TableCell align="center" className={classes.table_title}>View</TableCell>
@@ -142,6 +145,9 @@ class SubmittedTable extends React.Component {
 										onClick={function(e){ if(smd.view){self_table.handleView(smd.url_meta)}}}/>
 								</TableCell>
 								<TableCell className={classes.table_content}>{smd.meta_id}</TableCell>
+								{
+									isAdmin ? <TableCell className={classes.table_content}>{smd.meta_user}</TableCell> : null
+								} 
 								<TableCell className={classes.table_content}>
 								{dateFormat(new Date(smd.last_date_update), "dddd, mmmm dS, yyyy, h:MM:ss TT").toString()}
 								</TableCell>

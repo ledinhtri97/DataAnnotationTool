@@ -192,6 +192,9 @@ class SkippedTable extends React.Component {
 						<TableRow>
 						<TableCell className={classes.table_title}>Thumbnail</TableCell>
 						<TableCell className={classes.table_title}>Meta Id</TableCell>
+						{
+							isAdmin ? <TableCell className={classes.table_user}>User</TableCell> : null
+						}
 						<TableCell className={classes.table_title}>Last Date Update</TableCell>
 						<TableCell className={classes.table_title}>Reason Skipped</TableCell>
 						<TableCell align="center" className={classes.table_title}>Labeled Count</TableCell>
@@ -210,6 +213,9 @@ class SkippedTable extends React.Component {
 								<TableCell component="th" scope="row" className={classes.table_content}>
 								{skd.meta_id}
 								</TableCell>
+								{
+									isAdmin ? <TableCell className={classes.table_content}>{smd.meta_user}</TableCell> : null
+								}
 								<TableCell className={classes.table_content}>
 								{dateFormat(new Date(skd.last_date_update), "dddd, mmmm dS, yyyy, h:MM:ss TT").toString()}
 								</TableCell>
