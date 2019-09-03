@@ -270,8 +270,11 @@ const init_event = function(__canvas__, popupControllers){
 				else if (obj.isIcon) {
 					temp_obj = obj.object;
 				}
-				temp_obj.labelControl.__outITEM__();
-
+				
+				if (temp_obj){
+					temp_obj.labelControl.__outITEM__();
+				}
+				
 				if(obj.isEditPolygonIcon){
 					let rd = drawStatus.getIsZoom() ? 2 : 4;
 					obj.set('radius', rd);
