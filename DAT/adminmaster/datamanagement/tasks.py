@@ -45,6 +45,7 @@ def scanner_dataset(datasetid):
 
     def readlines_to_database(lines, path_origin):
         for line in lines:
+            print(line)
             sline = line.split('\n')[0].split(',')
             path_meta, num_obj = sline[0].split('/'), int(sline[1])
             info_list = sline[2:]
@@ -84,7 +85,8 @@ def scanner_dataset(datasetid):
                     num_xy += 1
 
                 type_label = 'rect' if num_xy == 2 else 'poly'
-                position = ','.join(info_list[index_from:current_idx])
+                index_position = index_from + 4 if num_xy == 6 else index_from 
+                position = ','.join(info_list[index_position:current_idx])
                 new_bb, created = BoundingBoxModel.objects.get_or_create(
                      label=LabelDataModel.objects.get_or_create(tag_label=label_str, type_label=type_label)[0],
                      flag=1,
