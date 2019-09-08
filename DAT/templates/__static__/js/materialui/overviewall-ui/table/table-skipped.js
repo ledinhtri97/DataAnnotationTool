@@ -214,7 +214,7 @@ class SkippedTable extends React.Component {
 								{skd.meta_id}
 								</TableCell>
 								{
-									isAdmin ? <TableCell className={classes.table_content}>{smd.meta_user}</TableCell> : null
+									isAdmin ? <TableCell className={classes.table_content}>{skd.meta_user}</TableCell> : null
 								}
 								<TableCell className={classes.table_content}>
 								{dateFormat(new Date(skd.last_date_update), "dddd, mmmm dS, yyyy, h:MM:ss TT").toString()}
