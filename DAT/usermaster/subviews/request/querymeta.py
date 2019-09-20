@@ -135,6 +135,7 @@ def query_list_meta(meta):
     data['bl'] = {}
     data['br'] = {}
 
+    print("Top left: {}".format(mtid))
     if meta.is_head:
         try:
             tr = MetaDataModel.objects.get(id=mtid+1)
@@ -144,13 +145,13 @@ def query_list_meta(meta):
             pass
         try:
             bl = MetaDataModel.objects.get(id=mtid+2)
-            if tr.dataset.id == meta.dataset.id:
+            if bl.dataset.id == meta.dataset.id:
                 data['bl'] = query_meta(bl)
         except:
             pass
         try:
             br = MetaDataModel.objects.get(id=mtid+3)
-            if tr.dataset.id == meta.dataset.id:
+            if br.dataset.id == meta.dataset.id:
                 data['br'] = query_meta(br)
         except:
             pass
@@ -164,13 +165,13 @@ def query_list_meta(meta):
             pass
         try:
             bl = MetaDataModel.objects.get(id=mtid+4)
-            if tr.dataset.id == meta.dataset.id:
+            if bl.dataset.id == meta.dataset.id:
                 data['bl'] = query_meta(bl)
         except:
             pass
         try:
             br = MetaDataModel.objects.get(id=mtid+5)
-            if tr.dataset.id == meta.dataset.id:
+            if br.dataset.id == meta.dataset.id:
                 data['br'] = query_meta(br)
         except:
             pass 
