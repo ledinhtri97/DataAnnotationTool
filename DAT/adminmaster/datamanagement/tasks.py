@@ -256,29 +256,29 @@ def tracking_handle(id_meta, data):
         else:
             try:
                 pre_bb = cur_meta.boxes_position.get(from_id=bb['from_id'])
-                pre_bb.label.tag_label = bb['tag_label']
-                pre_bb.label.save(update_fields=['tag_label'])
+                label = LabelDataModel.objects.get(
+                    tag_label=bb['tag_label'], type_label=bb['type_label'])
+
+                pre_bb.label = label
                 pre_bb.position = bb['position']
                 pre_bb.flag = bb['flag']
-                pre_bb.save(update_fields=['flag', 'position'])
+                pre_bb.save(update_fields=['label', 'flag', 'position'])
 
                 pre_from_id = pre_bb.from_id
                 pre_to_id = pre_bb.to_id
 
                 change_from_bbes = BoundingBoxModel.objects.filter(from_id=pre_from_id)
                 for fbb in change_from_bbes.all():
-                    fbb.label.tag_label = bb['tag_label']
-                    fbb.label.save(update_fields=['tag_label'])
+                    fbb.label = label
                     fbb.to_id = bb['to_id']
-                    fbb.save(update_fields=['to_id'])
+                    fbb.save(update_fields=['label', 'to_id'])
                 
                 change_to_bbes = BoundingBoxModel.objects.filter(to_id=pre_to_id)
                 for tbb in change_to_bbes.all():
-                    tbb.label.tag_label = bb['tag_label']
-                    tbb.label.save(update_fields=['tag_label'])
-
+                    tbb.label = label
                     tbb.to_id = bb['to_id']
-                    tbb.save(update_fields=['to_id'])
+                    tbb.save(update_fields=['label', 'to_id'])
+                    
             except Exception as e:
                 print(e)
 
