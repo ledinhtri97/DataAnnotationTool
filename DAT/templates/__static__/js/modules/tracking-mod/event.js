@@ -148,29 +148,28 @@ const init_event = function(__canvas__){
 				labelControl.__copyToLayer4__();
 			}
 		}
-		else if(key == 97){
-			if(dialog && quickSettings.getAtt('ask_dialog')){
-				ReactDOM.unmountComponentAtNode(dialog);
-				let message = "Skip this data and continue?";
-				let request = "rqnext";
-				ReactDOM.render(<AlertDialog message={message} request={request} controllerRequest={controllerRequest}/>, dialog);
-			}
-			else{
-				controllerRequest('rqnext');
-			}
-		}
-		else if(key == 115){
-			if(dialog && quickSettings.getAtt('ask_dialog')){
-				ReactDOM.unmountComponentAtNode(dialog);
-				let message = "All labels will be save and continue?";
-				let request = on_edit ? "rqsave" : "rqsavenext";
-				ReactDOM.render(<AlertDialog message={message} request={request} controllerRequest={controllerRequest}/>, dialog);
-			}
-			else{
-				controllerRequest('rqsavenext');
-			}
-		}
-
+		// else if(key == 97){
+		// 	if(dialog && quickSettings.getAtt('ask_dialog')){
+		// 		ReactDOM.unmountComponentAtNode(dialog);
+		// 		let message = "Skip this data and continue?";
+		// 		let request = "rqnext";
+		// 		ReactDOM.render(<AlertDialog message={message} request={request} controllerRequest={controllerRequest}/>, dialog);
+		// 	}
+		// 	else{
+		// 		controllerRequest('rqnext');
+		// 	}
+		// }
+		// else if(key == 115){
+		// 	if(dialog && quickSettings.getAtt('ask_dialog')){
+		// 		ReactDOM.unmountComponentAtNode(dialog);
+		// 		let message = "All labels will be save and continue?";
+		// 		let request = on_edit ? "rqsave" : "rqsavenext";
+		// 		ReactDOM.render(<AlertDialog message={message} request={request} controllerRequest={controllerRequest}/>, dialog);
+		// 	}
+		// 	else{
+		// 		controllerRequest('rqsavenext');
+		// 	}
+		// }
 		else if(key == 99){
 			//C key -> Change class label
 			if(isObject && labelControl){
