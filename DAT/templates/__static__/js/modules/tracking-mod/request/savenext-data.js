@@ -6,7 +6,7 @@ import {collect_boudingbox} from './utils';
 const rqsavenext = function(meta_id){
 
 	var myData = collect_boudingbox(drawTool);
-	console.log(myData);
+	//console.log(myData);
 
 	fetch("/gvlab-dat/workspace/savenext_v2/"+meta_id+"/", {
 		method: "POST",
@@ -34,7 +34,7 @@ const rqsavenext = function(meta_id){
 				let canvas = list_canvas[pos];
 				let keep_bigplus = canvas.bigplus;
 				canvas.clear();
-				let rpos = pos.replace('_', '')
+				let rpos = pos.replace('_', ''); // ex: _tf => tf
 				initCanvas(canvas, metadata[rpos]);
 				canvas.add(keep_bigplus[0]);
 				canvas.add(keep_bigplus[1]);
