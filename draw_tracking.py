@@ -2,12 +2,13 @@ import cv2
 import os
 import random
 
-# gt_file = "./DAT/_DATABASE_/groundtruth/11/11_tr/TXT/tracking_mode.txt"
-gt_file = "./DAT/_DATABASE_/groundtruth/12/12_tracking_1fps/TXT/ff.txt"
+gt_file = "./DAT/_DATABASE_/groundtruth/75/75_Vinh_Tracking_190918/TXT/Vinh_Tracking_190918.txt"
+#gt_file = "./DAT/_DATABASE_/groundtruth/12/12_tracking_1fps/TXT/ff.txt"
 root_folder = "./DAT/_DATABASE_/storage_data/"
-resutl_folder = "./OUT_2/"
+resutl_folder = "../OUT_2/"
 TINT_COLOR = (0, 0, 0)  # Black
-FPS = 2
+name_video = 'fps_3.avi'
+FPS = 3
 
 with open(gt_file, 'r') as f:
     lines = f.readlines()
@@ -27,8 +28,8 @@ def last_12chars(x):
 
 def generate_video():
     # make sure to use your folder
-    image_folder = './OUT_2/'
-    video_name = resutl_folder+'0_mygeneratedvideo.avi'
+    image_folder = '../OUT_2/'
+    video_name = resutl_folder+name_video
 
     images = [img for img in os.listdir(image_folder)
               if img.endswith(".jpg") or
@@ -79,7 +80,7 @@ def is_float(gt, v):
     except:
         return False
 
-# lines = []
+lines = [] #used to prevent generate image when done before
 
 for line in lines:
     spline = line.replace('\n', '').split(',')
