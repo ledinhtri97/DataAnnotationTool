@@ -156,16 +156,25 @@ class SynchControl extends React.Component {
 
 					    {idframe != '_full' ?
 					    	<React.Fragment>
-						    {idframe == '_tl' ? <ListItem button classes={{
+						    {idframe != '_tl' ? <ListItem button classes={{
+						        	root: classes.listItemRoot, 
+						        	gutters: classes.guttersCustom}}>
+						        	<Tooltip title="Copy to layer 1" TransitionComponent={Zoom}
+						        		placement="right" classes={{tooltip: classes.lightTooltip}}>
+						        	<Filter1 onClick={synthis.copyAllToLayer1}/>
+						        	</Tooltip>
+					        	</ListItem> : null
+					    	}
+					        {idframe != '_tr' ? <ListItem button classes={{
 						        	root: classes.listItemRoot, 
 						        	gutters: classes.guttersCustom}}>
 						        	<Tooltip title="Copy to layer 2" TransitionComponent={Zoom}
 						        		placement="right" classes={{tooltip: classes.lightTooltip}}>
 						        	<Filter2 onClick={synthis.copyAllToLayer2}/>
 						        	</Tooltip>
-					        	</ListItem> : null
+						        </ListItem> : null
 					    	}
-					        {idframe == '_tr' ? <ListItem button classes={{
+					    	{idframe != '_bl' ? <ListItem button classes={{
 						        	root: classes.listItemRoot, 
 						        	gutters: classes.guttersCustom}}>
 						        	<Tooltip title="Copy to layer 3" TransitionComponent={Zoom}
@@ -174,21 +183,12 @@ class SynchControl extends React.Component {
 						        	</Tooltip>
 						        </ListItem> : null
 					    	}
-					    	{idframe == '_bl' ? <ListItem button classes={{
+					        {idframe != '_br' ? <ListItem button classes={{
 						        	root: classes.listItemRoot, 
 						        	gutters: classes.guttersCustom}}>
 						        	<Tooltip title="Copy to layer 4" TransitionComponent={Zoom}
 						        		placement="right" classes={{tooltip: classes.lightTooltip}}>
 						        	<Filter4 onClick={synthis.copyAllToLayer4}/>
-						        	</Tooltip>
-						        </ListItem> : null
-					    	}
-					        {idframe == '_br' ? <ListItem button classes={{
-						        	root: classes.listItemRoot, 
-						        	gutters: classes.guttersCustom}}>
-						        	<Tooltip title="Copy to layer 1" TransitionComponent={Zoom}
-						        		placement="right" classes={{tooltip: classes.lightTooltip}}>
-						        	<Filter1 onClick={synthis.copyAllToLayer1}/>
 						        	</Tooltip>
 						        </ListItem> : null
 					    	}
