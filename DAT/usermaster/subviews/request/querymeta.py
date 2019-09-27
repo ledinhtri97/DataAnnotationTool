@@ -136,17 +136,6 @@ def query_list_meta(meta):
     data['br'] = {}
 
     if meta.is_head:
-        #hard code:
-        try:
-            pre_meta = MetaDataModel.objects.get(id=mtid-1)
-            if pre_meta.dataset.id == meta.dataset.id:
-                pre_data = query_meta(pre_meta)
-                if len(data['tl']['boxes_position']) == 0:
-                    data['tl']['boxes_position'] = pre_data['boxes_position']
-        except:
-            pass
-        #end hard code
-
         try:
             tr = MetaDataModel.objects.get(id=mtid+1)
             if tr.dataset.id == meta.dataset.id:
@@ -165,6 +154,17 @@ def query_list_meta(meta):
                 data['br'] = query_meta(br)
         except:
             pass
+        
+        #hard code:
+        try:
+            pre_meta = MetaDataModel.objects.get(id=mtid-1)
+            if pre_meta.dataset.id == meta.dataset.id:
+                pre_data = query_meta(pre_meta)
+                if len(data['tl']['boxes_position']) == 0:
+                    data['tl']['boxes_position'] = pre_data['boxes_position']
+        except:
+            pass
+        #end hard code
 
     elif meta.is_tail_merger:
         try:
