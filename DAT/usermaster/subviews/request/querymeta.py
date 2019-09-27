@@ -158,7 +158,7 @@ def query_list_meta(meta):
         
         #hard code:
         try:
-            time.sleep(1)
+            time.sleep(1.5)
             pre_meta = MetaDataModel.objects.get(id=mtid-1)
             if pre_meta.dataset.id == meta.dataset.id:
                 pre_data = query_meta(pre_meta)
