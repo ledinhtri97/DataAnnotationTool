@@ -1,5 +1,6 @@
 import requests
 from adminmaster.datamanagement.submodels.metadata import MetaDataModel
+import time
 
 #widget = Widget.objects.get(id=18)
 #next_widget = Widget.objects.filter(id__gt=widget.id).order_by('id').first()
@@ -157,6 +158,7 @@ def query_list_meta(meta):
         
         #hard code:
         try:
+            time.sleep(5)
             pre_meta = MetaDataModel.objects.get(id=mtid-1)
             if pre_meta.dataset.id == meta.dataset.id:
                 pre_data = query_meta(pre_meta)

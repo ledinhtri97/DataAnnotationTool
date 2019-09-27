@@ -171,9 +171,7 @@ def extract_seqframevideo(datasetid):
             success = getFrame(sec)
     
     try:
-        print(inputFileQuery.all())
         for input_data in inputFileQuery.all():
-            print(input_data)
             folder_out = input_data.get_output_path()
             create_folder(folder_out)
             do_extract(input_data.get_full_path_file(), folder_out)
