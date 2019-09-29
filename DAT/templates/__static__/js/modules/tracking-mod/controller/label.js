@@ -468,8 +468,9 @@ class LabelControl{
 						if(temp_obj.shapeflag) {
 							temp_obj.shapeflag.set('visible', false);
 						}
-						if(group_control) {
-							group_control.style["display"] = "none";
+						let temGC = document.getElementById("group_control"+lbc.canvas.pos);
+						if(temGC) {
+							temGC.style["display"] = "none";
 						}
 					}
 					temp_obj.canvas.renderAll();
