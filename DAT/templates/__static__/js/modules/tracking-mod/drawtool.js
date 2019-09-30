@@ -590,6 +590,7 @@ class DrawTool{
 			url_meta: drawer.ls_canvas[frompos].url_meta,
 			status: 'OK',
 			boxes_position: [],
+			id_meta: drawer.ls_canvas[frompos].id_meta,
 		}
 
 		drawer.prePos = frompos;
