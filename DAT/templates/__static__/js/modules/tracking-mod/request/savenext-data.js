@@ -30,12 +30,14 @@ const rqsavenext = function(meta_id){
 
 			let list_canvas = drawTool.getListCanvas()
 			for (let pos in list_canvas){
-				if (pos == '_full' || !pos) continue;
+				if (!pos) continue;
 				let canvas = list_canvas[pos];
 				let keep_bigplus = canvas.bigplus;
 				canvas.clear();
-				let rpos = pos.replace('_', ''); // ex: _tf => tf
-				initCanvas(canvas, metadata[rpos]);
+				if (pos != '_full' ) {
+					let rpos = pos.replace('_', ''); // ex: _tf => tf
+					initCanvas(canvas, metadata[rpos]);
+				}
 				canvas.add(keep_bigplus[0]);
 				canvas.add(keep_bigplus[1]);
 			}

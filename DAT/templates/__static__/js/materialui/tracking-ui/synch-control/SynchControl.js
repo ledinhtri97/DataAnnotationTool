@@ -80,6 +80,7 @@ class SynchControl extends React.Component {
   	};
 
   	handleOpenFullScreen = () => {
+  		//return;
   		const {idframe, drawTool} = this.props;
   		document.getElementById('in_full_screen').style["display"] = "";
 		document.getElementById('out_full_screen').style["display"] = "none";
@@ -89,6 +90,7 @@ class SynchControl extends React.Component {
   	};
 
   	handleExitFullScreen = () => {
+  		// return;
   		const {idframe, drawTool} = this.props;
   		document.getElementById('in_full_screen').style["display"] = "none";
 		document.getElementById('out_full_screen').style["display"] = "";
