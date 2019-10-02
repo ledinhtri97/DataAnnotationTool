@@ -93,10 +93,12 @@ class Workspaces extends React.Component {
     };
 
 	handleContribute = () => {
+		return;
 		window.location.href = document.getElementById("url_contribute").textContent;
 	};
 
 	handleOverviewAll = () => {
+		return;
 		window.location.href = document.getElementById("url_overviewall").textContent;;
 	};
 
