@@ -435,55 +435,53 @@ class LabelControl{
 			return;
 		}
 		var lbc = this;
+		
 		var current_element = document.getElementById(lbc.id);
 		if(current_element){
-
-			//remove circle if available in object poly
-			if(lbc.obj.type == 'polygon'){
-				lbc.cleanPolygonStuff();
-			}
-			lbc.canvas.remove(lbc.obj);
-			lbc.canvas.remove(lbc.obj.icon);
 			current_element.parentElement.removeChild(current_element);
+		}
 
+		//remove circle if available in object poly
+		if(lbc.obj.type == 'polygon'){
+			lbc.cleanPolygonStuff();
+		}
 
-			let spl_id = lbc.getId().split('_');
-			let id = spl_id[0], pos = '_' + spl_id[1];
-			//remove obj in LTM
-			drawStatus.removeOneFromLTM(id, pos);
+		lbc.canvas.remove(lbc.obj);
+		lbc.canvas.remove(lbc.obj.icon);
 
-			//remove hover on objects in other canvas
-			let list_fObj = drawStatus.getObjectsLTM(id);
+		let spl_id = lbc.getId().split('_');
+		let id = spl_id[0], pos = '_' + spl_id[1];
+		//remove obj in LTM
+		drawStatus.removeOneFromLTM(id, pos);
 
-			if (Object.keys(list_fObj).length == 0) {
-				drawStatus.removeAllFromLTM(id);
-			}
-			else {
-				for (let pos in list_fObj) {
-					
-					let temp_obj = list_fObj[pos];
+		//remove hover on objects in other canvas
+		let list_fObj = drawStatus.getObjectsLTM(id);
 
-					if (!temp_obj.canvas) continue;
-
-					if (!temp_obj.hidden) {
-						temp_obj.set('fill', Color.Transparent);
-					}
-					else{
-						temp_obj.visible = false;
-						if(temp_obj.shapeflag) {
-							temp_obj.shapeflag.set('visible', false);
-						}
-						let temGC = document.getElementById("group_control"+lbc.canvas.pos);
-						if(temGC) {
-							temGC.style["display"] = "none";
-						}
-					}
-					temp_obj.canvas.renderAll();
-				}
-			}
+		if (Object.keys(list_fObj).length == 0) {
+			drawStatus.removeAllFromLTM(id);
 		}
 		else {
-			console.log("no delete " + lbc.id)
+			for (let pos in list_fObj) {
+				
+				let temp_obj = list_fObj[pos];
+
+				if (!temp_obj.canvas) continue;
+
+				if (!temp_obj.hidden) {
+					temp_obj.set('fill', Color.Transparent);
+				}
+				else{
+					temp_obj.visible = false;
+					if(temp_obj.shapeflag) {
+						temp_obj.shapeflag.set('visible', false);
+					}
+					let temGC = document.getElementById("group_control"+lbc.canvas.pos);
+					if(temGC) {
+						temGC.style["display"] = "none";
+					}
+				}
+				temp_obj.canvas.renderAll();
+			}
 		}
 	}
 
@@ -589,8 +587,7 @@ const createItemToList = function(canvas, object, id){
 	ReactDOM.render(<LabelItem labelControl={object.labelControl}/>, new_element);
 
 	if(quickSettings.getAtt('auto_hidden')){
-		var e_hidden = document.getElementById(object.labelControl.getId()+"_hidden");
-		e_hidden && e_hidden.click();
+		object.labelControl.__hiddenITEM__();
 	}
 }
 
