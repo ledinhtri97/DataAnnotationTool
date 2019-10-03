@@ -319,9 +319,8 @@ class LabelControl{
 
 		if(__default__){
 			lbc.edit = !lbc.edit;
-			if(this.obj.hidden){
-				var e_hidden = document.getElementById(this.id+"_hidden");
-				e_hidden && e_hidden.click();
+			if(lbc.obj.hidden){
+				lbc.__hiddenITEM__();
 			}
 		}
 		else {
