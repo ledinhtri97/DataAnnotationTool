@@ -409,11 +409,13 @@ const init_event = function(__canvas__){
 				popupControllers.popup(obj, __canvas__);
 
 				//auto hidden obj
-				setTimeout(function(){
-					if(!obj.hidden){
-						obj.labelControl.__hiddenITEM__();
-					}
-				}, 8888);
+				if(!obj.hidden){
+					setTimeout(function(){
+						if(!obj.hidden){
+							obj.labelControl.__hiddenITEM__();
+						}
+					}, 15000);
+				}
 			}
 		},
 		'object:moving': function(e){
