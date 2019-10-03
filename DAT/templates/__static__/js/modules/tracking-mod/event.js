@@ -407,6 +407,13 @@ const init_event = function(__canvas__){
 				});
 				__canvas__.renderAll();
 				popupControllers.popup(obj, __canvas__);
+
+				//auto hidden obj
+				setTimeout(function(){
+					if(!obj.hidden){
+						obj.labelControl.__hiddenITEM__();
+					}
+				}, 5000);
 			}
 		},
 		'object:moving': function(e){
@@ -414,24 +421,6 @@ const init_event = function(__canvas__){
 				group_control.style["display"] = "none";
 			}
 		},
-		'object:moved': function(e){
-			var obj = e.target;
-			if(isLabel(obj)){				
-				// obj.icon.set({
-				// 	left: obj.left + obj.width / 2,
-				// 	top: obj.top + obj.height / 2,
-				// });
-				// __canvas__.renderAll();
-				// popupControllers.popup(obj, __canvas__);
-
-				//auto hidden obj
-				setTimeout(function(){
-					if(!obj.hidden){
-						obj.labelControl.__hiddenITEM__();
-					}
-				}, 300);
-			}
-		}
 	});
 
 	//===================BEGIN ZOOM PART======================//
