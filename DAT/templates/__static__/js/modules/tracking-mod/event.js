@@ -413,7 +413,7 @@ const init_event = function(__canvas__){
 					if(!obj.hidden){
 						obj.labelControl.__hiddenITEM__();
 					}
-				}, 5000);
+				}, 8888);
 			}
 		},
 		'object:moving': function(e){
