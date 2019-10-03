@@ -351,7 +351,7 @@ class LabelControl{
 
 				//auto hidden obj
 				setTimeout(function(){
-					if(lbc.obj.hidden){
+					if(!lbc.obj.hidden){
 						var e_hidden = document.getElementById(lbc.id+"_hidden");
 						e_hidden && e_hidden.click();
 					}
