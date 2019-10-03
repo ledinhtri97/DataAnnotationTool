@@ -338,6 +338,12 @@ class LabelControl{
 					drawTool.removeStuff();
 				}
 				drawTool.endDraw();
+				//auto hidden obj
+				setTimeout(function(){
+					if(!obj.hidden){
+						obj.labelControl.__hiddenITEM__();
+					}
+				}, 10000);
 			}
 			else{
 				lbc.obj.set({

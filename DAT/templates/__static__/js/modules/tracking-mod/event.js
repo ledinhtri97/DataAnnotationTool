@@ -407,15 +407,6 @@ const init_event = function(__canvas__){
 				});
 				__canvas__.renderAll();
 				popupControllers.popup(obj, __canvas__);
-
-				//auto hidden obj
-				if(!obj.hidden){
-					setTimeout(function(){
-						if(!obj.hidden){
-							obj.labelControl.__hiddenITEM__();
-						}
-					}, 15000);
-				}
 			}
 		},
 		'object:moving': function(e){
