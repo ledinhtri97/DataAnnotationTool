@@ -348,15 +348,6 @@ class LabelControl{
 					ymax: Math.round((lbc.obj.top + lbc.obj.height) * ROUND / __canvas__.getHeight()) / ROUND,
 				});
 				__canvas__.discardActiveObject();
-
-				//auto hidden obj
-				setTimeout(function(){
-					if(!lbc.obj.hidden){
-						var e_hidden = document.getElementById(lbc.id+"_hidden");
-						e_hidden && e_hidden.click();
-					}
-				}, 300);
-
 			}		
 
 			if (this.obj.type == 'polygon'){

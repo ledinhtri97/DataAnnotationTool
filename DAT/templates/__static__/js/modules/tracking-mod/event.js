@@ -405,10 +405,15 @@ const init_event = function(__canvas__){
 					left: obj.left + obj.width / 2,
 					top: obj.top + obj.height / 2,
 				});
-
 				__canvas__.renderAll();
-
 				popupControllers.popup(obj, __canvas__);
+
+				//auto hidden obj
+				setTimeout(function(){
+					if(!obj.hidden){
+						obj.labelControl.__hiddenITEM__();
+					}
+				}, 300);
 			}
 		},
 		'object:moving': function(e){
