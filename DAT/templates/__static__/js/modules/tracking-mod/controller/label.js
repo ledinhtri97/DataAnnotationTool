@@ -329,11 +329,11 @@ class LabelControl{
 		}
 
 		if(current_element){
-			this.obj.selectable = lbc.edit;
+			lbc.obj.selectable = lbc.edit;
 
 			if (lbc.edit) {
-				if(this.obj.type == 'rect'){
-					__canvas__.setActiveObject(this.obj);
+				if(lbc.obj.type == 'rect'){
+					__canvas__.setActiveObject(lbc.obj);
 				}
 				if (!drawStatus.getIsWaiting()){
 					drawTool.removeStuff();
@@ -341,13 +341,22 @@ class LabelControl{
 				drawTool.endDraw();
 			}
 			else{
-				this.obj.set({
-					xmin: Math.round(this.obj.left * ROUND / __canvas__.getWidth()) / ROUND,
-					ymin: Math.round(this.obj.top * ROUND / __canvas__.getHeight()) / ROUND,
-					xmax: Math.round((this.obj.left + this.obj.width) * ROUND / __canvas__.getWidth()) / ROUND,
-					ymax: Math.round((this.obj.top + this.obj.height) * ROUND / __canvas__.getHeight()) / ROUND,
+				lbc.obj.set({
+					xmin: Math.round(lbc.obj.left * ROUND / __canvas__.getWidth()) / ROUND,
+					ymin: Math.round(lbc.obj.top * ROUND / __canvas__.getHeight()) / ROUND,
+					xmax: Math.round((lbc.obj.left + lbc.obj.width) * ROUND / __canvas__.getWidth()) / ROUND,
+					ymax: Math.round((lbc.obj.top + lbc.obj.height) * ROUND / __canvas__.getHeight()) / ROUND,
 				});
 				__canvas__.discardActiveObject();
+
+				//auto hidden obj
+				setTimeout(function(){
+					if(lbc.obj.hidden){
+						var e_hidden = document.getElementById(lbc.id+"_hidden");
+						e_hidden && e_hidden.click();
+					}
+				}, 300);
+
 			}		
 
 			if (this.obj.type == 'polygon'){
