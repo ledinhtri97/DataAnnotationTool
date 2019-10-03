@@ -340,8 +340,8 @@ class LabelControl{
 				drawTool.endDraw();
 				//auto hidden obj
 				setTimeout(function(){
-					if(!obj.hidden){
-						obj.labelControl.__hiddenITEM__();
+					if(!lbc.obj.hidden){
+						lbc.__hiddenITEM__();
 					}
 				}, 10000);
 			}
