@@ -332,9 +332,12 @@ class LabelControl{
 
 			if (lbc.edit) {
 				if(lbc.obj.type == 'rect'){
-					var preActiveObject = __canvas__.getActiveObject();
-					if (preActiveObject != null) {
-						preActiveObject.labelControl.__hiddenITEM__();
+					var preActiveObjects = __canvas__.getObjects();
+					for (oa in preActiveObjects){
+						olbc = oa.labelControl;
+						if (olbc && olbc.getIsEdit()){
+							olbc.__hiddenITEM__();
+						}
 					}
 					__canvas__.setActiveObject(lbc.obj);
 				}
@@ -353,8 +356,8 @@ class LabelControl{
 				__canvas__.discardActiveObject();
 			}		
 
-			if (this.obj.type == 'polygon'){
-				this.obj.set('selectable', false);
+			if (lbc.obj.type == 'polygon'){
+				lbc.obj.set('selectable', false);
 				if(lbc.edit){
 
 					if(lbc.obj.circles.length > 0){
@@ -413,13 +416,13 @@ class LabelControl{
 					delete drawStatus.getActivePolygons()[lbc.id];
 
 					let rpoints = [];
-					for (var p of this.obj.points){
+					for (var p of lbc.obj.points){
 						rpoints.push({
 							x: Math.round(p.x * ROUND / __canvas__.getWidth()) / ROUND,
 							y: Math.round(p.y * ROUND / __canvas__.getHeight()) / ROUND
 						});
 					}
-					this.obj.set('rpoints', rpoints);
+					lbc.obj.set('rpoints', rpoints);
 				}
 			}
 
