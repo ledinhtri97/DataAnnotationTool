@@ -335,7 +335,7 @@ class LabelControl{
 					let listObjects = __canvas__.getObjects();
 					for (let oa of listObjects){
 						let olbc = oa.labelControl;
-						if (olbc && olbc.getIsEdit()){
+						if (oa != lbc.obj && olbc && olbc.getIsEdit()){
 							olbc.__hiddenITEM__();
 						}
 					}
