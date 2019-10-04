@@ -332,18 +332,16 @@ class LabelControl{
 
 			if (lbc.edit) {
 				if(lbc.obj.type == 'rect'){
+					var preActiveObject = __canvas__.getActiveObject();
+					if (preActiveObject != null) {
+						preActiveObject.labelControl.__hiddenITEM__();
+					}
 					__canvas__.setActiveObject(lbc.obj);
 				}
 				if (!drawStatus.getIsWaiting()){
 					drawTool.removeStuff();
 				}
 				drawTool.endDraw();
-				//auto hidden obj
-				setTimeout(function(){
-					if(!lbc.obj.hidden){
-						lbc.__hiddenITEM__();
-					}
-				}, 10000);
 			}
 			else{
 				lbc.obj.set({
