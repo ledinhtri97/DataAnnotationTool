@@ -37,7 +37,7 @@ const autoOutWorkSpace = function(){
 			window.location.href = url_home;
 		}
 		//alert("You've working on 3 hours. You need to relax! The system already auto out of workspace.");
-	}, 5000); //after 3 hours auto outworkspace; 
+	}, 10800000); //after 3 hours auto outworkspace; 
 }
 
 export {ask_before_out, outWorkSpace, autoOutWorkSpace};
