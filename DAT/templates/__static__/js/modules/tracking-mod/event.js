@@ -75,9 +75,7 @@ const init_event = function(__canvas__){
 		}
 	}
 
-	window.onload = function() {
-		window.addEventListener("beforeunload", ask_before_out)
-	};
+	window.addEventListener("beforeunload", ask_before_out);
 
 	window.onkeydown = function(e) {
 		var key = e.keyCode ? e.keyCode : e.which;

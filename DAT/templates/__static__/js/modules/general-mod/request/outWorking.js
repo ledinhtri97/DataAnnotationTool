@@ -9,6 +9,13 @@ const ask_before_out = function (e) {
 	+ 'Nếu bạn rời khỏi hay tải lại trang hiện tại trước khi lưu dữ liệu. Dữ liệu có thể sẽ mất';
 
 	(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+
+	var meta_id = document.getElementById("meta_id");
+	var url_home = document.getElementById("url_home").textContent;
+	if(meta_id){
+		outWorkSpace(meta_id.textContent, url_home);
+	}
+
 	return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
 };
 
