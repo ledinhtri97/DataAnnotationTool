@@ -18,6 +18,8 @@ import {DrawTool} from "./modules/labeling-mod/drawtool";
 import Color from "./modules/general-mod/style/color";
 import DrawStatus from './modules/labeling-mod/drawstatus';
 import QuickSettings from './modules/labeling-mod/settings';
+import {autoOutWorkSpace} from './modules/general-mod/request/outWorking';
+autoOutWorkSpace();
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 

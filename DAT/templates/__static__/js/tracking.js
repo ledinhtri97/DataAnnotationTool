@@ -18,6 +18,8 @@ import QuickSettings from './modules/tracking-mod/settings';
 
 import rqsavenext from './modules/tracking-mod/request/savenext-data';
 import rqsave from './modules/tracking-mod/request/save-data';
+import {autoOutWorkSpace} from './modules/general-mod/request/outWorking';
+autoOutWorkSpace();
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 
