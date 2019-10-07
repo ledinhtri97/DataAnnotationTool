@@ -85,8 +85,17 @@ class DrawStatus{
 			this.resetLinkLabels();
 
 			let preLinkObjectsFrom = this.getObjectsLTM(id_from);
+			let sizeObjs = Object.keys(preLinkObjectsFrom).length;
+
 			for (let pos in preLinkObjectsFrom) {
 				preLinkObjectsFrom[pos].labelControl.__overITEM__();
+				if (sizeObjs == 4) {
+					setTimeout(function(){
+						if(!preLinkObjectsFrom[pos].labelControl.getIsHidden()){
+							preLinkObjectsFrom[pos].labelControl.__hiddenITEM__();
+						}
+					}, 1000)
+				}
 			}
 		}
 	}

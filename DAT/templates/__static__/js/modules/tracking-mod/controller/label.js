@@ -573,6 +573,10 @@ class LabelControl{
 		return this.edit;
 	}
 
+	getIsHidden(){
+		return this.isHidden;
+	}
+
 	getNameLabel(){
 		return this.obj.name;
 	}
