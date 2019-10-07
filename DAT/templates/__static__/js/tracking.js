@@ -18,8 +18,21 @@ import QuickSettings from './modules/tracking-mod/settings';
 
 import rqsavenext from './modules/tracking-mod/request/savenext-data';
 import rqsave from './modules/tracking-mod/request/save-data';
-import {autoOutWorkSpace} from './modules/general-mod/request/outWorking';
+import {autoOutWorkSpace, outWorkSpace} from './modules/general-mod/request/outWorking';
 autoOutWorkSpace();
+
+window.addEventListener('beforeunload', function (e) {
+	e.preventDefault();
+	e.returnValue = '';
+	var meta_id = document.getElementById("meta_id");
+	var url_home = document.getElementById("url_home").textContent;
+	if(meta_id){
+		outWorkSpace(meta_id.textContent, url_home);
+	}
+	else{
+		window.location.href = url_home;
+	}
+});
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 
