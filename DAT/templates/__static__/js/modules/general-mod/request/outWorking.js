@@ -31,13 +31,13 @@ const autoOutWorkSpace = function(){
 		var meta_id = document.getElementById("meta_id");
 		var url_home = document.getElementById("url_home").textContent;
 		if(meta_id){
-			alert("You've working on 3 hours. You need to relax! The system will auto out of workspace.")
 			outWorkSpace(meta_id.textContent, url_home);
 		}
 		else{
 			window.location.href = url_home;
 		}
-	}, 10800000); //after 3 hours auto outworkspace; 
+		//alert("You've working on 3 hours. You need to relax! The system already auto out of workspace.");
+	}, 5000); //after 3 hours auto outworkspace; 
 }
 
 export {ask_before_out, outWorkSpace, autoOutWorkSpace};
