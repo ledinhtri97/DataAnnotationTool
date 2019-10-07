@@ -366,7 +366,7 @@ const init_event = function(__canvas__){
 							break;
 						case "linkLabel_tool":
 							labelControl.__controlIsLinkLabel__();
-							drawStatus.pushLinkLabels(objectGlobal);
+							drawStatus.pushLinkLabels(labelControl.getObject());
 							break;
 						default:
 							// statements_def

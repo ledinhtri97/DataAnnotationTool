@@ -536,6 +536,10 @@ class LabelControl{
 		return null;
 	}
 
+	getObject() {
+		return this.obj;
+	}
+
 	getTypeLabel() {
 		return this.obj.type_label;
 	}
