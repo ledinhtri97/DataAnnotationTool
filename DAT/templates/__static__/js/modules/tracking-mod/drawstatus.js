@@ -62,9 +62,10 @@ class DrawStatus{
 			
 			let preObjectTo = this.getOneFromLTM(id_from, pos_to);
 			if (preObjectTo) {
+				alert("Id of object had already existed!");
 				obj.labelControl.__controlIsLinkLabel__();
 				this.resetLinkLabels(true);
-				alert("Id of object had already existed!");
+				return;
 				// preObjectTo.labelControl.__deleteITEM__();
 			}
 
