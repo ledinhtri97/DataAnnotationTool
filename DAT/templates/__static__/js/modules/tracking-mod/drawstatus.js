@@ -288,7 +288,9 @@ class DrawStatus{
 		this.renewlabel = true;
 		this.zoomSpaceKey = false;
 		this.popupHover = false;
-		this.modeTool = "";
+		if (this.modeTool != "linkLabel_tool"){
+			this.modeTool = "";
+		}
 	}
 }
 
