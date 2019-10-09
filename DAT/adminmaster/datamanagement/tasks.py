@@ -292,6 +292,6 @@ def tracking_handle(id_meta, data):
                     from_id=bb['to_id'], to_id=bb['to_id']
                 )
                 cur_meta.boxes_position.add(new_bb)
-                return str(e) + " [handle OK]"
+                #return str(e) + " [handle OK]"
     create_thumbnail(id_meta)
     return str(id_meta) + " - [successful !]"
