@@ -9,7 +9,7 @@ const rqsavenext = function(meta_id, canvas){
 	var myData = collect_boudingbox(canvas);
 	console.log(myData);
 
-	fetch("/gvlab-dat/workspace/savenext_v2/"+meta_id+"/", {
+	fetch("/gvlab-dat/workspace/savenext/"+meta_id+"/", {
 		method: "POST",
 		credentials: "same-origin",
 		headers: {

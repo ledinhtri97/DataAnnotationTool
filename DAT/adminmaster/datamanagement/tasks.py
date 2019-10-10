@@ -154,11 +154,19 @@ def extract_seqframevideo(datasetid):
                 file_name = '{:09d}'.format(count) + '.jpg'
                 print(file_name)
                 cv2.imwrite(os.path.join(folder_out, file_name), image)
-                is_head = (count - 1) % 4 == 0
-                is_tail_merger = (count - 4) % 8 == 0
+                ### comment older version tracking | no need head tail separator
+
+                # is_head = (count - 1) % 4 == 0
+                # is_tail_merger = (count - 4) % 8 == 0
+                # MetaDataModel.objects.get_or_create(
+                #     dataset=dataSetModel, name=file_name, full_path=folder_out,
+                #     is_head=is_head, is_tail_merger=is_tail_merger,
+                # )
+
+                #####################################
+
                 MetaDataModel.objects.get_or_create(
                     dataset=dataSetModel, name=file_name, full_path=folder_out,
-                    is_head=is_head, is_tail_merger=is_tail_merger,
                 )
                 
             return hasFrames
@@ -284,7 +292,6 @@ def tracking_handle(id_meta, data):
                     
             except Exception as e:
                 print(e)
-
                 new_bb, created = BoundingBoxModel.objects.get_or_create(
                     label=LabelDataModel.objects.get(
                         tag_label=bb['tag_label'], type_label=bb['type_label']),
@@ -292,6 +299,5 @@ def tracking_handle(id_meta, data):
                     from_id=bb['to_id'], to_id=bb['to_id']
                 )
                 cur_meta.boxes_position.add(new_bb)
-                #return str(e) + " [handle OK]"
     create_thumbnail(id_meta)
     return str(id_meta) + " - [successful !]"

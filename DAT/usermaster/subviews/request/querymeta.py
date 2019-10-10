@@ -128,64 +128,83 @@ def query_meta(meta):
 
     return data
 
+
 def query_list_meta(meta):
     data = {}
     mtid = meta.id
-    data['tl'] = query_meta(meta)
-    data['tr'] = {}
-    data['bl'] = {}
-    data['br'] = {}
-
-    if meta.is_head:
-        try:
-            tr = MetaDataModel.objects.get(id=mtid+1)
-            if tr.dataset.id == meta.dataset.id:
-                data['tr'] = query_meta(tr)
-        except:
-            pass
-        try:
-            bl = MetaDataModel.objects.get(id=mtid+2)
-            if bl.dataset.id == meta.dataset.id:
-                data['bl'] = query_meta(bl)
-        except:
-            pass
-        try:
-            br = MetaDataModel.objects.get(id=mtid+3)
-            if br.dataset.id == meta.dataset.id:
-                data['br'] = query_meta(br)
-        except:
-            pass
-        
-        #hard code:
-        try:
-            time.sleep(1.5)
-            pre_meta = MetaDataModel.objects.get(id=mtid-1)
-            if pre_meta.dataset.id == meta.dataset.id:
-                pre_data = query_meta(pre_meta)
-                if len(data['tl']['boxes_position']) == 0:
-                    data['tl']['boxes_position'] = pre_data['boxes_position']
-        except:
-            pass
-        #end hard code
-
-    elif meta.is_tail_merger:
-        try:
-            tr = MetaDataModel.objects.get(id=mtid+1)
-            if tr.dataset.id == meta.dataset.id:
-                data['tr'] = query_meta(tr)
-        except:
-            pass
-        try:
-            bl = MetaDataModel.objects.get(id=mtid+4)
-            if bl.dataset.id == meta.dataset.id:
-                data['bl'] = query_meta(bl)
-        except:
-            pass
-        try:
-            br = MetaDataModel.objects.get(id=mtid+5)
-            if br.dataset.id == meta.dataset.id:
-                data['br'] = query_meta(br)
-        except:
-            pass 
-    
+    data['t'] = query_meta(meta)
+    data['b'] = {}
+    try:
+        b = MetaDataModel.objects.get(id=mtid+1)
+        if b.dataset.id == meta.dataset.id:
+            data['b'] = query_meta(b)
+        else:
+            raise Exception
+    except Exception as e:
+        print(e)
+        #b = MetaDataModel.objects.get(id=mtid-1)
+        #TO DO LATER!
     return data
+
+
+# def query_list_meta(meta):
+#     data = {}
+#     mtid = meta.id
+#     data['tl'] = query_meta(meta)
+#     data['tr'] = {}
+#     data['bl'] = {}
+#     data['br'] = {}
+
+#     if meta.is_head:
+#         try:
+#             tr = MetaDataModel.objects.get(id=mtid+1)
+#             if tr.dataset.id == meta.dataset.id:
+#                 data['tr'] = query_meta(tr)
+#         except:
+#             pass
+#         try:
+#             bl = MetaDataModel.objects.get(id=mtid+2)
+#             if bl.dataset.id == meta.dataset.id:
+#                 data['bl'] = query_meta(bl)
+#         except:
+#             pass
+#         try:
+#             br = MetaDataModel.objects.get(id=mtid+3)
+#             if br.dataset.id == meta.dataset.id:
+#                 data['br'] = query_meta(br)
+#         except:
+#             pass
+        
+#         #hard code:
+#         try:
+#             time.sleep(1.5)
+#             pre_meta = MetaDataModel.objects.get(id=mtid-1)
+#             if pre_meta.dataset.id == meta.dataset.id:
+#                 pre_data = query_meta(pre_meta)
+#                 if len(data['tl']['boxes_position']) == 0:
+#                     data['tl']['boxes_position'] = pre_data['boxes_position']
+#         except:
+#             pass
+#         #end hard code
+
+#     elif meta.is_tail_merger:
+#         try:
+#             tr = MetaDataModel.objects.get(id=mtid+1)
+#             if tr.dataset.id == meta.dataset.id:
+#                 data['tr'] = query_meta(tr)
+#         except:
+#             pass
+#         try:
+#             bl = MetaDataModel.objects.get(id=mtid+4)
+#             if bl.dataset.id == meta.dataset.id:
+#                 data['bl'] = query_meta(bl)
+#         except:
+#             pass
+#         try:
+#             br = MetaDataModel.objects.get(id=mtid+5)
+#             if br.dataset.id == meta.dataset.id:
+#                 data['br'] = query_meta(br)
+#         except:
+#             pass 
+    
+#     return data

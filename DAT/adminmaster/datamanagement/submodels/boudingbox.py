@@ -4,8 +4,8 @@ from django.conf import settings
 import os
 from adminmaster.datamanagement.submodels.labeldata import LabelDataModel
 
-#                           |      Predicted |         Predicted    |
-#                           |    as Positive |      as Negative     |
+#                    |             Predicted |         Predicted    |
+#                    |           as Positive |      as Negative     |
 # ------------------ | --------------------- | ---------------------|
 # Actual: Positive   |  True Positive(TP)    | False Negative(FN)   |
 # ------------------ | --------------------- | ---------------------|

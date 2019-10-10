@@ -27,10 +27,16 @@ class MetaDataModel(models.Model):
         default=False, verbose_name="using reference api?")
 
     is_head = models.BooleanField(
-        default=False, verbose_name="[tracking] is head meta?")
+        default=False, verbose_name="[tracking] is head meta?") #need to remove old vertion tracking
     
     is_tail_merger = models.BooleanField(
-        default=False, verbose_name="[tracking] is tail_merger meta?")
+        default=False, verbose_name="[tracking] is tail_merger meta?") #need to remove old vertion tracking
+
+    is_pre_link = models.BooleanField(
+        default=False, verbose_name="[tracking] is pre link to meta?")
+
+    is_next_link = models.BooleanField(
+        default=False, verbose_name="[tracking] is next link to meta?")
 
     onviewing_user = models.OneToOneField(
        'auth.User', blank=True, null=True, verbose_name="User Viewing", on_delete=models.CASCADE)
