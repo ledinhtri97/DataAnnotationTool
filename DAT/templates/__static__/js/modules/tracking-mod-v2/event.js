@@ -125,25 +125,13 @@ const init_event = function(__canvas__){
 		if(key == 49){
 			//copy_1
 			if(isObject && labelControl){
-				labelControl.__copyToLayer1__();
+				labelControl.__copyToLayerT__();
 			}
 		}
 		else if(key == 50){
 			//copy_2
 			if(isObject && labelControl){
-				labelControl.__copyToLayer2__();
-			}
-		}
-		else if(key == 51){
-			//copy_3
-			if(isObject && labelControl){
-				labelControl.__copyToLayer3__();
-			}
-		}
-		else if(key == 52){
-			//copy_4
-			if(isObject && labelControl){
-				labelControl.__copyToLayer4__();
+				labelControl.__copyToLayerB__();
 			}
 		}
 		// else if(key == 97){

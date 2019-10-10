@@ -20,11 +20,11 @@ const rqsavenext = function(meta_id){
 	}).then(function(response) {
 		return response.json();
 	}).then(function(metadata) {
-		if(!metadata.tl){
+		if(!metadata.t){
 			// nomoredata_handle();
 		}
 		else{
-			document.getElementById("meta_id").textContent = metadata.tl.id;
+			document.getElementById("meta_id").textContent = metadata.t.id;
 			document.getElementById("label_list_items").innerHTML = "";
 			drawStatus.resetLTM();
 

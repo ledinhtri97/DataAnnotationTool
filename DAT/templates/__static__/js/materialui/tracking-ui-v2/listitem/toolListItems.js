@@ -260,20 +260,12 @@ class ToolListItems extends React.Component {
         this.setState({ ...this.state, [name]: event.target.checked });
     };
 
-    handleCopyL1 = () => {
-        this.handleDisplayTool("copy_1");
+    handleCopyLT = () => {
+        this.handleDisplayTool("copy_T");
     };
 
-    handleCopyL2 = () => {
-        this.handleDisplayTool("copy_2");        
-    };
-
-    handleCopyL3 = () => {
-        this.handleDisplayTool("copy_3");
-    };
-
-    handleCopyL4 = () => {
-        this.handleDisplayTool("copy_4");
+    handleCopyLB = () => {
+        this.handleDisplayTool("copy_B");        
     };
 
     handleLinkLabel = () => {
@@ -291,20 +283,12 @@ class ToolListItems extends React.Component {
             <div>
 
             <ItemTool 
-                classes={classes} idI="copy_1" callBackFunc={tool.handleCopyL1} 
-                Micon={LooksOneOutlined} text="Copy label to layer 1 (1)"/>
+                classes={classes} idI="copy_T" callBackFunc={tool.handleCopyL1} 
+                Micon={LooksOneOutlined} text="Copy label to layer Top (1)"/>
             
             <ItemTool 
-                classes={classes} idI="copy_2" callBackFunc={tool.handleCopyL2} 
-                Micon={LooksTwoOutlined} text="Copy label to layer 2 (2)"/>
-
-            <ItemTool 
-                classes={classes} idI="copy_3" callBackFunc={tool.handleCopyL3} 
-                Micon={Looks3Outlined} text="Copy label to layer 3 (3)"/>
-            
-            <ItemTool 
-                classes={classes} idI="copy_4" callBackFunc={tool.handleCopyL4} 
-                Micon={Looks4Outlined} text="Copy label to layer 4 (4)"/>
+                classes={classes} idI="copy_B" callBackFunc={tool.handleCopyL2} 
+                Micon={LooksTwoOutlined} text="Copy label to layer Bottom (2)"/>
 
             <ItemTool 
                 classes={classes} idI="linkLabel_tool" callBackFunc={tool.handleLinkLabel} 

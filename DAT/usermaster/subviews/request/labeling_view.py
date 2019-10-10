@@ -28,14 +28,9 @@ def get_query_meta_general(dataset_id=None, user=None, type_labeling='de'):
 			query_meta_data = base_request.filter(onviewing_user=user)
 
 			if(query_meta_data.count() == 0):
-			# 	query_meta_data = base_request.filter(
-			# 		onviewing_user__isnull=True, is_head=1)
 				query_meta_data = base_request.filter(
 					onviewing_user__isnull=True, is_pre_link=1)
 			if(query_meta_data.count() == 0):
-			# 	#merger time
-			# 	query_meta_data = base_request.filter(
-			# 			onviewing_user__isnull=True, is_tail_merger=1)
 				query_meta_data = base_request.filter(
 					onviewing_user__isnull=True, is_pre_link=0)
 
@@ -159,43 +154,44 @@ def savenext_index(request, metaid):
 				data = query_meta(meta)
 
 		elif type_labeling == 'tr':
-			# for id_meta in body_unicode:
-			# 	try:
-			# 		cur_meta = MetaDataModel.objects.get(id=id_meta)
-			# 	except Exception as e:
-			# 		continue
+			try:
+				top = body_unicode['_t']
+				top_meta = MetaDataModel.objects.get(id=top['id_meta'])
+				tracking_handle.delay(top['id_meta'], top['data'])
 				
-			# 	tracking_handle.delay(id_meta, body_unicode[id_meta])
-				
-			# 	cur_meta.submitted_by_user.add(user)
-			# 	cur_meta.is_annotated = 0 if (current_meta_data.is_head and cur_meta.is_tail_merger) else 1
-			# 	cur_meta.is_notice_view = 0
-			# 	cur_meta.onviewing_user = None
-			# 	cur_meta.save(
-			#     	update_fields=['is_annotated', 'onviewing_user', 'is_notice_view'])
-			
-			# meta = get_query_meta_general(dataset_id, user, type_labeling)
-			# if meta:
-			# 	data = query_list_meta(meta)
-
-			for id_meta in body_unicode:
-				try:
-					cur_meta = MetaDataModel.objects.get(id=id_meta)
-				except Exception as e:
-					continue
-
-				tracking_handle.delay(id_meta, body_unicode[id_meta])
-
-				cur_meta.submitted_by_user.add(user)
-				if cur_meta.is_pre_link:
-					cur_meta.is_next_link = 1
-					cur_meta.is_annotated = 1
+				top_meta.submitted_by_user.add(user)
+				if top_meta.is_next_link:
+					top_meta.is_pre_link = 1
+					top_meta.is_annotated = 1
 				else:
-					cur_meta.is_pre_link = 1
-
-				cur_meta.is_notice_view = 0
-				cur_meta.onviewing_user = None
-				cur_meta.save(update_fields=['is_annotated', 'onviewing_user', 'is_notice_view', 'is_next_link', 'is_pre_link'])
+					top_meta.is_next_link = 1
+					if top_meta.is_pre_link:
+						top_meta.is_annotated = 1
+				top_meta.is_notice_view = 0
+				top_meta.onviewing_user = None
+				top_meta.save(update_fields=[
+					'is_annotated', 'onviewing_user',
+					'is_notice_view', 'is_next_link', 'is_pre_link'])
+			except Exception as e:
+				print('Error: ', e)
+			
+			try:
+				bottom = body_unicode['_b']
+				bottom_meta = MetaDataModel.objects.get(id=bottom['id_meta'])
+				tracking_handle.delay(bottom['id_meta'], bottom['data'])
+				
+				bottom_meta.submitted_by_user.add(user)
+				if bottom_meta.is_pre_link and bottom_meta.is_next_link:
+					bottom_meta.is_annotated = 1
+				else:
+					bottom_meta.is_pre_link = 1
+				bottom_meta.is_notice_view = 0
+				bottom_meta.onviewing_user = None
+				bottom_meta.save(update_fields=[
+					'is_annotated', 'onviewing_user',
+					'is_notice_view', 'is_next_link', 'is_pre_link'])
+			except Exception as e:
+				print('Error: ', e)
 
 			meta = get_query_meta_general(dataset_id, user, type_labeling)
 			if meta:
@@ -207,7 +203,6 @@ def savenext_index(request, metaid):
 	except Exception as e:
 		print(e)
 		data['annotated_number'] = '...'
-
 	return JsonResponse(data=data)
 	
 def api_reference_index(request, metaid):
