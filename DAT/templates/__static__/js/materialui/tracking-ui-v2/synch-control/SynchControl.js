@@ -135,13 +135,13 @@ class SynchControl extends React.Component {
 			        >
 					</ExpansionPanelSummary>
 				    <ExpansionPanelDetails classes={{root: classes.exDetail}}>
-				    	<ListItem button classes={{
+				    	<ListItem button id='exit_full_screen' classes={{
 					        	root: classes.listItemRoot, 
 					        	gutters: classes.guttersCustom}}>
 					        <Tooltip title={fs_text} TransitionComponent={Zoom}
 					        		placement="right" classes={{tooltip: classes.lightTooltip}}>
 					        	{idframe == '_full' ? 
-					        		<FullscreenExit id='exit_full_screen' onClick={this.handleExitFullScreen}/> : 
+					        		<FullscreenExit onClick={this.handleExitFullScreen}/> : 
 					        		<Fullscreen onClick={this.handleOpenFullScreen}/>}
 					        </Tooltip>
 					    </ListItem>
