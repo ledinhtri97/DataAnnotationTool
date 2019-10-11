@@ -29,10 +29,11 @@ def get_query_meta_general(dataset_id=None, user=None, type_labeling='de'):
 
 			if(query_meta_data.count() == 0):
 				query_meta_data = base_request.filter(
-					onviewing_user__isnull=True, is_pre_link=1)
+					onviewing_user__isnull=True, pre_link__isnull=False, pre_link__onviewing_user__isnull=True)
 			if(query_meta_data.count() == 0):
 				query_meta_data = base_request.filter(
-					onviewing_user__isnull=True, is_pre_link=0)
+					onviewing_user__isnull=True, pre_link__isnull=True, next_link__isnull=True)
+			
 
 		except Exception as e:
 			print('[ERROR] tracking mode: ', e)
@@ -158,42 +159,34 @@ def savenext_index(request, metaid):
 				top = body_unicode['_t']
 				top_meta = MetaDataModel.objects.get(id=top['id_meta'])
 				tracking_handle.delay(top['id_meta'], top['data'])
-				
-				top_meta.submitted_by_user.add(user)
-				if top_meta.is_next_link:
-					top_meta.is_pre_link = 1
-					top_meta.is_annotated = 1
-				else:
-					top_meta.is_next_link = 1
-					if top_meta.is_pre_link:
-						top_meta.is_annotated = 1
-				top_meta.is_notice_view = 0
-				top_meta.onviewing_user = None
-				top_meta.save(update_fields=[
-					'is_annotated', 'onviewing_user',
-					'is_notice_view', 'is_next_link', 'is_pre_link'])
 			except Exception as e:
-				print('Error: ', e)
+				top_meta = None
+				print('Error top: ', e)
 			
 			try:
 				bottom = body_unicode['_b']
 				bottom_meta = MetaDataModel.objects.get(id=bottom['id_meta'])
 				tracking_handle.delay(bottom['id_meta'], bottom['data'])
-				
-				bottom_meta.submitted_by_user.add(user)
-				if bottom_meta.is_pre_link and bottom_meta.is_next_link:
-					bottom_meta.is_annotated = 1
-				else:
-					bottom_meta.is_pre_link = 1
-				bottom_meta.is_notice_view = 0
-				bottom_meta.onviewing_user = None
-				bottom_meta.save(update_fields=[
-					'is_annotated', 'onviewing_user',
-					'is_notice_view', 'is_next_link', 'is_pre_link'])
 			except Exception as e:
-				print('Error: ', e)
+				bottom_meta = None
+				print('Error bottom: ', e)
 
+			if bottom_meta is not None:
+				top_meta.next_link = bottom_meta
+			
+			if top_meta is not None:
+				bottom_meta.pre_link = top_meta
+
+			top_meta.submitted_by_user.add(user)
+			top_meta.onviewing_user = None
+			top_meta.save(update_fields=['is_annotated', 'onviewing_user', 'next_link'])
+			
+			bottom_meta.submitted_by_user.add(user)
+			bottom_meta.is_allow_view = True
+			bottom_meta.save(update_fields=['is_annotated', 'pre_link', 'is_allow_view'])
+			
 			meta = get_query_meta_general(dataset_id, user, type_labeling)
+
 			if meta:
 				data = query_list_meta(meta)
 	

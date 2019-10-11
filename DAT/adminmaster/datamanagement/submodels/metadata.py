@@ -32,11 +32,11 @@ class MetaDataModel(models.Model):
     is_tail_merger = models.BooleanField(
         default=False, verbose_name="[tracking] is tail_merger meta?") #need to remove old vertion tracking
 
-    is_pre_link = models.BooleanField(
-        default=False, verbose_name="[tracking] is pre link to meta?")
+    pre_link = models.OneToOneField(
+        'self', related_name="pre_link_meta", blank=True, null=True, verbose_name="[tracking] pre link to meta", on_delete=models.CASCADE)
 
-    is_next_link = models.BooleanField(
-        default=False, verbose_name="[tracking] is next link to meta?")
+    next_link = models.OneToOneField(
+        'self', related_name="next_link_meta", blank=True, null=True, verbose_name="[tracking] next link to meta", on_delete=models.CASCADE)
 
     onviewing_user = models.OneToOneField(
        'auth.User', blank=True, null=True, verbose_name="User Viewing", on_delete=models.CASCADE)

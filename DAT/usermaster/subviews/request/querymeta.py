@@ -136,9 +136,13 @@ def query_list_meta(meta):
     data['t'] = query_meta(meta)
     data['b'] = {}
     try:
+        print('top: ', mtid, meta.pre_link, meta.next_link, meta.is_annotated)
         b = MetaDataModel.objects.get(id=mtid+1)
         if b.dataset.id == meta.dataset.id:
+            b.is_allow_view = False
+            b.save(update_fields=['is_allow_view'])
             data['b'] = query_meta(b)
+            print('bottom: ', mtid+1, b.pre_link, b.next_link, b.is_annotated)
         else:
             raise Exception
     except Exception as e:
