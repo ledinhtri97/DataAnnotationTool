@@ -173,9 +173,13 @@ def savenext_index(request, metaid):
 
 			if bottom_meta is not None:
 				top_meta.next_link = bottom_meta
+				top_meta.is_annotated = True
 			
 			if top_meta is not None:
 				bottom_meta.pre_link = top_meta
+			
+			if bottom_meta.next_link:
+				bottom_meta.is_annotated = True
 
 			top_meta.submitted_by_user.add(user)
 			top_meta.onviewing_user = None
