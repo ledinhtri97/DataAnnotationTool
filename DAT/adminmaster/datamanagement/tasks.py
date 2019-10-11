@@ -255,7 +255,7 @@ def tracking_handle(id_meta, data):
                 cur_meta.boxes_position.add(new_bb)
         else:
             try:
-                pre_bb = cur_meta.boxes_position.get(from_id=bb['from_id'])
+                pre_bb = cur_meta.boxes_position.filter(from_id=bb['from_id']).first()
                 label = LabelDataModel.objects.get(
                     tag_label=bb['tag_label'], type_label=bb['type_label'])
 
@@ -280,7 +280,7 @@ def tracking_handle(id_meta, data):
                     tbb.save(update_fields=['label', 'to_id'])
                     
             except Exception as e:
-                print(e)
+                print('task error: tracking mode: ', e)
                 new_bb, created = BoundingBoxModel.objects.get_or_create(
                     label=LabelDataModel.objects.get(
                         tag_label=bb['tag_label'], type_label=bb['type_label']),
