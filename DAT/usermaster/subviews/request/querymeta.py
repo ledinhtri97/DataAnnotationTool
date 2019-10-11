@@ -139,6 +139,7 @@ def query_list_meta(meta):
         print('top: ', mtid, meta.pre_link, meta.next_link, meta.is_annotated)
         b = MetaDataModel.objects.get(id=mtid+1)
         if b.dataset.id == meta.dataset.id:
+            #[note] use only for tracking mode
             b.is_allow_view = False
             b.save(update_fields=['is_allow_view'])
             data['b'] = query_meta(b)
