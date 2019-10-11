@@ -135,7 +135,7 @@ class SynchControl extends React.Component {
 			        >
 					</ExpansionPanelSummary>
 				    <ExpansionPanelDetails classes={{root: classes.exDetail}}>
-				    	<ListItem button id='exit_full_screen' classes={{
+				    	<ListItem button classes={{
 					        	root: classes.listItemRoot, 
 					        	gutters: classes.guttersCustom}}>
 					        <Tooltip title={fs_text} TransitionComponent={Zoom}
