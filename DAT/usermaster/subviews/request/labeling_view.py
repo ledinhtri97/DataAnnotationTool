@@ -173,21 +173,19 @@ def savenext_index(request, metaid):
 
 			if bottom_meta is not None:
 				top_meta.next_link = bottom_meta
-			
-			if top_meta is not None:
-				bottom_meta.pre_link = top_meta
-			
-			if bottom_meta.next_link:
-				bottom_meta.is_annotated = True
+				if top_meta is not None:
+					bottom_meta.pre_link = top_meta
+				if bottom_meta.next_link:
+					bottom_meta.is_annotated = True
+				
+				bottom_meta.submitted_by_user.add(user)
+				bottom_meta.is_allow_view = True
+				bottom_meta.save(update_fields=['is_annotated', 'pre_link', 'is_allow_view'])
 
 			top_meta.is_annotated = True
 			top_meta.submitted_by_user.add(user)
 			top_meta.onviewing_user = None
 			top_meta.save(update_fields=['is_annotated', 'onviewing_user', 'next_link'])
-			
-			bottom_meta.submitted_by_user.add(user)
-			bottom_meta.is_allow_view = True
-			bottom_meta.save(update_fields=['is_annotated', 'pre_link', 'is_allow_view'])
 			
 			meta = get_query_meta_general(dataset_id, user, type_labeling)
 
