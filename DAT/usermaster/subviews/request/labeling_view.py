@@ -194,13 +194,13 @@ def savenext_index(request, metaid):
 			if meta:
 				data = query_list_meta(meta)
 	
-	try:
-		metadatas = MetaDataModel.objects.filter(dataset=dataset_id)
-		data['annotated_number'] = metadatas.filter(submitted_by_user=user).count()
-	except Exception as e:
-		print('Error ----------------- ', e)
-		data['annotated_number'] = '...'
-		data['error'] = str(e)
+		try:
+			metadatas = MetaDataModel.objects.filter(dataset=dataset_id)
+			data['annotated_number'] = metadatas.filter(submitted_by_user=user).count()
+		except Exception as e:
+			print('Error ----------------- ', e)
+			data['annotated_number'] = '...'
+			data['error'] = str(e)
 	return JsonResponse(data=data)
 	
 def api_reference_index(request, metaid):
