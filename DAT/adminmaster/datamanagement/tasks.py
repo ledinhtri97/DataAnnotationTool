@@ -154,11 +154,8 @@ def extract_seqframevideo(datasetid):
                 file_name = '{:09d}'.format(count) + '.jpg'
                 print(file_name)
                 cv2.imwrite(os.path.join(folder_out, file_name), image)
-                is_head = (count - 1) % 4 == 0
-                is_tail_merger = (count - 4) % 8 == 0
                 MetaDataModel.objects.get_or_create(
                     dataset=dataSetModel, name=file_name, full_path=folder_out,
-                    is_head=is_head, is_tail_merger=is_tail_merger,
                 )
                 
             return hasFrames
@@ -258,7 +255,7 @@ def tracking_handle(id_meta, data):
                 cur_meta.boxes_position.add(new_bb)
         else:
             try:
-                pre_bb = cur_meta.boxes_position.get(from_id=bb['from_id'])
+                pre_bb = cur_meta.boxes_position.filter(from_id=bb['from_id']).first()
                 label = LabelDataModel.objects.get(
                     tag_label=bb['tag_label'], type_label=bb['type_label'])
 
@@ -283,8 +280,7 @@ def tracking_handle(id_meta, data):
                     tbb.save(update_fields=['label', 'to_id'])
                     
             except Exception as e:
-                print(e)
-
+                print('task error: tracking mode: ', e)
                 new_bb, created = BoundingBoxModel.objects.get_or_create(
                     label=LabelDataModel.objects.get(
                         tag_label=bb['tag_label'], type_label=bb['type_label']),
@@ -292,6 +288,5 @@ def tracking_handle(id_meta, data):
                     from_id=bb['to_id'], to_id=bb['to_id']
                 )
                 cur_meta.boxes_position.add(new_bb)
-                #return str(e) + " [handle OK]"
     create_thumbnail(id_meta)
     return str(id_meta) + " - [successful !]"
