@@ -100,7 +100,7 @@ class DrawStatus{
 
 			for (let pos in preLinkObjectsFrom) {
 				preLinkObjectsFrom[pos].labelControl.__overITEM__();
-				if (sizeObjs == 4) {
+				if (sizeObjs == 2) {
 					setTimeout(function(){
 						if(!preLinkObjectsFrom[pos].labelControl.getIsHidden()){
 							preLinkObjectsFrom[pos].labelControl.__hiddenITEM__();
