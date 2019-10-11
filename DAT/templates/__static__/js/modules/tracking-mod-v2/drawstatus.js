@@ -25,7 +25,16 @@ class DrawStatus{
 			_b: false,
 		};
 		this.linkLabels = null;
+		this.activeCopyAll = true;
 	};
+
+	getActiveCopyAll(){
+		return this.activeCopyAll;
+	}
+
+	setActiveCopyAll(v){
+		this.activeCopyAll = v;
+	}
 
 	getLinkLabels() {
 		return this.linkLabels;
