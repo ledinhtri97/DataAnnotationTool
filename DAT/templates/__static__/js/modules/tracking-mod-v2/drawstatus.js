@@ -105,7 +105,7 @@ class DrawStatus{
 						if(!preLinkObjectsFrom[pos].labelControl.getIsHidden()){
 							preLinkObjectsFrom[pos].labelControl.__hiddenITEM__();
 						}
-					}, 1000)
+					}, 500)
 				}
 			}
 		}
