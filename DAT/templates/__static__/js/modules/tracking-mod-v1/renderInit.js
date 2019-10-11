@@ -145,9 +145,6 @@ const initCanvas = function(canvas, meta) {
 			            });
 
 			            canvas.renderAll();
-			            if (canvas.pos == '_b') {
-			            	drawStatus.setActiveCopyAll(meta.boxes_position.length == 0);
-			            }
 					}
 				}, 200);	
 			}

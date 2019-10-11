@@ -486,28 +486,16 @@ class LabelControl{
 		}
 	}
 
-	__copyToLayer1__() {
+	__copyToLayerT__() {
 		let lbc = this;
-		if (lbc.canvas.pos == '_tl') return;
-		drawTool.copyObject(lbc.obj, '_tl');
+		if (lbc.canvas.pos == '_t') return;
+		drawTool.copyObject(lbc.obj, '_t');
 	}
 
-	__copyToLayer2__() {
+	__copyToLayerB__() {
 		let lbc = this;
-		if (lbc.canvas.pos == '_tr') return;
-		drawTool.copyObject(lbc.obj, '_tr');
-	}
-
-	__copyToLayer3__() {
-		let lbc = this;
-		if (lbc.canvas.pos == '_bl') return;
-		drawTool.copyObject(lbc.obj, '_bl');
-	}
-
-	__copyToLayer4__() {
-		let lbc = this;
-		if (lbc.canvas.pos == '_br') return;
-		drawTool.copyObject(lbc.obj, '_br');
+		if (lbc.canvas.pos == '_b') return;
+		drawTool.copyObject(lbc.obj, '_b');
 	}
 
 	__controlIsLinkLabel__() {

@@ -21,20 +21,13 @@ class DrawStatus{
 		this.turnRL = true;
 		this.labelTrackingManagement = {};
 		this.autoSynchs = {
-			_t: false,
-			_b: false,
+			_tl: false,
+			_tr: false,
+			_bl: false,
+			_br: false,
 		};
 		this.linkLabels = null;
-		this.activeCopyAll = true;
 	};
-
-	getActiveCopyAll(){
-		return this.activeCopyAll;
-	}
-
-	setActiveCopyAll(v){
-		this.activeCopyAll = v;
-	}
 
 	getLinkLabels() {
 		return this.linkLabels;
@@ -100,7 +93,7 @@ class DrawStatus{
 
 			for (let pos in preLinkObjectsFrom) {
 				preLinkObjectsFrom[pos].labelControl.__overITEM__();
-				if (sizeObjs == 2) {
+				if (sizeObjs == 4) {
 					setTimeout(function(){
 						if(!preLinkObjectsFrom[pos].labelControl.getIsHidden()){
 							preLinkObjectsFrom[pos].labelControl.__hiddenITEM__();

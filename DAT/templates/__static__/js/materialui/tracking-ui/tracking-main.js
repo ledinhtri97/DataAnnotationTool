@@ -19,23 +19,14 @@ const styles = theme => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	firstcontainerNoneFull: {
-		width: '98%',
-		height: '96%',
+	firstcontainer: {
+		width: '99%',
+		height: '99%',
 	},
-	secondContainerCVLeft:{
+	secondcontainer:{
 		width: '100%',
 		height: '100%',
 		display: 'flex',
-		justifyContent: 'flex-end',
-		alignItems: 'center',
-		position: 'relative',
-	},
-	secondContainerCVRight:{
-		width: '100%',
-		height: '100%',
-		display: 'flex',
-		justifyContent: 'flex-start',
 		alignItems: 'center',
 		position: 'relative',
 	},
@@ -58,7 +49,7 @@ const styles = theme => ({
     	display: 'flex',
     },
 	vertical:{
-		width: '50%',
+		width: '100%',
     	height: '100%',
     	display: 'flex',
     	justifyContent: 'center',
@@ -98,30 +89,15 @@ class Subframe extends React.Component{
 
 		const {classes, idframe} = this.props;
 		let secondcontainer, firstcontainer;
-		switch (idframe) {
-			case '_full':
-				secondcontainer = classes.generalSecondContainer;
-				firstcontainer = classes.firstcontainerFull;
-				break;
-			case '_tl':
-			case '_bl':
-				secondcontainer = classes.secondContainerCVLeft;
-				firstcontainer = classes.firstcontainerNoneFull;
-				break;
-			case '_tr':
-			case '_br':
-				secondcontainer = classes.secondContainerCVRight;
-				firstcontainer = classes.firstcontainerNoneFull;
-				break;
-		}
 
 		return (
-			<div className={firstcontainer}>
-			<div className={secondcontainer} id={"cvcontainer"+idframe} onContextMenu={this.contextMenu}>
-				<div className={classes.synchstyle} id={"synch"+idframe}>
-				</div>
+			<div className={classes.firstcontainer}>
+			
+			<div className={classes.secondcontainer} id={"cvcontainer"+idframe} onContextMenu={this.contextMenu}>
+				
 				<canvas id={"canvas"+idframe} className={classes.canvas}>
 				</canvas>
+				<div className={classes.synchstyle} id={"synch"+idframe}></div>
 				<div id={"group_control"+idframe} style={{display: 'none', position: 'absolute',}}>
 						{<label id={"label_popup"+idframe} className={classes.label}></label>}
 						{<label id={"accuracy_popup"+idframe} className={classes.label}></label>}
@@ -157,12 +133,10 @@ class Tracking extends React.Component {
 			
 			<div className={classes.noneFullView} id="out_full_screen">
 				<div className={classes.horizontal}>
-					<div className={classes.vertical}><Subframe classes={classes} idframe={"_tl"}/></div>
-					<div className={classes.vertical}><Subframe classes={classes} idframe={"_tr"}/></div>
+					<div className={classes.vertical}><Subframe classes={classes} idframe={"_t"}/></div>
 				</div>
 				<div className={classes.horizontal}>
-					<div className={classes.vertical}><Subframe classes={classes} idframe={"_bl"}/></div>
-					<div className={classes.vertical}><Subframe classes={classes} idframe={"_br"}/></div>
+					<div className={classes.vertical}><Subframe classes={classes} idframe={"_b"}/></div>
 				</div>
 			</div>
 

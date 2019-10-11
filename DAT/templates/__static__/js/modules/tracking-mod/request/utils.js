@@ -72,7 +72,7 @@ const collect_boudingbox = function(drawTool){
 				}
 			}
 		}
-		if (canvas.id_meta != undefined) resData[canvas.id_meta] = myData;
+		if (canvas.id_meta != undefined) resData[pos] = {id_meta: canvas.id_meta, 'data': myData};
 	}
 
 	return resData;

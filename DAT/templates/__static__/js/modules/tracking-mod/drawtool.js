@@ -575,12 +575,19 @@ class DrawTool{
 	}
 
 	copyAllObjects(frompos, topos){
-		let drawer = this;
-		drawer.ls_canvas[frompos].getObjects().forEach(function(obj) {
-			if (obj.islabel) {	
-				drawer.copyObject(obj, topos);
-			}
-		});
+		let activeCopyAll = drawStatus.getActiveCopyAll();
+		if (activeCopyAll){
+			let drawer = this;
+			drawer.ls_canvas[frompos].getObjects().forEach(function(obj) {
+				if (obj.islabel) {	
+					drawer.copyObject(obj, topos);
+				}
+			});
+		}
+		else{
+			alert("Copy all objects is not available, you need link label from two layers with each othe by tool Link Label (T)!");
+		}
+		
 	}
 
 	reTransformedObjects(frompos, topos){

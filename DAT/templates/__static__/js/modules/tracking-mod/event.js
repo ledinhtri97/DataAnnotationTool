@@ -125,25 +125,13 @@ const init_event = function(__canvas__){
 		if(key == 49){
 			//copy_1
 			if(isObject && labelControl){
-				labelControl.__copyToLayer1__();
+				labelControl.__copyToLayerT__();
 			}
 		}
 		else if(key == 50){
 			//copy_2
 			if(isObject && labelControl){
-				labelControl.__copyToLayer2__();
-			}
-		}
-		else if(key == 51){
-			//copy_3
-			if(isObject && labelControl){
-				labelControl.__copyToLayer3__();
-			}
-		}
-		else if(key == 52){
-			//copy_4
-			if(isObject && labelControl){
-				labelControl.__copyToLayer4__();
+				labelControl.__copyToLayerB__();
 			}
 		}
 		// else if(key == 97){
@@ -350,17 +338,11 @@ const init_event = function(__canvas__){
 							let changelb = document.getElementById(labelControl.getId()+"_changelabel");
 							changelb && changelb.click();
 							break;
-						case "copy_1":
-							labelControl.__copyToLayer1__();
+						case "copy_t":
+							labelControl.__copyToLayerT__();
 							break;
-						case "copy_2":
-							labelControl.__copyToLayer2__();
-							break;
-						case "copy_3":
-							labelControl.__copyToLayer3__();
-							break;
-						case "copy_4":
-							labelControl.__copyToLayer4__();
+						case "copy_b":
+							labelControl.__copyToLayerB__();
 							break;
 						case "linkLabel_tool":
 							labelControl.__controlIsLinkLabel__();
@@ -568,17 +550,11 @@ const init_event = function(__canvas__){
 		case '_full':
 			idx = 0;
 			break;
-		case '_tl':
+		case '_t':
 			idx = 1;
 			break;
-		case '_tr':
+		case '_b':
 			idx = 2;
-			break;
-		case '_bl':
-			idx = 3;
-			break;
-		case '_br':
-			idx = 4;
 			break;
 	};
 

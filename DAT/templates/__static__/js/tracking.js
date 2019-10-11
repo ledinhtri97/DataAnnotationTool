@@ -2,22 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {fabric} from 'fabric';
 
-import MainFrameTracking from "./materialui/tracking-ui-v2/mainframe";
-import TemporaryDrawerInstruction from "./materialui/tracking-ui-v2/drawerInstruction"
-import TemporaryDrawerSettings from "./materialui/tracking-ui-v2/drawerSettings";
-import ToolListItems from './materialui/tracking-ui-v2/listitem/toolListItems';
-import SynchControl from './materialui/tracking-ui-v2/synch-control/SynchControl';
+import MainFrameTracking from "./materialui/tracking-ui/mainframe";
+import TemporaryDrawerInstruction from "./materialui/tracking-ui/drawerInstruction"
+import TemporaryDrawerSettings from "./materialui/tracking-ui/drawerSettings";
+import ToolListItems from './materialui/tracking-ui/listitem/toolListItems';
+import SynchControl from './materialui/tracking-ui/synch-control/SynchControl';
 
-import {initCanvas, initPredict} from "./modules/tracking-mod-v2/renderInit"
-import {init_event} from "./modules/tracking-mod-v2/event";
-import PopupControllers from "./modules/tracking-mod-v2/controller/popup";
-import {DrawTool} from "./modules/tracking-mod-v2/drawtool";
+import {initCanvas, initPredict} from "./modules/tracking-mod/renderInit"
+import {init_event} from "./modules/tracking-mod/event";
+import PopupControllers from "./modules/tracking-mod/controller/popup";
+import {DrawTool} from "./modules/tracking-mod/drawtool";
 import Color from "./modules/general-mod/style/color";
-import DrawStatus from './modules/tracking-mod-v2/drawstatus';
-import QuickSettings from './modules/tracking-mod-v2/settings';
+import DrawStatus from './modules/tracking-mod/drawstatus';
+import QuickSettings from './modules/tracking-mod/settings';
 
-import rqsavenext from './modules/tracking-mod-v2/request/savenext-data';
-import rqsave from './modules/tracking-mod-v2/request/save-data';
+import rqsavenext from './modules/tracking-mod/request/savenext-data';
+import rqsave from './modules/tracking-mod/request/save-data';
 import {autoOutWorkSpace, outWorkSpace} from './modules/general-mod/request/outWorking';
 autoOutWorkSpace();
 

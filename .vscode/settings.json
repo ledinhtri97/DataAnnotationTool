@@ -2,11 +2,11 @@
   "python.venvPath": "${workspaceFolder}/env/bin/python3.5",
   "python.envFile": "${workspaceRoot}/DAT/.env",
   "editor.formatOnSave": false,
-  "python.linting.pep8Enabled": false,
+  "python.linting.pycodestyleEnabled": false,
   "python.linting.pylintPath": "pylint",
   "python.linting.pylintArgs": [ "--load-plugins", "pylint_django" ],
   "python.linting.pylintEnabled": false,
-  "python.linting.pep8Args": [ "--ignore=E501" ],
+  "python.linting.pycodestyleArgs": [ "--ignore=E501" ],
   "files.exclude": {
     "**/*.pyc": true
   },

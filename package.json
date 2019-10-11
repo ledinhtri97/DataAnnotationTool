@@ -1,6 +1,6 @@
 {
   "name": "DataAnnotationTool",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "description": "Le Dinh Tri Do project for Thesis 2019-2020 Bach Khoa University",
   "private": true,
   "main": "index.js",

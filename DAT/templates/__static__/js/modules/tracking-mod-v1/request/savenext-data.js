@@ -5,18 +5,10 @@ import {collect_boudingbox} from './utils';
 
 const rqsavenext = function(meta_id){
 
-	if (drawTool.canvas.pos == '_full') {
-		document.getElementById('in_full_screen').style["display"] = "none";
-		document.getElementById('out_full_screen').style["display"] = "";
-		let c_full = document.getElementById('change_full_view');
-		c_full && c_full.click();
-		drawTool.outFullScreen();
-	}
-
 	var myData = collect_boudingbox(drawTool);
 	//console.log(myData);
 
-	fetch("/gvlab-dat/workspace/savenext/"+meta_id+"/", {
+	fetch("/gvlab-dat/workspace/savenext_v2/"+meta_id+"/", {
 		method: "POST",
 		credentials: "same-origin",
 		headers: {
@@ -28,11 +20,11 @@ const rqsavenext = function(meta_id){
 	}).then(function(response) {
 		return response.json();
 	}).then(function(metadata) {
-		if(!metadata.t){
+		if(!metadata.tl){
 			// nomoredata_handle();
 		}
 		else{
-			document.getElementById("meta_id").textContent = metadata.t.id;
+			document.getElementById("meta_id").textContent = metadata.tl.id;
 			document.getElementById("label_list_items").innerHTML = "";
 			drawStatus.resetLTM();
 
