@@ -198,7 +198,7 @@ def savenext_index(request, metaid):
 		metadatas = MetaDataModel.objects.filter(dataset=dataset_id)
 		data['annotated_number'] = metadatas.filter(submitted_by_user=user).count()
 	except Exception as e:
-		print(e)
+		print('Error ----------------- ', e)
 		data['annotated_number'] = '...'
 		data['error'] = str(e)
 	return JsonResponse(data=data)
