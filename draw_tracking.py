@@ -2,13 +2,13 @@ import cv2
 import os
 import random
 
-gt_file = "./DAT/_DATABASE_/groundtruth/75/75_Vinh_Tracking_190918/TXT/Vinh_Tracking_190918.txt"
+gt_file = "./DAT/_DATABASE_/groundtruth/77/77_VinhLong_Tracking_190923/TXT/VinhLong_Tracking_191009.txt"
 #gt_file = "./DAT/_DATABASE_/groundtruth/12/12_tracking_1fps/TXT/ff.txt"
 root_folder = "./DAT/_DATABASE_/storage_data/"
-resutl_folder = "../OUT_2/"
+resutl_folder = "../videostracking/OUT_VinhLong/"
 TINT_COLOR = (0, 0, 0)  # Black
-name_video = 'fps_3.avi'
-FPS = 3
+name_video = 'fps_5.avi'
+FPS = 5
 
 with open(gt_file, 'r') as f:
     lines = f.readlines()
@@ -28,7 +28,7 @@ def last_12chars(x):
 
 def generate_video():
     # make sure to use your folder
-    image_folder = '../OUT_2/'
+    image_folder = resutl_folder
     video_name = resutl_folder+name_video
 
     images = [img for img in os.listdir(image_folder)
@@ -80,7 +80,8 @@ def is_float(gt, v):
     except:
         return False
 
-lines = [] #used to prevent generate image when done before
+#print("nope render")
+#lines = [] #used to prevent generate image when done before
 
 for line in lines:
     spline = line.replace('\n', '').split(',')
@@ -93,6 +94,9 @@ for line in lines:
     h, w, _ = img.shape
 
     cur_index = 0
+    if (os.path.exists(resutl_folder+name_img)):
+        print('file exits: '+name_img)
+        continue
     for i in range(num_objs):
         label = gt[cur_index]
         if label not in COLOR_T:
@@ -100,7 +104,7 @@ for line in lines:
         color = hex_to_rgba(COLOR_T[label])
 
         if not is_float(gt, cur_index+1):
-            continue 
+            continue
         points = []
         cur_index += 1
         is_stop = True
@@ -113,9 +117,9 @@ for line in lines:
             cv2.rectangle(img, (int(points[0][0]), int(points[0][1])),
                 (int(points[1][0]), int(points[1][1])), color, 2)
         else:
-            print('a')
-            pass
-        cv2.imwrite(resutl_folder+name_img, img)
-        
-    
+            print(points)
+            continue
+    print(name_img)
+    cv2.imwrite(resutl_folder+name_img, img)
+
 generate_video()
