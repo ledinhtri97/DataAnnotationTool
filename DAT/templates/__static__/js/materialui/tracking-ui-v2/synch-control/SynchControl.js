@@ -141,7 +141,7 @@ class SynchControl extends React.Component {
 					        <Tooltip title={fs_text} TransitionComponent={Zoom}
 					        		placement="right" classes={{tooltip: classes.lightTooltip}}>
 					        	{idframe == '_full' ? 
-					        		<FullscreenExit onClick={this.handleExitFullScreen}/> : 
+					        		<FullscreenExit id='exit_full_screen' onClick={this.handleExitFullScreen}/> : 
 					        		<Fullscreen onClick={this.handleOpenFullScreen}/>}
 					        </Tooltip>
 					    </ListItem>

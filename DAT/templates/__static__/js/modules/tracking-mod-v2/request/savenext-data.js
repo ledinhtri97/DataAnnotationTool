@@ -5,6 +5,11 @@ import {collect_boudingbox} from './utils';
 
 const rqsavenext = function(meta_id){
 
+	if (drawTool.canvas.pos == '_full') {
+		efs = document.getElementById('exit_full_screen');
+		efs && efs.click();
+	}
+
 	var myData = collect_boudingbox(drawTool);
 	//console.log(myData);
 
