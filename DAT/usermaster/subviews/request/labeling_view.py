@@ -200,6 +200,7 @@ def savenext_index(request, metaid):
 	except Exception as e:
 		print(e)
 		data['annotated_number'] = '...'
+		data['error'] = str(e)
 	return JsonResponse(data=data)
 	
 def api_reference_index(request, metaid):
