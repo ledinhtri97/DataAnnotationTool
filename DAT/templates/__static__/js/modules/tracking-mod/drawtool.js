@@ -200,10 +200,10 @@ const cloneObject = function(obj, canvas){
 		new_object.set({
 			stroke: obj.stroke,
 			name: obj.name,
-			xmin: obj.xmin,
-			ymin: obj.ymin,
-			xmax: obj.xmax,
-			ymax: obj.ymax,
+			xmin: Math.round((obj.xmin-(Math.random()*11-5)/ROUND)*ROUND)/ROUND,
+			ymin: Math.round((obj.ymin-(Math.random()*11-5)/ROUND)*ROUND)/ROUND,
+			xmax: Math.round((obj.xmax-(Math.random()*11-5)/ROUND)*ROUND)/ROUND,
+			ymax: Math.round((obj.ymax-(Math.random()*11-5)/ROUND)*ROUND)/ROUND,
 		});
 		new_object.icon.set('fill', obj.stroke);
 	}
