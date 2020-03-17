@@ -10213,3 +10213,163 @@ spawned uWSGI worker 2 (pid: 31416, cores: 1)
 spawned uWSGI worker 3 (pid: 31417, cores: 1)
 spawned uWSGI worker 4 (pid: 31418, cores: 1)
 spawned uWSGI http 1 (pid: 31419)
+*** Starting uWSGI 2.0.18 (64bit) on [Tue Mar 17 14:35:10 2020] ***
+compiled with version: 7.5.0 on 17 March 2020 14:29:59
+os: Linux-4.15.0-88-generic #88-Ubuntu SMP Tue Feb 11 20:11:34 UTC 2020
+nodename: gvlab
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 4
+current working directory: /home/ledinhtri/ledinhtri/DataAnnotationTool
+detected binary path: /home/ledinhtri/ledinhtri/DataAnnotationTool/env/bin/uwsgi
+chdir() to /home/ledinhtri/ledinhtri/DataAnnotationTool/DAT
+your processes number limit is 63406
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: enabled
+uWSGI http bound on :8787 fd 6
+uwsgi socket 0 bound to UNIX address /home/ledinhtri/ledinhtri/DataAnnotationTool/run/uwsgi.sock fd 9
+Python version: 3.6.9 (default, Nov  7 2019, 10:44:02)  [GCC 8.3.0]
+PEP 405 virtualenv detected: /home/ledinhtri/ledinhtri/DataAnnotationTool/env
+Set PythonHome to /home/ledinhtri/ledinhtri/DataAnnotationTool/env
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x55c44f400530
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+setting request body buffering size to 204800 bytes
+mapped 1388520 bytes (1355 KB) for 4 cores
+*** Operational MODE: preforking ***
+WSGI app 0 (mountpoint='') ready in 3 seconds on interpreter 0x55c44f400530 pid: 31705 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 31705)
+spawned uWSGI worker 1 (pid: 31709, cores: 1)
+spawned uWSGI worker 2 (pid: 31710, cores: 1)
+spawned uWSGI worker 3 (pid: 31711, cores: 1)
+spawned uWSGI worker 4 (pid: 31712, cores: 1)
+spawned uWSGI http 1 (pid: 31713)
+SIGINT/SIGQUIT received...killing workers...
+gateway "uWSGI http 1" has been buried (pid: 31713)
+worker 1 buried after 0 seconds
+worker 2 buried after 0 seconds
+worker 3 buried after 0 seconds
+worker 4 buried after 0 seconds
+goodbye to uWSGI.
+VACUUM: unix socket /home/ledinhtri/ledinhtri/DataAnnotationTool/run/uwsgi.sock removed.
+*** Starting uWSGI 2.0.18 (64bit) on [Tue Mar 17 14:37:39 2020] ***
+compiled with version: 7.5.0 on 17 March 2020 14:29:59
+os: Linux-4.15.0-88-generic #88-Ubuntu SMP Tue Feb 11 20:11:34 UTC 2020
+nodename: gvlab
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 4
+current working directory: /home/ledinhtri/ledinhtri/DataAnnotationTool/DAT
+detected binary path: /home/ledinhtri/ledinhtri/DataAnnotationTool/env/bin/uwsgi
+chdir() to /home/ledinhtri/ledinhtri/DataAnnotationTool/DAT
+your processes number limit is 63406
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: enabled
+uWSGI http bound on :8787 fd 7
+uwsgi socket 0 bound to UNIX address /home/ledinhtri/ledinhtri/DataAnnotationTool/run/uwsgi.sock fd 10
+Python version: 3.6.9 (default, Nov  7 2019, 10:44:02)  [GCC 8.3.0]
+PEP 405 virtualenv detected: /home/ledinhtri/ledinhtri/DataAnnotationTool/env
+Set PythonHome to /home/ledinhtri/ledinhtri/DataAnnotationTool/env
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x56354dff7c40
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+setting request body buffering size to 204800 bytes
+mapped 1388520 bytes (1355 KB) for 4 cores
+*** Operational MODE: preforking ***
+WSGI app 0 (mountpoint='') ready in 3 seconds on interpreter 0x56354dff7c40 pid: 31909 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 31909)
+spawned uWSGI worker 1 (pid: 31927, cores: 1)
+spawned uWSGI worker 2 (pid: 31929, cores: 1)
+spawned uWSGI worker 3 (pid: 31931, cores: 1)
+spawned uWSGI worker 4 (pid: 31932, cores: 1)
+spawned uWSGI http 1 (pid: 31933)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32290)
+Respawned uWSGI worker 2 (new pid: 32291)
+Respawned uWSGI worker 3 (new pid: 32292)
+Respawned uWSGI worker 4 (new pid: 32293)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 32700)
+Respawned uWSGI worker 2 (new pid: 32701)
+Respawned uWSGI worker 3 (new pid: 32702)
+Respawned uWSGI worker 4 (new pid: 32703)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 667)
+Respawned uWSGI worker 2 (new pid: 668)
+Respawned uWSGI worker 3 (new pid: 669)
+Respawned uWSGI worker 4 (new pid: 670)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1051)
+Respawned uWSGI worker 2 (new pid: 1052)
+Respawned uWSGI worker 3 (new pid: 1054)
+Respawned uWSGI worker 4 (new pid: 1055)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 1468)
+Respawned uWSGI worker 2 (new pid: 1469)
+Respawned uWSGI worker 3 (new pid: 1470)
+Respawned uWSGI worker 4 (new pid: 1471)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 2085)
+Respawned uWSGI worker 2 (new pid: 2086)
+Respawned uWSGI worker 3 (new pid: 2087)
+Respawned uWSGI worker 4 (new pid: 2088)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 2781)
+Respawned uWSGI worker 2 (new pid: 2782)
+Respawned uWSGI worker 3 (new pid: 2783)
+Respawned uWSGI worker 4 (new pid: 2784)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3231)
+Respawned uWSGI worker 2 (new pid: 3232)
+Respawned uWSGI worker 3 (new pid: 3233)
+Respawned uWSGI worker 4 (new pid: 3234)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 3706)
+Respawned uWSGI worker 2 (new pid: 3707)
+Respawned uWSGI worker 3 (new pid: 3708)
+Respawned uWSGI worker 4 (new pid: 3709)
+worker 1 lifetime reached, it was running for 301 second(s)
+worker 2 lifetime reached, it was running for 301 second(s)
+worker 3 lifetime reached, it was running for 301 second(s)
+worker 4 lifetime reached, it was running for 301 second(s)
+Respawned uWSGI worker 1 (new pid: 4165)
+Respawned uWSGI worker 2 (new pid: 4166)
+Respawned uWSGI worker 3 (new pid: 4167)
+Respawned uWSGI worker 4 (new pid: 4168)

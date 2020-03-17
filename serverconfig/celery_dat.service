@@ -4,10 +4,10 @@ After=network.target
 
 [Service]
 Type=forking
-User=celery
-Group=celery
+User=ledinhtri
+Group=gvlab_dat
 EnvironmentFile=/etc/conf.d/celery
-WorkingDirectory=/opt/celery
+WorkingDirectory=/home/ledinhtri/ledinhtri/DataAnnotationTool/DAT
 ExecStart=/bin/sh -c '${CELERY_BIN} multi start ${CELERYD_NODES} \
   -A ${CELERY_APP} --pidfile=${CELERYD_PID_FILE} \
   --logfile=${CELERYD_LOG_FILE} --loglevel=${CELERYD_LOG_LEVEL} ${CELERYD_OPTS}'

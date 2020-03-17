@@ -5,7 +5,8 @@ CELERYD_NODES="w1"
 #CELERYD_NODES="w1 w2 w3"
 
 # Absolute or relative path to the 'celery' command:
-CELERY_BIN="/usr/local/bin/celery"
+#CELERY_BIN="/usr/local/bin/celery"
+CELERY_BIN="/home/ledinhtri/ledinhtri/DataAnnotationTool/env/bin/celery"
 #CELERY_BIN="/virtualenvs/def/bin/celery"
 
 # App instance to use
@@ -18,13 +19,13 @@ CELERY_APP="DAT"
 CELERYD_MULTI="multi"
 
 # Extra command-line arguments to the worker
-CELERYD_OPTS="--time-limit=300 --concurrency=8"
+CELERYD_OPTS="--time-limit=300 --concurrency=8 -l info -P eventlet"
 
 # - %n will be replaced with the first part of the nodename.
 # - %I will be replaced with the current child process index
 #   and is important when using the prefork pool to avoid race conditions.
-CELERYD_PID_FILE="/var/run/celery/%n.pid"
-CELERYD_LOG_FILE="/var/log/celery/%n%I.log"
+CELERYD_PID_FILE="/home/ledinhtri/ledinhtri/DataAnnotationTool/run/celery/%n.pid"
+CELERYD_LOG_FILE="/home/ledinhtri/ledinhtri/DataAnnotationTool/log/celery/%n%I.log"
 CELERYD_LOG_LEVEL="INFO"
 
 # you may wish to add these options for Celery Beat
