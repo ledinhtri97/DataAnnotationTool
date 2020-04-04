@@ -7,7 +7,7 @@ User=ledinhtri
 Group=gvlab_dat
 WorkingDirectory=/home/ledinhtri/ledinhtri/DataAnnotationTool/DAT
 Environment="PATH=/home/ledinhtri/ledinhtri/DataAnnotationTool/env/bin"
-ExecStart=/home/ledinhtri/ledinhtri/DataAnnotationTool/env/bin/uwsgi --ini /home/ledinhtri/ledinhtri/DataAnnotationTool/serverconfig/prod_dat_uwsgi.ini --http :8787
+ExecStart=/usr/bin/uwsgi --ini /home/ledinhtri/ledinhtri/DataAnnotationTool/serverconfig/prod_dat_uwsgi.ini --http :8787
 Restart=always
 KillSignal=SIGQUIT
 Type=notify
