@@ -19,7 +19,7 @@ echo "deb https://dl.bintray.com/rabbitmq/debian bionic main" | sudo tee
 sudo apt-get install rabbitmq-server
 nano ../env/lib/python3.6/site-packages/progressbarupload/templatetags/progress_bar.py
 #from django.urls import reverse
-sudo apt-get install nginx &&
+sudo apt-get install nginx && sudo apt-get install uwsgi-plugin-python3 && sudo apt-get install uwsgi
 sudo cp -rv DataAnnotationTool/serverconfig/prod_dat_nginx.conf /etc/nginx/sites-available/
 sudo cp prod.dat.uwsgi.service /etc/systemd/system/
 sudo cp celery_dat.service /etc/systemd/system/
