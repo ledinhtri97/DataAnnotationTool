@@ -26,5 +26,8 @@ DATABASES = {
         'PASSWORD': 'gvlab@2019',
         'HOST': 'localhost',
         'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'disable'
+        }
     }
 }
