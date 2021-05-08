@@ -24,7 +24,7 @@ django-simple-history==2.7.0
 djangorestframework==3.9.2
 dnspython==1.16.0
 entrypoints==0.3
-eventlet==0.25.0
+eventlet==0.31.0
 graphviz==0.10.1
 greenlet==0.4.15
 idna==2.8
